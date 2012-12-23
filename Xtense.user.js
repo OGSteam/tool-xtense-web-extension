@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.2
+// @version     2.4.8.3
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.2";
+var VERSION = "2.4.8.3";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.0";
 var callback = null;
@@ -1920,8 +1920,8 @@ XtenseXpaths = {
 		ally_id : 'descendant::a[@target="_ally"]/@href',
 		table_galaxy : '//table[@id="galaxytable"]/tbody',
 		table_galaxy_header : '//table[@id="galaxytable"]/tbody/tr[@class="info info_header"]',
-		galaxy_input : '//table[@id="galaxytableHead"]//input[@id="galaxy_input"]',
-		system_input : '//table[@id="galaxytableHead"]//input[@id="system_input"]'
+		galaxy_input : '//table[@id="galaxytable"]/@data-galaxy',
+		system_input : '//table[@id="galaxytable"]/@data-system'
 	},
 		
 		levels : {
@@ -2558,7 +2558,7 @@ if (XtenseMetas.getLanguage() == 'en') {
 				}
 			},
 			'regxps' : {
-				'time' : 'Les flottes suivantes s\`affrontent \\((\\d+).(\\d+).(\\d+) (\\d+):(\\d+):(\\d+)\\):',
+				'time' : 'Les flottes suivantes s.affrontent \\((\\d+).(\\d+).(\\d+) (\\d+):(\\d+):(\\d+)\\)',
 				'round' : {
 					'a_nb' : 'La flotte attaquante tire (.*) fois ',
 					'a_shoot' : 'avec une force totale de (.*) sur le défenseur.',
