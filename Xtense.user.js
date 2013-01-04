@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.5
+// @version     2.4.8.6
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.5";
+var VERSION = "2.4.8.6";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.0";
 var callback = null;
@@ -555,7 +555,7 @@ function parse_ranking_inserted(event) {
                 if (type[1] == 'fleet') {
                     var NbVaisseaux = XPath.getStringValue(document,paths.nb_vaisseaux, row).trimInt();
                     log('row '+n+' > player_id:'+player_id+',player_name:'+name+',ally_id:'+ally_id+',ally_tag:'+ally+',points:'+points+',NbVaisseaux:'+NbVaisseaux);
-                    var r = {player_id:player_id,player_name:name,ally_id:ally_id,ally_tag:ally,points:points,Nb_Vaisseaux:NbVaisseaux};
+                    var r = {player_id:player_id,player_name:name,ally_id:ally_id,ally_tag:ally,points:points,nb_spacecraft:NbVaisseaux};
                 }else{
                     log('row '+n+' > player_id:'+player_id+',player_name:'+name+',ally_id:'+ally_id+',ally_tag:'+ally+',points:'+points);
                     var r = {player_id:player_id,player_name:name,ally_id:ally_id,ally_tag:ally,points:points};
