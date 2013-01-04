@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.3
+// @version     2.4.8.5
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.3";
+var VERSION = "2.4.8.5";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.0";
 var callback = null;
@@ -154,7 +154,7 @@ function setStatus(type,message){
 
 //Requete Ajax
 function Xajax(obj) {
-    if(isOpera){
+    if(isOpera|| isChrome){
         
     xhr = new XMLHttpRequest();
 	url = obj.url || '';
@@ -176,7 +176,7 @@ function Xajax(obj) {
 	};
 
     }else{
-              GM_xmlhttpRequest({
+          GM_xmlhttpRequest({
           method: "POST",
           url: obj.url || '',
           data: obj.post || '',
@@ -553,7 +553,7 @@ function parse_ranking_inserted(event) {
                     
                 /*Nombre de vaisseaux*/    
                 if (type[1] == 'fleet') {
-                    var NbVaisseaux = XPath.getStringValue(document,paths.ally.points_moy, row).replace("|.", "").trimInt();
+                    var NbVaisseaux = XPath.getStringValue(document,paths.nb_vaisseaux, row).trimInt();
                     log('row '+n+' > player_id:'+player_id+',player_name:'+name+',ally_id:'+ally_id+',ally_tag:'+ally+',points:'+points+',NbVaisseaux:'+NbVaisseaux);
                     var r = {player_id:player_id,player_name:name,ally_id:ally_id,ally_tag:ally,points:points,Nb_Vaisseaux:NbVaisseaux};
                 }else{
@@ -1979,6 +1979,7 @@ XtenseXpaths = {
 			rows : "id(\'ranks\')/tbody/tr",
 			position : "td[contains(@class,\'position\')]/text()",
 			points :  "td[contains(@class,\'score\')]/text()",
+			nb_vaisseaux :  "td[contains(@class,\'score\')]/@title",
 			allytag : "td[@class=\'name\']/span[@class=\'ally-tag\']/a/text()",
 			ally_id : "td[@class=\'name\']//a[contains(@target,\'_ally\')]/@href",
 			player : {
