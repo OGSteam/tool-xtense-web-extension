@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.7
+// @version     2.4.8.8
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.7";
+var VERSION = "2.4.8.8";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.0";
 var callback = null;
@@ -168,10 +168,7 @@ function Xajax(obj) {
  
 	xhr.onreadystatechange =  function() {
 		if(xhr.readyState == 4) {
-			//response.content = xhr.responseText;
-            //response.status = xhr.status;
             handleResponse(xhr);
-
 		}
 	};
 
@@ -252,17 +249,12 @@ function getElementByAttr(e,attr,value)
 }
 /************************** Fin Utilities *******************************/
 
-
 /******************************* Main ***********************************/
 
 initOGSpyCommunication();
 initParsers();
 initLocales();    
 displayXtense();
-
-if(GM_getValue(prefix_GMData +'server.check','false').toString() =='true') { // Initialisation du serveur demandée ? 
-	XtenseRequest.check();
-} 
 setStatus(XLOG_NORMAL,Xl('Xtense_activated'));
 handle_current_page();
 //exit !!
@@ -594,8 +586,6 @@ function parse_ranking_inserted(event) {
         }
 
     }
-	//Launch the event listener
-        //get_ranking_content();
 
 }//Fin Fonction
 
@@ -1039,7 +1029,8 @@ function parse_rc() {
 function parse_messages(){
 	setStatus(XLOG_NORMAL,Xl('messages_detected'));
 	log('messages_detected');
-    var paths = XtenseXpaths.messages;
+    
+	var paths = XtenseXpaths.messages;
 	var data = {};
     
     var messages = XPath.getOrderedSnapshotNodes(document,paths.showmessage,null);
@@ -1182,7 +1173,8 @@ function parse_messages(){
                 var coords = m[1];
                 var contentNode = XPath.getSingleNode(document,paths.contents['expedition']);
                 var message = XPath.getStringValue(document,paths.contents['expedition']).trim();
-                data.type = 'expedition';
+                var message = message.replace(/\(AM\)/g, '');
+				data.type = 'expedition';
                 data.coords = coords;
                 data.content = message;
             }
