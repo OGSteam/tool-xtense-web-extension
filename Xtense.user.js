@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.6
+// @version     2.4.8.7
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.6";
+var VERSION = "2.4.8.7";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.0";
 var callback = null;
@@ -1980,8 +1980,8 @@ XtenseXpaths = {
 			position : "td[contains(@class,\'position\')]/text()",
 			points :  "td[contains(@class,\'score\')]/text()",
 			nb_vaisseaux :  "td[contains(@class,\'score\')]/@title",
-			allytag : "td[@class=\'name\']/span[@class=\'ally-tag\']/a/text()",
-			ally_id : "td[@class=\'name\']//a[contains(@target,\'_ally\')]/@href",
+			allytag : "td[@class=\'name\']/div[@class=\'ally-tag\']/a/text()",
+			ally_id : "td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href",
 			player : {
 				playername : "td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()",
 				player_id : "td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href",
