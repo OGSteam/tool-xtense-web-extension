@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.8
+// @version     2.4.8.9
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,9 +13,9 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.8";
+var VERSION = "2.4.8.9";
 var TYPE = "GM-";
-var PLUGIN_REQUIRED = "2.4.0";
+var PLUGIN_REQUIRED = "2.4.2";
 var callback = null;
 var nomScript = 'Xtense';
 
@@ -165,7 +165,7 @@ function Xajax(obj) {
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhr.send(post);
     var response;
- 
+	
 	xhr.onreadystatechange =  function() {
 		if(xhr.readyState == 4) {
             handleResponse(xhr);
