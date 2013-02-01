@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.9
+// @version     2.4.8.10
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.9";
+var VERSION = "2.4.8.10";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.2";
 var callback = null;
@@ -1064,7 +1064,7 @@ function parse_messages(){
                     var coords = m[2];
                 }
                 var contentNode = XPath.getSingleNode(document,paths.contents['msg']);
-                var message = contentNode.getElementsByTagName('p')[0].innerHTML.trim();
+                var message = contentNode.innerHTML.trim();
                 var ladate = data.date
                 
                 //correctif : pas de date 
