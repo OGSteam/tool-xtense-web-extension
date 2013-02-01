@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Xtense GM",
-  "version": "2.4.8.9",
+  "version": "2.4.8.10",
   "description": "Gets information from Ogame.",
   "icons": { "128": "Xtense-128.png" },
   "content_scripts": [
