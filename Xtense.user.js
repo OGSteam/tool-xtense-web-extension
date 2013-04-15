@@ -1040,11 +1040,10 @@ function parse_messages(){
 	// Detection du rapport de combat (Sous fenetre)								
 	if(combatreport.snapshotLength > 0) {
         log("Traitement du rapport de combat");
-	if(GM_getValue(prefix_GMData +'handle.msg.rc').toString() == 'true') {
-		parse_rc();
-	}
-    } else
-    {
+		if(GM_getValue(prefix_GMData +'handle.msg.rc').toString() == 'true') {
+			parse_rc();
+		}
+    } else {
         var from = XPath.getStringValue(document,paths.from).trim();
         log('from: ' + from);
         var to = XPath.getStringValue(document,paths.to).trim();
@@ -1358,7 +1357,7 @@ function get_galaxycontent(){
 		}
 		//la division dans lequel le résultat de la requête ajax est placé a l'id galaxyContent
 		
-		unsafeWindow.$("#galaxyContent").ajaxSuccess(safeWrap(function(e,xhr,settings)
+		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
 		{
 			//l'url de la requête ajax contient page=galaxyContent
 			if (settings.url.indexOf("page=galaxyContent") == -1) return;
@@ -1394,7 +1393,7 @@ function get_ally_content(){
 		}
 		//la division dans lequel le résultat de la requête ajax est placé a l'id inhalt
 		
-		unsafeWindow.$("#inhalt").ajaxSuccess(safeWrap(function(e,xhr,settings)
+		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
 		{
 			//l'url de la requête ajax contient page=inhalt
 			if (settings.url.indexOf("page=allianceOverview") == -1) return;
@@ -1430,7 +1429,7 @@ function get_ranking_content(){
 		}
 		//la division dans lequel le résultat de la requête ajax est placé a l'id galaxyContent
 		
-		unsafeWindow.$("#stat_list_content").ajaxSuccess(safeWrap(function(e,xhr,settings)
+		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
 		{
 			//l'url de la requête ajax contient page=galaxyContent
 			if (settings.url.indexOf("page=highscoreContent") == -1) return;
@@ -1469,7 +1468,7 @@ function get_message_content(){
 		}
 		//la division dans lequel le résultat de la requête ajax est placé a l'id galaxyContent
 		
-		unsafeWindow.$("#messages").ajaxSuccess(safeWrap(function(e,xhr,settings)
+		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
 		{
            
 			parse_messages();
