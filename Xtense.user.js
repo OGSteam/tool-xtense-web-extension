@@ -376,12 +376,12 @@ function parse_galaxy_system_inserted(event){
                                 
 				var activity = XPath.getStringValue(document,paths.activity,row).trim();
 				if(!activity) {
-					activity = (XPath.getStringValue(document, paths.activity15, row) ? 15 : 0); //If contains 'minutes15' in class
+					activity = (XPath.getStringValue(document, paths.activity15, row) ? 0 : -1); //If contains 'minutes15' in class
 				}
 				
 				var activityMoon = XPath.getStringValue(document, paths.activity_m, row).trim();
 				if(!activityMoon) {
-					activityMoon = (XPath.getStringValue(document, paths.activity15_m, row) ? 15 : 0); //If contains 'minutes15' in class
+					activityMoon = (XPath.getStringValue(document, paths.activity15_m, row) ? 0 : -1); //If contains 'minutes15' in class
 				}
                 
 				var allytag = XPath.getStringValue(document,paths.allytag,row).trim();
