@@ -419,7 +419,7 @@ function parse_galaxy_system_inserted(event){
 					allymembers = allymembers[1];
 				}
 				log('row '+position+' > player_id:'+player_id+',planet_name:'+name+',moon:'+moon+',player_name:'+player+',status:'+status+',ally_id:'+allyid+',ally_tag:'+allytag+',ally_place:'+allyplace+',ally_members:'+allymembers+',debris:('+debris[XtenseDatabase['resources'][601]]+'/'+debris[XtenseDatabase['resources'][602]]+'),activity:'+activity+',activity_moon:'+activityMoon);	
-				var r = {player_id:player_id,planet_name:name,moon:moon,player_name:player,status:status,ally_id:allyid,ally_tag:allytag,ally_place:allyplace,ally_members:allymembers,debris:debris,activity:activity};
+				var r = {player_id:player_id,planet_name:name,moon:moon,player_name:player,status:status,ally_id:allyid,ally_tag:allytag,ally_place:allyplace,ally_members:allymembers,debris:debris,activity:activity,activityMoon:activityMoon};
 				rowsData[position]=r;
 			}
 			XtenseRequest.set(
