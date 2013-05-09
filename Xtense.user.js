@@ -334,7 +334,7 @@ function parse_galaxy_system_inserted(event){
 				if (player_tooltip == '') {
 					if (player == '') {
 						if (player2 == '') {
-							log('row '+i+' has no player name');
+							log('row ' + (i + 1) + ' has no player name');
 							continue;
 						} else
 							player = player2;
@@ -344,7 +344,7 @@ function parse_galaxy_system_inserted(event){
 				if (name_tooltip == '') {
 					if (name == '') {
 						if (name_l == '') {
-							log('row '+i+' has no planet name');
+							log('row ' + (i + 1) + ' has no planet name');
 							continue;
 						} else
 							name = name_l;
@@ -375,7 +375,14 @@ function parse_galaxy_system_inserted(event){
 				status=banned+status;
                                 
 				var activity = XPath.getStringValue(document,paths.activity,row).trim();
-				if(!activity) activity='';
+				if(!activity) {
+					activity = (XPath.getStringValue(document, paths.activity15, row) ? 15 : 0); //If contains 'minutes15' in class
+				}
+				
+				var activityMoon = XPath.getStringValue(document, paths.activity_m, row).trim();
+				if(!activityMoon) {
+					activityMoon = (XPath.getStringValue(document, paths.activity15_m, row) ? 15 : 0); //If contains 'minutes15' in class
+				}
                 
 				var allytag = XPath.getStringValue(document,paths.allytag,row).trim();
 				var debris = [];
@@ -411,7 +418,7 @@ function parse_galaxy_system_inserted(event){
 					allymembers = allymembers.match(/Membres\: (.*)/);
 					allymembers = allymembers[1];
 				}
-log('row '+position+' > player_id:'+player_id+',planet_name:'+name+',moon:'+moon+',player_name:'+player+',status:'+status+',ally_id:'+allyid+',ally_tag:'+allytag+',ally_place:'+allyplace+',ally_members:'+allymembers+',debris:'+debris+',activity:'+activity);	
+				log('row '+position+' > player_id:'+player_id+',planet_name:'+name+',moon:'+moon+',player_name:'+player+',status:'+status+',ally_id:'+allyid+',ally_tag:'+allytag+',ally_place:'+allyplace+',ally_members:'+allymembers+',debris:('+debris[XtenseDatabase['resources'][601]]+'/'+debris[XtenseDatabase['resources'][602]]+'),activity:'+activity+',activity_moon:'+activityMoon);	
 				var r = {player_id:player_id,planet_name:name,moon:moon,player_name:player,status:status,ally_id:allyid,ally_tag:allytag,ally_place:allyplace,ally_members:allymembers,debris:debris,activity:activity};
 				rowsData[position]=r;
 			}
@@ -1909,6 +1916,9 @@ XtenseXpaths = {
 		status : 'descendant::span[starts-with(@class,"status_") and @title]',
 		status_baned : 'descendant::span[starts-with(@class,"status_")]/a[@title]/text()',
 		activity : 'td[contains(@class,"microplanet")]/div[contains(@class,"activity")]/text()',
+		activity15 : 'td[contains(@class,"microplanet")]/div[contains(@class,"minute15")]/@class',
+		activity_m : 'td[contains(@class,"moon")]/div[contains(@class,"activity")]/text()',
+		activity15_m : 'td[contains(@class,"moon")]/div[contains(@class,"minute15")]/@class',
 		player_id : 'descendant::a[contains(@href,"writemessage")]/@href',
 		ally_id : 'descendant::a[@target="_ally"]/@href',
 		table_galaxy : '//table[@id="galaxytable"]/tbody',
