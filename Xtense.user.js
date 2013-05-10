@@ -403,23 +403,21 @@ function parse_galaxy_system_inserted(event){
 					//player_id = doc.cookie.match(/login_(.*)=U_/)[1];
 					player_id = XtenseMetas.getPlayerId();  
 				}
+				
                 var allyid = XPath.getStringValue(document,paths.ally_id,row).trim();
-					if (allyid != '' ) {
-						allyid = allyid.match(/allianceId\=(.*)/);
-						allyid = allyid[1];
-					}
-					else
-						allyid = '0';            
-                
-				var allyplace = XPath.getStringValue(document,paths.ally_place,row).trim();
-
-				var allymembers = XPath.getStringValue(document,paths.ally_members,row).trim();
-				if (allymembers != '' ) {
-					allymembers = allymembers.match(/Membres\: (.*)/);
-					allymembers = allymembers[1];
+				if (allyid != '' ) {
+					allyid = allyid.match(/allianceId\=(.*)/);
+					allyid = allyid[1];
 				}
-				log('row '+position+' > player_id:'+player_id+',planet_name:'+name+',moon:'+moon+',player_name:'+player+',status:'+status+',ally_id:'+allyid+',ally_tag:'+allytag+',ally_place:'+allyplace+',ally_members:'+allymembers+',debris:('+debris[XtenseDatabase['resources'][601]]+'/'+debris[XtenseDatabase['resources'][602]]+'),activity:'+activity+',activity_moon:'+activityMoon);	
-				var r = {player_id:player_id,planet_name:name,moon:moon,player_name:player,status:status,ally_id:allyid,ally_tag:allytag,ally_place:allyplace,ally_members:allymembers,debris:debris,activity:activity,activityMoon:activityMoon};
+				else {
+					allyid = '0';
+				}
+				
+				var planet_id = XPath.getStringValue(document, paths.planet_id, row).trim();
+				var moon_id = XPath.getStringValue(document, paths.moon_id, row).trim();
+                
+				log('row '+position+' > player_id:'+player_id+',planet_name:'+name+',planet_id:'+planet_id+',moon_id:'+moon_id+',moon:'+moon+',player_name:'+player+',status:'+status+',ally_id:'+allyid+',ally_tag:'+allytag+',debris:('+debris[XtenseDatabase['resources'][601]]+'/'+debris[XtenseDatabase['resources'][602]]+'),activity:'+activity+',activity_moon:'+activityMoon);	
+				var r = {player_id:player_id,planet_name:name,planet_id:planet_id,moon_id:moon_id,moon:moon,player_name:player,status:status,ally_id:allyid,ally_tag:allytag,debris:debris,activity:activity,activityMoon:activityMoon};
 				rowsData[position]=r;
 			}
 			XtenseRequest.set(
@@ -1921,6 +1919,8 @@ XtenseXpaths = {
 		activity15_m : 'td[contains(@class,"moon")]/div[contains(@class,"minute15")]/@class',
 		player_id : 'descendant::a[contains(@href,"writemessage")]/@href',
 		ally_id : 'descendant::a[@target="_ally"]/@href',
+		planet_id : 'td[contains(@class,"microplanet")]/@data-planet-id',
+		moon_id : 'td[contains(@class,"moon")]/@data-moon-id',
 		table_galaxy : '//table[@id="galaxytable"]/tbody',
 		table_galaxy_header : '//table[@id="galaxytable"]/tbody/tr[@class="info info_header"]',
 		galaxy_input : '//table[@id="galaxytable"]/@data-galaxy',
