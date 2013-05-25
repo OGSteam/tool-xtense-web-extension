@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "Xtense GM",
+  "version": "2.4.8.10",
+  "description": "Gets information from Ogame.",
+  "icons": { "128": "Xtense-128.png" },
+  "content_scripts": [
+    {
+      "matches": ["http://*.ogame.fr/game/*"],
+      "js": ["Xtense.user.js"],
+	  "run_at": "document_idle"
+    }
+  ],  
+  "background": {
+    "persistent": false,
+    "scripts": ["Xtense.user.js"]
+  },
+  "permissions": ["http://*/"],
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "xtense.gif",
+    "default_popup": "xtense.html"
+  }
+}
