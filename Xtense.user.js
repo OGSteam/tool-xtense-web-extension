@@ -1090,9 +1090,9 @@ function parse_messages(){
                 var contentNode = XPath.getSingleNode(document,paths.contents['ally_msg']);
                 var message = contentNode.innerHTML;
                 data.type = 'ally_msg';
-                data.from = m[1];
+                data.from = subject.match(new RegExp(XtenseRegexps.ally_msg_player_name))[1];
                 data.tag = m[1];
-                data.message = message;
+				data.message = message.match(new RegExp(XtenseRegexps.ally_msg_player_infos))[1];
             }
         }
         
@@ -2044,7 +2044,8 @@ XtenseXpaths = {
         probability : ': (\\d+) %',
         coords : '\\[(\\d+:\\d+:\\d+)\\]',
         ally : 'Alliance \\[(.*)\\]',
-        ally_msg_player_name : '<a href.*>(.*)</a>',
+        ally_msg_player_name : 'Courriel group. de (.*)',
+		ally_msg_player_infos : 'Le joueur <span.*</span> vous a envoy. ce message&nbsp;:<br>\n((.*\n)*)',
         parseTableStruct : '<a[^>]*id="details(\\d+)"[^>]*>[\\D\\d]*?([\\d.]+[KMG]?)<\/span>[^<]*<\/span>[^<]*<\/a>'
     }
 	/* Fonctions permettant de rÃ©cupÃ©rer les donnÃ©es des balises metas */
