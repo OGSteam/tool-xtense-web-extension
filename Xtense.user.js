@@ -1928,7 +1928,7 @@ XtenseXpaths = {
 	},
 		
 	levels : {
-		level : '//span[@class="level"]/text()'
+		level : '//span[contains(@class,"level")]/text()'
 	},
 	
 	messages : {
