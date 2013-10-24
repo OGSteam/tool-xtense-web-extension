@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.4.8.12
+// @version     2.5.0.1
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   http://userscripts.org/scripts/source/112690.meta.js
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.4.8.12";
+var VERSION = "2.5.0.1";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.4.2";
 var callback = null;
