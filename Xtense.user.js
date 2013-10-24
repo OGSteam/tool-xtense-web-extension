@@ -47,8 +47,8 @@ if(isFirefox){
 // Variables globales données ogame
 var url = location.href;// Adresse en cours sur la barre d'outils
 var urlUnivers = url.match(new RegExp('(.*)\/game'))[1];
-var numUnivers = urlUnivers.match(new RegExp('uni(.*).ogame'))[1];
-var langUnivers = urlUnivers.match(new RegExp('ogame.(.*)'))[1];
+var numUnivers = urlUnivers.match(new RegExp('s(.*)-fr.ogame'))[1];
+var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
 var cookie = nomScript + "-" + numUnivers + "-";
 var prefix_GMData = langUnivers + numUnivers +".";
 
@@ -73,14 +73,7 @@ if (isChrome || isOpera){
         localStorage.removeItem(value);
     }    
 }
-/********************** Fin Compatibilité Chrome ************************/ 
-// Variables globales données ogame
-var url = location.href;// Adresse en cours sur la barre d'outils
-var urlUnivers = url.match(new RegExp('(.*)\/game'))[1];
-var numUnivers = urlUnivers.match(new RegExp('uni(.*).ogame'))[1];
-var langUnivers = urlUnivers.match(new RegExp('ogame.(.*)'))[1];
-var cookie = nomScript + "-" + numUnivers + "-";
-var prefix_GMData = langUnivers + numUnivers +".";
+/********************** Fin Compatibilité Chrome ************************/
 
 /***************************** Utilities ********************************/
 /* Fonctions sur strings */
