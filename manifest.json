@@ -16,6 +16,7 @@
     "scripts": ["Xtense.user.js"]
   },
   "permissions": ["http://*/"],
+  "short_name": "Xtense",
   "browser_action": {
     "default_title": "",
     "default_icon": "xtense.gif",
