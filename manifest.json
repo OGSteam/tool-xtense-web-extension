@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Xtense GM",
-  "version": "2.4.8.10",
-  "description": "Gets information from Ogame.",
+  "version": "2.5.6.1",
+  "description": "Gets information from a spacecraft game.",
   "icons": { "128": "Xtense-128.png" },
   "content_scripts": [
     {
-      "matches": ["http://*.ogame.fr/game/*"],
+      "matches": ["http://*.ogame.gameforge.com/game/*"],
       "js": ["Xtense.user.js"],
 	  "run_at": "document_idle"
     }
