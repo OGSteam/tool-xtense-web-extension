@@ -2037,7 +2037,7 @@ XtenseXpaths = {
         probability : ': (\\d+) %',
         coords : '\\[(\\d+:\\d+:\\d+)\\]',
         ally : 'Alliance \\[(.*)\\]',
-        ally_msg_player_name : 'Courriel group. de (.*)',
+        ally_msg_player_name : 'Courrier group. de (.*)',
 		ally_msg_player_infos : 'Le joueur <span.*</span> vous a envoy. ce message&nbsp;:<br>\n((.*\n)*)',
         parseTableStruct : '<a[^>]*id="details(\\d+)"[^>]*>[\\D\\d]*?([\\d.]+[KMG]?)<\/span>[^<]*<\/span>[^<]*<\/a>'
     }
