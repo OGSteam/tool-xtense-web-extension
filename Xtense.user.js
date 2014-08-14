@@ -4,7 +4,7 @@
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
-// @downloadURL https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/Xtense.user.js
+// @downloadURL https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.user.js
 // @include     http://*.ogame.*/game/index.php*
 // @grant       GM_getValue
 // @grant       GM_setValue
