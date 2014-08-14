@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.5.6.1
+// @version     2.5.6.2
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
-// @updateURL   http://userscripts.org/scripts/source/112690.meta.js
-// @downloadURL https://userscripts.org/scripts/source/112690.user.js
+// @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
+// @downloadURL https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/Xtense.user.js
 // @include     http://*.ogame.*/game/index.php*
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 // Variables Xtense
-var VERSION = "2.5.6.1";
+var VERSION = "2.5.6.2";
 var TYPE = "GM-";
 var PLUGIN_REQUIRED = "2.5.0";
 var callback = null;
@@ -1334,146 +1334,39 @@ function manual_send(){
 /************************ Declenchement des Parsings sur Remplissage Ajax ************************/
 /* Fonction ajoutant lancant le parsing de la vue galaxie quand celle-ci est chargée */
 function get_galaxycontent(){	
-
-	if (isChrome || isOpera) //Pour Chrome :-)
-	{	/* Page Galaxie */
 		
-		var target = document.getElementById('galaxyContent');
-		//target.removeEventListener("DOMNodeInserted");
-		//target.removeEventListener("DOMContentLoaded");
-		target.addEventListener("DOMNodeInserted", parse_galaxy_system_inserted, false);		
-		target.addEventListener("DOMContentLoaded", parse_galaxy_system_inserted, false);		
-
-	}else{// Pour Firefox Notamment
-
-		function safeWrap(f)
-		{
-			return function()
-			{
-				setTimeout.apply(window, [f, 0].concat([].slice.call(arguments)));
-			};
-		}
-		//la division dans lequel le résultat de la requête ajax est placé a l'id galaxyContent
-		
-		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
-		{
-			//l'url de la requête ajax contient page=galaxyContent
-			if (settings.url.indexOf("page=galaxyContent") == -1) return;
-
-			parse_galaxy_system_inserted();
-			
-		}));
-
-	}
-
+	var target = document.getElementById('galaxyContent');
+	target.addEventListener("DOMNodeInserted", parse_galaxy_system_inserted, false);		
+	target.addEventListener("DOMContentLoaded", parse_galaxy_system_inserted, false);		
 }
 
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
 function get_ally_content(){	
-	if (isChrome || isOpera) //Pour Chrome :-)
-	{	
-		/* Page Galaxie */
-		log("In get_ally_content()");
-		var target = document.getElementById('inhalt');
-		//target.removeEventListener("DOMNodeInserted");
-		//target.removeEventListener("DOMContentLoaded");
-		target.addEventListener("DOMNodeInserted", parse_ally_inserted, false);		
-		target.addEventListener("DOMContentLoaded", parse_ally_inserted, false);		
-
-	}else{// Pour Firefox Notamment
-
-		function safeWrap(f)
-		{
-			return function()
-			{
-				setTimeout.apply(window, [f, 0].concat([].slice.call(arguments)));
-			};
-		}
-		//la division dans lequel le résultat de la requête ajax est placé a l'id inhalt
-		
-		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
-		{
-			//l'url de la requête ajax contient page=inhalt
-			if (settings.url.indexOf("page=allianceOverview") == -1) return;
-
-			parse_ally_inserted();
-			
-		}));
-
-	}
-
+	
+	log("In get_ally_content()");
+	var target = document.getElementById('inhalt');
+	target.addEventListener("DOMNodeInserted", parse_ally_inserted, false);		
+	target.addEventListener("DOMContentLoaded", parse_ally_inserted, false);		
 }
 
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 function get_ranking_content(){
-    log("Entering get_ranking_content");
-	if (isChrome || isOpera) //Pour Chrome :-)
-	{	
-		/* Page Galaxie */
-		var target = document.getElementById('stat_list_content');
-		//target.removeEventListener("DOMNodeInserted");
-		//target.removeEventListener("DOMContentLoaded");
-		target.addEventListener("DOMNodeInserted", parse_ranking_inserted, false);		
-		target.addEventListener("DOMContentLoaded", parse_ranking_inserted, false);		
-
-	}else{// Pour Firefox Notamment
-          
-		function safeWrap(f)
-		{
-			return function()
-			{
-				setTimeout.apply(window, [f, 0].concat([].slice.call(arguments)));
-			};
-		}
-		//la division dans lequel le résultat de la requête ajax est placé a l'id galaxyContent
-		
-		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
-		{
-			//l'url de la requête ajax contient page=galaxyContent
-			if (settings.url.indexOf("page=highscoreContent") == -1) return;
-
-			parse_ranking_inserted();
-			
-		}));
-
-	}
-
+    	log("Entering get_ranking_content");
+	var target = document.getElementById('stat_list_content');
+	target.addEventListener("DOMNodeInserted", parse_ranking_inserted, false);		
+	target.addEventListener("DOMContentLoaded", parse_ranking_inserted, false);		
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 function get_message_content(){
-    log("Entering get_message_content");
-	if (isChrome || isOpera) //Pour Chrome :-)
-	{	
-		/* Page Messages */
+    		log("Entering get_message_content");
 		var target = document.getElementById('messages');
-		//target.removeEventListener("DOMNodeInserted");
-		//target.removeEventListener("DOMContentLoaded");
+
 		target.addEventListener("DOMNodeInserted", parse_messages, false);		
 		target.addEventListener("DOMContentLoaded", parse_messages, false);
         
-        var targetrc = document.getElementById('combatreport');
-        targetrc.addEventListener("DOMNodeInserted", parse_rc, false);		
+        	var targetrc = document.getElementById('combatreport');
+        	targetrc.addEventListener("DOMNodeInserted", parse_rc, false);		
 		targetrc.addEventListener("DOMContentLoaded", parse_rc, false);
-
-	}else{// Pour Firefox Notamment
-          
-		function safeWrap(f)
-		{
-			return function()
-			{
-				setTimeout.apply(window, [f, 0].concat([].slice.call(arguments)));
-			};
-		}
-		//la division dans lequel le résultat de la requête ajax est placé a l'id galaxyContent
-		
-		unsafeWindow.$(document).ajaxSuccess(safeWrap(function(e,xhr,settings)
-		{
-           
-			parse_messages();
-			
-		}));
-
-	}
 
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
