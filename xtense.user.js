@@ -9,7 +9,7 @@
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
-// @description Cette extension permet d'envoyer des données du site Ogame à votre serveur OGSPY d'alliance
+// @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
 var VERSION = '2.5.6.2';
