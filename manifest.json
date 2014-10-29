@@ -7,7 +7,7 @@
   "content_scripts": [
     {
       "matches": ["http://*.ogame.gameforge.com/game/*"],
-      "js": ["Xtense.user.js"],
+      "js": ["xtense.user.js"],
 	  "run_at": "document_idle"
     }
   ],  
