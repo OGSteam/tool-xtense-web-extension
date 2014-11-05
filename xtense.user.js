@@ -21,73 +21,70 @@ var Xlang = {
 };
 var XtenseLocales = {
 };
+
 //Variables globales pour la mise à jour.
-var start_time = (new Date()) .getTime() / 1000;
+var start_time = (new Date()).getTime() / 1000;
 var freqMaj = 4 * 3600;
 //Variables globales pour les status - Type d'erreur
 var XLOG_WARNING = 1,
-XLOG_ERROR = 2,
-XLOG_NORMAL = 3,
-XLOG_SUCCESS = 4,
-XLOG_COMMENT = 5,
-XLOG_SEND = 6;
+    XLOG_ERROR = 2,
+    XLOG_NORMAL = 3,
+    XLOG_SUCCESS = 4,
+    XLOG_COMMENT = 5,
+    XLOG_SEND = 6;
 // Navigateurs
-var isFirefox = (window.navigator.userAgent.indexOf('Firefox') > - 1) ? true : false;
-var isChrome = (window.navigator.userAgent.indexOf('Chrome') > - 1) ? true : false;
-var isOpera = (window.navigator.userAgent.indexOf('Opera') > - 1) ? true : false;
+var isFirefox = (window.navigator.userAgent.indexOf('Firefox') > -1) ? true : false;
+var isChrome = (window.navigator.userAgent.indexOf('Chrome') > -1) ? true : false;
+var isOpera = (window.navigator.userAgent.indexOf('Opera') > -1) ? true : false;
 var isTamper = false;
 if (isFirefox) {
-  TYPE += 'FF';
+    TYPE += 'FF';
 } else if (isChrome) {
-  TYPE += 'GC';
+    TYPE += 'GC';
 } else if (isOpera) {
-  TYPE += 'OP';
+    TYPE += 'OP';
 }
 // Variables globales données ogame
 
 var url = location.href;
 // Adresse en cours sur la barre d'outils
-var urlUnivers = url.match(new RegExp('(.*)/game')) [1];
-var numUnivers = urlUnivers.match(new RegExp('s(.*)-fr.ogame')) [1];
-var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame')) [1];
+var urlUnivers = url.match(new RegExp('(.*)/game'))[1];
+var numUnivers = urlUnivers.match(new RegExp('s(.*)-fr.ogame'))[1];
+var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
 var cookie = nomScript + '-' + numUnivers + '-';
 var prefix_GMData = langUnivers + numUnivers + '.';
 /*********************** Compatibilité Chrome ***************************/
 if (isChrome || isOpera) {
-  function GM_getValue(key, defaultVal)
-  {
-    var retValue = localStorage.getItem(key);
-    if (!retValue)
-    {
-      return defaultVal;
+    function GM_getValue(key, defaultVal) {
+        var  retValue = localStorage.getItem(key);
+        if (!retValue) {
+            return defaultVal;
+        }
+        return retValue;
     }
-    return retValue;
-  }
-  function GM_setValue(key, value)
-  {
-    localStorage.setItem(key, value);
-  }
-  function GM_deleteValue(value)
-  {
-    localStorage.removeItem(value);
-  }
+    function GM_setValue(key, value) {
+        localStorage.setItem(key, value);
+    }
+    function GM_deleteValue(value) {
+        localStorage.removeItem(value);
+    }
 }
 /********************** Fin Compatibilité Chrome ************************/
 /***************************** Utilities ********************************/
 /* Fonctions sur strings */
 
 String.prototype.trim = function () {
-  return this.replace(/^\s*/, '') .replace(/\s*$/, '');
+    return this.replace(/^\s*/, '').replace(/\s*$/, '');
 }
-String.prototype.trimAll = function () {
-  return this.replace(/\s*/g, '');
+String.prototype.trimAll = function() {
+    return this.replace(/\s*/g, '');
 }
-String.prototype.trimInt = function () {
-  string = this.replace(/([^-\d])/g, '');
-  return string ? parseInt(string)  : 0;
+String.prototype.trimInt = function() {
+    string = this.replace(/([^-\d])/g, '');
+    return string ? parseInt(string)  : 0;
 }
-String.prototype.trimZeros = function () {
-  return this.replace(/^0+/g, '');
+String.prototype.trimZeros = function() {
+    return this.replace(/^0+/g, '');
 }
 String.prototype.getInts = function (
 /*separator*/
@@ -144,10 +141,6 @@ function setStatus(type, message) {
     } else if (type == XLOG_SEND) {
       icone.src = 'data:image/gif;base64,R0lGODlhJgAdAPcAAAAAAAECAgYHCQYICQcICgcJCwcKCwkKCwkJDAkLDQkLDgkMDQoMDgoMDwoNEAsOEQwPEAwPEQ0PEgwQEg8SFQ8SFhATFhAUFxEVGBIVGRIWGRYaHhcbHxoeIhsfIxsgIxsgJBwgJBwgJR0hJh0iJx8kKR8lKiAjKDU4Oh57AyeAAymCCjOHCjaHCDuLDzOHFTSJGDaIGzyLED2MET+NEkCNEkGOE0KOFEOPFUaPGEmRG1GXIVeYKFubKV6fOlygPGKdMGOfMWSeMWWfMmagM2ihNGujN2miOW6jOG+lPXCmPl+hQ2KjRmalSGilRnSrT3yvVYGzWoCzYYK1Z4W2ZoW2aom4a4q4bIu5bYy5bY25bo66b5C8dJbBgJfCgpjCg57FiKHGiqLGi6THjKXIjajKkKrLkavLkqvMkqzMk63NlLDOlgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAAmAB0AAAj/AP8JNCGioMGDCBOaEMiwocMSCSNKFGHig8OL/whO3HjwwwaMDTdwHCmCxEeQAkWSlEii4EmUGzogREGzpsGaKA6CEPESpMqCLQvaNHhCBE2dIHpi/Jnw6EGnBkEkRZly4lCjORGG4En13wYPB0c8zWrUoBIhB5Ve/LrxKFkRR6LwMKjW4YYNSZAUAVKkLxEiQ4YIAUK4MBQzT3KI4FC3IYENRtaoMaOmcpo0aNCcMcO5cxkuYZy02DCgKwAAQdRssbKltRYtWbBcsUK7NhUpU778UAHANIAeZciEIUN8zBgxyMMoXw6mipcmL0773qEDhwsc2G/YqEFjhgwX4MH7lujCBMbp3lTPq1eP4nzN0yyWxFDve7379vfbr0hxPgB6lPbdZx9NAf4HUoEEDpjgevXl956DATaonn8FVihhfxVaSNUAAAiQ4YfndaXAAgmMWIABBKSoYoUpDnAAAl39M4EEEUTwgAM4NqDjjgzoyACOADwAwZAxCqRBBhdcYMGSFDTpZAVNQkkBlBhgUOSVWGapZZEBAQA7';
     }
-    /* else {
-			icone.src=urlIcone;
-		}*/
-
     icone.title = message;
   } else {
     log(message);
@@ -1554,16 +1547,16 @@ function displayOptions() {
   }
   var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br/><br/>';
   // Serveur Univers
-  options += '<img src="http://svn.ogsteam.fr/trunk/xtense_GreaseMonkey/images/xtense.png" alt="Options Xtense"/>';
+  options += '<img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/xtense.png" alt="Options Xtense"/>';
   options += '<br/><br/>';
   options += '<table style="width:675px;">' +
   '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
   '<tbody>' +
   '<tr>' +
-  '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="http://svn.ogsteam.fr/trunk/xtense_GreaseMonkey/images/server.png"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>&#160;Serveur</b></span></a></td>' +
-  '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="http://svn.ogsteam.fr/trunk/xtense_GreaseMonkey/images/pages.png"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>&#160;Pages</b></span></a></td>' +
-  '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="http://svn.ogsteam.fr/trunk/xtense_GreaseMonkey/images/conf.png"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>&#160;Options</b></span></a></td>' +
-  '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="http://svn.ogsteam.fr/trunk/xtense_GreaseMonkey/images/about.png"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>&#160;A propos</b></span></a></td>' +
+  '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/server.png"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>&#160;Serveur</b></span></a></td>' +
+  '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/pages.png"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>&#160;Pages</b></span></a></td>' +
+  '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/conf.png"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>&#160;Options</b></span></a></td>' +
+  '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/about.png"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>&#160;A propos</b></span></a></td>' +
   '</tr>' +
   '</tbody>' +
   '</table>';
