@@ -15,7 +15,10 @@
     "persistent": false,
     "scripts": ["xtense.user.js"]
   },
-  "permissions": ["http://*/"],
+  "permissions": [
+        "http://*/",
+        "https://bitbucket.org/*"
+   ],
   "short_name": "Xtense",
   "browser_action": {
     "default_title": "",
