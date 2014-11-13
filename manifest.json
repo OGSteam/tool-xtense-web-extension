@@ -21,8 +21,8 @@
    ],
   "short_name": "Xtense",
   "browser_action": {
-    "default_title": "",
-    "default_icon": "xtense.gif",
+    "default_title": "Xtense",
+    "default_icon": "xtense.png",
     "default_popup": "xtense.html"
   }
 }
