@@ -362,7 +362,7 @@ function handle_current_page() {
     } else if (regAlliance.test(url)) {
         if (GM_getValue(prefix_GMData + 'handle.alliance', 'false').toString() == 'true' || GM_getValue(prefix_GMData + 'manual.send', 'false').toString() == 'true') {
             GM_setValue(prefix_GMData + 'lastAction', '');
-            get_ally_content();
+            parse_ally_inserted();
             GM_setValue(prefix_GMData + 'manual.send', 'false');
         } else {
             manual_send();
