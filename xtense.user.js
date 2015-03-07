@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.5.8.1
+// @version     2.5.8.2
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
@@ -12,7 +12,7 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.5.8.1';
+var VERSION = '2.5.8.2';
 var TYPE = 'GM-';
 var PLUGIN_REQUIRED = '2.5.0';
 var callback = null;
@@ -725,7 +725,7 @@ function parse_buildings() {
     var tabLevel = new Array();
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace('.', '');
+            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level != '') {
                 tabLevel.push(level);
             }
@@ -835,7 +835,7 @@ function parse_shipyard() {
     var tabLevel = new Array();
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace('.', '');
+            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level != '') {
                 tabLevel.push(level);
             }
@@ -871,7 +871,7 @@ function parse_defense() {
     var tabLevel = new Array();
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace('.', '');
+            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level != '') {
                 tabLevel.push(level);
             }
@@ -1950,20 +1950,19 @@ function initParsers() {
             antimatiere: '//span[@id=\'resources_darkmatter\']/text()',
             energie: '//span[@id=\'resources_energy\']/text()'
         },
-        rc: {
-            list_infos: '//div[@class="combatreport"]//td[@class="newBack"]/center',
-            list_rounds: '//div[@class="combatreport"]//div[@class="round_info"]',
-            infos: {
-                player: 'span[contains(@class, "name")]',
-                weapons: 'span[contains(@class, "weapons")]',
-                destroyed: 'span[contains(@class, "destroyed")]'
-            },
-            list_types: 'table/tbody/tr[1]/th',
-            list_values: 'table/tbody/tr[2]/td',
-            result: '//div[@id="combat_result"]',
-            combat_round: '//div[@id="master"]'
-            //div[@class="combat_round"]'
-        },
+		rc : {
+			list_infos : '//td[contains(@class,"newBack")]/center',
+			list_rounds : '//div[@class="round_info"]',
+			infos : {
+				player : 'span[contains(@class, "name")]',
+				weapons : 'span[contains(@class, "weapons")]',
+				destroyed : 'span[contains(@class, "destroyed")]'
+			},
+			list_types : 'table//tr[1]/th',
+			list_values : 'table//tr[2]/td',
+			result : '//div[@id="combat_result"]',
+			combat_round : '//div[@id="master"]'//div[@class="combat_round"]'
+		},
         writemessage: {
             form: '//form[1]',
             from: 'id("wrapper")/form/div/table/tbody/tr[1]/td',
