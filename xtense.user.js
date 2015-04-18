@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.5.8.3
+// @version     2.6.0.0
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
@@ -12,9 +12,9 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.5.8.3';
+var VERSION = '2.6.0.0';
 var TYPE = 'GM-';
-var PLUGIN_REQUIRED = '2.5.0';
+var PLUGIN_REQUIRED = '2.6.0';
 var nomScript = 'Xtense';
 var Xlang = {};
 var XtenseLocales = {};
@@ -145,6 +145,7 @@ function setStatus(type, message) {
 //Requete Ajax
 
 function Xajax(obj) {
+	if (isOpera || isChrome) {
         xhr = new XMLHttpRequest();
         url = obj.url || '';
         post = obj.post || '';
@@ -157,26 +158,52 @@ function Xajax(obj) {
                 handleResponse(xhr);
             }
         };
+	}else {
+        GM_xmlhttpRequest({
+            method: 'POST',
+            url: obj.url || '',
+            data: obj.post || '',
+            headers: {
+               'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            onload: function (response) {
+                handleResponse(response);
+            }
+        });
+    }
 }
 function XajaxCompo(url) {
     var rcString = "";
-    var xhr_object = new XMLHttpRequest();
-    xhr_object.open("GET", url , true);
-    xhr_object.send();
+	if (isOpera || isChrome) {
+		var xhr_object = new XMLHttpRequest();
+		xhr_object.open("GET", url , true);
+		xhr_object.send();
 
-    xhr_object.onreadystatechange = function () {
-        if (xhr_object.readyState == 4) {
-            rcString = xhr_object.responseText;
-            rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-            var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-            //return parse_rc({parameters: {doc: docrc}});
-            return parse_rc(docrc);
-            //return(xhr_object.responseText);
-        } else {
-            log("XajaxCompo : Error");
-            return (false);
-        }
-    };
+		xhr_object.onreadystatechange = function () {
+			if (xhr_object.readyState == 4) {
+				rcString = xhr_object.responseText;
+				rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+				var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+				//return parse_rc({parameters: {doc: docrc}});
+				return parse_rc(docrc);
+				//return(xhr_object.responseText);
+			} else {
+				log("XajaxCompo : Error");
+				return (false);
+			}
+		};
+	} else{ //Pour Firefox
+		GM_xmlhttpRequest({
+            method: 'GET',
+            url: url || '',
+            onload: function (response) {
+                rcString = response.responseText;
+				rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+				var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+				return parse_rc(docrc);
+            }
+        });		
+	}
 }
 
 // Récupère les messages de retours et locales
