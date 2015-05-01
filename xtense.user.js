@@ -724,13 +724,16 @@ function parse_overview(event) {
             var temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
             var temperature_min = temperatures.match(/(-?\d+)/)[1];
             var resources = getResources();
+            // retreive boosters and extensions
+            var planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
+
             XtenseRequest.set({
                 type: 'overview',
                 fields: cases,
                 temperature_min: temperature_min,
                 temperature_max: temperature_max,
                 ressources: resources
-            }, planetData);
+            }, planetData, planetBoostersAndExtensions);
             XtenseRequest.set('lang', langUnivers);
             XtenseRequest.send();
             GM_setValue(prefix_GMData + 'lastAction', 'planet_name:' + planetData.planet_name);
@@ -1967,11 +1970,12 @@ function initParsers() {
             coords: '//div[@class=\'smallplanet\']/a[contains(@class,\'active\') or @href=\'#\']/span[@class=\'planet-koords\']',
             coords_unique_planet: '//div[@class=\'smallplanet\']/a[contains(@class,\'\') or @href=\'#\']/span[@class=\'planet-koords\']'
         },
-        boostersExtensions : {
+        boostersExtensions: {
             items : '//ul[contains(@class,"active_items")]//div[@data-uuid]//a[@title]',
-            dataUuid : '@data-uuid',
+            dataUuid : '../@data-uuid',
             itemTime : '//div[contains(@class,"js_duration")]',
             title :  '@title'
+            //*[@id="buffBar"]/div[2]/div/ul/li/div/a
         },
         ranking: {
             date: '//div[@id=\'OGameClock\']/text()',
@@ -2748,6 +2752,32 @@ function getPlanetData() {
         coords: XtenseMetas.getPlanetCoords(),
         planet_type: planet_type
     };
+}
+
+function getPlanetBoostersAndExtensions() {
+
+    var items = Xpath.getOrderedSnapshotNodes(document,XtenseXpaths.boostersExtensions['items']);
+
+    var datas = Array();
+    if(items != null && items.snapshotLength > 0) {
+        for (var i = 0; i < items.snapshotLength; i++) {
+            var item = items.snapshotItem(i);
+            var uuid = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['dataUuid'], item);
+            var title = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['title'], item);
+            var temps = "";
+
+            if(title != null) {
+                temps = title.match(/Temps restant : ([\w\d\s]+)/);
+
+                if (temps != null && temps.length > 1) {
+                    temps = temps[1];
+                }
+            }
+            datas.push(Array(uuid,temps));
+        }
+    }
+
+    return  { boostExt : datas };
 }
 // Permet de savoir si c'est une lune
 
