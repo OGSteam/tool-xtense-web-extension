@@ -14,7 +14,7 @@
 // Variables Xtense
 var VERSION = '2.6.0.0';
 var TYPE = 'GM-';
-var PLUGIN_REQUIRED = '2.6.0';
+var PLUGIN_REQUIRED = '2.5.0';
 var nomScript = 'Xtense';
 var Xlang = {};
 var XtenseLocales = {};
