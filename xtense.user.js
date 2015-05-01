@@ -107,7 +107,7 @@ function log(message) {
 //Gestion de l'icone
 
 function setStatus(type, message) {
-    var icone = XPath.getSingleNode(document, '//img[@id=\'xtense.icone\']');
+    var icone = Xpath.getSingleNode(document, '//img[@id=\'xtense.icone\']');
     if (icone != null) {
         if (type == XLOG_SUCCESS) {
             if (document.getElementById('messagebox') || document.getElementById('combatreport')) {
@@ -414,11 +414,11 @@ function parse_galaxy_system_inserted(event) {
     //var doc = event.target.ownerDocument;
     var paths = XtenseXpaths.galaxy;
     //Référence Xpaths
-    var galaxy = XPath.getSingleNode(document, paths.galaxy_input).value.trim();
+    var galaxy = Xpath.getSingleNode(document, paths.galaxy_input).value.trim();
     //Récupération Galaxie
-    var system = XPath.getSingleNode(document, paths.system_input).value.trim();
+    var system = Xpath.getSingleNode(document, paths.system_input).value.trim();
     //Récupération SS
-    var rows = XPath.getUnorderedSnapshotNodes(document, paths.rows);
+    var rows = Xpath.getUnorderedSnapshotNodes(document, paths.rows);
     //log("lastAction : "+GM_getValue(prefix_GMData +'lastAction',''));
     if (GM_getValue(prefix_GMData + 'lastAction', '') != 's:' + galaxy + ':' + system) {
         var coords = [
@@ -437,12 +437,12 @@ function parse_galaxy_system_inserted(event) {
       ];
             for (var i = 0; i < rows.snapshotLength; i++) {
                 var row = rows.snapshotItem(i);
-                var name = XPath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
-                var name_l = XPath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
-                var name_tooltip = XPath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
-                var player = XPath.getStringValue(document, paths.playername, row).trim();
-                var player2 = XPath.getStringValue(document, paths.playername2, row).trim();
-                var player_tooltip = XPath.getStringValue(document, paths.playername_tooltip, row).trim();
+                var name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
+                var name_l = Xpath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
+                var name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
+                var player = Xpath.getStringValue(document, paths.playername, row).trim();
+                var player2 = Xpath.getStringValue(document, paths.playername2, row).trim();
+                var player_tooltip = Xpath.getStringValue(document, paths.playername_tooltip, row).trim();
                 if (player_tooltip == '') {
                     if (player == '') {
                         if (player2 == '') {
@@ -464,14 +464,14 @@ function parse_galaxy_system_inserted(event) {
                 } else
                     name = name_tooltip;
                 //var position = i+1;
-                var position = XPath.getNumberValue(document, paths.position, row);
+                var position = Xpath.getNumberValue(document, paths.position, row);
                 if (isNaN(position)) {
                     log('position ' + position + ' is not a number');
                     continue;
                 }
-                var moon = XPath.getUnorderedSnapshotNodes(document, paths.moon, row);
+                var moon = Xpath.getUnorderedSnapshotNodes(document, paths.moon, row);
                 moon = moon.snapshotLength > 0 ? 1 : 0;
-                var statusNodes = XPath.getUnorderedSnapshotNodes(document, paths.status, row);
+                var statusNodes = Xpath.getUnorderedSnapshotNodes(document, paths.status, row);
                 var status = '';
                 if (statusNodes.snapshotLength > 0) {
                     for (var j = 0; j < statusNodes.snapshotLength; j++) {
@@ -480,29 +480,29 @@ function parse_galaxy_system_inserted(event) {
                 } else {
                     status = '';
                 }
-                var banned = XPath.getStringValue(document, paths.status_baned, row).trim();
+                var banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
                 status = banned + status;
-                var activity = XPath.getStringValue(document, paths.activity, row).trim();
+                var activity = Xpath.getStringValue(document, paths.activity, row).trim();
                 if (!activity) {
-                    activity = (XPath.getStringValue(document, paths.activity15, row) ? 0 : -1);
+                    activity = (Xpath.getStringValue(document, paths.activity15, row) ? 0 : -1);
                     //If contains 'minutes15' in class
                 }
-                var activityMoon = XPath.getStringValue(document, paths.activity_m, row).trim();
+                var activityMoon = Xpath.getStringValue(document, paths.activity_m, row).trim();
                 if (!activityMoon) {
-                    activityMoon = (XPath.getStringValue(document, paths.activity15_m, row) ? 0 : -1);
+                    activityMoon = (Xpath.getStringValue(document, paths.activity15_m, row) ? 0 : -1);
                     //If contains 'minutes15' in class
                 }
-                var allytag = XPath.getStringValue(document, paths.allytag, row).trim();
+                var allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
                 var debris = [
         ];
                 for (var j = 0; j < 2; j++) {
                     debris[XtenseDatabase['resources'][601 + j]] = 0;
                 }
-                var debrisCells = XPath.getUnorderedSnapshotNodes(document, paths.debris, row);
+                var debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
                 for (var j = 0; j < debrisCells.snapshotLength; j++) {
                     debris[XtenseDatabase['resources'][601 + j]] = debrisCells.snapshotItem(j).innerHTML.trimInt();
                 }
-                var player_id = XPath.getStringValue(document, paths.player_id, row).trim();
+                var player_id = Xpath.getStringValue(document, paths.player_id, row).trim();
                 if (player_id != '') {
                     player_id = player_id.match(/\&to\=(.*)\&ajax/);
                     player_id = player_id[1];
@@ -511,15 +511,15 @@ function parse_galaxy_system_inserted(event) {
                     //player_id = doc.cookie.match(/login_(.*)=U_/)[1];
                     player_id = XtenseMetas.getPlayerId();
                 }
-                var allyid = XPath.getStringValue(document, paths.ally_id, row).trim();
+                var allyid = Xpath.getStringValue(document, paths.ally_id, row).trim();
                 if (allyid != '') {
                     allyid = allyid.match(/allianceId\=(.*)/);
                     allyid = allyid[1];
                 } else {
                     allyid = '0';
                 }
-                var planet_id = XPath.getStringValue(document, paths.planet_id, row).trim();
-                var moon_id = XPath.getStringValue(document, paths.moon_id, row).trim();
+                var planet_id = Xpath.getStringValue(document, paths.planet_id, row).trim();
+                var moon_id = Xpath.getStringValue(document, paths.moon_id, row).trim();
                 log('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase['resources'][601]] + '/' + debris[XtenseDatabase['resources'][602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
                 var r = {
                     player_id: player_id,
@@ -556,16 +556,16 @@ function parse_ally_inserted() {
     if (GM_getValue(prefix_GMData + 'lastAction', '') != 'ally_list') {
         setStatus(XLOG_NORMAL, Xl('ally_list_detected'));
         var paths = XtenseXpaths.ally_members_list;
-        var rows = XPath.getOrderedSnapshotNodes(document, paths.rows);
+        var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
         var rowsData = [
     ];
         log(rows.snapshotLength + ' membres à envoyer !');
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
-            var player = XPath.getStringValue(document, paths.player, row).trim();
-            var points = XPath.getStringValue(document, paths.points, row).trimInt();
-            var rank = XPath.getStringValue(document, paths.rank, row).trimInt();
-            var coords = XPath.getStringValue(document, paths.coords, row).trim();
+            var player = Xpath.getStringValue(document, paths.player, row).trim();
+            var points = Xpath.getStringValue(document, paths.points, row).trimInt();
+            var rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
+            var coords = Xpath.getStringValue(document, paths.coords, row).trim();
             coords = coords.match(new RegExp(XtenseRegexps.coords))[1];
             var r = {
                 player: player,
@@ -576,8 +576,7 @@ function parse_ally_inserted() {
             rowsData[i] = r;
         }
         if (rowsData.length > 0) {
-            //XnewOgame.Tab.setStatus(Xl('ally_list detected'), XLOG_NORMAL, {url: this.url});
-            var tag = XPath.getStringValue(document, paths.tag);
+            var tag = Xpath.getStringValue(document, paths.tag);
             XtenseRequest.set({
                 n: rowsData,
                 type: 'ally_list',
@@ -595,10 +594,10 @@ function parse_ally_inserted() {
 function parse_ranking_inserted(event) {
     log('Entering parse_ranking_inserted');
     var paths = XtenseXpaths.ranking;
-    var rows = XPath.getOrderedSnapshotNodes(document, paths.rows, null);
+    var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows, null);
     if (rows.snapshotLength > 0) {
         //Récupération de la date courante du jeu
-        var timeText = XPath.getStringValue(document, paths.time).trim();
+        var timeText = Xpath.getStringValue(document, paths.time).trim();
         timeText = timeText.match(/(\d+).(\d+).(\d+)[^\d]+(\d+):\d+:\d+/);
         //Conversion dans la plage de 8 (0-8-16)
         var time = new Date();
@@ -614,14 +613,14 @@ function parse_ranking_inserted(event) {
         time = Math.floor(time.getTime() / 1000);
         //Détermination du type de classement
         var type = [];
-        type[0] = XPath.getStringValue(document, paths.who);
-        type[1] = XPath.getStringValue(document, paths.type);
-        type[2] = XPath.getStringValue(document, paths.subnav_fleet);
+        type[0] = Xpath.getStringValue(document, paths.who);
+        type[1] = Xpath.getStringValue(document, paths.type);
+        type[2] = Xpath.getStringValue(document, paths.subnav_fleet);
         type[0] = (type[0] != '') ? type[0] : 'player';
         type[0] = (type[0] == 'alliance') ? 'ally' : type[0];
         type[1] = (type[1] != '') ? type[1] : 'points';
         var length = 0;
-        //var rows = XPath.getOrderedSnapshotNodes(document,paths.rows,null);
+        //var rows = Xpath.getOrderedSnapshotNodes(document,paths.rows,null);
         var offset = 0;
         log('time:' + time + ',type1:' + type[0] + ',type2:' + type[1] + ',type3: ' + type[2] + ',nombreLignes:' + rows.snapshotLength);
         //if(rows.snapshotLength > 0){ //Double sécurité
@@ -629,13 +628,13 @@ function parse_ranking_inserted(event) {
     ];
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
-            var n = XPath.getStringValue(document, paths.position, row).trimInt();
+            var n = Xpath.getStringValue(document, paths.position, row).trimInt();
             if (i == 1) {
                 offset = Math.floor(n / 100) * 100 + 1;
                 //parce que le nouveau classement ne commence pas toujours pile a la centaine et OGSpy toujours a 101,201...
             }
-            var ally = XPath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
-            var ally_id = XPath.getStringValue(document, paths.ally_id, row).trim();
+            var ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
+            var ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
             if (ally_id != '' && !ally_id.match(/page\=alliance/)) {
                 //Pas d'id sur le lien de sa propre alliance (dans les classements alliances)
                 ally_id = ally_id.match(/allianceId\=(.*)/);
@@ -643,10 +642,10 @@ function parse_ranking_inserted(event) {
             } else if (ally) {
                 ally_id = XtenseMetas.getAllyId();
             }
-            var points = XPath.getStringValue(document, paths.points, row).trimInt();
+            var points = Xpath.getStringValue(document, paths.points, row).trimInt();
             if (type[0] == 'player') {
-                var name = XPath.getStringValue(document, paths.player.playername, row).trim();
-                var player_id = XPath.getStringValue(document, paths.player.player_id, row).trim();
+                var name = Xpath.getStringValue(document, paths.player.playername, row).trim();
+                var player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
                 if (player_id != '') {
                     player_id = player_id.match(/\&to\=(.*)\&ajax/);
                     player_id = player_id[1];
@@ -654,7 +653,7 @@ function parse_ranking_inserted(event) {
                     player_id = document.cookie.match(/login_(.*)=U_/)[1];
                 /*Nombre de vaisseaux*/
                 if (type[1] == 'fleet') {
-                    var NbVaisseaux = XPath.getStringValue(document, paths.nb_vaisseaux, row).trimInt();
+                    var NbVaisseaux = Xpath.getStringValue(document, paths.nb_vaisseaux, row).trimInt();
                     log('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
                     var r = {
                         player_id: player_id,
@@ -675,8 +674,8 @@ function parse_ranking_inserted(event) {
                     };
                 }
             } else if (type[0] == 'ally') {
-                var members = XPath.getStringValue(document, paths.ally.members, row).trim().getInts();
-                var moy = XPath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
+                var members = Xpath.getStringValue(document, paths.ally.members, row).trim().getInts();
+                var moy = Xpath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
                 log('row ' + n + ' > ally_id:' + ally_id + ',ally_tag:' + ally + ',members:' + members + ',points:' + points + ',mean:' + moy);
                 var r = {
                     ally_id: ally_id,
@@ -717,11 +716,11 @@ function parse_overview(event) {
     }
     //Supression du setinterval si il existe
 
-    var temperatures = XPath.getStringValue(document, XtenseXpaths.overview.temperatures);
+    var temperatures = Xpath.getStringValue(document, XtenseXpaths.overview.temperatures);
     if ((temperatures != null) && (temperatures != '')) {
         var planetData = getPlanetData();
         if (GM_getValue(prefix_GMData + 'lastAction', '') != 'planet_name:' + planetData.planet_name) {
-            var cases = XPath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
+            var cases = Xpath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
             var temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
             var temperature_min = temperatures.match(/(-?\d+)/)[1];
             var resources = getResources();
@@ -748,7 +747,7 @@ function parse_buildings() {
     setStatus(XLOG_NORMAL, Xl('buildings_detected'));
     var paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'buildings');
-    var levels = XPath.getOrderedSnapshotNodes(document, paths.level, null);
+    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
     var tabLevel = [];
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
@@ -781,7 +780,7 @@ function parse_station() {
     setStatus(XLOG_NORMAL, Xl('installations_detected'));
     var paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'buildings');
-    var levels = XPath.getOrderedSnapshotNodes(document, paths.level, null);
+    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
     var tabLevel = [];
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
@@ -820,7 +819,7 @@ function parse_station() {
 function parse_researchs() {
     setStatus(XLOG_NORMAL, Xl('researchs_detected'));
     XtenseRequest.set('type', 'researchs');
-    var levels = XPath.getOrderedSnapshotNodes(document, XtenseXpaths.levels.level, null);
+    var levels = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.levels.level, null);
     var tabLevel = [];
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
@@ -858,7 +857,7 @@ function parse_shipyard() {
     setStatus(XLOG_NORMAL, Xl('fleet_detected'));
     var paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'fleet');
-    var levels = XPath.getOrderedSnapshotNodes(document, paths.level, null);
+    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
     var tabLevel = [];
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
@@ -894,7 +893,7 @@ function parse_defense() {
     setStatus(XLOG_NORMAL, Xl('defense_detected'));
     var paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'defense');
-    var levels = XPath.getOrderedSnapshotNodes(document, paths.level, null);
+    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
     var tabLevel = [];
     if (levels.snapshotLength > 0) {
         for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
@@ -930,11 +929,11 @@ function parse_rc(doc) {
     var rnds = {};
     var rslt = {};
     var date = null;
-    var infos = XPath.getOrderedSnapshotNodes(doc, paths.list_infos);
+    var infos = Xpath.getOrderedSnapshotNodes(doc, paths.list_infos);
     log(infos.snapshotLength.toString());
     if (infos.snapshotLength > 0) {
         //Heure et rounds
-        var rounds = XPath.getOrderedSnapshotNodes(doc, paths.list_rounds);
+        var rounds = Xpath.getOrderedSnapshotNodes(doc, paths.list_rounds);
         var nbrounds = rounds.snapshotLength;
         if (nbrounds > 0) {
             for (var div = 0; div < nbrounds; div++) {
@@ -976,7 +975,7 @@ function parse_rc(doc) {
             var info = infos.snapshotItem(table);
             var nbJoueurs = infos.snapshotLength / nbrounds;
             //Nombre d'unités
-            var values = XPath.getOrderedSnapshotNodes(doc, paths.list_values, info);
+            var values = Xpath.getOrderedSnapshotNodes(doc, paths.list_values, info);
             if (values.snapshotLength > 0) {
                 for (var td = 1; td < values.snapshotLength; td++) {
                     var value = values.snapshotItem(td).textContent.trim();
@@ -987,7 +986,7 @@ function parse_rc(doc) {
             }
             //Type de l'unité
 
-            var types = XPath.getOrderedSnapshotNodes(doc, paths.list_types, info);
+            var types = Xpath.getOrderedSnapshotNodes(doc, paths.list_types, info);
             if (types.snapshotLength > 0) {
                 for (var th = 1; th < types.snapshotLength; th++) {
                     var type = types.snapshotItem(th).textContent.trim();
@@ -1005,12 +1004,12 @@ function parse_rc(doc) {
             //Nom joueur et coordonnées
 
             var dest = 0;
-            var player = XPath.getStringValue(doc, paths.infos.player, info).trim();
+            var player = Xpath.getStringValue(doc, paths.infos.player, info).trim();
             //Joueur non détruit
             var coords = null;
             if (player.length == 0) {
                 //Dans ce cas, joueur détruit
-                player = XPath.getStringValue(doc, paths.infos.destroyed, info).trim();
+                player = Xpath.getStringValue(doc, paths.infos.destroyed, info).trim();
                 dest = 1;
             }
             if (!dest)
@@ -1051,7 +1050,7 @@ function parse_rc(doc) {
             }
             //Technos
 
-            var weapons = XPath.getStringValue(doc, paths.infos.weapons, info).trim();
+            var weapons = Xpath.getStringValue(doc, paths.infos.weapons, info).trim();
             for (var i in rcStrings['regxps']['weapons']) {
                 var m = weapons.match(new RegExp(rcStrings['regxps']['weapons'][i]));
                 if (m)
@@ -1077,7 +1076,7 @@ function parse_rc(doc) {
         }
         //Pillages/Pertes/Cdr/Lune
 
-        var result = XPath.getStringValue(doc, paths.result).trim();
+        var result = Xpath.getStringValue(doc, paths.result).trim();
         if (result.match(new RegExp(rcStrings['regxps']['nul'], 'gi')))
             var win = 'N';
         else if (result.match(new RegExp(rcStrings['regxps']['attack_win'], 'gi')))
@@ -1101,7 +1100,7 @@ function parse_rc(doc) {
         }
         //Texte entier du raid, brut
 
-        var rounds = XPath.getOrderedSnapshotNodes(doc, paths.combat_round);
+        var rounds = Xpath.getOrderedSnapshotNodes(doc, paths.combat_round);
         var round = -1;
         log('Nb Rounds' + rounds.snapshotLength);
         if (rounds.snapshotLength > 0) {
@@ -1128,21 +1127,21 @@ function parse_messages() {
     setStatus(XLOG_NORMAL, Xl('messages_detected'));
     var paths = XtenseXpaths.messages;
     var data = {};
-    var messages = XPath.getOrderedSnapshotNodes(document, paths.showmessage, null);
+    var messages = Xpath.getOrderedSnapshotNodes(document, paths.showmessage, null);
     var messageNode = messages.snapshotItem(0);
-    var messageId = XPath.getStringValue(document, paths.messageid, messageNode);
-    var combatreport = XPath.getOrderedSnapshotNodes(document, paths.combatreport, null);
+    var messageId = Xpath.getStringValue(document, paths.messageid, messageNode);
+    var combatreport = Xpath.getOrderedSnapshotNodes(document, paths.combatreport, null);
     // Detection du rapport de combat (Sous fenetre)								
     if (combatreport.snapshotLength > 0) {
         log('Traitement du rapport de combat');
         if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
             parse_rc({parameters: {doc: document}});
         }
-    } else if (XPath.getStringValue(document, paths.from).trim() != '') {
-        var from = XPath.getStringValue(document, paths.from).trim();
-        var to = XPath.getStringValue(document, paths.to).trim();
-        var subject = XPath.getStringValue(document, paths.subject).trim();
-        var date = XPath.getStringValue(document, paths.date).trim();
+    } else if (Xpath.getStringValue(document, paths.from).trim() != '') {
+        var from = Xpath.getStringValue(document, paths.from).trim();
+        var to = Xpath.getStringValue(document, paths.to).trim();
+        var subject = Xpath.getStringValue(document, paths.subject).trim();
+        var date = Xpath.getStringValue(document, paths.date).trim();
         var locales = l('messages');
         data.date = XtenseParseDate(date, l('dates')['messages']);
 
@@ -1155,14 +1154,14 @@ function parse_messages() {
             GM_setValue(prefix_GMData + 'last_message', data.date);
             // Messages de joueurs
             if (GM_getValue(prefix_GMData + 'handle.msg.msg').toString() == 'true') {
-                if (XPath.getOrderedSnapshotNodes(document, paths.reply).snapshotLength > 0) {
+                if (Xpath.getOrderedSnapshotNodes(document, paths.reply).snapshotLength > 0) {
                     // si bouton "repondre", c'est un mp
                     var m = from.match(new RegExp(XtenseRegexps.userNameAndCoords));
                     if (m) {
                         var userName = m[1];
                         var coords = m[2];
                     }
-                    var contentNode = XPath.getSingleNode(document, paths.contents['msg']);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['msg']);
                     var message = contentNode.innerHTML.trim();
                     var ladate = data.date;
                         //correctif : pas de date 
@@ -1181,7 +1180,7 @@ function parse_messages() {
             if (GM_getValue(prefix_GMData + 'handle.msg.ally').toString() == 'true') {
                 var m = from.match(new RegExp(XtenseRegexps.ally));
                 if (m) {
-                    var contentNode = XPath.getSingleNode(document, paths.contents['ally_msg']);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['ally_msg']);
                     var message = contentNode.innerHTML;
                     data.type = 'ally_msg';
                     data.from = subject.match(new RegExp(XtenseRegexps.ally_msg_player_name))[1];
@@ -1195,7 +1194,7 @@ function parse_messages() {
                 var m = subject.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords));
                 if (m) {
                     setStatus(XLOG_NORMAL, Xl('re_detected'));
-                    var contentNode = XPath.getSingleNode(document, paths.contents['spy']);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['spy']);
                     var content = contentNode.innerHTML;
                     data.planetName = m[1];
                     data.coords = m[2];
@@ -1215,7 +1214,7 @@ function parse_messages() {
 
             if (GM_getValue(prefix_GMData + 'handle.msg.ennemy.spy').toString() == 'true') {
                 if (subject.match(new RegExp(locales['espionnage action']))) {
-                    var contentNode = XPath.getSingleNode(document, paths.contents['ennemy_spy']);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['ennemy_spy']);
                     var rawdata = contentNode.textContent.trim();
                     var m = rawdata.match(new RegExp(XtenseRegexps.messages.ennemy_spy));
                     if (m) {
@@ -1231,7 +1230,7 @@ function parse_messages() {
  /*           if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['combat of']));
                 if (m != null) {
-                    var rapport = XPath.getStringValue(document, paths.contents['rc']).trim();
+                    var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
                     var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
                     if (m2) GM_setValue(prefix_GMData + 'rc-temp', '({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
                 }
@@ -1239,7 +1238,7 @@ function parse_messages() {
             if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['combat of']));
                 if (m!=null){
-                    var rapport = XPath.getStringValue(document,paths.contents['rc']).trim();
+                    var rapport = Xpath.getStringValue(document,paths.contents['rc']).trim();
                     var m2 = rapport.match(new RegExp(locales['combat defence']+XtenseRegexps.planetNameAndCoords));
                     if (!m2) {
                     } else {
@@ -1249,7 +1248,7 @@ function parse_messages() {
                         this.lastAction = "message:" + messageId;
 
                         log("Traitement du rapport de combat (" + messageId + ") dans les messages");
-                        var urlRc = XPath.getStringValue(document, paths.contents['url_combatreport']).trim();
+                        var urlRc = Xpath.getStringValue(document, paths.contents['url_combatreport']).trim();
                         log(urlRc.toString());
                         var rcString = XajaxCompo(urlRc);
 
@@ -1264,8 +1263,8 @@ function parse_messages() {
                     var m = subject.match(new RegExp(XtenseRegexps.coords));
                     if (m) {
                         var coords = m[1];
-                        var contentNode = XPath.getSingleNode(document, paths.contents['rc_cdr']);
-                        var message = XPath.getStringValue(document, paths.contents['rc_cdr']).trim();
+                        var contentNode = Xpath.getSingleNode(document, paths.contents['rc_cdr']);
+                        var message = Xpath.getStringValue(document, paths.contents['rc_cdr']).trim();
                         var nums = message.getInts();
                         data.type = 'rc_cdr';
                         data.coords = coords;
@@ -1284,8 +1283,8 @@ function parse_messages() {
                 var m2 = from.match(new RegExp(locales['fleet command']));
                 if (m2 != null && m != null) {
                     var coords = m[1];
-                    var contentNode = XPath.getSingleNode(document, paths.contents['expedition']);
-                    var message = XPath.getStringValue(document, paths.contents['expedition']).trim();
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['expedition']);
+                    var message = Xpath.getStringValue(document, paths.contents['expedition']).trim();
                     var message = message.replace(/\(AM\)/g, '');
                     data.type = 'expedition';
                     data.coords = coords;
@@ -1299,7 +1298,7 @@ function parse_messages() {
                 var m2 = subject.match(new RegExp(locales['trade message 2']));
                 // Livraison d'un ami sur une de mes planètes
                 if (m != null) {
-                    var message = XPath.getStringValue(document, paths.contents['livraison']).trim();
+                    var message = Xpath.getStringValue(document, paths.contents['livraison']).trim();
                     var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos));
                     var ressourcesLivrees = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_res_livrees));
                     // ressources livrées
@@ -1320,14 +1319,14 @@ function parse_messages() {
                     log('Livraison du joueur (' + infos[1].trim() + ') de la planète ' + infos[2].trim() + '(' + infos[3].trim() + ')sur ma planète ' + infos[4].trim() + '(' + infos[5].trim() + ') : Metal=' + met + ' Cristal=' + cri + ' Deuterium=' + deut);
                 } else if (m2 != null) {
                     // Livraison sur la planète d'un ami
-                    var message = XPath.getStringValue(document, paths.contents['livraison_me']).trim();
+                    var message = Xpath.getStringValue(document, paths.contents['livraison_me']).trim();
                     // Corps du message
                     var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_me));
                     // Infos sur la planète
                     var planeteLivraison = infos[4].trim();
                     // Planete sur laquelle la livraison à eu lieu
                     // Récupération de mes planètes
-                    //var mesPlanetes = XPath.getOrderedSnapshotNodes(window.parent.document,XtenseXpaths.planetData['coords']);
+                    //var mesPlanetes = Xpath.getOrderedSnapshotNodes(window.parent.document,XtenseXpaths.planetData['coords']);
                     var mesPlanetes = GM_getValue(prefix_GMData + 'my.planets', '').split(';');
                     var isMyPlanet = false;
                     log('J\'ai ' + mesPlanetes.length + ' planètes');
@@ -1388,11 +1387,11 @@ function parse_spy_report(RE) {
     var typs = [
   ];
     var res = [];
-    var attackRef = XPath.getStringValue(document, paths.moon);
+    var attackRef = Xpath.getStringValue(document, paths.moon);
     var isMoon = attackRef.search('type=3') > -1 ? true : false;
     //isMoon = (moonNode.href).match(new RegExp(locales['moon'] + XtenseRegexps.moon))[1] == '3' ? true : false;
-    var playerName = XPath.getStringValue(document, paths.playername).trim();
-    var types = XPath.getOrderedSnapshotNodes(document, paths.materialfleetdefbuildings);
+    var playerName = Xpath.getStringValue(document, paths.playername).trim();
+    var types = Xpath.getOrderedSnapshotNodes(document, paths.materialfleetdefbuildings);
     if (types.snapshotLength > 0) {
         for (var table = 0; table < types.snapshotLength; table++) {
             var type = types.snapshotItem(table).textContent.trim();
@@ -1753,7 +1752,7 @@ function displayOptions() {
 
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
-        var inputOptions = XPath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[not(@type=\'checkbox\')]');
+        var inputOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[not(@type=\'checkbox\')]');
         //log("inputOptions.snapshotLength="+inputOptions.snapshotLength);
         if (inputOptions.snapshotLength > 0) {
             for (var i = 0; i < inputOptions.snapshotLength; i++) {
@@ -1763,7 +1762,7 @@ function displayOptions() {
         }
         // Sauvegarde des checkbox
 
-        var checkboxOptions = XPath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[@type=\'checkbox\']');
+        var checkboxOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[@type=\'checkbox\']');
         //log("checkboxOptions.snapshotLength="+checkboxOptions.snapshotLength);
         if (checkboxOptions.snapshotLength > 0) {
             for (var j = 0; j < checkboxOptions.snapshotLength; j++) {
@@ -1800,7 +1799,7 @@ function displayXtense() {
         var li1 = document.createElement('li');
         li1.setAttribute('id', 'optionXtense');
         li1.innerHTML = aff_option;
-        var menuAlliance = XPath.getSingleNode(document, '//*[@id=\'menuTable\']/li[contains(a/@href,\'page=alliance\')]');
+        var menuAlliance = Xpath.getSingleNode(document, '//*[@id=\'menuTable\']/li[contains(a/@href,\'page=alliance\')]');
         if (document.getElementById('optionXtense') != null) {
             document.getElementById('menuTable').removeChild(document.getElementById('optionXtense'));
         }
@@ -1808,7 +1807,7 @@ function displayXtense() {
     } else if (getElementByAttr(document, 'className', 'showmessage')) {
         // Dans les messages ?
         log('icon for messages');
-        var toolbarMessage = XPath.getSingleNode(document, '//div[contains(@id,\'messages\']');
+        var toolbarMessage = Xpath.getSingleNode(document, '//div[contains(@id,\'messages\']');
         var icone = 'data:image/gif;base64,R0lGODlhJgAdAMZ8AAAAABwgJTU4OhwhJRYaHjQ3OQcICjM2OA8SFQoMDxsgJB0hJjI1Nw8TFQcICAQEBDE0NgwPEAECAiYoKREVGB8lKi4yNCMlJgoNDzAzNiMnKzE0NxATFgsNECwuMAEBASotMB4iJyImKg8SFg4PDw8QESEjJQICAiAkKRgZGhsdHhUWFwoLCwoMDjI2OBcbHxsgIw0PEhsfIx8jJywvMh8hIhobHB8kKQkMDQYICQoNECwwMxcZGQsOER0iJygrLxweHysuMSUoLAkLDiQnKwwPESElKTM2NyAiIwcKCyAjJxoeISIlKiIkJRIWGRQWFiosLSUnKDAzNBscHRoeIgMEBDAyNA4ODyAkKAcICQkKCwwQEiMnKhwgJBIVGRAQEScqLiosLgcJCgcJCzQ2OAQEBQgICAkJCiksMCQmJwYHCSAjKC0vMQYGBh4jJyUpLSksLRAUFygsLzM2OSsuLyotMQwNDTAzNS4xMiwvMAkJDAkLDf///////////////yH5BAEAAH8ALAAAAAAmAB0AAAf+gH+CFQOFhoeIiRWCjI2ON4cBkpKIlIgVMI6af4SFk5+gk5UwBJuNBIahqqs+paaCBKuyoG4BA66vBFSgAr2+k74CnwoBuKaxkz7AvZ9rAcyTCgrGm8iq0Mug0tSa1qG/ktiTXbevsDKfC5/YwqvcjgTosszt7uZ/BN7f4Kov741i8gkcKLAXwYNZ7gFYyLAhQ18OIyqM6DCYAIoMJ2JceBFAr40ANGLs6PEjRpERTXJUyVBCSHMbWa48CZOizJUkG6IsGaxhT4k1I7oESXHnwqFEHd7LAUBN0qT3huDYI3VMEgNYs27EmkOLnnt/tsQoUqRHh7MY0iZY24KtDh0gAHpEmAtWkBMvceJw2NsAQV+/IwALpkChruHDiBPXDQQAOw==';
         var liXtense = document.createElement('li');
         var aXtense = document.createElement('a');
@@ -1824,7 +1823,7 @@ function displayXtense() {
         toolbarMessage.appendChild(liXtense);
     } else if (document.getElementById('combatreport')) {
         // Dans un rc ?
-        var roundInfo = XPath.getSingleNode(document, '//*[@id=\'combatreport\']//div[contains(@class,\'round_info\')]');
+        var roundInfo = Xpath.getSingleNode(document, '//*[@id=\'combatreport\']//div[contains(@class,\'round_info\')]');
         var icone = 'data:image/gif;base64,R0lGODlhJgAdAMZ8AAAAABwgJTU4OhwhJRYaHjQ3OQcICjM2OA8SFQoMDxsgJB0hJjI1Nw8TFQcICAQEBDE0NgwPEAECAiYoKREVGB8lKi4yNCMlJgoNDzAzNiMnKzE0NxATFgsNECwuMAEBASotMB4iJyImKg8SFg4PDw8QESEjJQICAiAkKRgZGhsdHhUWFwoLCwoMDjI2OBcbHxsgIw0PEhsfIx8jJywvMh8hIhobHB8kKQkMDQYICQoNECwwMxcZGQsOER0iJygrLxweHysuMSUoLAkLDiQnKwwPESElKTM2NyAiIwcKCyAjJxoeISIlKiIkJRIWGRQWFiosLSUnKDAzNBscHRoeIgMEBDAyNA4ODyAkKAcICQkKCwwQEiMnKhwgJBIVGRAQEScqLiosLgcJCgcJCzQ2OAQEBQgICAkJCiksMCQmJwYHCSAjKC0vMQYGBh4jJyUpLSksLRAUFygsLzM2OSsuLyotMQwNDTAzNS4xMiwvMAkJDAkLDf///////////////yH5BAEAAH8ALAAAAAAmAB0AAAf+gH+CFQOFhoeIiRWCjI2ON4cBkpKIlIgVMI6af4SFk5+gk5UwBJuNBIahqqs+paaCBKuyoG4BA66vBFSgAr2+k74CnwoBuKaxkz7AvZ9rAcyTCgrGm8iq0Mug0tSa1qG/ktiTXbevsDKfC5/YwqvcjgTosszt7uZ/BN7f4Kov741i8gkcKLAXwYNZ7gFYyLAhQ18OIyqM6DCYAIoMJ2JceBFAr40ANGLs6PEjRpERTXJUyVBCSHMbWa48CZOizJUkG6IsGaxhT4k1I7oESXHnwqFEHd7LAUBN0qT3huDYI3VMEgNYs27EmkOLnnt/tsQoUqRHh7MY0iZY24KtDh0gAHpEmAtWkBMvceJw2NsAQV+/IwALpkChruHDiBPXDQQAOw==';
         var pXtense = document.createElement('p');
         var aXtense = document.createElement('a');
@@ -1846,7 +1845,7 @@ function displayXtense() {
 
 function initParsers() {
     /* Fonctions Xpaths */
-    XPath = {
+    Xpath = {
         //node est facultatif
         getNumberValue: function (doc, xpath, node) {
             node = node ? node : doc;
@@ -1917,8 +1916,8 @@ function initParsers() {
             activity15: 'td[contains(@class,"microplanet")]/div[contains(@class,"minute15")]/@class',
             activity_m: 'td[contains(@class,"moon")]/div[contains(@class,"activity")]/text()',
             activity15_m: 'td[contains(@class,"moon")]/div[contains(@class,"minute15")]/@class',
-            player_id: 'descendant::a[contains(@href,"writemessage")]/@href',
-            ally_id: 'descendant::a[@target="_ally"]/@href',
+		player_id : 'td[contains(@class,"playername")]/a[contains(@rel,"player")]/@rel',
+		ally_id : 'td[contains(@class,"allytag")]/span[contains(@rel,"alliance")]/@rel',
             planet_id: 'td[contains(@class,"microplanet")]/@data-planet-id',
             moon_id: 'td[contains(@class,"moon")]/@data-moon-id',
             table_galaxy: '//table[@id="galaxytable"]/tbody',
@@ -1968,6 +1967,12 @@ function initParsers() {
             coords: '//div[@class=\'smallplanet\']/a[contains(@class,\'active\') or @href=\'#\']/span[@class=\'planet-koords\']',
             coords_unique_planet: '//div[@class=\'smallplanet\']/a[contains(@class,\'\') or @href=\'#\']/span[@class=\'planet-koords\']'
         },
+        boostersExtensions : {
+            items : '//ul[contains(@class,"active_items")]//div[@data-uuid]//a[@title]',
+            dataUuid : '@data-uuid',
+            itemTime : '//div[contains(@class,"js_duration")]',
+            title :  '@title'
+        },
         ranking: {
             date: '//div[@id=\'OGameClock\']/text()',
             time: '//div[@id=\'OGameClock\']/span/text()',
@@ -1982,11 +1987,14 @@ function initParsers() {
             ally_id: 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href | td[@class=\'name\']/span[@class=\'ally-tag\']/a/@href',
             player: {
                 playername: 'td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()',
-                player_id: 'td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href'
+                player_id: 'td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href',
+		        spacecraft : 'td[contains(@class,\'score\')]/@title'
             },
             ally: {
                 members: 'td[contains(@class,\'member_count\')]/text()',
-                points_moy: 'td[contains(@class,\'score\')]/div/text()'
+                points_moy: 'td[contains(@class,\'score\')]/div/text()',
+                allytag : 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/text()',
+                ally_id : 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href'
             }
         },
         ressources: {
@@ -2016,6 +2024,33 @@ function initParsers() {
             subject: 'id("wrapper")/form/div[1]/table/tbody/tr[3]/td/input',
             date: 'id("wrapper")/form/div/table/tbody/tr[4]/td',
             content: 'id("wrapper")/form/div[2]/div/textarea'
+	},
+	
+	eventlist : {
+		overview_event : '//span[@id="eventHostile"]/text()',
+		attack_id : '@id',
+		attack_event : '//tr[contains(@class,"eventFleet") and td[contains(@class,"hostile")]]',
+		attack_arrival_time : 'td[@class="arrivalTime"]/text()',
+		attack_datetime : '@data-arrival-time',		
+		attack_origin_attack_planet : 'td[@class="originFleet"]/a',
+		attack_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
+		attack_attacker_name : 'td[@class="sendMail"]/a/@title',
+		attack_destination_planet : 'td[@class="destFleet"]',
+		attack_destination_coords : 'td[@class="destCoords"]/a/text()',
+		attack_url_composition_flotte : 'td[@class="icon_movement"]/span/@href',
+		attack_composition_details : "td[@class='icon_movement']/span/@title",
+		group_id : '//tr[contains(@class,"allianceAttack")]/td[a[contains(@class,"toggleDetails")]]/a/@rel',
+		group_event : '//tr[starts-with(@class,"partnerInfo eventFleet {0}")]',
+		group_attack : '//tr[contains(@class,"allianceAttack") and td[a[contains(@class,"toggleDetails")]]/a/@rel=\'{0}\']',
+		group_attack_parent : '//tr[contains(@class,"allianceAttack") and td[a/@rel=\'{0}\']]',
+		group_arrival_time : 'td[@class="arrivalTime"]/text()',
+		group_origin_attack_planet : 'td[@class="originFleet"]/a',
+		group_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
+		group_attacker_name : 'td[@class="sendMail"]/a/@data-player-name',
+		group_destination_planet : 'td[contains(@class,"destFleet")]',
+		group_destination_coords : 'td[contains(@class,"destCoords")]/a/text()',
+		group_compo_details : "td[@class='icon_movement']/span/@title",
+		group_url_compo : 'td[@class="icon_movement"]/span/@rel'
         }
     };
     XtenseRegexps = {
@@ -2043,43 +2078,43 @@ function initParsers() {
 
     XtenseMetas = {
         getOgameVersion: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.ogame_version);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.ogame_version);
         },
         getTimestamp: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.timestamp);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.timestamp);
         },
         getUniverse: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.universe);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.universe);
         },
         getLanguage: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.language);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.language);
         },
         getPlayerId: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.player_id);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.player_id);
         },
         getPlayerName: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.player_name);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.player_name);
         },
         getAllyId: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.ally_id);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.ally_id);
         },
         getAllyName: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.ally_name);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.ally_name);
         },
         getAllyTag: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.ally_tag);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.ally_tag);
         },
         getPlanetId: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.planet_id);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_id);
         },
         getPlanetName: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.planet_name);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_name);
         },
         getPlanetCoords: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.planet_coords);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_coords);
         },
         getPlanetType: function () {
-            return XPath.getStringValue(document, XtenseXpaths.metas.planet_type);
+            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_type);
         }
     }
 }
@@ -2726,7 +2761,7 @@ function isMoon() {
 // Permet de stocker les planètes du joueur connecté
 
 function save_my_planets_coords() {
-    var mesPlanetes = XPath.getOrderedSnapshotNodes(document, XtenseXpaths.planetData['coords']);
+    var mesPlanetes = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.planetData['coords']);
     var pls = '';
     if (mesPlanetes != null && mesPlanetes.snapshotLength > 0) {
         for (var i = 0; i < mesPlanetes.snapshotLength; i++) {
@@ -2738,11 +2773,11 @@ function save_my_planets_coords() {
 // Récupération des ressources d'une planète
 
 function getResources() {
-    var metal = XPath.getStringValue(document, XtenseXpaths.ressources.metal).trimInt();
-    var cristal = XPath.getStringValue(document, XtenseXpaths.ressources.cristal).trimInt();
-    var deut = XPath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
-    var antimater = XPath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
-    var energy = XPath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
+    var metal = Xpath.getStringValue(document, XtenseXpaths.ressources.metal).trimInt();
+    var cristal = Xpath.getStringValue(document, XtenseXpaths.ressources.cristal).trimInt();
+    var deut = Xpath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
+    var antimater = Xpath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
+    var energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
     log('metal=' + metal + ', cristal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
     return Array(metal, cristal, deut, antimater, energy);
 }
