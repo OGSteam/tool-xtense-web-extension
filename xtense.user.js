@@ -724,6 +724,7 @@ function parse_overview(event) {
             var temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
             var temperature_min = temperatures.match(/(-?\d+)/)[1];
             var resources = getResources();
+            var ogame_time = XtenseMetas.getTimestamp();
             // retreive boosters and extensions
             var planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
 
@@ -732,7 +733,8 @@ function parse_overview(event) {
                 fields: cases,
                 temperature_min: temperature_min,
                 temperature_max: temperature_max,
-                ressources: resources
+                ressources: resources,
+                ogame_timestamp: ogame_time
             }, planetData, planetBoostersAndExtensions);
             XtenseRequest.set('lang', langUnivers);
             XtenseRequest.send();
