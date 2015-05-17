@@ -504,8 +504,7 @@ function parse_galaxy_system_inserted(event) {
                 }
                 var player_id = Xpath.getStringValue(document, paths.player_id, row).trim();
                 if (player_id != '') {
-                    player_id = player_id.match(/\&to\=(.*)\&ajax/);
-                    player_id = player_id[1];
+                    player_id = player_id.trimInt();
                     //} else if(doc.cookie.match(/login_(.*)=U_/)){
                 } else if (player) {
                     //player_id = doc.cookie.match(/login_(.*)=U_/)[1];
@@ -513,8 +512,8 @@ function parse_galaxy_system_inserted(event) {
                 }
                 var allyid = Xpath.getStringValue(document, paths.ally_id, row).trim();
                 if (allyid != '') {
-                    allyid = allyid.match(/allianceId\=(.*)/);
-                    allyid = allyid[1];
+                    allyid = allyid.trimInt();
+                    log(allyid);
                 } else {
                     allyid = '0';
                 }
