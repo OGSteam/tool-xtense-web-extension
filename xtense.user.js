@@ -83,14 +83,12 @@ String.prototype.trimZeros = function () {
 };
 String.prototype.replaceAll = function (replace, with_this) {
     var re = new RegExp(replace, "g");
-    return this.replace(re,with_this);
+    return this.replace(re, with_this);
 };
 
-String.prototype.getInts = function (
-    /*separator*/
-) {
+String.prototype.getInts = function (/*separator*/) {
     /*if(typeof separator!="undefined")reg=new Regexp("[0-9("+separator+")]+","g");
-	else reg=new Regexp("[0-9("+separator+")]+","g");*/
+     else reg=new Regexp("[0-9("+separator+")]+","g");*/
     var v = this.match(/[0-9][0-9.]*/g);
     v.forEach(function (el, index, arr) {
         arr[index] = parseInt(el.replace(/\./g, ''));
@@ -145,7 +143,7 @@ function setStatus(type, message) {
 //Requete Ajax
 
 function Xajax(obj) {
-	if (isOpera || isChrome) {
+    if (isOpera || isChrome) {
         xhr = new XMLHttpRequest();
         url = obj.url || '';
         post = obj.post || '';
@@ -158,13 +156,13 @@ function Xajax(obj) {
                 handleResponse(xhr);
             }
         };
-	}else {
+    } else {
         GM_xmlhttpRequest({
             method: 'POST',
             url: obj.url || '',
             data: obj.post || '',
             headers: {
-               'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             onload: function (response) {
                 handleResponse(response);
@@ -174,36 +172,31 @@ function Xajax(obj) {
 }
 function XajaxCompo(url) {
     var rcString = "";
-	if (isOpera || isChrome) {
-		var xhr_object = new XMLHttpRequest();
-		xhr_object.open("GET", url , true);
-		xhr_object.send();
-
-		xhr_object.onreadystatechange = function () {
-			if (xhr_object.readyState == 4) {
-				rcString = xhr_object.responseText;
-				rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-				var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-				//return parse_rc({parameters: {doc: docrc}});
-				return parse_rc(docrc);
-				//return(xhr_object.responseText);
-			} else {
-				log("XajaxCompo : Error");
-				return (false);
-			}
-		};
-	} else{ //Pour Firefox
-		GM_xmlhttpRequest({
+    if (!(isOpera || isChrome)) { //Pour Firefox
+        GM_xmlhttpRequest({
             method: 'GET',
             url: url || '',
             onload: function (response) {
                 rcString = response.responseText;
-				rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-				var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-				return parse_rc(docrc);
+                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+                return parse_rc(docrc);
             }
-        });		
-	}
+        });
+    } else {
+        var xhr_object = new XMLHttpRequest();
+        xhr_object.open("GET", url, true);
+        xhr_object.send();
+
+        xhr_object.onreadystatechange = function () {
+            if (xhr_object.readyState == 4 && xhr_object.status == 200) {
+                rcString = xhr_object.responseText;
+                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+                return parse_rc(docrc);
+            }
+        };
+    }
 }
 
 // Récupère les messages de retours et locales
@@ -266,10 +259,10 @@ eval(function (p, a, c, k, e, d) {
         }
         k = [
 
-      function (e) {
+            function (e) {
                 return d[e]
-      }
-    ];
+            }
+        ];
         e = function () {
             return '\\w+'
         };
@@ -284,8 +277,7 @@ eval(function (p, a, c, k, e, d) {
 }('l 3Q(w){l P(n,s){e 2w=(n<<s)|(n>>>(32-s));f 2w};l 2z(1w){e 1c="";e i;e 2d;e 1Y;J(i=0;i<=6;i+=2){2d=(1w>>>(i*4+4))&1X;1Y=(1w>>>(i*4))&1X;1c+=2d.1N(16)+1Y.1N(16)}f 1c};l 1a(1w){e 1c="";e i;e v;J(i=7;i>=0;i--){v=(1w>>>(i*4))&1X;1c+=v.1N(16)}f 1c};l 1K(q){q=q.2q(/\\r\\n/g,"\\n");e u="";J(e n=0;n<q.T;n++){e c=q.L(n);Y(c<X){u+=M.N(c)}1e Y((c>2k)&&(c<2r)){u+=M.N((c>>6)|2s);u+=M.N((c&1b)|X)}1e{u+=M.N((c>>12)|2t);u+=M.N(((c>>6)&1b)|X);u+=M.N((c&1b)|X)}}f u};e 1E;e i,j;e W=2o 1L(3B);e 1r=2i;e 1x=2j;e 1i=2f;e 1h=2g;e 1B=3F;e A,B,C,D,E;e K;w=1K(w);e O=w.T;e S=2o 1L();J(i=0;i<O-3;i+=4){j=w.L(i)<<24|w.L(i+1)<<16|w.L(i+2)<<8|w.L(i+3);S.1j(j)}3G(O%4){1Q 0:i=3T;1M;1Q 1:i=w.L(O-1)<<24|3r;1M;1Q 2:i=w.L(O-2)<<24|w.L(O-1)<<16|2F;1M;1Q 3:i=w.L(O-3)<<24|w.L(O-2)<<16|w.L(O-1)<<8|2n;1M}S.1j(i);2p((S.T%16)!=14)S.1j(0);S.1j(O>>>29);S.1j((O<<3)&R);J(1E=0;1E<S.T;1E+=16){J(i=0;i<16;i++)W[i]=S[1E+i];J(i=16;i<=2h;i++)W[i]=P(W[i-3]^W[i-8]^W[i-14]^W[i-16],1);A=1r;B=1x;C=1i;D=1h;E=1B;J(i=0;i<=19;i++){K=(P(A,5)+((B&C)|(~B&D))+E+W[i]+3c)&R;E=D;D=C;C=P(B,30);B=A;A=K}J(i=20;i<=39;i++){K=(P(A,5)+(B^C^D)+E+W[i]+3s)&R;E=D;D=C;C=P(B,30);B=A;A=K}J(i=3U;i<=2N;i++){K=(P(A,5)+((B&C)|(B&D)|(C&D))+E+W[i]+2V)&R;E=D;D=C;C=P(B,30);B=A;A=K}J(i=2Y;i<=2h;i++){K=(P(A,5)+(B^C^D)+E+W[i]+2R)&R;E=D;D=C;C=P(B,30);B=A;A=K}1r=(1r+A)&R;1x=(1x+B)&R;1i=(1i+C)&R;1h=(1h+D)&R;1B=(1B+E)&R}e K=1a(1r)+1a(1x)+1a(1i)+1a(1h)+1a(1B);f K.2v()}l 33(q){l 1v(1z,2c){f(1z<<2c)|(1z>>>(32-2c))}l h(1W,1U){e 1V,1T,1d,1f,18;1d=(1W&2a);1f=(1U&2a);1V=(1W&1O);1T=(1U&1O);18=(1W&2u)+(1U&2u);Y(1V&1T){f(18^2a^1d^1f)}Y(1V|1T){Y(18&1O){f(18^3a^1d^1f)}1e{f(18^1O^1d^1f)}}1e{f(18^1d^1f)}}l F(x,y,z){f(x&y)|((~x)&z)}l G(x,y,z){f(x&z)|(y&(~z))}l H(x,y,z){f(x^y^z)}l I(x,y,z){f(y^(x|(~z)))}l o(a,b,c,d,x,s,U){a=h(a,h(h(F(b,c,d),x),U));f h(1v(a,s),b)};l t(a,b,c,d,x,s,U){a=h(a,h(h(G(b,c,d),x),U));f h(1v(a,s),b)};l m(a,b,c,d,x,s,U){a=h(a,h(h(H(b,c,d),x),U));f h(1v(a,s),b)};l p(a,b,c,d,x,s,U){a=h(a,h(h(I(b,c,d),x),U));f h(1v(a,s),b)};l 2e(q){e Z;e 1C=q.T;e 26=1C+8;e 2m=(26-(26%2l))/2l;e 1P=(2m+1)*16;e V=1L(1P-1);e 1y=0;e Q=0;2p(Q<1C){Z=(Q-(Q%4))/4;1y=(Q%4)*8;V[Z]=(V[Z]|(q.L(Q)<<1y));Q++}Z=(Q-(Q%4))/4;1y=(Q%4)*8;V[Z]=V[Z]|(2n<<1y);V[1P-2]=1C<<3;V[1P-1]=1C>>>29;f V};l 1q(1z){e 1S="",1R="",27,1t;J(1t=0;1t<=3;1t++){27=(1z>>>(1t*8))&3u;1R="0"+27.1N(16);1S=1S+1R.3w(1R.T-2,2)}f 1S};l 1K(q){q=q.2q(/\\r\\n/g,"\\n");e u="";J(e n=0;n<q.T;n++){e c=q.L(n);Y(c<X){u+=M.N(c)}1e Y((c>2k)&&(c<2r)){u+=M.N((c>>6)|2s);u+=M.N((c&1b)|X)}1e{u+=M.N((c>>12)|2t);u+=M.N(((c>>6)&1b)|X);u+=M.N((c&1b)|X)}}f u};e x=1L();e k,2b,1Z,25,28,a,b,c,d;e 1o=7,1m=12,1n=17,1p=22;e 1I=5,1J=9,1k=14,1u=20;e 1g=4,1A=11,1F=16,1D=23;e 1s=6,1l=10,1G=15,1H=21;q=1K(q);x=2e(q);a=2i;b=2j;c=2f;d=2g;J(k=0;k<x.T;k+=16){2b=a;1Z=b;25=c;28=d;a=o(a,b,c,d,x[k+0],1o,2B);d=o(d,a,b,c,x[k+1],1m,2C);c=o(c,d,a,b,x[k+2],1n,2E);b=o(b,c,d,a,x[k+3],1p,2G);a=o(a,b,c,d,x[k+4],1o,2H);d=o(d,a,b,c,x[k+5],1m,2I);c=o(c,d,a,b,x[k+6],1n,2K);b=o(b,c,d,a,x[k+7],1p,2L);a=o(a,b,c,d,x[k+8],1o,3j);d=o(d,a,b,c,x[k+9],1m,3k);c=o(c,d,a,b,x[k+10],1n,2O);b=o(b,c,d,a,x[k+11],1p,2P);a=o(a,b,c,d,x[k+12],1o,2U);d=o(d,a,b,c,x[k+13],1m,2T);c=o(c,d,a,b,x[k+14],1n,2W);b=o(b,c,d,a,x[k+15],1p,31);a=t(a,b,c,d,x[k+1],1I,34);d=t(d,a,b,c,x[k+6],1J,35);c=t(c,d,a,b,x[k+11],1k,36);b=t(b,c,d,a,x[k+0],1u,38);a=t(a,b,c,d,x[k+5],1I,3b);d=t(d,a,b,c,x[k+10],1J,3d);c=t(c,d,a,b,x[k+15],1k,3e);b=t(b,c,d,a,x[k+4],1u,3g);a=t(a,b,c,d,x[k+9],1I,3i);d=t(d,a,b,c,x[k+14],1J,3l);c=t(c,d,a,b,x[k+3],1k,3m);b=t(b,c,d,a,x[k+8],1u,3n);a=t(a,b,c,d,x[k+13],1I,3o);d=t(d,a,b,c,x[k+2],1J,3q);c=t(c,d,a,b,x[k+7],1k,3t);b=t(b,c,d,a,x[k+12],1u,3x);a=m(a,b,c,d,x[k+5],1g,3y);d=m(d,a,b,c,x[k+8],1A,3z);c=m(c,d,a,b,x[k+11],1F,3C);b=m(b,c,d,a,x[k+14],1D,3E);a=m(a,b,c,d,x[k+1],1g,3H);d=m(d,a,b,c,x[k+4],1A,3I);c=m(c,d,a,b,x[k+7],1F,3K);b=m(b,c,d,a,x[k+10],1D,3L);a=m(a,b,c,d,x[k+13],1g,3M);d=m(d,a,b,c,x[k+0],1A,3N);c=m(c,d,a,b,x[k+3],1F,3P);b=m(b,c,d,a,x[k+6],1D,3S);a=m(a,b,c,d,x[k+9],1g,2x);d=m(d,a,b,c,x[k+12],1A,2A);c=m(c,d,a,b,x[k+15],1F,2D);b=m(b,c,d,a,x[k+2],1D,2M);a=p(a,b,c,d,x[k+0],1s,2Q);d=p(d,a,b,c,x[k+7],1l,2S);c=p(c,d,a,b,x[k+14],1G,2Z);b=p(b,c,d,a,x[k+5],1H,37);a=p(a,b,c,d,x[k+12],1s,3f);d=p(d,a,b,c,x[k+3],1l,3D);c=p(c,d,a,b,x[k+10],1G,3p);b=p(b,c,d,a,x[k+1],1H,3v);a=p(a,b,c,d,x[k+8],1s,3A);d=p(d,a,b,c,x[k+15],1l,3J);c=p(c,d,a,b,x[k+6],1G,3O);b=p(b,c,d,a,x[k+13],1H,2y);a=p(a,b,c,d,x[k+4],1s,2J);d=p(d,a,b,c,x[k+11],1l,2X);c=p(c,d,a,b,x[k+2],1G,3h);b=p(b,c,d,a,x[k+9],1H,3R);a=h(a,2b);b=h(b,1Z);c=h(c,25);d=h(d,28)}e K=1q(a)+1q(b)+1q(c)+1q(d);f K.2v()}', 62, 243, '||||||||||||||var|return||AddUnsigned||||function|HH||FF|II|string|||GG|utftext||msg|||||||||||||for|temp|charCodeAt|String|fromCharCode|msg_len|rotate_left|lByteCount|0x0ffffffff|word_array|length|ac|lWordArray||128|if|lWordCount|||||||||lResult||cvt_hex|63|str|lX8|else|lY8|S31|H3|H2|push|S23|S42|S12|S13|S11|S14|WordToHex|H0|S41|lCount|S24|RotateLeft|val|H1|lBytePosition|lValue|S32|H4|lMessageLength|S34|blockstart|S33|S43|S44|S21|S22|Utf8Encode|Array|break|toString|0x40000000|lNumberOfWords|case|WordToHexValue_temp|WordToHexValue|lY4|lY|lX4|lX|0x0f|vl|BB||||||CC|lNumberOfWords_temp1|lByte|DD||0x80000000|AA|iShiftBits|vh|ConvertToWordArray|0x98BADCFE|0x10325476|79|0x67452301|0xEFCDAB89|127|64|lNumberOfWords_temp2|0x80|new|while|replace|2048|192|224|0x3FFFFFFF|toLowerCase|t4|0xD9D4D039|0x4E0811A1|lsb_hex|0xE6DB99E5|0xD76AA478|0xE8C7B756|0x1FA27CF8|0x242070DB|0x08000|0xC1BDCEEE|0xF57C0FAF|0x4787C62A|0xF7537E82|0xA8304613|0xFD469501|0xC4AC5665|59|0xFFFF5BB1|0x895CD7BE|0xF4292244|0xCA62C1D6|0x432AFF97|0xFD987193|0x6B901122|0x8F1BBCDC|0xA679438E|0xBD3AF235|60|0xAB9423A7||0x49B40821||MD5|0xF61E2562|0xC040B340|0x265E5A51|0xFC93A039|0xE9B6C7AA||0xC0000000|0xD62F105D|0x5A827999|0x2441453|0xD8A1E681|0x655B59C3|0xE7D3FBC8|0x2AD7D2BB|0x21E1CDE6|0x698098D8|0x8B44F7AF|0xC33707D6|0xF4D50D87|0x455A14ED|0xA9E3E905|0xFFEFF47D|0xFCEFA3F8|0x0800000|0x6ED9EBA1|0x676F02D9|255|0x85845DD1|substr|0x8D2A4C8A|0xFFFA3942|0x8771F681|0x6FA87E4F|80|0x6D9D6122|0x8F0CCC92|0xFDE5380C|0xC3D2E1F0|switch|0xA4BEEA44|0x4BDECFA9|0xFE2CE6E0|0xF6BB4B60|0xBEBFBC70|0x289B7EC6|0xEAA127FA|0xA3014314|0xD4EF3085|SHA1|0xEB86D391|0x4881D05|0x080000000|40'.split('|'), 0, {}));
 //Fonction pour récupérer les nodes par nom de classe : http://www.developpez.net/forums/d620166/webmasters-developpement-web/javascript/dom-javascript-getelement-class/
 function getElementByAttr(e, attr, value) {
-    var tab = [
-  ];
+    var tab = [];
     if (e.getAttribute && e.getAttribute(attr) == value)
         tab.push(e);
     var n = e.firstChild;
@@ -422,9 +414,9 @@ function parse_galaxy_system_inserted(event) {
     //log("lastAction : "+GM_getValue(prefix_GMData +'lastAction',''));
     if (GM_getValue(prefix_GMData + 'lastAction', '') != 's:' + galaxy + ':' + system) {
         var coords = [
-      galaxy,
-      system
-    ];
+            galaxy,
+            system
+        ];
         if (isNaN(coords[0]) || isNaN(coords[1])) {
             log('invalid system' + ' ' + coords[0] + ' ' + coords[1]);
             return;
@@ -433,8 +425,7 @@ function parse_galaxy_system_inserted(event) {
         if (rows.snapshotLength > 0) {
             //var XtenseRequest = new XtenseRequest(null, null, null);
             log(rows.snapshotLength + ' rows found in galaxy');
-            var rowsData = [
-      ];
+            var rowsData = [];
             for (var i = 0; i < rows.snapshotLength; i++) {
                 var row = rows.snapshotItem(i);
                 var name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
@@ -493,8 +484,7 @@ function parse_galaxy_system_inserted(event) {
                     //If contains 'minutes15' in class
                 }
                 var allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
-                var debris = [
-        ];
+                var debris = [];
                 for (var j = 0; j < 2; j++) {
                     debris[XtenseDatabase['resources'][601 + j]] = 0;
                 }
@@ -556,8 +546,7 @@ function parse_ally_inserted() {
         setStatus(XLOG_NORMAL, Xl('ally_list_detected'));
         var paths = XtenseXpaths.ally_members_list;
         var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
-        var rowsData = [
-    ];
+        var rowsData = [];
         log(rows.snapshotLength + ' membres à envoyer !');
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
@@ -623,8 +612,7 @@ function parse_ranking_inserted(event) {
         var offset = 0;
         log('time:' + time + ',type1:' + type[0] + ',type2:' + type[1] + ',type3: ' + type[2] + ',nombreLignes:' + rows.snapshotLength);
         //if(rows.snapshotLength > 0){ //Double sécurité
-        var rowsData = [
-    ];
+        var rowsData = [];
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
             var n = Xpath.getStringValue(document, paths.position, row).trimInt();
@@ -924,7 +912,7 @@ function parse_defense() {
 }
 /* Page Battle Report */
 
-function parse_rc(doc) {
+function parse_rc(docrc) {
 
     var paths = XtenseXpaths.rc;
     log('RC detected');
@@ -933,11 +921,11 @@ function parse_rc(doc) {
     var rnds = {};
     var rslt = {};
     var date = null;
-    var infos = Xpath.getOrderedSnapshotNodes(doc, paths.list_infos);
-    log(infos.snapshotLength.toString());
+    var infos = Xpath.getOrderedSnapshotNodes(docrc, paths.list_infos);
+    log(infos.snapshotLength.toString() + " list_infos elements were found");
     if (infos.snapshotLength > 0) {
         //Heure et rounds
-        var rounds = Xpath.getOrderedSnapshotNodes(doc, paths.list_rounds);
+        var rounds = Xpath.getOrderedSnapshotNodes(docrc, paths.list_rounds);
         var nbrounds = rounds.snapshotLength;
         if (nbrounds > 0) {
             for (var div = 0; div < nbrounds; div++) {
@@ -979,7 +967,7 @@ function parse_rc(doc) {
             var info = infos.snapshotItem(table);
             var nbJoueurs = infos.snapshotLength / nbrounds;
             //Nombre d'unités
-            var values = Xpath.getOrderedSnapshotNodes(doc, paths.list_values, info);
+            var values = Xpath.getOrderedSnapshotNodes(docrc, paths.list_values, info);
             if (values.snapshotLength > 0) {
                 for (var td = 1; td < values.snapshotLength; td++) {
                     var value = values.snapshotItem(td).textContent.trim();
@@ -990,7 +978,7 @@ function parse_rc(doc) {
             }
             //Type de l'unité
 
-            var types = Xpath.getOrderedSnapshotNodes(doc, paths.list_types, info);
+            var types = Xpath.getOrderedSnapshotNodes(docrc, paths.list_types, info);
             if (types.snapshotLength > 0) {
                 for (var th = 1; th < types.snapshotLength; th++) {
                     var type = types.snapshotItem(th).textContent.trim();
@@ -1008,12 +996,12 @@ function parse_rc(doc) {
             //Nom joueur et coordonnées
 
             var dest = 0;
-            var player = Xpath.getStringValue(doc, paths.infos.player, info).trim();
+            var player = Xpath.getStringValue(docrc, paths.infos.player, info).trim();
             //Joueur non détruit
             var coords = null;
             if (player.length == 0) {
                 //Dans ce cas, joueur détruit
-                player = Xpath.getStringValue(doc, paths.infos.destroyed, info).trim();
+                player = Xpath.getStringValue(docrc, paths.infos.destroyed, info).trim();
                 dest = 1;
             }
             if (!dest)
@@ -1054,7 +1042,7 @@ function parse_rc(doc) {
             }
             //Technos
 
-            var weapons = Xpath.getStringValue(doc, paths.infos.weapons, info).trim();
+            var weapons = Xpath.getStringValue(docrc, paths.infos.weapons, info).trim();
             for (var i in rcStrings['regxps']['weapons']) {
                 var m = weapons.match(new RegExp(rcStrings['regxps']['weapons'][i]));
                 if (m)
@@ -1080,7 +1068,7 @@ function parse_rc(doc) {
         }
         //Pillages/Pertes/Cdr/Lune
 
-        var result = Xpath.getStringValue(doc, paths.result).trim();
+        var result = Xpath.getStringValue(docrc, paths.result).trim();
         if (result.match(new RegExp(rcStrings['regxps']['nul'], 'gi')))
             var win = 'N';
         else if (result.match(new RegExp(rcStrings['regxps']['attack_win'], 'gi')))
@@ -1104,7 +1092,7 @@ function parse_rc(doc) {
         }
         //Texte entier du raid, brut
 
-        var rounds = Xpath.getOrderedSnapshotNodes(doc, paths.combat_round);
+        var rounds = Xpath.getOrderedSnapshotNodes(docrc, paths.combat_round);
         var round = -1;
         log('Nb Rounds' + rounds.snapshotLength);
         if (rounds.snapshotLength > 0) {
@@ -1168,9 +1156,9 @@ function parse_messages() {
                     var contentNode = Xpath.getSingleNode(document, paths.contents['msg']);
                     var message = contentNode.innerHTML.trim();
                     var ladate = data.date;
-                        //correctif : pas de date 
-                        // si on procede comme suit : on redefini la variable data et on perd "date"
-                        //data = {type:'msg', from: userName, coords: coords, subject: subject, message: message};
+                    //correctif : pas de date
+                    // si on procede comme suit : on redefini la variable data et on perd "date"
+                    //data = {type:'msg', from: userName, coords: coords, subject: subject, message: message};
                     data.type = 'msg';
                     data.from = userName;
                     data.coords = coords;
@@ -1231,19 +1219,19 @@ function parse_messages() {
             }
             //RC
 
- /*           if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
+            /*           if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
+             var m = subject.match(new RegExp(locales['combat of']));
+             if (m != null) {
+             var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
+             var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
+             if (m2) GM_setValue(prefix_GMData + 'rc-temp', '({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
+             }
+             }*/
+            if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['combat of']));
                 if (m != null) {
                     var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
                     var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
-                    if (m2) GM_setValue(prefix_GMData + 'rc-temp', '({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
-                }
-            }*/
-            if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
-                var m = subject.match(new RegExp(locales['combat of']));
-                if (m!=null){
-                    var rapport = Xpath.getStringValue(document,paths.contents['rc']).trim();
-                    var m2 = rapport.match(new RegExp(locales['combat defence']+XtenseRegexps.planetNameAndCoords));
                     if (!m2) {
                     } else {
                         log('Before setChar rc-temp : ({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
@@ -1388,8 +1376,7 @@ function parse_spy_report(RE) {
     var spyStrings = l('spy reports');
     var locales = l('messages');
     var data = {};
-    var typs = [
-  ];
+    var typs = [];
     var res = [];
     var attackRef = Xpath.getStringValue(document, paths.moon);
     var isMoon = attackRef.search('type=3') > -1 ? true : false;
@@ -1472,8 +1459,8 @@ function get_message_content() {
     target.addEventListener('DOMNodeInserted', parse_messages, false);
     //target.addEventListener('DOMContentLoaded', parse_messages, false);
     /*var targetrc = document.getElementById('combatreport');
-    targetrc.addEventListener('DOMNodeInserted', parse_rc, false);
-    targetrc.addEventListener('DOMContentLoaded', parse_rc, false);*/
+     targetrc.addEventListener('DOMNodeInserted', parse_rc, false);
+     targetrc.addEventListener('DOMContentLoaded', parse_rc, false);*/
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
@@ -1776,6 +1763,7 @@ function displayOptions() {
             }
         }
     }
+
     setInterval(enregistreOptionsXtense, 500);
 }
 /************************** Fin Options *********************************/
@@ -1851,25 +1839,25 @@ function initParsers() {
     /* Fonctions Xpaths */
     Xpath = {
         //node est facultatif
-        getNumberValue: function (doc, xpath, node) {
-            node = node ? node : doc;
-            return doc.evaluate(xpath, node, null, XPathResult.NUMBER_TYPE, null).numberValue;
+        getNumberValue: function (document, xpath, node) {
+            node = node ? node : document;
+            return document.evaluate(xpath, node, null, XPathResult.NUMBER_TYPE, null).numberValue;
         },
-        getStringValue: function (doc, xpath, node) {
-            node = node ? node : doc;
-            return doc.evaluate(xpath, node, null, XPathResult.STRING_TYPE, null).stringValue;
+        getStringValue: function (document, xpath, node) {
+            node = node ? node : document;
+            return document.evaluate(xpath, node, null, XPathResult.STRING_TYPE, null).stringValue;
         },
         getOrderedSnapshotNodes: function (doc, xpath, node) {
-            node = node ? node : doc;
-            return doc.evaluate(xpath, node, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+            node = node ? node : document;
+            return document.evaluate(xpath, node, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
         },
         getUnorderedSnapshotNodes: function (doc, xpath, node) {
             node = node ? node : doc;
-            return doc.evaluate(xpath, node, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+            return document.evaluate(xpath, node, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
         },
-        getSingleNode: function (doc, xpath, node) {
-            node = node ? node : doc;
-            return doc.evaluate(xpath, node, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        getSingleNode: function (document, xpath, node) {
+            node = node ? node : document;
+            return document.evaluate(xpath, node, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         }
     };
     XtenseXpaths = {
@@ -1920,8 +1908,8 @@ function initParsers() {
             activity15: 'td[contains(@class,"microplanet")]/div[contains(@class,"minute15")]/@class',
             activity_m: 'td[contains(@class,"moon")]/div[contains(@class,"activity")]/text()',
             activity15_m: 'td[contains(@class,"moon")]/div[contains(@class,"minute15")]/@class',
-		player_id : 'td[contains(@class,"playername")]/a[contains(@rel,"player")]/@rel',
-		ally_id : 'td[contains(@class,"allytag")]/span[contains(@rel,"alliance")]/@rel',
+            player_id: 'td[contains(@class,"playername")]/a[contains(@rel,"player")]/@rel',
+            ally_id: 'td[contains(@class,"allytag")]/span[contains(@rel,"alliance")]/@rel',
             planet_id: 'td[contains(@class,"microplanet")]/@data-planet-id',
             moon_id: 'td[contains(@class,"moon")]/@data-moon-id',
             table_galaxy: '//table[@id="galaxytable"]/tbody',
@@ -1952,7 +1940,7 @@ function initParsers() {
                 'ennemy_spy': '//div[@class="textWrapper"]/div[@class="note"]',
                 'livraison': '//div[@class="note"]',
                 'livraison_me': '//div[@class="note"]',
-                'url_combatreport' : '//a[contains(@data-overlay-title,"Rapport de combat")]/@href'
+                'url_combatreport': '//a[contains(@data-overlay-title,"Rapport de combat")]/@href'
             },
             spy: {
                 playername: '//table[@class="material spy"]//span[contains(@class,"status")]/text()',
@@ -1972,10 +1960,10 @@ function initParsers() {
             coords_unique_planet: '//div[@class=\'smallplanet\']/a[contains(@class,\'\') or @href=\'#\']/span[@class=\'planet-koords\']'
         },
         boostersExtensions: {
-            items : '//ul[contains(@class,"active_items")]//div[@data-uuid]//a[@title]',
-            dataUuid : '../@data-uuid',
-            itemTime : '//div[contains(@class,"js_duration")]',
-            title :  '@title'
+            items: '//ul[contains(@class,"active_items")]//div[@data-uuid]//a[@title]',
+            dataUuid: '../@data-uuid',
+            itemTime: '//div[contains(@class,"js_duration")]',
+            title: '@title'
             //*[@id="buffBar"]/div[2]/div/ul/li/div/a
         },
         ranking: {
@@ -1993,13 +1981,13 @@ function initParsers() {
             player: {
                 playername: 'td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()',
                 player_id: 'td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href',
-		        spacecraft : 'td[contains(@class,\'score\')]/@title'
+                spacecraft: 'td[contains(@class,\'score\')]/@title'
             },
             ally: {
                 members: 'td[contains(@class,\'member_count\')]/text()',
                 points_moy: 'td[contains(@class,\'score\')]/div/text()',
-                allytag : 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/text()',
-                ally_id : 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href'
+                allytag: 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/text()',
+                ally_id: 'td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href'
             }
         },
         ressources: {
@@ -2009,19 +1997,19 @@ function initParsers() {
             antimatiere: '//span[@id=\'resources_darkmatter\']/text()',
             energie: '//span[@id=\'resources_energy\']/text()'
         },
-		rc : {
-			list_infos : '//td[contains(@class,"newBack")]/center',
-			list_rounds : '//div[@class="round_info"]',
-			infos : {
-				player : 'span[contains(@class, "name")]',
-				weapons : 'span[contains(@class, "weapons")]',
-				destroyed : 'span[contains(@class, "destroyed")]'
-			},
-			list_types : 'table//tr[1]/th',
-			list_values : 'table//tr[2]/td',
-			result : '//div[@id="combat_result"]',
-			combat_round : '//div[@id="master"]'//div[@class="combat_round"]'
-		},
+        rc: {
+            list_infos: '//td[contains(@class,"newBack")]/center',
+            list_rounds: '//div[@class="round_info"]',
+            infos: {
+                player: '//span[contains(@class, "name")]',
+                weapons: '//span[contains(@class, "weapons")]',
+                destroyed: '//span[contains(@class, "destroyed")]'
+            },
+            list_types: 'table//tr[1]/th',
+            list_values: 'table//tr[2]/td',
+            result: '//div[@id="combat_result"]',
+            combat_round: '//div[@id="master"]'//div[@class="combat_round"]'
+        },
         writemessage: {
             form: '//form[1]',
             from: 'id("wrapper")/form/div/table/tbody/tr[1]/td',
@@ -2029,33 +2017,33 @@ function initParsers() {
             subject: 'id("wrapper")/form/div[1]/table/tbody/tr[3]/td/input',
             date: 'id("wrapper")/form/div/table/tbody/tr[4]/td',
             content: 'id("wrapper")/form/div[2]/div/textarea'
-	},
-	
-	eventlist : {
-		overview_event : '//span[@id="eventHostile"]/text()',
-		attack_id : '@id',
-		attack_event : '//tr[contains(@class,"eventFleet") and td[contains(@class,"hostile")]]',
-		attack_arrival_time : 'td[@class="arrivalTime"]/text()',
-		attack_datetime : '@data-arrival-time',		
-		attack_origin_attack_planet : 'td[@class="originFleet"]/a',
-		attack_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
-		attack_attacker_name : 'td[@class="sendMail"]/a/@title',
-		attack_destination_planet : 'td[@class="destFleet"]',
-		attack_destination_coords : 'td[@class="destCoords"]/a/text()',
-		attack_url_composition_flotte : 'td[@class="icon_movement"]/span/@href',
-		attack_composition_details : "td[@class='icon_movement']/span/@title",
-		group_id : '//tr[contains(@class,"allianceAttack")]/td[a[contains(@class,"toggleDetails")]]/a/@rel',
-		group_event : '//tr[starts-with(@class,"partnerInfo eventFleet {0}")]',
-		group_attack : '//tr[contains(@class,"allianceAttack") and td[a[contains(@class,"toggleDetails")]]/a/@rel=\'{0}\']',
-		group_attack_parent : '//tr[contains(@class,"allianceAttack") and td[a/@rel=\'{0}\']]',
-		group_arrival_time : 'td[@class="arrivalTime"]/text()',
-		group_origin_attack_planet : 'td[@class="originFleet"]/a',
-		group_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
-		group_attacker_name : 'td[@class="sendMail"]/a/@data-player-name',
-		group_destination_planet : 'td[contains(@class,"destFleet")]',
-		group_destination_coords : 'td[contains(@class,"destCoords")]/a/text()',
-		group_compo_details : "td[@class='icon_movement']/span/@title",
-		group_url_compo : 'td[@class="icon_movement"]/span/@rel'
+        },
+
+        eventlist: {
+            overview_event: '//span[@id="eventHostile"]/text()',
+            attack_id: '@id',
+            attack_event: '//tr[contains(@class,"eventFleet") and td[contains(@class,"hostile")]]',
+            attack_arrival_time: 'td[@class="arrivalTime"]/text()',
+            attack_datetime: '@data-arrival-time',
+            attack_origin_attack_planet: 'td[@class="originFleet"]/a',
+            attack_origin_attack_coords: 'td[@class="coordsOrigin"]/a/text()',
+            attack_attacker_name: 'td[@class="sendMail"]/a/@title',
+            attack_destination_planet: 'td[@class="destFleet"]',
+            attack_destination_coords: 'td[@class="destCoords"]/a/text()',
+            attack_url_composition_flotte: 'td[@class="icon_movement"]/span/@href',
+            attack_composition_details: "td[@class='icon_movement']/span/@title",
+            group_id: '//tr[contains(@class,"allianceAttack")]/td[a[contains(@class,"toggleDetails")]]/a/@rel',
+            group_event: '//tr[starts-with(@class,"partnerInfo eventFleet {0}")]',
+            group_attack: '//tr[contains(@class,"allianceAttack") and td[a[contains(@class,"toggleDetails")]]/a/@rel=\'{0}\']',
+            group_attack_parent: '//tr[contains(@class,"allianceAttack") and td[a/@rel=\'{0}\']]',
+            group_arrival_time: 'td[@class="arrivalTime"]/text()',
+            group_origin_attack_planet: 'td[@class="originFleet"]/a',
+            group_origin_attack_coords: 'td[@class="coordsOrigin"]/a/text()',
+            group_attacker_name: 'td[@class="sendMail"]/a/@data-player-name',
+            group_destination_planet: 'td[contains(@class,"destFleet")]',
+            group_destination_coords: 'td[contains(@class,"destCoords")]/a/text()',
+            group_compo_details: "td[@class='icon_movement']/span/@title",
+            group_url_compo: 'td[@class="icon_movement"]/span/@rel'
         }
     };
     XtenseRegexps = {
@@ -2211,8 +2199,7 @@ function initOGSpyCommunication() {
     //*************************************************
 
     XtenseRequest = {
-        postedData: [
-    ],
+        postedData: [],
         loading: {},
         data: {},
         send: function () {
@@ -2230,10 +2217,10 @@ function initOGSpyCommunication() {
         call: function (Server, Response) {
             XtenseRequest.loading[Server.n] = false;
             XtenseRequest.callback.apply(this.scope, [
-        this,
-        Server,
-        Response
-      ]);
+                this,
+                Server,
+                Response
+            ]);
         },
         set: function (name, value) {
             if (typeof name == 'string') this.data[name] = value;
@@ -2267,8 +2254,7 @@ function initOGSpyCommunication() {
         },
         serializeData: function () {
             var uri = '';
-            var tab = [
-      ];
+            var tab = [];
             this.serializeObject(this.data, '', tab);
             uri = '&' + tab.join('&');
             return uri;
@@ -2376,12 +2362,9 @@ function handleResponse(Response) {
                 // Calls messages
                 if (data.call_messages) {
                     calls.messages = {
-                        success: [
-            ],
-                        warning: [
-            ],
-                        error: [
-            ]
+                        success: [],
+                        warning: [],
+                        error: []
                     };
                     // Affichage des messages dans l'ordre : success, warning, error
                     for (var i = 0, len = data.call_messages.length; i < len; i++) {
@@ -2757,28 +2740,28 @@ function getPlanetData() {
 
 function getPlanetBoostersAndExtensions() {
 
-    var items = Xpath.getOrderedSnapshotNodes(document,XtenseXpaths.boostersExtensions['items']);
+    var items = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.boostersExtensions['items']);
 
     var datas = Array();
-    if(items != null && items.snapshotLength > 0) {
+    if (items != null && items.snapshotLength > 0) {
         for (var i = 0; i < items.snapshotLength; i++) {
             var item = items.snapshotItem(i);
             var uuid = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['dataUuid'], item);
             var title = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['title'], item);
             var temps = "";
 
-            if(title != null) {
+            if (title != null) {
                 temps = title.match(/Temps restant : ([\w\d\s]+)/);
 
                 if (temps != null && temps.length > 1) {
                     temps = temps[1];
                 }
             }
-            datas.push(Array(uuid,temps));
+            datas.push(Array(uuid, temps));
         }
     }
 
-    return  { boostExt : datas };
+    return {boostExt: datas};
 }
 // Permet de savoir si c'est une lune
 
