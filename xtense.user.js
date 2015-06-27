@@ -90,7 +90,7 @@ String.prototype.getInts = function (
     /*separator*/
 ) {
     /*if(typeof separator!="undefined")reg=new Regexp("[0-9("+separator+")]+","g");
-	else reg=new Regexp("[0-9("+separator+")]+","g");*/
+     else reg=new Regexp("[0-9("+separator+")]+","g");*/
     var v = this.match(/[0-9][0-9.]*/g);
     v.forEach(function (el, index, arr) {
         arr[index] = parseInt(el.replace(/\./g, ''));
@@ -145,7 +145,7 @@ function setStatus(type, message) {
 //Requete Ajax
 
 function Xajax(obj) {
-	if (isOpera || isChrome) {
+    if (isOpera || isChrome) {
         xhr = new XMLHttpRequest();
         url = obj.url || '';
         post = obj.post || '';
@@ -158,13 +158,13 @@ function Xajax(obj) {
                 handleResponse(xhr);
             }
         };
-	}else {
+    }else {
         GM_xmlhttpRequest({
             method: 'POST',
             url: obj.url || '',
             data: obj.post || '',
             headers: {
-               'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             onload: function (response) {
                 handleResponse(response);
@@ -174,35 +174,35 @@ function Xajax(obj) {
 }
 function XajaxCompo(url) {
     var rcString = "";
-	if (isOpera || isChrome) {
-		var xhr_object = new XMLHttpRequest();
-		xhr_object.open("GET", url , true);
-		xhr_object.send();
+    if (isOpera || isChrome) {
+        var xhr_object = new XMLHttpRequest();
+        xhr_object.open("GET", url , true);
+        xhr_object.send();
 
-		xhr_object.onreadystatechange = function () {
-			if (xhr_object.readyState == 4) {
-				rcString = xhr_object.responseText;
-				rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-				var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-				//return parse_rc({parameters: {doc: docrc}});
-				return parse_rc(docrc);
-				//return(xhr_object.responseText);
-			} else {
-				return (false);
-			}
-		};
-	} else{ //Pour Firefox
-		GM_xmlhttpRequest({
+        xhr_object.onreadystatechange = function () {
+            if (xhr_object.readyState == 4) {
+                rcString = xhr_object.responseText;
+                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+                //return parse_rc({parameters: {doc: docrc}});
+                return parse_rc(docrc);
+                //return(xhr_object.responseText);
+            } else {
+                return (false);
+            }
+        };
+    } else{ //Pour Firefox
+        GM_xmlhttpRequest({
             method: 'GET',
             url: url || '',
             onload: function (response) {
                 rcString = response.responseText;
-				rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-				var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-				return parse_rc(docrc);
+                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+                return parse_rc(docrc);
             }
-        });		
-	}
+        });
+    }
 }
 
 // Récupère les messages de retours et locales
@@ -265,10 +265,10 @@ eval(function (p, a, c, k, e, d) {
         }
         k = [
 
-      function (e) {
+            function (e) {
                 return d[e]
-      }
-    ];
+            }
+        ];
         e = function () {
             return '\\w+'
         };
@@ -284,7 +284,7 @@ eval(function (p, a, c, k, e, d) {
 //Fonction pour récupérer les nodes par nom de classe : http://www.developpez.net/forums/d620166/webmasters-developpement-web/javascript/dom-javascript-getelement-class/
 function getElementByAttr(e, attr, value) {
     var tab = [
-  ];
+    ];
     if (e.getAttribute && e.getAttribute(attr) == value)
         tab.push(e);
     var n = e.firstChild;
@@ -421,9 +421,9 @@ function parse_galaxy_system_inserted(event) {
     //log("lastAction : "+GM_getValue(prefix_GMData +'lastAction',''));
     if (GM_getValue(prefix_GMData + 'lastAction', '') != 's:' + galaxy + ':' + system) {
         var coords = [
-      galaxy,
-      system
-    ];
+            galaxy,
+            system
+        ];
         if (isNaN(coords[0]) || isNaN(coords[1])) {
             log('invalid system' + ' ' + coords[0] + ' ' + coords[1]);
             return;
@@ -433,7 +433,7 @@ function parse_galaxy_system_inserted(event) {
             //var XtenseRequest = new XtenseRequest(null, null, null);
             log(rows.snapshotLength + ' rows found in galaxy');
             var rowsData = [
-      ];
+            ];
             for (var i = 0; i < rows.snapshotLength; i++) {
                 var row = rows.snapshotItem(i);
                 var name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
@@ -493,7 +493,7 @@ function parse_galaxy_system_inserted(event) {
                 }
                 var allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
                 var debris = [
-        ];
+                ];
                 for (var j = 0; j < 2; j++) {
                     debris[XtenseDatabase['resources'][601 + j]] = 0;
                 }
@@ -556,7 +556,7 @@ function parse_ally_inserted() {
         var paths = XtenseXpaths.ally_members_list;
         var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
         var rowsData = [
-    ];
+        ];
         log(rows.snapshotLength + ' membres à envoyer !');
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
@@ -623,7 +623,7 @@ function parse_ranking_inserted(event) {
         log('time:' + time + ',type1:' + type[0] + ',type2:' + type[1] + ',type3: ' + type[2] + ',nombreLignes:' + rows.snapshotLength);
         //if(rows.snapshotLength > 0){ //Double sécurité
         var rowsData = [
-    ];
+        ];
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
             var n = Xpath.getStringValue(document, paths.position, row).trimInt();
@@ -1166,9 +1166,9 @@ function parse_messages() {
                     var contentNode = Xpath.getSingleNode(document, paths.contents['msg']);
                     var message = contentNode.innerHTML.trim();
                     var ladate = data.date;
-                        //correctif : pas de date 
-                        // si on procede comme suit : on redefini la variable data et on perd "date"
-                        //data = {type:'msg', from: userName, coords: coords, subject: subject, message: message};
+                    //correctif : pas de date
+                    // si on procede comme suit : on redefini la variable data et on perd "date"
+                    //data = {type:'msg', from: userName, coords: coords, subject: subject, message: message};
                     data.type = 'msg';
                     data.from = userName;
                     data.coords = coords;
@@ -1229,14 +1229,14 @@ function parse_messages() {
             }
             //RC
 
- /*           if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
-                var m = subject.match(new RegExp(locales['combat of']));
-                if (m != null) {
-                    var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
-                    var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
-                    if (m2) GM_setValue(prefix_GMData + 'rc-temp', '({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
-                }
-            }*/
+            /*           if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
+             var m = subject.match(new RegExp(locales['combat of']));
+             if (m != null) {
+             var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
+             var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
+             if (m2) GM_setValue(prefix_GMData + 'rc-temp', '({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
+             }
+             }*/
             if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['combat of']));
                 if (m!=null){
@@ -1387,7 +1387,7 @@ function parse_spy_report(RE) {
     var locales = l('messages');
     var data = {};
     var typs = [
-  ];
+    ];
     var res = [];
     var attackRef = Xpath.getStringValue(document, paths.moon);
     var isMoon = attackRef.search('type=3') > -1 ? true : false;
@@ -1470,8 +1470,8 @@ function get_message_content() {
     target.addEventListener('DOMNodeInserted', parse_messages, false);
     //target.addEventListener('DOMContentLoaded', parse_messages, false);
     /*var targetrc = document.getElementById('combatreport');
-    targetrc.addEventListener('DOMNodeInserted', parse_rc, false);
-    targetrc.addEventListener('DOMContentLoaded', parse_rc, false);*/
+     targetrc.addEventListener('DOMNodeInserted', parse_rc, false);
+     targetrc.addEventListener('DOMContentLoaded', parse_rc, false);*/
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
@@ -1918,8 +1918,8 @@ function initParsers() {
             activity15: 'td[contains(@class,"microplanet")]/div[contains(@class,"minute15")]/@class',
             activity_m: 'td[contains(@class,"moon")]/div[contains(@class,"activity")]/text()',
             activity15_m: 'td[contains(@class,"moon")]/div[contains(@class,"minute15")]/@class',
-		player_id : 'td[contains(@class,"playername")]/a[contains(@rel,"player")]/@rel',
-		ally_id : 'td[contains(@class,"allytag")]/span[contains(@rel,"alliance")]/@rel',
+            player_id : 'td[contains(@class,"playername")]/a[contains(@rel,"player")]/@rel',
+            ally_id : 'td[contains(@class,"allytag")]/span[contains(@rel,"alliance")]/@rel',
             planet_id: 'td[contains(@class,"microplanet")]/@data-planet-id',
             moon_id: 'td[contains(@class,"moon")]/@data-moon-id',
             table_galaxy: '//table[@id="galaxytable"]/tbody',
@@ -1991,7 +1991,7 @@ function initParsers() {
             player: {
                 playername: 'td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()',
                 player_id: 'td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href',
-		        spacecraft : 'td[contains(@class,\'score\')]/@title'
+                spacecraft : 'td[contains(@class,\'score\')]/@title'
             },
             ally: {
                 members: 'td[contains(@class,\'member_count\')]/text()',
@@ -2007,19 +2007,19 @@ function initParsers() {
             antimatiere: '//span[@id=\'resources_darkmatter\']/text()',
             energie: '//span[@id=\'resources_energy\']/text()'
         },
-		rc : {
-			list_infos : '//td[contains(@class,"newBack")]/center',
-			list_rounds : '//div[@class="round_info"]',
-			infos : {
-				player : 'span[contains(@class, "name")]',
-				weapons : 'span[contains(@class, "weapons")]',
-				destroyed : 'span[contains(@class, "destroyed")]'
-			},
-			list_types : 'table//tr[1]/th',
-			list_values : 'table//tr[2]/td',
-			result : '//div[@id="combat_result"]',
-			combat_round : '//div[@id="master"]'//div[@class="combat_round"]'
-		},
+        rc : {
+            list_infos : '//td[contains(@class,"newBack")]/center',
+            list_rounds : '//div[@class="round_info"]',
+            infos : {
+                player : 'span[contains(@class, "name")]',
+                weapons : 'span[contains(@class, "weapons")]',
+                destroyed : 'span[contains(@class, "destroyed")]'
+            },
+            list_types : 'table//tr[1]/th',
+            list_values : 'table//tr[2]/td',
+            result : '//div[@id="combat_result"]',
+            combat_round : '//div[@id="master"]'//div[@class="combat_round"]'
+        },
         writemessage: {
             form: '//form[1]',
             from: 'id("wrapper")/form/div/table/tbody/tr[1]/td',
@@ -2027,33 +2027,33 @@ function initParsers() {
             subject: 'id("wrapper")/form/div[1]/table/tbody/tr[3]/td/input',
             date: 'id("wrapper")/form/div/table/tbody/tr[4]/td',
             content: 'id("wrapper")/form/div[2]/div/textarea'
-	},
-	
-	eventlist : {
-		overview_event : '//span[@id="eventHostile"]/text()',
-		attack_id : '@id',
-		attack_event : '//tr[contains(@class,"eventFleet") and td[contains(@class,"hostile")]]',
-		attack_arrival_time : 'td[@class="arrivalTime"]/text()',
-		attack_datetime : '@data-arrival-time',		
-		attack_origin_attack_planet : 'td[@class="originFleet"]/a',
-		attack_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
-		attack_attacker_name : 'td[@class="sendMail"]/a/@title',
-		attack_destination_planet : 'td[@class="destFleet"]',
-		attack_destination_coords : 'td[@class="destCoords"]/a/text()',
-		attack_url_composition_flotte : 'td[@class="icon_movement"]/span/@href',
-		attack_composition_details : "td[@class='icon_movement']/span/@title",
-		group_id : '//tr[contains(@class,"allianceAttack")]/td[a[contains(@class,"toggleDetails")]]/a/@rel',
-		group_event : '//tr[starts-with(@class,"partnerInfo eventFleet {0}")]',
-		group_attack : '//tr[contains(@class,"allianceAttack") and td[a[contains(@class,"toggleDetails")]]/a/@rel=\'{0}\']',
-		group_attack_parent : '//tr[contains(@class,"allianceAttack") and td[a/@rel=\'{0}\']]',
-		group_arrival_time : 'td[@class="arrivalTime"]/text()',
-		group_origin_attack_planet : 'td[@class="originFleet"]/a',
-		group_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
-		group_attacker_name : 'td[@class="sendMail"]/a/@data-player-name',
-		group_destination_planet : 'td[contains(@class,"destFleet")]',
-		group_destination_coords : 'td[contains(@class,"destCoords")]/a/text()',
-		group_compo_details : "td[@class='icon_movement']/span/@title",
-		group_url_compo : 'td[@class="icon_movement"]/span/@rel'
+        },
+
+        eventlist : {
+            overview_event : '//span[@id="eventHostile"]/text()',
+            attack_id : '@id',
+            attack_event : '//tr[contains(@class,"eventFleet") and td[contains(@class,"hostile")]]',
+            attack_arrival_time : 'td[@class="arrivalTime"]/text()',
+            attack_datetime : '@data-arrival-time',
+            attack_origin_attack_planet : 'td[@class="originFleet"]/a',
+            attack_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
+            attack_attacker_name : 'td[@class="sendMail"]/a/@title',
+            attack_destination_planet : 'td[@class="destFleet"]',
+            attack_destination_coords : 'td[@class="destCoords"]/a/text()',
+            attack_url_composition_flotte : 'td[@class="icon_movement"]/span/@href',
+            attack_composition_details : "td[@class='icon_movement']/span/@title",
+            group_id : '//tr[contains(@class,"allianceAttack")]/td[a[contains(@class,"toggleDetails")]]/a/@rel',
+            group_event : '//tr[starts-with(@class,"partnerInfo eventFleet {0}")]',
+            group_attack : '//tr[contains(@class,"allianceAttack") and td[a[contains(@class,"toggleDetails")]]/a/@rel=\'{0}\']',
+            group_attack_parent : '//tr[contains(@class,"allianceAttack") and td[a/@rel=\'{0}\']]',
+            group_arrival_time : 'td[@class="arrivalTime"]/text()',
+            group_origin_attack_planet : 'td[@class="originFleet"]/a',
+            group_origin_attack_coords : 'td[@class="coordsOrigin"]/a/text()',
+            group_attacker_name : 'td[@class="sendMail"]/a/@data-player-name',
+            group_destination_planet : 'td[contains(@class,"destFleet")]',
+            group_destination_coords : 'td[contains(@class,"destCoords")]/a/text()',
+            group_compo_details : "td[@class='icon_movement']/span/@title",
+            group_url_compo : 'td[@class="icon_movement"]/span/@rel'
         }
     };
     XtenseRegexps = {
@@ -2210,7 +2210,7 @@ function initOGSpyCommunication() {
 
     XtenseRequest = {
         postedData: [
-    ],
+        ],
         loading: {},
         data: {},
         send: function () {
@@ -2228,10 +2228,10 @@ function initOGSpyCommunication() {
         call: function (Server, Response) {
             XtenseRequest.loading[Server.n] = false;
             XtenseRequest.callback.apply(this.scope, [
-        this,
-        Server,
-        Response
-      ]);
+                this,
+                Server,
+                Response
+            ]);
         },
         set: function (name, value) {
             if (typeof name == 'string') this.data[name] = value;
@@ -2266,7 +2266,7 @@ function initOGSpyCommunication() {
         serializeData: function () {
             var uri = '';
             var tab = [
-      ];
+            ];
             this.serializeObject(this.data, '', tab);
             uri = '&' + tab.join('&');
             return uri;
@@ -2375,11 +2375,11 @@ function handleResponse(Response) {
                 if (data.call_messages) {
                     calls.messages = {
                         success: [
-            ],
+                        ],
                         warning: [
-            ],
+                        ],
                         error: [
-            ]
+                        ]
                     };
                     // Affichage des messages dans l'ordre : success, warning, error
                     for (var i = 0, len = data.call_messages.length; i < len; i++) {
