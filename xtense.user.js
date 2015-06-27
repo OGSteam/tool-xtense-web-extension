@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.6.1.2
+// @version     2.6.1.3
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
@@ -12,7 +12,7 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.6.1.2';
+var VERSION = '2.6.1.3';
 var TYPE = 'GM-';
 var PLUGIN_REQUIRED = '2.5.1';
 var nomScript = 'Xtense';
@@ -188,7 +188,6 @@ function XajaxCompo(url) {
 				return parse_rc(docrc);
 				//return(xhr_object.responseText);
 			} else {
-				log("XajaxCompo : Error");
 				return (false);
 			}
 		};
@@ -513,7 +512,7 @@ function parse_galaxy_system_inserted(event) {
                 var allyid = Xpath.getStringValue(document, paths.ally_id, row).trim();
                 if (allyid != '') {
                     allyid = allyid.trimInt();
-                    log(allyid);
+                    log('Ally id' +allyid);
                 } else {
                     allyid = '0';
                 }
@@ -934,7 +933,6 @@ function parse_rc(doc) {
     var rslt = {};
     var date = null;
     var infos = Xpath.getOrderedSnapshotNodes(doc, paths.list_infos);
-    log(infos.snapshotLength.toString());
     if (infos.snapshotLength > 0) {
         //Heure et rounds
         var rounds = Xpath.getOrderedSnapshotNodes(doc, paths.list_rounds);
@@ -1786,7 +1784,7 @@ function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
     var ogspy_link = GM_getValue(prefix_GMData + 'server.url.plugin', 'http://www.ogsteam.fr').split('mod')[0];
-    log(getElementByAttr(document, 'className', 'showmessage'));
+    //log(getElementByAttr(document, 'className', 'showmessage'));
     // Page classique
     if (document.getElementById('playerName') && !document.getElementById('ui-dialog-title-1') && !document.getElementById('combatreport')) {
         var icone = 'data:image/gif;base64,R0lGODlhJgAdAMZ8AAAAABwgJTU4OhwhJRYaHjQ3OQcICjM2OA8SFQoMDxsgJB0hJjI1Nw8TFQcICAQEBDE0NgwPEAECAiYoKREVGB8lKi4yNCMlJgoNDzAzNiMnKzE0NxATFgsNECwuMAEBASotMB4iJyImKg8SFg4PDw8QESEjJQICAiAkKRgZGhsdHhUWFwoLCwoMDjI2OBcbHxsgIw0PEhsfIx8jJywvMh8hIhobHB8kKQkMDQYICQoNECwwMxcZGQsOER0iJygrLxweHysuMSUoLAkLDiQnKwwPESElKTM2NyAiIwcKCyAjJxoeISIlKiIkJRIWGRQWFiosLSUnKDAzNBscHRoeIgMEBDAyNA4ODyAkKAcICQkKCwwQEiMnKhwgJBIVGRAQEScqLiosLgcJCgcJCzQ2OAQEBQgICAkJCiksMCQmJwYHCSAjKC0vMQYGBh4jJyUpLSksLRAUFygsLzM2OSsuLyotMQwNDTAzNS4xMiwvMAkJDAkLDf///////////////yH5BAEAAH8ALAAAAAAmAB0AAAf+gH+CFQOFhoeIiRWCjI2ON4cBkpKIlIgVMI6af4SFk5+gk5UwBJuNBIahqqs+paaCBKuyoG4BA66vBFSgAr2+k74CnwoBuKaxkz7AvZ9rAcyTCgrGm8iq0Mug0tSa1qG/ktiTXbevsDKfC5/YwqvcjgTosszt7uZ/BN7f4Kov741i8gkcKLAXwYNZ7gFYyLAhQ18OIyqM6DCYAIoMJ2JceBFAr40ANGLs6PEjRpERTXJUyVBCSHMbWa48CZOizJUkG6IsGaxhT4k1I7oESXHnwqFEHd7LAUBN0qT3huDYI3VMEgNYs27EmkOLnnt/tsQoUqRHh7MY0iZY24KtDh0gAHpEmAtWkBMvceJw2NsAQV+/IwALpkChruHDiBPXDQQAOw==';
@@ -2672,21 +2670,21 @@ function initLocales() {
                 'regxps': {
                     'time': 'Les flottes suivantes s.affrontent \\((\\d+).(\\d+).(\\d+) (\\d+):(\\d+):(\\d+)\\)',
                     'round': {
-                        'a_nb': 'La flotte attaquante tire (.*) fois ',
-                        'a_shoot': 'avec une force totale de (.*) sur le défenseur.',
-                        'd_bcl': 'Les boucliers du défenseur absorbent (.*) points de dommage.',
-                        'd_nb': 'La flotte de défense tire (.*) fois',
-                        'd_shoot': 'sur l`attaquant avec une force de (.*). Les boucliers',
-                        'a_bcl': ' de l`attaquant absorbent (.*) points de dommage.'
+                        'a_nb': 'La flotte attaquante tire ([\\d|\\.]*) fois ',
+                        'a_shoot': 'avec une force totale de ([\\d|\\.]*) sur le défenseur.',
+                        'd_bcl': 'Les boucliers du défenseur absorbent ([\\d|\\.]*) points de dommage.',
+                        'd_nb': 'La flotte de défense tire ([\\d|\\.]*) fois',
+                        'd_shoot': 'sur l`attaquant avec une force de ([\\d|\\.]*)\. Les boucliers',
+                        'a_bcl': ' de l`attaquant absorbent ([\\d|\\.]*) points de dommage'
                     },
                     'result': {
-                        'win_metal': 'Il emporte (.*) unités de métal',
-                        'win_cristal': ', (.*) unités de cristal',
-                        'win_deut': 'et (.*) unités de deutérium.',
-                        'a_lost': 'L`attaquant a perdu au total (.*) unités.',
-                        'd_lost': 'Le défenseur a perdu au total (.*) unités.',
-                        'deb_metal': 'Un champ de débris contenant (.*) de métal',
-                        'deb_cristal': ' et (.*) de cristal se forme dans l`orbite de la planète.'
+                        'win_metal': 'Il emporte ([\\d|\\.]*) unités de métal',
+                        'win_cristal': ', ([\\d|\\.]*) unités de cristal',
+                        'win_deut': 'et ([\\d|\\.]*) unités de deutérium',
+                        'a_lost': 'L`attaquant a perdu au total ([\\d|\\.]*) unités',
+                        'd_lost': 'Le défenseur a perdu au total ([\\d|\\.]*) unités',
+                        'deb_metal': 'Un champ de débris contenant ([\\d|\\.]*) de métal',
+                        'deb_cristal': ' et ([\\d|\\.]*) de cristal se forme dans l`orbite de la planète'
                     },
                     'weapons': {
                         'arm': 'Armes: (\\d+)%',
