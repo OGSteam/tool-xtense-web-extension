@@ -203,6 +203,39 @@ function XajaxCompo(url) {
     }
 }
 
+function XajaxData(url) {
+    var rcString = "";
+    if (isOpera || isChrome) {
+        var xhr_object = new XMLHttpRequest();
+        xhr_object.open("GET", url, true);
+        xhr_object.send();
+
+        xhr_object.onreadystatechange = function () {
+            if (xhr_object.readyState == 4) {
+                rcString = xhr_object.responseText;
+                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+                return docrc;
+
+            } else {
+                return (false);
+            }
+        };
+    } else { //Pour Firefox
+        GM_xmlhttpRequest({
+            method: 'GET',
+            url: url || '',
+            onload: function (response) {
+                rcString = response.responseText;
+                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
+                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
+                return docrc;
+            }
+        });
+    }
+}
+
+
 // Récupère les messages de retours et locales
 
 function Xl(name) {
@@ -380,7 +413,7 @@ function handle_current_page() {
             GM_getValue(prefix_GMData + 'handle.msg.expeditions', 'false').toString() == 'true' ||
             GM_getValue(prefix_GMData + 'handle.msg.commerce', 'false').toString() == 'true'
         ) {
-            get_message_content();
+            parse_messages_v6();
         }
     } else if (regAlliance.test(url)) {
         if (GM_getValue(prefix_GMData + 'handle.alliance', 'false').toString() == 'true' || GM_getValue(prefix_GMData + 'manual.send', 'false').toString() == 'true') {
@@ -1115,6 +1148,13 @@ function parse_rc(doc) {
 }
 /* Page Messages */
 
+function parse_messages_v6() {
+    log('Traitement du rapport de combat');
+    setStatus(XLOG_NORMAL, Xl('messages_detected'));
+    var page =XajaxData("./game/index.php?page=messages&tab=2&ajax=1");
+    log(page);
+}
+
 function parse_messages() {
     setStatus(XLOG_NORMAL, Xl('messages_detected'));
     var paths = XtenseXpaths.messages;
@@ -1450,17 +1490,6 @@ function get_ranking_content() {
     var target = document.getElementById('stat_list_content');
     target.addEventListener('DOMNodeInserted', parse_ranking_inserted, false);
     target.addEventListener('DOMContentLoaded', parse_ranking_inserted, false);
-}
-/* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
-
-function get_message_content() {
-    //log('Entering get_message_content');
-    var target = document.getElementById('messages');
-    target.addEventListener('DOMNodeInserted', parse_messages, false);
-    //target.addEventListener('DOMContentLoaded', parse_messages, false);
-    /*var targetrc = document.getElementById('combatreport');
-     targetrc.addEventListener('DOMNodeInserted', parse_rc, false);
-     targetrc.addEventListener('DOMContentLoaded', parse_rc, false);*/
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
