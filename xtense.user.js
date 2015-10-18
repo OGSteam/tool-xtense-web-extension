@@ -763,10 +763,7 @@ function parse_buildings() {
         'SAT': tabLevel[5],
         'HM': tabLevel[6],
         'HC': tabLevel[7],
-        'HD': tabLevel[8],
-        'CM': tabLevel[9],
-        'CC': tabLevel[10],
-        'CD': tabLevel[11]
+        'HD': tabLevel[8]
     });
     XtenseRequest.send();
 }
