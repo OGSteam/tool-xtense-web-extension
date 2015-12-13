@@ -7,7 +7,13 @@
   "content_scripts": [
     {
       "matches": ["http://*.ogame.gameforge.com/game/*"],
-      "js": ["xtense.user.js"],
+      "js": ["parsers/OgameLocales.js",
+			 "parsers/OgameConstants.js",
+			 "parsers/Ogame.js",
+             "contribs/crypto.js",
+             "ui/menu_item.js",
+			 "ogspy/send_data.js",
+			 "xtense.user.js"],
 	  "run_at": "document_idle"
     }
   ],  
