@@ -8,6 +8,7 @@
 function initOGSpyCommunication() {
     // Toutes les unites du jeu
     // id : nom du champ dans la bdd
+    var XtenseRequest;
     XtenseDatabase = {
         'resources': {
             601: 'metal',
@@ -105,8 +106,8 @@ function initOGSpyCommunication() {
                 callback: null,
                 scope: this
             });
-            postedData = postData;
-            loading = true;
+            var postedData = postData;
+            var loading = true;
         },
         call: function (Server, Response) {
             XtenseRequest.loading[Server.n] = false;
@@ -165,7 +166,7 @@ function initOGSpyCommunication() {
             postedData = postData;
             loading = true;
         }
-    }
+    };
 }
 /* Interpretation des retours Xtense (module OGSPY) */
 
