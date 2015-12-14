@@ -662,7 +662,7 @@ function parse_defense() {
 }
 /* Page Battle Report */
 
-function parse_rc(doc) {
+function parse_rc(doc, minirc) {
 
     var paths = XtenseXpaths.rc;
     log('RC detected');
@@ -675,11 +675,11 @@ function parse_rc(doc) {
     rslt['d_lost'] = 0;
 
     var date = null;
-    var infos = Xpath.getOrderedSnapshotNodes(doc, paths.list_infos, null);
+    var infos = Xpath.getOrderedSnapshotNodes(document, paths.list_infos, null);
     if (infos.snapshotLength > 0) {
         var infosNode = infos.snapshotItem(0);
 
-        date = XtenseParseDate(infosNode.textContent, XnewOgame.l('dates')['messagesRC']);
+        date = XtenseParseDate(infosNode.textContent, l('dates')['messagesRC']);
         if (date == null || date == '') {
             date = Math.ceil((new Date().getTime()) / 1000);
         }
@@ -828,7 +828,7 @@ function parse_rc(doc) {
         }
 
         // Pillages
-        var win_resources = Xpath.getOrderedSnapshotNodes(doc, paths.win_resource);
+        var win_resources = Xpath.getOrderedSnapshotNodes(document, paths.win_resource);
         for (var cpt = 0; cpt < win_resources.snapshotLength; cpt++) {
             for (var i in rcStrings['regxps']['result']['win']) {
                 if (win_resources.snapshotItem(cpt).innerHTML.match(new RegExp(rcStrings['regxps']['result']['win'][i]))) {
@@ -840,7 +840,7 @@ function parse_rc(doc) {
         }
 
         // Champ de Debris
-        var deb_resource = Xpath.getOrderedSnapshotNodes(doc, paths.deb_resource);
+        var deb_resource = Xpath.getOrderedSnapshotNodes(document, paths.deb_resource);
         for (var cpt = 0; cpt < deb_resource.snapshotLength; cpt++) {
             for (var i in rcStrings['regxps']['result']['deb']) {
                 if (deb_resource.snapshotItem(cpt).innerHTML.match(new RegExp(rcStrings['regxps']['result']['deb'][i]))) {
@@ -930,7 +930,7 @@ function parse_messages() {
                     this.messagesIdCache.push(idmsg);
 
                     // Espionnage ennemi
-                    if (GM_getValue(prefix_GMData + 'handle.msg.ennemy.spy') && msgContent.match(new RegExp(locales['espionnage action']))) {
+                    if ((GM_getValue(prefix_GMData + 'handle.msg.ennemy.spy').toString() == 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
                         var fromToInfo = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy));
 
                         if (fromToInfo) {
@@ -952,13 +952,16 @@ function parse_messages() {
                                     data.fromMoon = 1;
                                 }
                                 data.proba = fromToInfo[3];
-                                data.date = XtenseParseDate(msgContent, XnewOgame.l('dates')['messages']);
-                                XnewOgame.sendMessage(data);
+                                data.date = XtenseParseDate(msgContent, l('dates')['messages']);
+                                XtenseRequest.set('data', data);
+                                XtenseRequest.set('type', 'messages');
+                                XtenseRequest.send();
+
                             }
                         }
                     }
                     // Recyclage
-                    else if (Xprefs.getBool('msg-rc_cdr') && msgContent.match(new RegExp(locales['fleet'])) && msgContent.match(new RegExp(locales['harvesting']))) { //OK
+                    else if ((GM_getValue(prefix_GMData + 'handle.msg.rc.cdr').toString() == 'true') && msgContent.match(new RegExp(locales['fleet'])) && msgContent.match(new RegExp(locales['harvesting']))) { //OK
                         var m = msgContent.match(new RegExp(XtenseRegexps.coords));
                         if (m) {
                             var data = {};
@@ -972,15 +975,17 @@ function parse_messages() {
                             data.C_recovered = nums[15];
                             data.M_total = nums[9];
                             data.C_total = nums[10];
-                            data.date = XtenseParseDate(msgContent, XnewOgame.l('dates')['messages']);
+                            data.date = XtenseParseDate(msgContent, l('dates')['messages']);
 
-                            XnewOgame.sendMessage(data);
+                            XtenseRequest.set('data', data);
+                            XtenseRequest.set('type', 'messages');
+                            XtenseRequest.send();
                         }
                     }
                     // Expeditions
-                    else if (Xprefs.getBool('msg-expeditions') && msgContent.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords))) {
+                    else if ((GM_getValue(prefix_GMData + 'handle.msg.expeditions').toString() == 'true') && msgContent.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords))) {
                         var m = msgContent.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords));
-                        var content = Xpath.getOrderedSnapshotNodes(doc, paths.shortmsgcontent, shortMessageNode);
+                        var content = Xpath.getOrderedSnapshotNodes(document, paths.shortmsgcontent, shortMessageNode);
 
                         if (m != null && content.snapshotLength > 0) {
                             var data = {};
@@ -990,7 +995,9 @@ function parse_messages() {
                             data.coords = coords;
                             data.content = content;
 
-                            XnewOgame.sendMessage(data);
+                            XtenseRequest.set('data', data);
+                            XtenseRequest.set('type', 'messages');
+                            XtenseRequest.send();
                         }
                     }
 
@@ -1004,10 +1011,10 @@ function parse_messages() {
     if (messages.snapshotLength > 0) {
         var messageNode = messages.snapshotItem(0);
         // Recupere l'id du message detaille
-        var messageId = Xpath.getStringValue(doc, paths.messageid, messageNode);
+        var messageId = Xpath.getStringValue(document, paths.messageid, messageNode);
         var combatreportId = -1;
         // Recupere l'id du rapport de combat detaille
-        combatreportId = Xpath.getStringValue(doc, paths.combatreport, messageNode);
+        combatreportId = Xpath.getStringValue(document, paths.combatreport, messageNode);
 
         // Si il s'agit d'un message detaille de Rapport de Combat
         if (combatreportId != null && combatreportId != '') {
@@ -1041,33 +1048,33 @@ function parse_messages() {
                     }
                 }
                 //--------------------------------------
-                parse_rc(doc, messageShortFound.textContent);
+                parse_rc(document, messageShortFound.textContent);
             }
         } else if (this.lastAction != "message:" + messageId) {
             //log("Traitement du message");
             this.lastAction = "message:" + messageId;
-            var locales = XnewOgame.l('messages');
+            var locales = l('messages');
             // TODO : A FIXER : messagebox ne sert a rien, autant prendre messageNode directement
-            var messageBox = Xpath.getSingleNode(doc, paths.messagebox, messageNode);
+            var messageBox = Xpath.getSingleNode(document, paths.messagebox, messageNode);
 
             var data = {};
-            var from = Xpath.getSingleNode(doc, paths.from, messageBox).textContent.trim();
-            var to = Xpath.getStringValue(doc, paths.to, messageBox).trim();
-            var subject = Xpath.getStringValue(doc, paths.subject, messageBox).trim();
-            var date = Xpath.getStringValue(doc, paths.date, messageBox).trim();
+            var from = Xpath.getSingleNode(document, paths.from, messageBox).textContent.trim();
+            var to = Xpath.getStringValue(document, paths.to, messageBox).trim();
+            var subject = Xpath.getStringValue(document, paths.subject, messageBox).trim();
+            var date = Xpath.getStringValue(document, paths.date, messageBox).trim();
 
-            data.date = XtenseParseDate(date, XnewOgame.l('dates')['messages']);
+            data.date = XtenseParseDate(date, l('dates')['messages']);
             data.type = '';
 
             // Messages de joueurs
-            if (Xprefs.getBool('msg-msg')) {
-                if (Xpath.getOrderedSnapshotNodes(doc, paths.reply, messageBox).snapshotLength > 0) { // si bouton "repondre", c'est un mp
+            if (GM_getValue(prefix_GMData + 'handle.msg.msg').toString() == 'true') {
+                if (Xpath.getOrderedSnapshotNodes(document, paths.reply, messageBox).snapshotLength > 0) { // si bouton "repondre", c'est un mp
                     var m = from.match(new RegExp(XtenseRegexps.userNameAndCoords));
                     if (m) {
                         var userName = m[1];
                         var coords = m[2];
                     }
-                    var message = Xpath.getOrderedSnapshotNodes(doc, paths.contents['msg'], messageBox).snapshotItem(0).textContent.trim();
+                    var message = Xpath.getOrderedSnapshotNodes(document, paths.contents['msg'], messageBox).snapshotItem(0).textContent.trim();
 
                     data.type = 'msg';
                     data.from = userName;
@@ -1080,10 +1087,10 @@ function parse_messages() {
             }
 
             // Messages d'alliance
-            if (Xprefs.getBool('msg-ally_msg')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.ally').toString() == 'true') {
                 var m = from.match(new RegExp(XtenseRegexps.ally));
                 if (m) {
-                    var contentNode = Xpath.getSingleNode(doc, paths.contents['ally_msg'], messageBox);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['ally_msg'], messageBox);
                     var message = contentNode.innerHTML.replace(new RegExp(XtenseRegexps.ally_msg_player_name, "g"), "$1");
                     if (message.search("<") > -1 && message.search(">") > -1) message = contentNode.textContent.trim(); // patch des tag html qui bloquent l'envoi
 
@@ -1098,12 +1105,12 @@ function parse_messages() {
 
 
             // Espionnages perso
-            if (Xprefs.getBool('msg-spy')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.spy').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords));
                 if (m) {
-                    //log('spy detected');
+                    log('spy detected');
 
-                    var contentNode = Xpath.getSingleNode(doc, paths.contents['spy']);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['spy']);
                     var content = contentNode.innerHTML;
 
                     data.planetName = m[1].trim();
@@ -1119,18 +1126,18 @@ function parse_messages() {
                     if (m)
                         data.activity = m[1];
 
-                    Ximplements(data, XnewOgame.parseSpyReport(content, doc));
+                    Ximplements(data, parse_spy_report(content));
                     data.type = 'spy';
                 } else {
-                    //log('The message is not a spy report');
+                    log('The message is not a spy report');
                 }
             }
 
             // Espionnages ennemis
             // TODO : Reporter le parsing msg court ici si possible
-            if (Xprefs.getBool('msg-ennemy_spy')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.ennemy.spy').toString() == 'true') {
                 if (subject.match(new RegExp(locales['espionnage action']))) {
-                    var contentNode = Xpath.getSingleNode(doc, paths.contents['ennemy_spy']);
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['ennemy_spy']);
                     var rawdata = contentNode.textContent.trim();
                     var m = rawdata.match(new RegExp(XtenseRegexps.messages.ennemy_spy));
 
@@ -1159,10 +1166,10 @@ function parse_messages() {
             }
 
             //RC
-            if (Xprefs.getBool('msg-rc')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.rc').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['combat of']));
                 if (m != null) {
-                    var rapport = Xpath.getStringValue(doc, paths.contents['rc']).trim();
+                    var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
                     var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
                     if (m2) {
                         //log('Before setChar rc-temp : ({name: "'+m2[1]+'", coords: "'+m2[2]+'"})');
@@ -1171,7 +1178,7 @@ function parse_messages() {
                         this.lastAction = "message:" + messageId;
 
                         log("Traitement du rapport de combat (" + messageId + ") dans les messages");
-                        var urlRc = Xpath.getStringValue(doc, paths.contents['url_combatreport']).trim();
+                        var urlRc = Xpath.getStringValue(document, paths.contents['url_combatreport']).trim();
 
                         var rcString = XajaxCompo(urlRc);
                         rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
@@ -1179,19 +1186,19 @@ function parse_messages() {
 //log(rcString);
 
                         var docrc = new DOMParser().parseFromString(rcString, 'text/xml');
-                        XnewOgame.parseRc(docrc, "");
+                        parse_rc(docrc, "");
                     }
                 }
             }
 
             // Recyclages
-            if (Xprefs.getBool('msg-rc_cdr')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.rc.cdr').toString() == 'true') {
                 if (from.match(new RegExp(locales['fleet'])) && subject.match(new RegExp(locales['harvesting']))) {
                     var m = subject.match(new RegExp(XtenseRegexps.coords));
                     if (m) {
                         var coords = m[1];
-                        var contentNode = Xpath.getSingleNode(doc, paths.contents['rc_cdr']);
-                        var message = Xpath.getStringValue(doc, paths.contents['rc_cdr']).trim();
+                        var contentNode = Xpath.getSingleNode(document, paths.contents['rc_cdr']);
+                        var message = Xpath.getStringValue(document, paths.contents['rc_cdr']).trim();
                         var nums = message.getInts();
                         data.type = 'rc_cdr';
                         data.coords = coords;
@@ -1207,14 +1214,14 @@ function parse_messages() {
             }
 
             // Expeditions
-            if (Xprefs.getBool('msg-expeditions')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.expeditions').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords));
                 var m2 = from.match(new RegExp(locales['fleet command']));
 
                 if (m2 != null && m != null) {
                     var coords = m[1];
-                    var contentNode = Xpath.getSingleNode(doc, paths.contents['expedition']);
-                    var message = Xpath.getStringValue(doc, paths.contents['expedition']).trim();
+                    var contentNode = Xpath.getSingleNode(document, paths.contents['expedition']);
+                    var message = Xpath.getStringValue(document, paths.contents['expedition']).trim();
                     data.type = 'expedition';
                     data.coords = coords;
                     data.content = message;
@@ -1224,13 +1231,13 @@ function parse_messages() {
             }
 
             // Commerce
-            if (Xprefs.getBool('msg-res-pref')) {
+            if (GM_getValue(prefix_GMData + 'handle.msg.commerce').toString() == 'true') {
                 var m = subject.match(new RegExp(locales['trade message 1']));
                 var m2 = subject.match(new RegExp(locales['trade message 2']));
 
                 // Livraison d'un ami sur une de mes plan�tes
                 if (m != null) {
-                    var message = Xpath.getStringValue(doc, paths.contents['livraison']).trim();
+                    var message = Xpath.getStringValue(document, paths.contents['livraison']).trim();
                     var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos));
 
                     var ressourcesLivrees = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_res_livrees)); // ressources livr�es
@@ -1257,7 +1264,7 @@ function parse_messages() {
                     //log('Livraison du joueur ('+infos[1].trim()+') de la plan�te '+infos[2].trim()+'('+infos[3].trim()+')sur ma plan�te '+infos[4].trim()+'('+infos[5].trim()+') : Metal='+met+' Cristal='+cri+' Deuterium='+deut);
 
                 } else if (m2 != null) { // Livraison sur la plan�te d'un ami
-                    var message = Xpath.getStringValue(doc, paths.contents['livraison_me']).trim(); // Corps du message
+                    var message = Xpath.getStringValue(document, paths.contents['livraison_me']).trim(); // Corps du message
 
                     var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_me)); // Infos sur la plan�te
                     var planeteLivraison = infos[4].trim(); // Planete sur laquelle la livraison � eu lieu
@@ -1308,18 +1315,13 @@ function parse_messages() {
 
             // Aucun message
             if (data.type == '') {
-                this.Tab.setStatus(Xl('no messages'), XLOG_NORMAL, {url: this.url});
+                setStatus(XLOG_NORMAL, Xl('no_messages'));
                 return false;
             } else {
 
-                /*var Request = XtenseRequest.set();
-                XtenseRequest.set('data', data);
-                XtenseRequest.set('type', 'messages');
-                //XtenseRequest.set('lang', XnewOgame.lang);
-                //XtenseRequest.set(XnewOgame.servers);*/
-
                 XtenseRequest.set({
                     type: 'messages',
+                    lang: langUnivers,
                     data: data
                 });
                 XtenseRequest.send();
