@@ -679,7 +679,7 @@ function parse_rc(doc) {
     if (infos.snapshotLength > 0) {
         var infosNode = infos.snapshotItem(0);
 
-        date = XparseDate(infosNode.textContent, XnewOgame.l('dates')['messagesRC']);
+        date = XtenseParseDate(infosNode.textContent, XnewOgame.l('dates')['messagesRC']);
         if (date == null || date == '') {
             date = Math.ceil((new Date().getTime()) / 1000);
         }
@@ -952,7 +952,7 @@ function parse_messages() {
                                     data.fromMoon = 1;
                                 }
                                 data.proba = fromToInfo[3];
-                                data.date = XparseDate(msgContent, XnewOgame.l('dates')['messages']);
+                                data.date = XtenseParseDate(msgContent, XnewOgame.l('dates')['messages']);
                                 XnewOgame.sendMessage(data);
                             }
                         }
@@ -972,7 +972,7 @@ function parse_messages() {
                             data.C_recovered = nums[15];
                             data.M_total = nums[9];
                             data.C_total = nums[10];
-                            data.date = XparseDate(msgContent, XnewOgame.l('dates')['messages']);
+                            data.date = XtenseParseDate(msgContent, XnewOgame.l('dates')['messages']);
 
                             XnewOgame.sendMessage(data);
                         }
@@ -1056,7 +1056,7 @@ function parse_messages() {
             var subject = Xpath.getStringValue(doc, paths.subject, messageBox).trim();
             var date = Xpath.getStringValue(doc, paths.date, messageBox).trim();
 
-            data.date = XparseDate(date, XnewOgame.l('dates')['messages']);
+            data.date = XtenseParseDate(date, XnewOgame.l('dates')['messages']);
             data.type = '';
 
             // Messages de joueurs
