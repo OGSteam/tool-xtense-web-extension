@@ -8,7 +8,6 @@
 function initOGSpyCommunication() {
     // Toutes les unites du jeu
     // id : nom du champ dans la bdd
-    var XtenseRequest;
     XtenseDatabase = {
         'resources': {
             601: 'metal',
