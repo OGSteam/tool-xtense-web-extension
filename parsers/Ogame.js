@@ -762,7 +762,7 @@ function parse_rc(doc, minirc) {
                         var types = resultEval[indexTypePlayer]['combatRounds'][rndcpt]['ships'][idPlayer];
 
                         var nbTypesVaisseaux = Object.keys(types).length;
-                        log("Type des Unites="+nbTypeVaisseau);
+                        log("Type des Unites=" + nbTypeVaisseau);
                         if (nbTypesVaisseaux > 0) {
                             for (var type in types) {
                                 for (var i in rcStrings['units']) {
@@ -771,7 +771,7 @@ function parse_rc(doc, minirc) {
                                         if (typ) {
                                             playerFleet[XtenseDatabase[i][j]] = types[type];
                                             nbVaisseauxRestant += types[type];
-                                            log("Type unite="+ i + " - " + j +" - data="+playerFleet[database[i][j]]);
+                                            log("Type unite=" + i + " - " + j + " - data=" + playerFleet[database[i][j]]);
                                         }
                                     }
                                 }
@@ -909,7 +909,7 @@ function parse_messages() {
     // Traitement des listes de messages court (declenche lorsque l'on change d'onglet ou de page)
     if (messagesCourt.snapshotLength > 0 && messagesCourt.snapshotLength != this.lastShtMsgsSize && messages.snapshotLength == this.lastMsgsSize) {
         if ((GM_getValue("last_shortmessage", 0).toString()) != messagesCourt.snapshotLength) {
-            GM_setValue("last_shortmessage", messagesCourt.snapshotLength );
+            GM_setValue("last_shortmessage", messagesCourt.snapshotLength);
             var locales = Xl('messages');
 
             // Parcours de la liste de messages court
@@ -1172,9 +1172,6 @@ function parse_messages() {
                     var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
                     var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
                     if (m2) {
-                        //log('Before setChar rc-temp : ({name: "'+m2[1]+'", coords: "'+m2[2]+'"})');
-                        Xprefs.setChar('rc-temp', '({name: "' + m2[1] + '", coords: "' + m2[2] + '"})');
-
                         log("Traitement du rapport de combat (" + messageId + ") dans les messages");
                         var urlRc = Xpath.getStringValue(document, paths.contents['url_combatreport']).trim();
 
