@@ -58,14 +58,14 @@ function handle_current_page() {
     } else if (regShipyard.test(url) || regFleet1.test(url)) {
         if (GM_getValue('handle.shipyard', 'false').toString() == 'true' || GM_getValue('manual.send', 'false').toString() == 'true') {
             parse_shipyard();
-            GM_setValue(prefix_GMData + 'manual.send', 'false');
+            GM_setValue('manual.send', 'false');
         } else {
             manual_send();
         }
     } else if (regDefense.test(url)) {
         if (GM_getValue('handle.defense', 'false').toString() == 'true' || GM_getValue('manual.send', 'false').toString() == 'true') {
             parse_defense();
-            GM_setValue(prefix_GMData + 'manual.send', 'false');
+            GM_setValue('manual.send', 'false');
         } else {
             manual_send();
         }
@@ -82,17 +82,17 @@ function handle_current_page() {
         }
     } else if (regAlliance.test(url)) {
         if (GM_getValue('handle.alliance', 'false').toString() == 'true' || GM_getValue('manual.send', 'false').toString() == 'true') {
-            GM_setValue(prefix_GMData + 'lastAction', '');
+            GM_setValue('lastAction', '');
             parse_ally_inserted();
-            GM_setValue(prefix_GMData + 'manual.send', 'false');
+            GM_setValue('manual.send', 'false');
         } else {
             manual_send();
         }
     } else if (regStats.test(url)) {
         if (GM_getValue('handle.stats', 'false').toString() == 'true' || GM_getValue('manual.send', 'false').toString() == 'true') {
-            GM_setValue(prefix_GMData + 'lastAction', '');
+            GM_setValue('lastAction', '');
             get_ranking_content();
-            GM_setValue(prefix_GMData + 'manual.send', 'false');
+            GM_setValue('manual.send', 'false');
         } else {
             manual_send();
         }
@@ -104,7 +104,7 @@ function handle_current_page() {
 /* Fonction d'envoi manuel */
 
 function manual_send() {
-    GM_setValue(prefix_GMData + 'manual.send', 'true');
+    GM_setValue('manual.send', 'true');
     displayXtense();
     setStatus(XLOG_SEND, Xl('wait_send'));
 }
@@ -287,7 +287,7 @@ function parse_galaxy_system_inserted(event) {
             });
             XtenseRequest.set('lang', langUnivers);
             XtenseRequest.send();
-            GM_setValue(prefix_GMData + 'lastAction', 's:' + coords[0] + ':' + coords[1]);
+            GM_setValue('lastAction', 's:' + coords[0] + ':' + coords[1]);
         }
     }
 }
@@ -325,7 +325,7 @@ function parse_ally_inserted() {
             });
             XtenseRequest.set('lang', langUnivers);
             XtenseRequest.send();
-            GM_setValue(prefix_GMData + 'lastAction', 'ally_list')
+            GM_setValue('lastAction', 'ally_list')
         }
         get_ally_content();
     }
@@ -428,9 +428,9 @@ function parse_ranking_inserted(event) {
             rowsData[n] = r;
             length++;
         }
-        if (GM_setValue(prefix_GMData + 'lastAction', '') != 'r:' + type[0] + ':' + type[1] + ':' + offset) {
+        if (GM_setValue('lastAction', '') != 'r:' + type[0] + ':' + type[1] + ':' + offset) {
             setStatus(XLOG_NORMAL, Xl('ranking_detected', Xl('ranking_' + type[0]), Xl('ranking_' + type[1])));
-            GM_setValue(prefix_GMData + 'lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
+            GM_setValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
             if (offset != 0 && length != 0) {
                 XtenseRequest.set({
                     n: rowsData,
@@ -478,7 +478,7 @@ function parse_overview(event) {
             }, planetData, planetBoostersAndExtensions);
             XtenseRequest.set('lang', langUnivers);
             XtenseRequest.send();
-            GM_setValue(prefix_GMData + 'lastAction', 'planet_name:' + planetData.planet_name);
+            GM_setValue('lastAction', 'planet_name:' + planetData.planet_name);
         }
     } else {
         log('Temperature Content is not there! Retrying...');
@@ -1443,7 +1443,7 @@ function save_my_planets_coords() {
             pls += mesPlanetes.snapshotItem(i).textContent.trim() + ((i < (mesPlanetes.snapshotLength - 1)) ? ';' : '');
         }
     }
-    GM_setValue(prefix_GMData + 'my.planets', pls);
+    GM_setValue('my.planets', pls);
 }
 // Récupération des ressources d'une planète
 
