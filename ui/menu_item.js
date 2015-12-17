@@ -385,7 +385,7 @@ function displayOptions() {
         if (inputOptions.snapshotLength > 0) {
             for (var i = 0; i < inputOptions.snapshotLength; i++) {
                 var input = inputOptions.snapshotItem(i);
-                GM_setValue(prefix_GMData + input.id, input.value);
+                GM_setValue(input.id, input.value);
             }
         }
         // Sauvegarde des checkbox
@@ -396,7 +396,7 @@ function displayOptions() {
             for (var j = 0; j < checkboxOptions.snapshotLength; j++) {
                 var checkbox = checkboxOptions.snapshotItem(j);
                 //log('GM_setValue(prefix_GMData +'+checkbox.id+' , '+checkbox.checked+');');
-                GM_setValue(prefix_GMData + checkbox.id, checkbox.checked);
+                GM_setValue(checkbox.id, checkbox.checked);
             }
         }
     }
