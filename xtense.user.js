@@ -45,11 +45,11 @@ var numUnivers = urlUnivers.match(new RegExp('s(.*)-fr.ogame'))[1];
 var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
 var cookie = nomScript + '-' + numUnivers + '-';
 var prefix_GMData = langUnivers + numUnivers + '.';
-GM_setValue(prefix_GMData + 'last_message', 0);
+GM_setValue('last_message', 0);
 /*********************** Compatibilité Chrome ***************************/
 if (isChrome || isOpera) {
     function GM_getValue(key, defaultVal) {
-        var retValue = localStorage.getItem(key);
+        var retValue = localStorage.getItem(prefix_GMData + key);
         if (!retValue) {
             return defaultVal;
         }
@@ -57,7 +57,7 @@ if (isChrome || isOpera) {
     }
 
     function GM_setValue(key, value) {
-        localStorage.setItem(key, value);
+        localStorage.setItem(prefix_GMData + key, value);
     }
 
     function GM_deleteValue(value) {
@@ -98,7 +98,7 @@ String.prototype.getInts = function (/*separator*/) {
 //Affichage des Logs
 
 function log(message) {
-    if (GM_getValue(prefix_GMData + 'debug.mode', 'false').toString() == 'true') {
+    if (GM_getValue('debug.mode', 'false').toString() == 'true') {
         console.log(nomScript + ' says : ' + message);
     }
 }
@@ -143,11 +143,7 @@ function XajaxCompo(url) {
         xhr_object.onreadystatechange = function () {
             if (xhr_object.readyState == 4) {
                 rcString = xhr_object.responseText;
-                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-                //return parse_rc({parameters: {doc: docrc}});
-                return parse_rc(docrc);
-                //return(xhr_object.responseText);
+                return(rcString);
             } else {
                 return (false);
             }
@@ -158,9 +154,7 @@ function XajaxCompo(url) {
             url: url || '',
             onload: function (response) {
                 rcString = response.responseText;
-                rcString = rcString.replaceAll('<link rel.*/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-                var docrc = new DOMParser().parseFromString(rcString, 'text/html');
-                return parse_rc(docrc);
+                return (rcString);
             }
         });
     }
