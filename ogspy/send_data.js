@@ -95,12 +95,12 @@ function initOGSpyCommunication() {
         loading: {},
         data: {},
         send: function () {
-            var password_s = CryptoJS.SHA1(GM_getValue(prefix_GMData + 'server.pwd', ''));
+            var password_s = CryptoJS.SHA1(GM_getValue('server.pwd', ''));
             var password_m = CryptoJS.MD5(password_s.toString());
-            var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue(prefix_GMData + 'server.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
-            log('sending ' + postData + ' to ' + GM_getValue(prefix_GMData + 'server.url.plugin', '') + ' from ' + urlUnivers);
+            var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
+            log('sending ' + postData + ' to ' + GM_getValue('server.url.plugin', '') + ' from ' + urlUnivers);
             new Xajax({
-                url: GM_getValue(prefix_GMData + 'server.url.plugin', ''),
+                url: GM_getValue('server.url.plugin', ''),
                 post: postData,
                 callback: null,
                 scope: this
@@ -154,10 +154,10 @@ function initOGSpyCommunication() {
             return uri;
         },
         check: function (isCheck) {
-            var postData = 'toolbar_version=' + VERSION + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue(prefix_GMData + 'server.user', '') + '&password=' + MD5(SHA1(GM_getValue(prefix_GMData + 'server.pwd', ''))) + '&univers=' + urlUnivers + XtenseRequest.serializeData() + (GM_getValue(prefix_GMData + 'server.check', 'false').toString() == 'true' ? '&server_check=1' : '');
-            log('sending ' + postData + ' to ' + GM_getValue(prefix_GMData + 'server.url.plugin', '') + ' from ' + urlUnivers);
+            var postData = 'toolbar_version=' + VERSION + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server.user', '') + '&password=' + MD5(SHA1(GM_getValue('server.pwd', ''))) + '&univers=' + urlUnivers + XtenseRequest.serializeData() + (GM_getValue('server.check', 'false').toString() == 'true' ? '&server_check=1' : '');
+            log('sending ' + postData + ' to ' + GM_getValue('server.url.plugin', '') + ' from ' + urlUnivers);
             new Xajax({
-                url: GM_getValue(prefix_GMData + 'server.url.plugin', ''),
+                url: GM_getValue('server.url.plugin', ''),
                 post: postData,
                 callback: null,
                 scope: this
@@ -172,7 +172,7 @@ function initOGSpyCommunication() {
 function handleResponse(Response) {
     //log(Response.responseText);
     //log(Response.status);
-    var message_start = '"' + GM_getValue(prefix_GMData + 'server.name', '') + '" : ';
+    var message_start = '"' + GM_getValue('server.name', '') + '" : ';
     //var extra = {Request: Request, Server: Server, Response: Response, page: Request.data.type};
     if (Response.status != 200) {
         if (Response.status == 404) setStatus(XLOG_ERROR, Xl('http_status_404'));
@@ -269,7 +269,7 @@ function handleResponse(Response) {
             setStatus(type, '[' + data.execution + ' ms] ' + message_start + message);
             //Request.Tab.setStatus(message, type, extra);
         } else {
-            GM_setValue(prefix_GMData + 'server.name', data.servername);
+            GM_setValue('server.name', data.servername);
             log(data.servername);
         }
     }
