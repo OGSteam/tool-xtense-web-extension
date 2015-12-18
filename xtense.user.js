@@ -47,23 +47,23 @@ var cookie = nomScript + '-' + numUnivers + '-';
 var prefix_GMData = langUnivers + numUnivers + '.';
 GM_setValue('last_message', 0);
 /*********************** Compatibilité Chrome ***************************/
-if (isChrome || isOpera) {
-    function GM_getValue(key, defaultVal) {
-        var retValue = localStorage.getItem(prefix_GMData + key);
-        if (!retValue) {
-            return defaultVal;
-        }
-        return retValue;
-    }
 
-    function GM_setValue(key, value) {
-        localStorage.setItem(prefix_GMData + key, value);
+function GM_getValue(key, defaultVal) {
+    var retValue = localStorage.getItem(prefix_GMData + key);
+    if (!retValue) {
+        return defaultVal;
     }
-
-    function GM_deleteValue(value) {
-        localStorage.removeItem(value);
-    }
+    return retValue;
 }
+
+function GM_setValue(key, value) {
+    localStorage.setItem(prefix_GMData + key, value);
+}
+
+function GM_deleteValue(value) {
+    localStorage.removeItem(value);
+}
+
 /********************** Fin Compatibilité Chrome ************************/
 /***************************** Utilities ********************************/
 /* Fonctions sur strings */
@@ -106,12 +106,12 @@ function log(message) {
 //Requete Ajax
 
 function Xajax(obj) {
-    if (isOpera || isChrome) {
         xhr = new XMLHttpRequest();
         url = obj.url || '';
         post = obj.post || '';
         xhr.open('POST', url, true);
         //xhr.setRequestHeader('User-Agent', 'Xtense2');
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send(post);
         xhr.onreadystatechange = function () {
@@ -119,45 +119,21 @@ function Xajax(obj) {
                 handleResponse(xhr);
             }
         };
-    } else {
-        GM_xmlhttpRequest({
-            method: 'POST',
-            url: obj.url || '',
-            data: obj.post || '',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            onload: function (response) {
-                handleResponse(response);
-            }
-        });
-    }
 }
 function XajaxCompo(url) {
     var rcString = "";
-    if (isOpera || isChrome) {
-        var xhr_object = new XMLHttpRequest();
-        xhr_object.open("GET", url, true);
-        xhr_object.send();
+    var xhr_object = new XMLHttpRequest();
+    xhr_object.open("GET", url, true);
+    xhr_object.send();
 
-        xhr_object.onreadystatechange = function () {
-            if (xhr_object.readyState == 4) {
-                rcString = xhr_object.responseText;
-                return(rcString);
-            } else {
-                return (false);
-            }
-        };
-    } else { //Pour Firefox
-        GM_xmlhttpRequest({
-            method: 'GET',
-            url: url || '',
-            onload: function (response) {
-                rcString = response.responseText;
-                return (rcString);
-            }
-        });
-    }
+    xhr_object.onreadystatechange = function () {
+        if (xhr_object.readyState == 4) {
+            rcString = xhr_object.responseText;
+            return(rcString);
+        } else {
+            return (false);
+        }
+    };
 }
 
 // Récupère les messages de retours et locales
