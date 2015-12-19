@@ -192,14 +192,14 @@ function handleResponse(Response) {
         }
         var data = {};
         if (Response.responseText.match(/^\(\{.*\}\)$/g)) {
-            data = eval(Response.responseText);
+            data = Response.responseText;
         } else {
             var match = null;
             if ((match = Response.responseText.match(/\(\{.*\}\)/))) {
-                data = eval(match[0]);
+                data = match[0];
                 // Message d'avertissement
                 type = XLOG_WARNING;
-                log('full response:' + escape(Response.responseText));
+                log('full response:' + Response.responseText);
             } else {
                 // Message d'erreur
                 setStatus(XLOG_ERROR, message_start + Xl('invalid_response'));

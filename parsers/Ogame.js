@@ -762,7 +762,7 @@ function parse_rc(doc, minirc) {
                         var types = resultEval[indexTypePlayer]['combatRounds'][rndcpt]['ships'][idPlayer];
 
                         var nbTypesVaisseaux = Object.keys(types).length;
-                        log("Type des Unites=" + nbTypeVaisseau);
+                        //log("Type des Unites=" + nbTypeVaisseau);
                         if (nbTypesVaisseaux > 0) {
                             for (var type in types) {
                                 for (var i in rcStrings['units']) {
