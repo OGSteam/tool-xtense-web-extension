@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Xtense GM",
-  "version": "2.6.9.9",
+  "version": "2.6.9.10",
   "description": "Gets information from a spacecraft game.",
   "icons": { "128": "Xtense-128.png" },
   "content_scripts": [
