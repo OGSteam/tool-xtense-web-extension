@@ -119,7 +119,8 @@ function initParsers() {
             spy: {
                 playername: '//div[contains(@class,"detail_txt")]//span[contains(@class,"status")]/text()',
                 materialfleetdefbuildings: '//div[contains(@class,"section_title")] | //ul[contains(@class,"detail_list")]/li[contains(@class,"resource_list_el")] | //ul[contains(@class,"detail_list")]/li[contains(@class,"detail_list_el")]',
-                moon: '//div[contains(@class,"msg_actions")]/a[4]/@href'
+                moon: '//div[contains(@class,"msg_actions")]/a[4]/@href',
+                actions_links : '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a'
             }
         },
 
@@ -182,6 +183,8 @@ function initParsers() {
             list_rounds: '//li[contains(@class,"round_id")]',
             win_resource: '//div[contains(@class,"loot")]//li[contains(@class,"resource_list_el_small")]/span[contains(@class,"res_value")] | //div[contains(@class,"loot")]//li[contains(@class,"resource_list_el_small")]',
             deb_resource: '//div[contains(@class,"tf")]//li[contains(@class,"resource_list_el_small")]//span[contains(@class,"res_value")] | //div[contains(@class,"tf")]//li[contains(@class,"resource_list_el_small")]',
+            actions_links : '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a',
+            moon : '//div[contains(@class,"detailReport")]/div[contains(@class,"og_video")]',
             infos: {
                 player: 'span[contains(@class, "name")]',
                 weapons: 'span[contains(@class, "weapons")]',
