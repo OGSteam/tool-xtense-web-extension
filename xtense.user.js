@@ -106,10 +106,10 @@ function log(message) {
 //Requete Ajax
 
 function Xajax(obj) {
-        xhr = new XMLHttpRequest();
+        //xhr = new XMLHttpRequest();
         url = obj.url || '';
         post = obj.post || '';
-        xhr.open('POST', url, true);
+        /*xhr.open('POST', url, true);
         //xhr.setRequestHeader('User-Agent', 'Xtense2');
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -118,7 +118,14 @@ function Xajax(obj) {
             if (xhr.readyState == 4) {
                 handleResponse(xhr);
             }
-        };
+        };*/
+
+    $.post(url, post,
+          function(data, status){
+              handleResponse(status , data);
+        });
+
+
 }
 function XajaxCompo(url) {
     var rcString = "";
