@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "Xtense GM",
+  "version": "2.6.9.11",
+  "description": "Gets information from a spacecraft game.",
+  "icons": { "128": "Xtense-128.png" },
+  "content_scripts": [
+    {
+      "matches": ["https://*.ogame.gameforge.com/game/*"],
+      "js": ["parsers/OgameLocales.js",
+			 "parsers/OgameConstants.js",
+			 "parsers/Ogame.js",
+             "contribs/crypto.js",
+             "ui/menu_item.js",
+			 "ogspy/send_data.js",
+			 "xtense.user.js"],
+	  "run_at": "document_idle"
+    }
+  ],  
+  "background": {
+    "persistent": false,
+    "scripts": ["xtense.user.js"]
+  },
+  "permissions": [
+        "http://*/",
+        "https://bitbucket.org/*"
+   ],
+  "short_name": "Xtense",
+  "browser_action": {
+    "default_title": "Xtense",
+    "default_icon": "xtense.png",
+    "default_popup": "xtense.html"
+  }
+
+}
