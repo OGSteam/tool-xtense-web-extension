@@ -169,43 +169,42 @@ function initOGSpyCommunication() {
 }
 /* Interpretation des retours Xtense (module OGSPY) */
 
-function handleResponse(Response) {
+function handleResponse(status , Response) {
     //log(Response.responseText);
     //log(Response.status);
     var message_start = '"' + GM_getValue('server.name', '') + '" : ';
     //var extra = {Request: Request, Server: Server, Response: Response, page: Request.data.type};
-    if (Response.status != 200) {
-        if (Response.status == 404) setStatus(XLOG_ERROR, Xl('http_status_404'));
-        else if (Response.status == 403) setStatus(XLOG_ERROR, Xl('http_status_403'));
-        else if (Response.status == 500) setStatus(XLOG_ERROR, Xl('http_status_500'));
-        else if (Response.status == 0) setStatus(XLOG_ERROR, Xl('http_timeout'));
-        else setStatus(XLOG_ERROR, Xl('http_status_unknow'), Response.status);
+    if (status != 'success') {
+
+        setStatus(XLOG_ERROR, Xl('http_status_unknow'), status);
+
     } else {
         var type = XLOG_SUCCESS;
-        if (Response.responseText == '' || typeof (Response.responseText) == 'undefined') {
+        if (Response == '' || typeof (Response) == 'undefined') {
             setStatus(XLOG_ERROR, message_start + Xl('empty_response'));
             return;
         }
-        if (Response.responseText == 'hack') {
+        if (Response == 'hack') {
             setStatus(XLOG_ERROR, message_start + Xl('response_hack'));
             return;
         }
         var data = {};
-        if (Response.responseText.match(/^\(\{.*\}\)$/g)) {
-            data = Response.responseText;
+        if (Response.match(/^\(\{.*\}\)$/g)) {
+            data = Response;
         } else {
             var match = null;
-            if ((match = Response.responseText.match(/\(\{.*\}\)/))) {
+            if ((match = Response.match(/\(\{.*\}\)/))) {
                 data = match[0];
                 // Message d'avertissement
                 type = XLOG_WARNING;
-                log('full response:' + Response.responseText);
+                log('full response:' + Response);
             } else {
                 // Message d'erreur
                 setStatus(XLOG_ERROR, message_start + Xl('invalid_response'));
                 return;
             }
         }
+        log("data " + data);
         if (data.servername == null) {
             var message = '';
             var code = data.type;
@@ -226,7 +225,7 @@ function handleResponse(Response) {
                 else if (code == 'plugin config') message = Xl('error_plugin_config');
                 else if (code == 'plugin univers') message = Xl('error_plugin_univers');
                 else if (code == 'grant') message = Xl('error_grant_start') + Xl('error grant ' + data.access);
-                else message = Xl('unknow_response', code, Response.responseText);
+                else message = Xl('unknow_response', code, Response);
             } else {
                 if (code == 'home updated' && data.page == 'overview') message = Xl('success_home_updated', Xl('page_overview', data.page));
                 else if (code == 'system') message = Xl('success_system', data.galaxy, data.system);
@@ -240,7 +239,7 @@ function handleResponse(Response) {
                 else if (code == 'ranking') message = Xl('success_ranking', Xl('ranking_' + data.type1), Xl('ranking_' + data.type2), data.offset, data.offset + 99);
                 else if (code == 'ally_list') message = Xl('success_ally_list', data.tag);
                 else if (code == 'spy') message = Xl('success_spy');
-                else message = Xl('unknow_response', code, Response.responseText);
+                else message = Xl('unknow_response', code, Response);
             }
             //if (Xprefs.getBool('display-execution-time') && data.execution) message = '['+data.execution+' ms] '+ message_start + message;
             //if (Xprefs.getBool('display-new-messages') && typeof data.new_messages!='undefined') Request.Tab.setNewPMStatus (data.new_messages, Server);
