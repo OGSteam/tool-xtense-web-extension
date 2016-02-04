@@ -7,7 +7,8 @@
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["parsers/OgameLocales.js",
+      "js": ["contribs/jquery-2.1.4.min.js",
+			 "parsers/OgameLocales.js",
 			 "parsers/OgameConstants.js",
 			 "parsers/Ogame.js",
              "contribs/crypto.js",
