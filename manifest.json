@@ -25,10 +25,6 @@
   "background": {
     "page": "background.html"
   },
-  //"permissions": [
-  //      "http://*/",
-  //      "https://bitbucket.org/*"
-   //],
 
   "permissions": [ "notifications",
     "unlimited_storage",
