@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.6.1.11
+// @version     2.6.1.12
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
@@ -12,12 +12,14 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.6.9.11';
+var VERSION = '2.6.9.12';
 var TYPE = 'GM-';
 var PLUGIN_REQUIRED = '2.5.1';
 var nomScript = 'Xtense';
 var Xlang = {};
 var XtenseLocales = {};
+//Config Jquery
+jQuery.support.cors = true;
 //Variables globales pour les status - Type d'erreur
 var XLOG_WARNING = 1,
     XLOG_ERROR = 2,
