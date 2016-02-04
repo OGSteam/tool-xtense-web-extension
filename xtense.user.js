@@ -129,18 +129,12 @@ function Xajax(obj) {
 }
 function XajaxCompo(url) {
     var rcString = "";
-    var xhr_object = new XMLHttpRequest();
-    xhr_object.open("GET", url, true);
-    xhr_object.send();
 
-    xhr_object.onreadystatechange = function () {
-        if (xhr_object.readyState == 4) {
-            rcString = xhr_object.responseText;
-            return(rcString);
-        } else {
-            return (false);
-        }
-    };
+    $.post(url, post,
+        function(data, status){
+            rcString = data;
+        });
+    return rcString;
 }
 
 // Récupère les messages de retours et locales

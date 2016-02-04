@@ -198,16 +198,16 @@ function displayOptions() {
     }
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br/><br/>';
     // Serveur Univers
-    options += '<img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/xtense.png" alt="Options Xtense"/>';
+    options += '<img src="images/xtense.png" alt="Options Xtense"/>';
     options += '<br/><br/>';
     options += '<table style="width:675px;">' +
         '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
         '<tbody>' +
         '<tr>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/server.png"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>&#160;Serveur</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/pages.png"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>&#160;Pages</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/conf.png"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>&#160;Options</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/raw/tip/images/about.png"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>&#160;A propos</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="images/server.png"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>&#160;Serveur</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="images/pages.png"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>&#160;Pages</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="images/conf.png"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>&#160;Options</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="images/about.png"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>&#160;A propos</b></span></a></td>' +
         '</tr>' +
         '</tbody>' +
         '</table>';
@@ -327,8 +327,6 @@ function displayOptions() {
     options += '<td class="value"></td>';
     options += '</tr>';
     options += '<tr>';
-    options += '<td class="champ"><label class="styled textBeefy">Mise à Jour Forcée du Script</label></td>';
-    options += '<td class="value" colspan="5" style="text-align:left;"><a style="cursor:pointer;color:red;"  href="http://userscripts.org/scripts/source/112690.user.js" > Mettre à jour maintenant ! </a></td>';
     options += '<td class="champ"></td>';
     options += '<td class="value"></td>';
     options += '<td class="champ"></td>';
