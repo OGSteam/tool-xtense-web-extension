@@ -20,7 +20,8 @@
     }
   ],
   "web_accessible_resources": [
-    "images/*.png"
+    "images/*.png",
+    "images/icones/*.gif"
   ],
   "background": {
     "page": "background.html"
