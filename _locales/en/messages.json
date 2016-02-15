@@ -1,0 +1,142 @@
+{
+    "XtenseSend_rankings": {
+        "message": "Rankings",
+        "description": "Intitulé Envoi des données classements"
+    },
+    "XtenseSend_tradingmessage": {
+        "message": "Trading",
+        "description": "Intitulé Envoi des données commerce"
+    },
+    "XtenseSend_allymembers": {
+        "message": "Alliance member list",
+        "description": "Intitulé Envoi des données membres alliance"
+    },
+    "XtenseSend_researchs": {
+        "message": "Research",
+        "description": "Intitulé Envoi des données Recherche"
+    },
+    "XtenseSend_debrismessages": {
+        "message": "Harvesting reports",
+        "description": "Intitulé Envoi des données Rapport de recyclage"
+    },
+    "XtenseAbout_version": {
+        "message": "About Xtense",
+        "description": "Activation des traces de debug"
+    },
+    "XtenseSend_allymessages": {
+        "message": "Alliance Messages",
+        "description": "Intitulé Envoi des données messages alliance"
+    },
+    "XtenseServer_URL": {
+        "message": "OGSpy Server Link",
+        "description": "Intitulé pour le lien vers le serveur OGSpy"
+    },
+    "XtenseSend_buildings": {
+        "message": "Resources",
+        "description": "Intitulé Envoi des données Bâtiments"
+    },
+    "XtenseOptions": {
+        "message": "Xtense Settings",
+        "description": "Titre du Menu principal"
+    },
+    "appDesc": {
+        "message": "This module used by OGSpy allow us to grab the data from our favorite game.",
+        "description": "Description de l'application"
+    },
+    "XtenseServer_password": {
+        "message": "Password",
+        "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
+    },
+    "XtenseSend_playermessages": {
+        "message": "Player messages",
+        "description": "Intitulé Envoi des données messages de joueurs"
+    },
+    "XtenseSend_spymessages": {
+        "message": "Spy reports",
+        "description": "Intitulé Envoi des données rapport espionnage"
+    },
+    "XtenseOptionsPage_debugmode": {
+        "message": "Debug Mode",
+        "description": "Activation des traces de debug"
+    },
+    "XtenseSend_systems": {
+        "message": "Galaxy",
+        "description": "Intitulé Envoi des données systèmes solaires"
+    },
+    "appName": {
+        "message": "Xtense GM",
+        "description": "The title of the application, displayed in the web store."
+    },
+    "XtenseSend_title": {
+        "message": "Send data:",
+        "description": "Titre Send Data"
+    },
+    "XtenseSed_shipyard": {
+        "message": "Shipyard",
+        "description": "Intitulé Envoi des données Flotte"
+    },
+    "XtenseOptions_serveur": {
+        "message": "Server",
+        "description": "Titre des options Xtense"
+    },
+    "XtenseOptions_pages": {
+        "message": "Game sections",
+        "description": "Titre des pages à collecter"
+    },
+    "XtenseSend_Expeditions": {
+        "message": "Expeditions",
+        "description": "Intitulé Envoi des données expéditions"
+    },
+    "XtenseSend_title_messages": {
+        "message": "Send game messages:",
+        "description": "Titre de la section messages"
+    },
+    "XtenseAbout_ogsteam": {
+        "message": "Xtense GM is an OGSteam Software © 2005-2016",
+        "description": "Copyright"
+    },
+    "XtenseAbout_support": {
+        "message": "Support available on this site :",
+        "description": "Support"
+    },
+    "XtenseOptions_settings": {
+        "message": "Settings",
+        "description": "Titre des options supplémentaires comme le debug"
+    },
+    "XtenseOptions_about": {
+        "message": "About",
+        "description": "Titre de la page de remerciements"
+    },
+    "XtenseAbout_authors": {
+        "message": "Xtense GM by Jedinight and DarkNoon.",
+        "description": "Lieste des auteurs"
+    },
+    "XtenseServer_username": {
+        "message": "User",
+        "description": "Intitulé pour le nom d'utilisateur OGSpy"
+    },
+    "XtenseSend_combatmessages": {
+        "message": "Combat reports",
+        "description": "Intitulé Envoi des données Rapport de combat"
+    },
+    "XtenseSend_general": {
+        "message": "Overview",
+        "description": "Intitulé Envoi des données Vue Générale"
+    },
+    "XtenseServer_defense": {
+        "message": "Defence",
+        "description": "Intitulé Envoi des données défenses"
+    },
+    "XtenseSend_station": {
+        "message": "Facilities",
+        "description": "Intitulé Envoi des données Installations"
+    },
+    "XtenseSend_ennemyspymessages": {
+        "message": "Enemy spying activities",
+        "description": "Intitulé Envoi des données rapport espionnage ennemi"
+    },
+    "XtenseOptionsPage_title": {
+        "message": "Other options",
+        "description": "Titre options diverses"
+    }
+}
