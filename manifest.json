@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Xtense GM",
   "version": "2.6.9.12",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "fr",
   "content_security_policy": "script-src 'self'; object-src 'self'",
-  "description": "Gets information from a spacecraft game.",
   "icons": { "128": "Xtense-128.png" },
   "content_scripts": [
     {
@@ -27,13 +28,7 @@
     "page": "background.html"
   },
 
-  "permissions": [ "notifications",
-    "unlimited_storage",
-    "tabs",
-    "management",
-    "webNavigation",
-    "webRequest", "webRequestBlocking",
-    "<all_urls>" ],
+  "permissions": [ "notifications"],
 
   "short_name": "Xtense",
   "browser_action": {
