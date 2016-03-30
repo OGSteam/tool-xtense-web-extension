@@ -1533,7 +1533,7 @@ function parse_rc(doc, minirc) {
         var deut = Xpath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
         var antimater = Xpath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
         var energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
-        log('metal=' + metal + ', cristal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
+        log('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
         return Array(metal, cristal, deut, antimater, energy);
     }
 /********************* Fin Utilities Ogame ******************************/
