@@ -12,7 +12,7 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.6.9.12';
+var VERSION = '2.6.9.13';
 var TYPE = 'GM-';
 var PLUGIN_REQUIRED = '2.5.1';
 var nomScript = 'Xtense';
@@ -38,15 +38,6 @@ if (isFirefox) {
 } else if (isOpera) {
     TYPE += 'OP';
 }
-// Variables globales données ogame
-
-var url = location.href;
-// Adresse en cours sur la barre d'outils
-var urlUnivers = url.match(new RegExp('(.*)/game'))[1];
-var numUnivers = urlUnivers.match(new RegExp('s(.*)-fr.ogame'))[1];
-var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
-var cookie = nomScript + '-' + numUnivers + '-';
-var prefix_GMData = langUnivers + numUnivers + '.';
 GM_setValue('last_message', 0);
 /*********************** Compatibilité Chrome ***************************/
 
@@ -111,23 +102,11 @@ function Xajax(obj) {
         //xhr = new XMLHttpRequest();
         url = obj.url || '';
         post = obj.post || '';
-        /*xhr.open('POST', url, true);
-        //xhr.setRequestHeader('User-Agent', 'Xtense2');
-        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.send(post);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                handleResponse(xhr);
-            }
-        };*/
 
     $.post(url, post,
           function(data, status){
               handleResponse(status , data);
         });
-
-
 }
 function XajaxCompo(url) {
     var rcString = "";
@@ -202,6 +181,18 @@ function getElementByAttr(e, attr, value) {
     return tab;
 }
 /************************** Fin Utilities *******************************/
+/*************************** Init ***************************************/
+// Variables globales données ogame
+
+var url = location.href;
+// Adresse en cours sur la barre d'outils
+var urlUnivers = url.match(new RegExp('(.*)/game'))[1];
+var numUnivers = urlUnivers.match(new RegExp('s(.*)-[a-z]{2}.ogame'))[1];
+var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
+var prefix_GMData = langUnivers + numUnivers + '.';
+log("Universe Number: " + numUnivers);
+log("Universe language: " + langUnivers);
+
 /******************************* Main ***********************************/
 
 initOGSpyCommunication();
