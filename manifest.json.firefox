@@ -10,14 +10,14 @@
 	  "gecko": {
 		"id": "ogspy.team@gmail.com",
 		"strict_min_version": "42.0",
-		"strict_max_version": "50.*",
+		"strict_max_version": "*",
 		"update_url": "https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js"
 	  }
 	},
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["contribs/jquery-2.2.0.min.js",
+      "js": ["contribs/jquery-2.2.2.min.js",
 			 "parsers/OgameLocales.js",
 			 "parsers/OgameConstants.js",
 			 "parsers/Ogame.js",
@@ -29,8 +29,24 @@
     }
   ],
   "web_accessible_resources": [
-    "images/*.png",
-    "images/icones/*.gif"
+    "images/about.png",
+    "images/conf.png",
+    "images/OGSteam.png",
+    "images/pages.png",
+    "images/server.png",
+    "images/xtense.png",
+    "images/icones/xtense.gif",
+    "/icones/xtense-send.gif",
+    "images/icones/xtense-small.gif",
+    "images/icones/xtenseKo.gif",
+    "images/icones/xtenseKo-small.gif",
+    "images/icones/xtenseNo.gif",
+    "images/icones/xtenseNo-small.gif",
+    "images/icones/xtenseOk.gif",
+    "images/icones/xtenseOk-small.gif",
+    "images/icones/xtenseReady.gif",
+    "images/icones/xtenseWarn.gif",
+    "images/icones/xtenseWarn-small.gif"
   ],
   "background": {
     "page": "background.html"

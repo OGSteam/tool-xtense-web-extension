@@ -6,6 +6,7 @@
   "default_locale": "fr",
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "icons": { "128": "Xtense-128.png" },
+
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
@@ -21,8 +22,24 @@
     }
   ],
   "web_accessible_resources": [
-    "images/*.png",
-    "images/icones/*.gif"
+    "images/about.png",
+    "images/conf.png",
+    "images/OGSteam.png",
+    "images/pages.png",
+    "images/server.png",
+    "images/xtense.png",
+    "images/icones/xtense.gif",
+    "images/icones/xtense-send.gif",
+    "images/icones/xtense-small.gif",
+    "images/icones/xtenseKo.gif",
+    "images/icones/xtenseKo-small.gif",
+    "images/icones/xtenseNo.gif",
+    "images/icones/xtenseNo-small.gif",
+    "images/icones/xtenseOk.gif",
+    "images/icones/xtenseOk-small.gif",
+    "images/icones/xtenseReady.gif",
+    "images/icones/xtenseWarn.gif",
+    "images/icones/xtenseWarn-small.gif"
   ],
   "background": {
     "page": "background.html"
