@@ -266,7 +266,6 @@ function handleResponse(status , Response) {
                 }
             }
             setStatus(type, '[' + data.execution + ' ms] ' + message_start + message);
-            //Request.Tab.setStatus(message, type, extra);
         } else {
             GM_setValue('server.name', data.servername);
             log(data.servername);
