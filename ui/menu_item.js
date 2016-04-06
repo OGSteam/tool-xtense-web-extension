@@ -36,8 +36,9 @@ function setStatus(type, message) {
             icone.src = chrome.extension.getURL('images/icones/xtense-send.gif');
         }
         icone.title = message;
+        log("setStatus : " + message);
     } else {
-        log(message);
+        log("setStatus Error: Cannot set icon " + message);
     }
 }
 //Fin Gestion de l'icone
@@ -45,7 +46,7 @@ function setStatus(type, message) {
 
 // Affiche les Options Xtense
 
-/* Affichage d'Xtense dans le menu */
+/* Displays Xtense Menu Entry point */
 
 function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
@@ -73,39 +74,10 @@ function displayXtense() {
             document.getElementById('menuTable').removeChild(document.getElementById('optionXtense'));
         }
         menuAlliance.parentNode.insertBefore(li1, menuAlliance.nextSibling);
-    } else if (getElementByAttr(document, 'className', 'showmessage')) {
-        // Dans les messages ?
-        log('icon for messages');
-        var toolbarMessage = Xpath.getSingleNode(document, '//div[contains(@id,\'messages\']');
-        var icone = chrome.extension.getURL('images/icones/xtense-small.gif');
-        var liXtense = document.createElement('li');
-        var aXtense = document.createElement('a');
-        aXtense.setAttribute('href', ogspy_link);
-        aXtense.setAttribute('target', 'blank_');
-        var imgXtense = document.createElement('img');
-        imgXtense.setAttribute('id', 'xtense.icone');
-        imgXtense.setAttribute('src', icone);
-        imgXtense.setAttribute('height', '16');
-        imgXtense.setAttribute('width', '16');
-        aXtense.appendChild(imgXtense);
-        liXtense.appendChild(aXtense);
-        toolbarMessage.appendChild(liXtense);
-    } else if (document.getElementById('combatreport')) {
-        // Dans un rc ?
-        var roundInfo = Xpath.getSingleNode(document, '//*[@id=\'combatreport\']//div[contains(@class,\'round_info\')]');
-        var icone = chrome.extension.getURL('images/icones/xtense-small.gif');
-        var pXtense = document.createElement('p');
-        var aXtense = document.createElement('a');
-        aXtense.setAttribute('href', ogspy_link);
-        aXtense.setAttribute('target', 'blank_');
-        var imgXtense = document.createElement('img');
-        imgXtense.setAttribute('id', 'xtense.icone');
-        imgXtense.setAttribute('src', icone);
-        imgXtense.setAttribute('height', '16');
-        imgXtense.setAttribute('width', '16');
-        aXtense.appendChild(imgXtense);
-        pXtense.appendChild(aXtense);
-        roundInfo.appendChild(pXtense);
+    }else{
+
+        log("Problem to display Menu entry point");
+
     }
 }
 
@@ -196,10 +168,10 @@ function displayOptions() {
     if (GM_getValue('debug.mode', 'false').toString() == 'true') {
         opt_debug_mode += ' checked';
     }
-    var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br/><br/>';
+    var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
     options += '<img src="' + chrome.extension.getURL('images/xtense.png')+ '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
-    options += '<br/><br/>';
+    options += '<br><br>';
     options += '<table style="width:675px;">' +
         '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
         '<tbody>' +
@@ -355,7 +327,7 @@ function displayOptions() {
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseAbout_ogsteam") + '</label></td>';
     options += '</tbody></table>';
     options += '</div>';
-    options += '<br/><br/></div>';
+    options += '<br><br></div>';
     //fin Tableau
     var einhalt = document.getElementById('inhalt');
     var escriptopt = document.createElement('div');
