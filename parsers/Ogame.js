@@ -113,36 +113,27 @@ function manual_send() {
 /* Fonction ajoutant lancant le parsing de la vue galaxie quand celle-ci est chargée */
 
 function get_galaxycontent() {
-    var target = document.getElementById('galaxyContent');
-    target.addEventListener('DOMNodeInserted', parse_galaxy_system_inserted, false);
-    target.addEventListener('DOMContentLoaded', parse_galaxy_system_inserted, false);
+
+    $( "#galaxyContent" ).on( "DOMNodeInserted",  parse_galaxy_system_inserted);
+
 }
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
 
 function get_ally_content() {
-    log('In get_ally_content()');
-    var target = document.getElementById('inhalt');
-    target.addEventListener('DOMNodeInserted', parse_ally_inserted, false);
-    target.addEventListener('DOMContentLoaded', parse_ally_inserted, false);
+
+    $( "#inhalt" ).on( "DOMNodeInserted",  parse_ally_inserted);
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_ranking_content() {
-    log('Entering get_ranking_content');
-    var target = document.getElementById('stat_list_content');
-    target.addEventListener('DOMNodeInserted', parse_ranking_inserted, false);
-    target.addEventListener('DOMContentLoaded', parse_ranking_inserted, false);
+
+    $( "#stat_list_content" ).on( "DOMNodeInserted",  parse_ranking_inserted);
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_message_content() {
-    //log('Entering get_message_content');
-    var target = document.getElementById('messages');
-    target.addEventListener('DOMNodeInserted', parse_messages, false);
-    //target.addEventListener('DOMContentLoaded', parse_messages, false);
-    /*var targetrc = document.getElementById('combatreport');
-     targetrc.addEventListener('DOMNodeInserted', parse_rc, false);
-     targetrc.addEventListener('DOMContentLoaded', parse_rc, false);*/
+
+    $( "#messages" ).on( "DOMNodeInserted",  parse_messages);
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
@@ -1357,7 +1348,7 @@ function parse_rc(doc, minirc) {
                         data: data
                     });
                     XtenseRequest.send();
-                    log("Message " + data.type + "envoyé");
+                    log("Message " + data.type + "sent");
                 }
             }
         }
