@@ -121,20 +121,7 @@ function XajaxCompo(url) {
 // Récupère les messages de retours et locales
 
 function Xl(name) {
-    try {
-        if (!Xlang[name]) {
-            log('Unknow locale "' + name + '"');
-            return '[Chaine non disponible]';
-        }
-        var locale = Xlang[name];
-        for (var i = 1, len = arguments.length; i < len; i++) {
-            locale = locale.replace('$' + i, arguments[i]);
-        }
-        return locale;
-    } catch (e) {
-        alert(e);
-        return false;
-    }
+    return chrome.i18n.getMessage("XtenseMsg_" + name);
 }
 // Permet de connaitre les locales du jeu suivant la langue (FR,ENG, ...)
 
@@ -167,19 +154,6 @@ function XtenseParseDate(dateString, handler) {
     return time;
 }
 
-//Fonction pour récupérer les nodes par nom de classe : http://www.developpez.net/forums/d620166/webmasters-developpement-web/javascript/dom-javascript-getelement-class/
-function getElementByAttr(e, attr, value) {
-    var tab = [];
-    if (e.getAttribute && e.getAttribute(attr) == value)
-        tab.push(e);
-    var n = e.firstChild;
-    if (n == null || typeof n == 'undefined') return tab;
-    do {
-        var tab2 = getElementByAttr(n, attr, value);
-        tab = tab.concat(tab2);
-    } while ((n = n.nextSibling) != null);
-    return tab;
-}
 /************************** Fin Utilities *******************************/
 /*************************** Init ***************************************/
 // Variables globales données ogame
