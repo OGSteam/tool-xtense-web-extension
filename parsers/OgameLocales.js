@@ -99,7 +99,7 @@ function initLocales() {
                     },
                     'comment': {}
                 },
-                'ogameAPI_link' : 'ogame-api'
+                'ogameAPI_link': 'ogame-api'
             },
             'combat report': {
                 'units': {
@@ -187,8 +187,8 @@ function initLocales() {
                     'attack': 'Attaquant',
                     'defense': 'Défenseur',
                     'nul': 'match nul',
-                    'attack_win' : 'L`attaquant a gagné la bataille',
-                    'ogameAPI_link' : 'ogame-api'
+                    'attack_win': 'L`attaquant a gagné la bataille',
+                    'ogameAPI_link': 'ogame-api'
                 }
             },
             'messages': {
@@ -205,7 +205,7 @@ function initLocales() {
                 'combat defence': 'Bataille de',
                 'trade message 1': 'Livraison de ressources par',
                 'trade message 2': 'Arriv.*e sur une plan.*te',
-                'antimatiere' : 'antimatière'
+                'antimatiere': 'antimatière'
             },
             'dates': {
                 'messages': {
@@ -428,7 +428,7 @@ function initLocales() {
                     },
                     'comment': {}
                 },
-                'ogameAPI_link' : 'ogame-api'
+                'ogameAPI_link': 'ogame-api'
             },
             'combat report': {
                 'units': {
@@ -516,8 +516,8 @@ function initLocales() {
                     'attack': 'Attaquant',
                     'defense': 'Défenseur',
                     'nul': 'match nul',
-                    'attack_win' : 'L`attaquant a gagné la bataille',
-                    'ogameAPI_link' : 'ogame-api'
+                    'attack_win': 'L`attaquant a gagné la bataille',
+                    'ogameAPI_link': 'ogame-api'
                 }
             },
             'messages': {
@@ -534,7 +534,7 @@ function initLocales() {
                 'combat defence': 'Bataille de',
                 'trade message 1': 'Livraison de ressources par',
                 'trade message 2': 'Arriv.*e sur une plan.*te',
-                'antimatiere' : 'antimatière'
+                'antimatiere': 'antimatière'
             },
             'dates': {
                 'messages': {

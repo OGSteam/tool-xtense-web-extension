@@ -99,20 +99,20 @@ function log(message) {
 //Requete Ajax
 
 function Xajax(obj) {
-        //xhr = new XMLHttpRequest();
-        url = obj.url || '';
-        post = obj.post || '';
+    //xhr = new XMLHttpRequest();
+    url = obj.url || '';
+    post = obj.post || '';
 
     $.post(url, post,
-          function(data, status){
-              handleResponse(status , data);
+        function (data, status) {
+            handleResponse(status, data);
         });
 }
 function XajaxCompo(url) {
     var rcString = "";
 
     $.post(url, post,
-        function(data, status){
+        function (data, status) {
             rcString = data;
         });
     return rcString;
