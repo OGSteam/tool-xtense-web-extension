@@ -23,7 +23,7 @@ function setStatus(type, message) {
         } else if (type == XLOG_WARNING) {
             if (document.getElementById('messagebox') || document.getElementById('combatreport')) {
                 icone.src = chrome.extension.getURL('images/icones/xtenseWarn-small.gif');
-            }  else {
+            } else {
                 icone.src = chrome.extension.getURL('images/icones/xtenseWarn.gif');
             }
         } else if (type == XLOG_ERROR) {
@@ -74,7 +74,7 @@ function displayXtense() {
             document.getElementById('menuTable').removeChild(document.getElementById('optionXtense'));
         }
         menuAlliance.parentNode.insertBefore(li1, menuAlliance.nextSibling);
-    }else{
+    } else {
 
         log("Problem to display Menu entry point");
 
@@ -170,16 +170,16 @@ function displayOptions() {
     }
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
-    options += '<img src="' + chrome.extension.getURL('images/xtense.png')+ '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
+    options += '<img src="' + chrome.extension.getURL('images/xtense.png') + '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
     options += '<br><br>';
     options += '<table style="width:675px;">' +
         '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
         '<tbody>' +
         '<tr>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/server.png')+ '"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/pages.png')+ '"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/conf.png')+ '"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/about.png')+ '"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/server.png') + '"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/pages.png') + '"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/conf.png') + '"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></span></a></td>' +
+        '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/about.png') + '"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></span></a></td>' +
         '</tr>' +
         '</tbody>' +
         '</table>';
@@ -370,6 +370,7 @@ function displayOptions() {
             }
         }
     }
+
     setInterval(enregistreOptionsXtense, 500);
 }
 

@@ -169,7 +169,7 @@ function initOGSpyCommunication() {
 }
 /* Interpretation des retours Xtense (module OGSPY) */
 
-function handleResponse(status , Response) {
+function handleResponse(status, Response) {
     //log(Response.responseText);
     //log(Response.status);
     var message_start = '"' + GM_getValue('server.name', '') + '" : ';
