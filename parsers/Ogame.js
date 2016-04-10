@@ -1434,6 +1434,7 @@ function parse_spy_report(RE) {
     };
 }
 
+
 /* Fonction de récupération de données dans un RE */
 
 function getElementInSpyReport(RE, elem) {
@@ -1476,11 +1477,11 @@ function getPlanetBoostersAndExtensions() {
         for (var i = 0; i < items.snapshotLength; i++) {
             var item = items.snapshotItem(i);
             var uuid = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['dataUuid'], item);
-            var title = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['title'], item);
+            var title = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['itemTime'], item);
             var temps = "";
 
             if (title != null) {
-                temps = title.match(/Temps restant : ([\w\d\s]+)/);
+                temps = title.match(/([\w\d\s]+)/);
 
                 if (temps != null && temps.length > 1) {
                     temps = temps[1];
@@ -1492,6 +1493,7 @@ function getPlanetBoostersAndExtensions() {
 
     return {boostExt: datas};
 }
+
 
 // Permet de savoir si c'est une lune
 

@@ -167,7 +167,7 @@
     "description": "Copyright"
   },
   "XtenseMsg_wrong_version_plugin": {
-    "message": "Vous ne pouvez pas vous connecter au plugin, sa version est trop vieille pour pouvoir être utilisée avec votre extension. Version du plugin : $1, version requise : $2 \nVous devez mettre à jour le plugin Xtense avant de pouvoir continuer",
+    "message": "Vous ne pouvez pas vous connecter au plugin. Vous devez mettre à jour le plugin Xtense sur le serveur OGSpy avant de pouvoir continuer",
     "description": "Copyright"
   },
   "XtenseMsg_wrong_version_xtense": {
@@ -175,7 +175,7 @@
     "description": "Copyright"
   },
   "XtenseMsg_wrong_version_toolbar": {
-    "message": "Vous ne pouvez pas vous connecter au plugin avec votre version de Xtense.\nVotre version : $1, requise : $2\nVous devez mettre à jour votre extension Xtense avant de pouvoir continuer",
+    "message": "Vous ne pouvez pas vous connecter au plugin avec votre version de Xtense. Vous devez mettre à jour votre extension Xtense avant de pouvoir continuer",
     "description": "Copyright"
   },
   "XtenseMsg_server_active": {
@@ -227,11 +227,11 @@
     "description": "Copyright"
   },
   "XtenseMsg_grant_system": {
-    "message": "Vous $1 ajouter des systêmes solaires",
+    "message": "Vous pouvez ajouter des systèmes solaires",
     "description": "Copyright"
   },
   "XtenseMsg_grant_ranking": {
-    "message": "Vous $1 ajouter des classements",
+    "message": "Vous pouvez ajouter des classements",
     "description": "Copyright"
   },
   "XtenseMsg_grant_empire": {
