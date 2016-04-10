@@ -133,7 +133,7 @@ function get_ranking_content() {
 
 function get_message_content() {
 
-    $("#messages").on("DOMNodeInserted", parse_messages);
+    $("#buttonz").on("DOMNodeInserted", parse_messages);
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
@@ -930,15 +930,16 @@ function parse_messages() {
                  if (api) {
                  log("API : " + api);
                  }*/
-                /*  if (messagesIdCache == null || messagesIdCache == 'undefined') {
+                /* Cache des messages */
+                 if (messagesIdCache == null || messagesIdCache == 'undefined') {
                  // Initialisation du cache d'identifiant de message
                  var messagesIdCache = Array();
-                 }*/
+                 }
 
                 // Verifie que le message court n'a pas deja ete traite
-                /* if (messagesIdCache.indexOf(idmsg) == -1) {
+                 if (messagesIdCache.indexOf(idmsg) == -1) {
                  messagesIdCache.push(idmsg);
-                 }*/
+                 }
 
                 // Espionnage ennemi
                 if ((GM_getValue('handle.msg.ennemy.spy').toString() == 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
@@ -1375,7 +1376,7 @@ function parse_spy_report(RE) {
     for (var i in spyStrings['units']) {
         for (var k = 0; k < types.snapshotLength; k++) {
             if (types.snapshotItem(k).textContent.trim().match(new RegExp(spyStrings['groups'][i], 'gi'))) {
-                //alert("Groupe Trouvé = " + types.snapshotItem(k).textContent.trim());
+                log("Groupe Trouvé = " + types.snapshotItem(k).textContent.trim());
                 if (k++ < types.snapshotLength) {
                     for (var z = k; z < types.snapshotLength; z++) {
                         var finish = false;
@@ -1395,7 +1396,7 @@ function parse_spy_report(RE) {
                             for (var j in spyStrings['units'][i]) {
                                 if (types.snapshotItem(z).innerHTML.match(new RegExp(spyStrings['units'][i][j], 'gi'))) {
                                     data[XtenseDatabase[i][j]] = types.snapshotItem(z).title.trim().replace(/\./g, '');
-                                    //alert("R="+XtenseDatabase.database[i][j] + " = " + data[XnewOgame.database[i][j]]);
+                                    log("R="+XtenseDatabase.database[i][j] + " = " + data[XnewOgame.database[i][j]]);
                                 }
                             }
                         } else {
@@ -1404,7 +1405,7 @@ function parse_spy_report(RE) {
 
                                 if (m > -1) {
                                     data[XtenseDatabase[i][j]] = m;
-                                    //alert("BT="+spyStrings['units'][i][j] + " = " + data[XnewOgame.database[i][j]]);
+                                    log("BT="+spyStrings['units'][i][j] + " = " + data[XnewOgame.database[i][j]]);
                                 }
                             }
                         }
