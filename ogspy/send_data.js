@@ -153,18 +153,6 @@ function initOGSpyCommunication() {
             uri = '&' + tab.join('&');
             return uri;
         },
-        check: function (isCheck) {
-            var postData = 'toolbar_version=' + VERSION + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server.user', '') + '&password=' + MD5(SHA1(GM_getValue('server.pwd', ''))) + '&univers=' + urlUnivers + XtenseRequest.serializeData() + (GM_getValue('server.check', 'false').toString() == 'true' ? '&server_check=1' : '');
-            log('sending ' + postData + ' to ' + GM_getValue('server.url.plugin', '') + ' from ' + urlUnivers);
-            new Xajax({
-                url: GM_getValue('server.url.plugin', ''),
-                post: postData,
-                callback: null,
-                scope: this
-            });
-            postedData = postData;
-            loading = true;
-        }
     };
 }
 /* Interpretation des retours Xtense (module OGSPY) */
@@ -213,7 +201,7 @@ function handleResponse(status, Response) {
                 type = XLOG_ERROR;
                 if (code == 'wrong version') {
                     if (data.target == 'plugin') message = Xl('error_wrong_version_plugin', PLUGIN_REQUIRED, data.version);
-                    else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense.php');
+                    else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense');
                     else message = Xl('error_wrong_version_toolbar', data.version, VERSION);
                 } else if (code == 'php version') message = Xl('error_php_version', data.version);
                 else if (code == 'server active') message = Xl('error_server_active', data.reason);
@@ -224,7 +212,7 @@ function handleResponse(status, Response) {
                 else if (code == 'plugin connections') message = Xl('error_plugin_connections');
                 else if (code == 'plugin config') message = Xl('error_plugin_config');
                 else if (code == 'plugin univers') message = Xl('error_plugin_univers');
-                else if (code == 'grant') message = Xl('error_grant_start') + Xl('error grant ' + data.access);
+                else if (code == 'grant') message = Xl('error_grant_start');
                 else message = Xl('unknow_response', code, Response);
             } else {
                 if (code == 'home updated' && data.page == 'overview') message = Xl('success_home_updated', Xl('page_overview', data.page));
@@ -236,14 +224,11 @@ function handleResponse(status, Response) {
                 else if (code == 'rc') message = Xl('success_rc');
                 else if (code == 'rc_cdr') message = Xl('success_rc_cdr');
                 else if (code == 'messages') message = Xl('success_messages');
-                else if (code == 'ranking') message = Xl('success_ranking', Xl('ranking_' + data.type1), Xl('ranking_' + data.type2), data.offset, data.offset + 99);
-                else if (code == 'ally_list') message = Xl('success_ally_list', data.tag);
+                else if (code == 'ranking') message = Xl('success_ranking');
+                else if (code == 'ally_list') message = Xl('success_ally_list');
                 else if (code == 'spy') message = Xl('success_spy');
                 else message = Xl('unknow_response', code, Response);
             }
-            //if (Xprefs.getBool('display-execution-time') && data.execution) message = '['+data.execution+' ms] '+ message_start + message;
-            //if (Xprefs.getBool('display-new-messages') && typeof data.new_messages!='undefined') Request.Tab.setNewPMStatus (data.new_messages, Server);
-            //message = '['+data.execution+' ms] '+ message_start + message;
 
             if (data.calls) {
                 // Merge the both objects
