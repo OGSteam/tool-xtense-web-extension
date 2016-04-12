@@ -151,6 +151,10 @@
     "message": "statut 500: Erreur interne au serveur.",
     "description": "TODO"
   },
+  "XtenseMsg_http_status_unknow": {
+    "message": "Code erreur Inconnu",
+    "description": "Copyright-Used-"
+  },
   "XtenseMsg_empty_response": {
     "message": "Réponse du plugin vide",
     "description": "Copyright-Used-"
@@ -274,10 +278,6 @@
   "XtenseMsg_no_messages": {
     "message": "Aucun message à envoyer",
     "description": "-Used-"
-  },
-  "XtenseMsg_http_status_unknow": {
-    "message": "Code erreur Inconnu",
-    "description": "Copyright-Used-"
   },
   "XtenseMsg_response_hack": {
     "message": "Les données envoyées ont été refusées par le plugin Xtense",
