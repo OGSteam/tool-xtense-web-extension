@@ -158,26 +158,36 @@ function initOGSpyCommunication() {
 /* Interpretation des retours Xtense (module OGSPY) */
 
 function handleResponse(status, Response) {
-    //log(Response.responseText);
-    //log(Response.status);
+    //log("Response: " + Response);
+    //log("Status: " + status);
     var message_start = '"' + GM_getValue('server.name', '') + '" : ';
     //var extra = {Request: Request, Server: Server, Response: Response, page: Request.data.type};
     if (status != 'success') {
-
-        setStatus(XLOG_ERROR, Xl('http_status_unknow'), status);
-
+        switch (status) {
+            case 404 :
+                setStatus(XLOG_ERROR, Xl('http_status_404'));
+                break;
+            case 403 :
+                setStatus(XLOG_ERROR, Xl('http_status_403'));
+                break;
+            case 500 :
+                setStatus(XLOG_ERROR, Xl('http_status_500'));
+                break;
+            default:
+                setStatus(XLOG_ERROR, Xl('http_status_unknow'));
+        }
     } else {
         var type = XLOG_SUCCESS;
         if (Response == '' || typeof (Response) == 'undefined') {
-            setStatus(XLOG_ERROR, message_start + Xl('empty_response'));
+            setStatus(XLOG_ERROR, Xl('empty_response'));
             return;
         }
         if (Response == 'hack') {
-            setStatus(XLOG_ERROR, message_start + Xl('response_hack'));
+            setStatus(XLOG_ERROR, Xl('response_hack'));
             return;
         }
         var data = {};
-        if (Response.match(/^\(\{.*\}\)$/g)) {
+        if (Response.match(/^\{.*\}$/g)) {
             data = Response;
         } else {
             var match = null;
@@ -188,73 +198,68 @@ function handleResponse(status, Response) {
                 log('full response:' + Response);
             } else {
                 // Message d'erreur
-                setStatus(XLOG_ERROR, message_start + Xl('invalid_response'));
+                setStatus(XLOG_ERROR, Xl('invalid_response'));
                 return;
             }
         }
-        log("data " + data);
-        if (data.servername == null) {
-            var message = '';
-            var code = data.type;
-            //log('Code='+code)
-            if (data.status == 0) {
-                type = XLOG_ERROR;
-                if (code == 'wrong version') {
-                    if (data.target == 'plugin') message = Xl('error_wrong_version_plugin', PLUGIN_REQUIRED, data.version);
-                    else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense');
-                    else message = Xl('error_wrong_version_toolbar', data.version, VERSION);
-                } else if (code == 'php version') message = Xl('error_php_version', data.version);
-                else if (code == 'server active') message = Xl('error_server_active', data.reason);
-                else if (code == 'username') message = Xl('error_username');
-                else if (code == 'password') message = Xl('error_password');
-                else if (code == 'user active') message = Xl('error_user_active');
-                else if (code == 'home full') message = Xl('error_home_full');
-                else if (code == 'plugin connections') message = Xl('error_plugin_connections');
-                else if (code == 'plugin config') message = Xl('error_plugin_config');
-                else if (code == 'plugin univers') message = Xl('error_plugin_univers');
-                else if (code == 'grant') message = Xl('error_grant_start');
-                else message = Xl('unknow_response', code, Response);
-            } else {
-                if (code == 'home updated' && data.page == 'overview') message = Xl('success_home_updated', Xl('page_overview', data.page));
-                else if (code == 'system') message = Xl('success_system', data.galaxy, data.system);
-                else if (code == 'home updated' && data.page == 'labo') message = Xl('success_home_updated', Xl('page_labo', data.page));
-                else if (code == 'home updated' && data.page == 'buildings') message = Xl('success_home_updated', Xl('page_buildings', data.page));
-                else if (code == 'home updated' && data.page == 'fleet') message = Xl('success_home_updated', Xl('page_fleet', data.page));
-                else if (code == 'home updated' && data.page == 'defense') message = Xl('success_home_updated', Xl('page_defense', data.page));
-                else if (code == 'rc') message = Xl('success_rc');
-                else if (code == 'rc_cdr') message = Xl('success_rc_cdr');
-                else if (code == 'messages') message = Xl('success_messages');
-                else if (code == 'ranking') message = Xl('success_ranking');
-                else if (code == 'ally_list') message = Xl('success_ally_list');
-                else if (code == 'spy') message = Xl('success_spy');
-                else message = Xl('unknow_response', code, Response);
-            }
+        data = jQuery.parseJSON(data);
+        var message = '';
+        var code = data.type;
+        //log('Code='+code)
+        if (data.status == 0) {
+            type = XLOG_ERROR;
+            if (code == 'wrong version') {
+                if (data.target == 'plugin') message = Xl('error_wrong_version_plugin');
+                else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense');
+                else message = Xl('error_wrong_version_toolbar');
+            } else if (code == 'php version') message = Xl('error_php_version');
+            else if (code == 'server active') message = Xl('error_server_active');
+            else if (code == 'username') message = Xl('error_username');
+            else if (code == 'password') message = Xl('error_password');
+            else if (code == 'user active') message = Xl('error_user_active');
+            else if (code == 'home full') message = Xl('error_home_full');
+            else if (code == 'plugin connections') message = Xl('error_plugin_connections');
+            else if (code == 'plugin config') message = Xl('error_plugin_config');
+            else if (code == 'plugin univers') message = Xl('error_plugin_univers');
+            else if (code == 'grant') message = Xl('error_grant_start');
+            else message = Xl('unknow_response');
+        } else {
+            if (code == 'home updated' && data.page == 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + ")";
+            else if (code == 'system') message = Xl('success_system');
+            else if (code == 'home updated' && data.page == 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + ")";
+            else if (code == 'home updated' && data.page == 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + ")";
+            else if (code == 'home updated' && data.page == 'fleet') message = Xl('success_home_updated') + "( " + Xl('page_fleet') + ")";
+            else if (code == 'home updated' && data.page == 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + ")";
+            else if (code == 'rc') message = Xl('success_rc');
+            else if (code == 'rc_cdr') message = Xl('success_rc_cdr');
+            else if (code == 'messages') message = Xl('success_messages');
+            else if (code == 'ranking') message = Xl('success_ranking');
+            else if (code == 'ally_list') message = Xl('success_ally_list');
+            else if (code == 'spy') message = Xl('success_spy');
+            else message = Xl('unknow_response');
+        }
 
-            if (data.calls) {
-                // Merge the both objects
-                //var calls = extra.calls = data.calls;
-                var calls = data.calls;
-                calls.status = 'success';
-                if (calls.warning.length > 0) calls.status = 'warning';
-                if (calls.error.length > 0) calls.status = 'error';
-                // Calls messages
-                if (data.call_messages) {
-                    calls.messages = {
-                        success: [],
-                        warning: [],
-                        error: []
-                    };
-                    // Affichage des messages dans l'ordre : success, warning, error
-                    for (var i = 0, len = data.call_messages.length; i < len; i++) {
-                        calls.messages[data.call_messages[i].type].push(data.call_messages[i].mod + ' : ' + data.call_messages[i].message);
-                    }
+        if (data.calls) {
+            // Merge the both objects
+            //var calls = extra.calls = data.calls;
+            var calls = data.calls;
+            calls.status = 'success';
+            if (calls.warning.length > 0) calls.status = 'warning';
+            if (calls.error.length > 0) calls.status = 'error';
+            // Calls messages
+            if (data.call_messages) {
+                calls.messages = {
+                    success: [],
+                    warning: [],
+                    error: []
+                };
+                // Affichage des messages dans l'ordre : success, warning, error
+                for (var i = 0, len = data.call_messages.length; i < len; i++) {
+                    calls.messages[data.call_messages[i].type].push(data.call_messages[i].mod + ' : ' + data.call_messages[i].message);
                 }
             }
-            setStatus(type, '[' + data.execution + ' ms] ' + message_start + message);
-        } else {
-            GM_setValue('server.name', data.servername);
-            log(data.servername);
         }
+        setStatus(type, '[' + data.execution + ' ms] ' + message);
     }
 }
 
