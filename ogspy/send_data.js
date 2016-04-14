@@ -158,10 +158,10 @@ function initOGSpyCommunication() {
 /* Interpretation des retours Xtense (module OGSPY) */
 
 function handleResponse(status, Response) {
-    //log("Response: " + Response);
     //log("Status: " + status);
+    log("Response: " + Response);
     var message_start = '"' + GM_getValue('server.name', '') + '" : ';
-    //var extra = {Request: Request, Server: Server, Response: Response, page: Request.data.type};
+
     if (status != 'success') {
         switch (status) {
             case 404 :
@@ -174,7 +174,7 @@ function handleResponse(status, Response) {
                 setStatus(XLOG_ERROR, Xl('http_status_500'));
                 break;
             default:
-                setStatus(XLOG_ERROR, Xl('http_status_unknow'));
+                setStatus(XLOG_ERROR, Xl('http_status_unknown'));
         }
     } else {
         var type = XLOG_SUCCESS;
@@ -252,7 +252,7 @@ function handleResponse(status, Response) {
                     if(data.page == 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + " "+ data.planet +")";
                     if(data.page == 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + " "+ data.planet +")";
                     if(data.page == 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + " "+ data.planet +")";
-                    if(data.page == 'fleet') message = Xl('success_home_updated') + "( " + Xl('page_fleet') + " "+ data.planet +")";
+                    if(data.page == 'fleet') message = Xl('success_home_updated') + " (" + Xl('page_fleet') + " "+ data.planet +")";
                     if(data.page == 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + " "+ data.planet +")";
                     break;
                 case 'system' :
