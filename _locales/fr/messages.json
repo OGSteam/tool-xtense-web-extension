@@ -151,8 +151,8 @@
     "message": "statut 500: Erreur interne au serveur.",
     "description": "TODO"
   },
-  "XtenseMsg_http_status_unknow": {
-    "message": "Code erreur Inconnu",
+  "XtenseMsg_http_status_unknown": {
+    "message": "Pas de réponse serveur. Merci de vérifier le lien vers votre serveur OGSpy et de vérifier que celui-ci est bien actif.",
     "description": "Copyright-Used-"
   },
   "XtenseMsg_empty_response": {
