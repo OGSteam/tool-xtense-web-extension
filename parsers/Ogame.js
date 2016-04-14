@@ -419,8 +419,9 @@ function parse_ranking_inserted(event) {
             rowsData[n] = r;
             length++;
         }
-        if (GM_setValue('lastAction', '') != 'r:' + type[0] + ':' + type[1] + ':' + offset) {
-            setStatus(XLOG_NORMAL, Xl('ranking_detected', Xl('ranking_' + type[0]), Xl('ranking_' + type[1])));
+
+        if (GM_getValue('lastAction', '') != 'r:' + type[0] + ':' + type[1] + ':' + offset) {
+            setStatus(XLOG_NORMAL, Xl('ranking_detected'));
             GM_setValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
             if (offset != 0 && length != 0) {
                 XtenseRequest.set({
