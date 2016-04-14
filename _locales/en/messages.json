@@ -404,7 +404,7 @@
     "description": "Copyright"
   },
   // Serveur number
-  "XtenseMsg_http_status_unknow": {
+  "XtenseMsg_http_status_unknown": {
     "message": "Code d\"erreur Inconnu $1",
     "description": "Copyright"
   },
