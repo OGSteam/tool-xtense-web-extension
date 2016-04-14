@@ -208,35 +208,78 @@ function handleResponse(status, Response) {
         //log('Code='+code)
         if (data.status == 0) {
             type = XLOG_ERROR;
-            if (code == 'wrong version') {
-                if (data.target == 'plugin') message = Xl('error_wrong_version_plugin');
-                else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense');
-                else message = Xl('error_wrong_version_toolbar');
-            } else if (code == 'php version') message = Xl('error_php_version');
-            else if (code == 'server active') message = Xl('error_server_active');
-            else if (code == 'username') message = Xl('error_username');
-            else if (code == 'password') message = Xl('error_password');
-            else if (code == 'user active') message = Xl('error_user_active');
-            else if (code == 'home full') message = Xl('error_home_full');
-            else if (code == 'plugin connections') message = Xl('error_plugin_connections');
-            else if (code == 'plugin config') message = Xl('error_plugin_config');
-            else if (code == 'plugin univers') message = Xl('error_plugin_univers');
-            else if (code == 'grant') message = Xl('error_grant_start');
-            else message = Xl('unknow_response');
+            switch (code) {
+                case 'wrong version':
+                    if (data.target == 'plugin') message = Xl('error_wrong_version_plugin');
+                    else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense');
+                    else message = Xl('error_wrong_version_toolbar');
+                    break;
+                case 'php version' :
+                    message = Xl('error_php_version');
+                    break;
+                case 'server active':
+                    message = Xl('error_server_active');
+                    break;
+                case 'username' :
+                    message = Xl('error_username');
+                    break;
+                case 'password' :
+                    message = Xl('error_password');
+                    break;
+                case 'user active' :
+                    message = Xl('error_user_active');
+                    break;
+                case 'home full' :
+                    message = Xl('error_home_full');
+                    break;
+                case 'plugin connections' :
+                    message = Xl('error_plugin_connections');
+                    break;
+                case 'plugin config' :
+                    message = Xl('error_plugin_config');
+                    break;
+                case 'plugin univers' :
+                    message = Xl('error_plugin_univers');
+                    break;
+                case 'plugin grant' :
+                    message = Xl('error_grant_start');
+                    break;
+                default:
+                    message = Xl('unknow_response');
+            }
         } else {
-            if (code == 'home updated' && data.page == 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + ")";
-            else if (code == 'system') message = Xl('success_system');
-            else if (code == 'home updated' && data.page == 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + ")";
-            else if (code == 'home updated' && data.page == 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + ")";
-            else if (code == 'home updated' && data.page == 'fleet') message = Xl('success_home_updated') + "( " + Xl('page_fleet') + ")";
-            else if (code == 'home updated' && data.page == 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + ")";
-            else if (code == 'rc') message = Xl('success_rc');
-            else if (code == 'rc_cdr') message = Xl('success_rc_cdr');
-            else if (code == 'messages') message = Xl('success_messages');
-            else if (code == 'ranking') message = Xl('success_ranking');
-            else if (code == 'ally_list') message = Xl('success_ally_list');
-            else if (code == 'spy') message = Xl('success_spy');
-            else message = Xl('unknow_response');
+            switch (code) {
+                case 'home updated' :
+                    if(data.page == 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + " "+ data.planet +")";
+                    if(data.page == 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + " "+ data.planet +")";
+                    if(data.page == 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + " "+ data.planet +")";
+                    if(data.page == 'fleet') message = Xl('success_home_updated') + "( " + Xl('page_fleet') + " "+ data.planet +")";
+                    if(data.page == 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + " "+ data.planet +")";
+                    break;
+                case 'system' :
+                    message = Xl('success_system');
+                    break;
+                case 'rc' :
+                    message = Xl('success_rc');
+                    break;
+                case 'rc_cdr':
+                    message = Xl('success_rc_cdr');
+                    break;
+                case 'messages':
+                    message = Xl('success_messages');
+                    break;
+                case 'ranking':
+                    message = Xl('success_ranking') + " (" + data.offset.toString() +"-" + (data.offset + 99).toString() + ")";
+                    break;
+                case 'ally_list':
+                    message = Xl('success_ally_list');
+                    break;
+                case 'spy':
+                    message = Xl('success_spy');
+                    break;
+                default:
+                    message = Xl('unknow_response');
+            }
         }
 
         if (data.calls) {
