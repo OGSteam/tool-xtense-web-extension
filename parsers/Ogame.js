@@ -420,7 +420,7 @@ function parse_ranking_inserted(event) {
             length++;
         }
 
-        if (GM_getValue('lastAction', '') != 'r:' + type[0] + ':' + type[1] + ':' + offset) {
+        if (GM_getValue('lastAction', '') != 'r:' + type[0] + ':' + type[1] + ':' + offset) { //TODO Eviter de parser les classements pour rien...
             setStatus(XLOG_NORMAL, Xl('ranking_detected'));
             GM_setValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
             if (offset != 0 && length != 0) {
