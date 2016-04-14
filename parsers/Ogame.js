@@ -165,7 +165,7 @@ function parse_galaxy_system_inserted(event) {
             log('invalid system' + ' ' + coords[0] + ' ' + coords[1]);
             return;
         }
-        setStatus(XLOG_NORMAL, Xl('system_detected', coords[0], coords[1]));
+        setStatus(XLOG_NORMAL, Xl('system_detected') +"("+ coords[0] +":"+ coords[1]+")");
         if (rows.snapshotLength > 0) {
             //var XtenseRequest = new XtenseRequest(null, null, null);
             log(rows.snapshotLength + ' rows found in galaxy');
@@ -583,7 +583,6 @@ function parse_researchs() {
         'Protection': tabLevel[15]
     });
     XtenseRequest.send();
-    //setStatus(XLOG_SUCCESS,Xl('success_research'));
 }
 /* Page Shipyard */
 
