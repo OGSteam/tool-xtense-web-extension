@@ -205,7 +205,6 @@ function handleResponse(status, Response) {
         data = jQuery.parseJSON(data);
         var message = '';
         var code = data.type;
-        //log('Code='+code)
         if (data.status == 0) {
             type = XLOG_ERROR;
             switch (code) {
@@ -257,7 +256,7 @@ function handleResponse(status, Response) {
                     if(data.page == 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + " "+ data.planet +")";
                     break;
                 case 'system' :
-                    message = Xl('success_system');
+                    message = Xl('success_system') + " ("+data.galaxy+":"+data.system+")";
                     break;
                 case 'rc' :
                     message = Xl('success_rc');
