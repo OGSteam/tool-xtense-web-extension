@@ -16,10 +16,8 @@ var VERSION = '2.6.9.15';
 var TYPE = 'GM-';
 var PLUGIN_REQUIRED = '2.5.1';
 var nomScript = 'Xtense';
-var Xlang = {};
 var XtenseLocales = {};
-//Config Jquery
-jQuery.support.cors = true;
+
 //Variables globales pour les status - Type d'erreur
 var XLOG_WARNING = 1,
     XLOG_ERROR = 2,
@@ -172,6 +170,8 @@ var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
 var prefix_GMData = langUnivers + numUnivers + '.';
 log("Universe Number: " + numUnivers);
 log("Universe language: " + langUnivers);
+//Config JQuery
+jQuery.support.cors = GM_getValue('cors.mode', 'true');
 
 /******************************* Main ***********************************/
 
