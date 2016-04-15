@@ -106,6 +106,7 @@ function displayOptions() {
     var handle_msg_commerce = ' ';
     // Variables : Options
     var opt_debug_mode = ' ';
+    var opt_cors_header = ' ';
     // Récupération des préférences  : Serveur
     if (GM_getValue('server.check', 'false').toString() == 'true') {
         server_check += 'checked';
@@ -167,6 +168,9 @@ function displayOptions() {
 
     if (GM_getValue('debug.mode', 'false').toString() == 'true') {
         opt_debug_mode += ' checked';
+    }
+    if (GM_getValue('cors.mode', 'true').toString() == 'true') {
+        opt_cors_header += ' checked';
     }
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
@@ -293,8 +297,8 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_debugmode") + '</label></td>';
     options += '<td class="value" style="text-align:left;"><input class="speed" id="debug.mode" size="35" alt="24" type="checkbox"' + opt_debug_mode + '/></td>';
-    options += '<td class="champ"></td>';
-    options += '<td class="value"></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_corsheader") + '</label></td>';
+    options += '<td class="value" style="text-align:left;"><input class="speed" id="cors.mode" size="35" alt="24" type="checkbox"' + opt_cors_header + '/></td>';
     options += '<td class="champ"></td>';
     options += '<td class="value"></td>';
     options += '</tr>';
