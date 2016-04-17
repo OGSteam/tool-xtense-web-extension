@@ -50,12 +50,13 @@
     "page": "background.html"
   },
   "permissions": [
-    "notifications"
+    "notifications",
+    "activeTab"
   ],
   "short_name": "Xtense",
   "browser_action": {
     "default_title": "Xtense",
-    "default_icon": "xtense.png",
+    "default_icon": "images/icones/xtense_default.png",
     "default_popup": "xtense.html"
   }
 }
