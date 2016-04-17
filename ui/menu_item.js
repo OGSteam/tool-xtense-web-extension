@@ -6,36 +6,32 @@
 //Gestion de l'icone
 
 function setStatus(type, message) {
+    var img_url = null;
     var icone = Xpath.getSingleNode(document, '//img[@id=\'xtense.icone\']');
     if (icone != null) {
-        if (type == XLOG_SUCCESS) {
-            if (document.getElementById('messagebox') || document.getElementById('combatreport')) {
-                icone.src = chrome.extension.getURL('images/icones/xtenseOk-small.gif');
-            } else {
-                icone.src = chrome.extension.getURL('images/icones/xtenseOk.gif');
-            }
-        } else if (type == XLOG_NORMAL) {
-            if (document.getElementById('messagebox') || document.getElementById('combatreport')) {
-                icone.src = chrome.extension.getURL('images/icones/xtenseNo-small.gif');
-            } else {
-                icone.src = chrome.extension.getURL('images/icones/xtenseNo.gif');
-            }
-        } else if (type == XLOG_WARNING) {
-            if (document.getElementById('messagebox') || document.getElementById('combatreport')) {
-                icone.src = chrome.extension.getURL('images/icones/xtenseWarn-small.gif');
-            } else {
-                icone.src = chrome.extension.getURL('images/icones/xtenseWarn.gif');
-            }
-        } else if (type == XLOG_ERROR) {
-            if (document.getElementById('messagebox') || document.getElementById('combatreport')) {
-                icone.src = chrome.extension.getURL('images/icones/xtenseKo-small.gif');
-            } else {
-                icone.src = chrome.extension.getURL('images/icones/xtenseKo.gif');
-            }
-        } else if (type == XLOG_SEND) {
-            icone.src = chrome.extension.getURL('images/icones/xtense-send.gif');
+        switch (type){
+            case XLOG_SUCCESS :
+                img_url = 'images/icones/xtenseOk.gif';
+                break;
+            case XLOG_NORMAL :
+                img_url = 'images/icones/xtenseNo.gif';
+                break;
+            case XLOG_WARNING :
+                img_url = 'images/icones/xtenseWarn.gif';
+                break;
+            case XLOG_ERROR:
+                img_url = 'images/icones/xtenseKo.gif';
+                break;
+            case XLOG_SEND:
+                img_url = 'images/icones/xtense-send.gif';
+                break;
+            default:
+                img_url = 'images/icones/xtenseNo.gif';
+
         }
         icone.title = message;
+        icone.src = chrome.extension.getURL(img_url);
+
         log("setStatus : " + message);
     } else {
         log("setStatus Error: Cannot set icon " + message);
