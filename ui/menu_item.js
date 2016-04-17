@@ -11,27 +11,27 @@ function setStatus(type, message) {
     if (icone != null) {
         switch (type){
             case XLOG_SUCCESS :
-                img_url = 'images/icones/xtenseOk.gif';
+                img_url = 'images/icones/xtenseOk.png';
                 break;
             case XLOG_NORMAL :
-                img_url = 'images/icones/xtenseNo.gif';
+                img_url = 'images/icones/xtenseNo.png';
                 break;
             case XLOG_WARNING :
-                img_url = 'images/icones/xtenseWarn.gif';
+                img_url = 'images/icones/xtenseWarn.png';
                 break;
             case XLOG_ERROR:
-                img_url = 'images/icones/xtenseKo.gif';
+                img_url = 'images/icones/xtenseKo.png';
                 break;
             case XLOG_SEND:
-                img_url = 'images/icones/xtense-send.gif';
+                img_url = 'images/icones/xtense-send.png';
                 break;
             default:
-                img_url = 'images/icones/xtenseNo.gif';
+                img_url = 'images/icones/xtenseNo.png';
 
         }
         icone.title = message;
         icone.src = chrome.extension.getURL(img_url);
-
+        //chrome.browserAction.setIcon({path:img_url});
         log("setStatus : " + message);
     } else {
         log("setStatus Error: Cannot set icon " + message);

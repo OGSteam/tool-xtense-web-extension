@@ -33,25 +33,16 @@
     "images/pages.png",
     "images/server.png",
     "images/xtense.png",
-    "images/icones/xtense.gif",
-    "images/icones/xtense-send.gif",
-    "images/icones/xtense-small.gif",
-    "images/icones/xtenseKo.gif",
-    "images/icones/xtenseKo-small.gif",
-    "images/icones/xtenseNo.gif",
-    "images/icones/xtenseNo-small.gif",
-    "images/icones/xtenseOk.gif",
-    "images/icones/xtenseOk-small.gif",
-    "images/icones/xtenseReady.gif",
-    "images/icones/xtenseWarn.gif",
-    "images/icones/xtenseWarn-small.gif"
+    "images/icones/xtense.png",
+    "images/icones/xtense-send.png",
+    "images/icones/xtenseKo.png",
+    "images/icones/xtenseNo.png",
+    "images/icones/xtenseOk.png",
+    "images/icones/xtenseReady.png",
+    "images/icones/xtenseWarn.png"
   ],
-  "background": {
-    "page": "background.html"
-  },
   "permissions": [
-    "notifications",
-    "activeTab"
+    "notifications"
   ],
   "short_name": "Xtense",
   "browser_action": {
