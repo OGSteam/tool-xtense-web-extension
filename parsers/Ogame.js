@@ -1396,7 +1396,7 @@ function parse_spy_report(RE) {
                             for (var j in spyStrings['units'][i]) {
                                 if (types.snapshotItem(z).innerHTML.match(new RegExp(spyStrings['units'][i][j], 'gi'))) {
                                     data[XtenseDatabase[i][j]] = types.snapshotItem(z).title.trim().replace(/\./g, '');
-                                    log("R="+XtenseDatabase.database[i][j] + " = " + data[XnewOgame.database[i][j]]);
+                                    //log("R="+XtenseDatabase.database[i][j] + " = " + data[XnewOgame.database[i][j]]);
                                 }
                             }
                         } else {
@@ -1405,7 +1405,7 @@ function parse_spy_report(RE) {
 
                                 if (m > -1) {
                                     data[XtenseDatabase[i][j]] = m;
-                                    log("BT="+spyStrings['units'][i][j] + " = " + data[XnewOgame.database[i][j]]);
+                                    //log("BT="+spyStrings['units'][i][j] + " = " + data[XnewOgame.database[i][j]]);
                                 }
                             }
                         }
