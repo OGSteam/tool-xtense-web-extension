@@ -926,6 +926,16 @@ function parse_messages() {
                 // Recupere l'id du message court
                 var idmsg = shortMessageNode.attributes['data-msg-id'].value;
                 log("ID Message court : " + idmsg);
+                /* Cache des messages */
+                if (messagesIdCache == null || messagesIdCache == 'undefined') {
+                    // Initialisation du cache d'identifiant de message
+                    var messagesIdCache = Array();
+                }
+
+                // Verifie que le message court n'a pas deja ete traite
+                if (messagesIdCache.indexOf(idmsg) == -1) {
+                    messagesIdCache.push(idmsg);
+                }
 
                 // Espionnage ennemi
                 if ((GM_getValue('handle.msg.ennemy.spy').toString() == 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
@@ -1141,6 +1151,12 @@ function parse_messages() {
 
                     Ximplements(data, parse_spy_report(content));
                     data.type = 'spy';
+
+                    data.moon = 0; //TODO Censé être fait  avant...
+                    if (data.planetName.match(new RegExp("Lune")).toString() == "Lune"){
+                        data.moon = 1;
+                        log("Moon Detected");
+                    }
                 } else {
                     log('The message is not a spy report');
                 }
