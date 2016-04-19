@@ -330,6 +330,7 @@ function displayOptions() {
     options += '<br><br></div>';
     //fin Tableau
     var einhalt = document.getElementById('inhalt');
+    if(einhalt == null) einhalt = document.getElementById('buttonz');
     var escriptopt = document.createElement('div');
     escriptopt.id = 'xtenseScriptOpt';
     escriptopt.innerHTML = options;
