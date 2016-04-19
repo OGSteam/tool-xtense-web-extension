@@ -133,7 +133,7 @@ function get_ranking_content() {
 
 function get_message_content() {
 
-    $("#buttonz").on("DOMNodeInserted", parse_messages);
+    $("#messages").on("DOMNodeInserted", parse_messages);
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
@@ -926,20 +926,6 @@ function parse_messages() {
                 // Recupere l'id du message court
                 var idmsg = shortMessageNode.attributes['data-msg-id'].value;
                 log("ID Message court : " + idmsg);
-                /*var api = Xpath.getStringValue(document, paths.ogameapi, messagesCourt).trim();
-                 if (api) {
-                 log("API : " + api);
-                 }*/
-                /* Cache des messages */
-                 if (messagesIdCache == null || messagesIdCache == 'undefined') {
-                 // Initialisation du cache d'identifiant de message
-                 var messagesIdCache = Array();
-                 }
-
-                // Verifie que le message court n'a pas deja ete traite
-                 if (messagesIdCache.indexOf(idmsg) == -1) {
-                 messagesIdCache.push(idmsg);
-                 }
 
                 // Espionnage ennemi
                 if ((GM_getValue('handle.msg.ennemy.spy').toString() == 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
@@ -1031,7 +1017,7 @@ function parse_messages() {
         }
     }
 
-
+    log("Traitement d'un message detaille");
     // Traitement d'un message detaille (declenche lorsque l'on affiche le detail d'un message ou lorsque l'on change de page de msg detaille)
     if (messages.snapshotLength > 0) {
         var messageNode = messages.snapshotItem(0);
