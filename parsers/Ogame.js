@@ -1153,9 +1153,11 @@ function parse_messages() {
                     data.type = 'spy';
 
                     data.moon = 0; //TODO Censé être fait  avant...
-                    if (data.planetName.match(new RegExp("Lune")).toString() == "Lune"){
-                        data.moon = 1;
-                        log("Moon Detected");
+                    if(data.planetName != null) {
+                        if (data.planetName.match(new RegExp("Lune")).toString() == "Lune") {
+                            data.moon = 1;
+                            log("Moon Detected");
+                        }
                     }
                 } else {
                     log('The message is not a spy report');
