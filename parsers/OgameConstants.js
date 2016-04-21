@@ -119,7 +119,7 @@ function initParsers() {
             spy: {
                 playername: '//div[contains(@class,"detail_txt")]//span[contains(@class,"status")]/text()',
                 materialfleetdefbuildings: '//div[contains(@class,"section_title")] | //ul[contains(@class,"detail_list")]/li[contains(@class,"resource_list_el")] | //ul[contains(@class,"detail_list")]/li[contains(@class,"detail_list_el")]',
-                moon: '//div[contains(@class,"msg_actions")]/a[4]/@href',
+                moon: '//div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a[2]/@href',
                 actions_links: '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a'
             }
         },
