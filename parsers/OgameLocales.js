@@ -354,10 +354,10 @@ function initLocales() {
                 },
                 'units': {
                     'resources': {
-                        601: 'metal',
-                        602: 'cristal',
-                        603: 'deutério',
-                        604: 'energia'
+                        601: 'Metal',
+                        602: 'Cristal',
+                        603: 'Deutério',
+                        604: 'Energia'
                     },
                     'buildings': {
                         1: 'Mina de Metal',
@@ -365,7 +365,7 @@ function initLocales() {
                         3: 'Sintetizador de Deutério',
                         4: 'Planta de Energia Solar',
                         12: 'Planta de Fusão',
-                        14: 'Fábrica de Robots',
+                        14: 'Fábrica de Robôs',
                         15: 'Fábrica de Nanites',
                         21: 'Hangar',
                         22: 'Armazém de Metal',
@@ -374,7 +374,7 @@ function initLocales() {
                         31: 'Laboratório de Pesquisas',
                         33: 'Terra-Formador',
                         34: 'Depósito de Aliança',
-                        44: 'Sílo de Mísseis',
+                        44: 'Silo de Mísseis',
                         41: 'Base Lunar',
                         42: 'Sensor Phalanx',
                         43: 'Portal de Salto Quântico'
@@ -391,10 +391,10 @@ function initLocales() {
                         117: 'Motor de Impulsão',
                         118: 'Motor Propulsor de Hiperespaço',
                         120: 'Tecnologia Laser',
-                        121: 'Tecnologia de Iões',
+                        121: 'Tecnologia de Íons',
                         122: 'Tecnologia de Plasma',
                         123: 'Rede Intergalática de Pesquisas',
-                        124: 'Tecnologia de Exploração Espacial',
+                        124: 'Astrofísica',
                         199: 'Tecnologia de Gravitação'
                     },
                     'fleet': {
@@ -411,18 +411,18 @@ function initLocales() {
                         212: 'Satélite Solar',
                         213: 'Destruidor',
                         214: 'Estrela da Morte',
-                        215: 'Interceptor'
+                        215: 'Interceptador'
                     },
                     'defense': {
                         401: 'Lançador de Mísseis',
                         402: 'Laser Ligeiro',
                         403: 'Laser Pesado',
                         404: 'Canhão de Gauss',
-                        405: 'Canhão de Iões',
+                        405: 'Canhão de Íons',
                         406: 'Canhão de Plasma',
                         407: 'Pequeno Escudo Planetário',
                         408: 'Grande Escudo Planetário',
-                        502: 'Míssil de Intercepção',
+                        502: 'Míssil de Interceptação',
                         503: 'Míssil Interplanetário'
                     },
                     'comment': {}
@@ -445,14 +445,14 @@ function initLocales() {
                         212: 'Satélite Solar',
                         213: 'Destruidor',
                         214: 'Estrela da Morte',
-                        215: 'Interceptor'
+                        215: 'Interceptador'
                     },
                     'defense': {
                         401: 'Lançador de Mísseis',
                         402: 'Laser Ligeiro',
                         403: 'Laser Pesado',
                         404: 'Canhão de Gauss',
-                        405: 'Canhão de Iões',
+                        405: 'Canhão de Íons',
                         406: 'Canhão de Plasma',
                         407: 'Pequeno Escudo Planetário',
                         408: 'Grande Escudo Planetário'
@@ -502,20 +502,20 @@ function initLocales() {
                             'deb_metal': 'Metal',
                             'deb_cristal': 'Cristal'
                         },
-                        'a_lost': 'L`attaquant a perdu au total (.*) unités.',
-                        'd_lost': 'Le défenseur a perdu au total (.*) unités.'
+                        'a_lost': 'O atacante perdeu um total de (.*) unidades.',
+                        'd_lost': 'O defensor perdeu um total de (.*) unidades.'
                     },
                     'weapons': {
                         'arm': 'weaponPercentage',
                         'bcl': 'shieldPercentage',
                         'coq': 'armorPercentage'
                     },
-                    'moon': 'formant ainsi une lune',
-                    'moonprob': 'une lune est de (\\d+) %',
+                    'moon': 'formando assim uma lua',
+                    'moonprob': 'A probabilidade de criação de lua através dos destroços foi de (\\d+) %',
                     'attack': 'Atacante',
                     'defense': 'Defensor',
                     'nul': 'match nul',
-                    'attack_win': 'L`attaquant a gagné la bataille',
+                    'attack_win': 'O atacante venceu a batalha!',
                     'ogameAPI_link': 'ogame-api'
                 }
             },
@@ -524,16 +524,16 @@ function initLocales() {
                 'unespionage prob': 'Probabilidade de contra-espionagem',
                 'activity': '(\\d+)</font> minutos',
                 'moon': 'type',
-                'espionnage action': 'Activité d`espionnage',
+                'espionnage action': 'Atividade de espionagem',
                 'fleet command': 'Comando da frota',
-                'expedition result': 'Résultat de l`expédition ',
-                'fleet': 'Flotte',
-                'harvesting': 'Explorão de Destroços em',
+                'expedition result': 'Resultado da expedição ',
+                'fleet': 'Frota',
+                'harvesting': 'Destroços reciclados em',
                 'combat of': 'Relatório de combate',
-                'combat defence': 'Bataille de',
-                'trade message 1': 'Livraison de ressources par',
-                'trade message 2': 'Arriv.*e sur une plan.*te',
-                'antimatiere': 'antimatière'
+                'combat defence': 'Batalha de',
+                'trade message 1': 'Entrega de recursos para',
+                'trade message 2': 'Chegada ao planeta',
+                'antimatiere': 'antimatéria'
             },
             'dates': {
                 'messages': {
