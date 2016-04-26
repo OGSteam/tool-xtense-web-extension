@@ -1,0 +1,63 @@
+{
+  "manifest_version": 2,
+  "version": "2.6.9.18",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "fr",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "icons": { "128": "Xtense-128.png" },
+  "applications": {
+	  "gecko": {
+		"id": "ogspy.team@gmail.com",
+		"strict_min_version": "42.0",
+		"strict_max_version": "*",
+		"update_url": "https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js"
+	  }
+	},
+  "content_scripts": [
+    {
+      "matches": ["https://*.ogame.gameforge.com/game/*"],
+      "js": ["contribs/jquery-2.2.2.min.js",
+			 "parsers/OgameLocales.js",
+			 "parsers/OgameConstants.js",
+			 "parsers/Ogame.js",
+             "contribs/crypto.js",
+             "ui/menu_item.js",
+			 "ogspy/send_data.js",
+			 "xtense.user.js"],
+	  "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    "images/about.png",
+    "images/conf.png",
+    "images/OGSteam.png",
+    "images/pages.png",
+    "images/server.png",
+    "images/xtense.png",
+    "images/icones/xtense.gif",
+    "/icones/xtense-send.gif",
+    "images/icones/xtense-small.gif",
+    "images/icones/xtenseKo.gif",
+    "images/icones/xtenseKo-small.gif",
+    "images/icones/xtenseNo.gif",
+    "images/icones/xtenseNo-small.gif",
+    "images/icones/xtenseOk.gif",
+    "images/icones/xtenseOk-small.gif",
+    "images/icones/xtenseReady.gif",
+    "images/icones/xtenseWarn.gif",
+    "images/icones/xtenseWarn-small.gif"
+  ],
+  "background": {
+    "page": "background.html"
+  },
+
+  "permissions": [ "notifications"],
+
+  "short_name": "Xtense",
+  "browser_action": {
+    "default_title": "Xtense",
+    "default_icon": "xtense.png",
+    "default_popup": "xtense.html"
+  }
+}
