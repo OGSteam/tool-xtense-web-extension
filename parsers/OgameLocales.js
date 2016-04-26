@@ -564,84 +564,84 @@ function initLocales() {
             'spy reports': {
                 'groups': {
                     'resources': 'Recursos',
-                    'buildings': 'Edifícios',
-                    'defense': 'Defesas',
-                    'fleet': 'Frotas',
-                    'researchs': 'Pesquisas',
-                    'comment': 'Comentário'
+                    'buildings': 'Edificios',
+                    'defense': 'Defensas',
+                    'fleet': 'Flotas',
+                    'researchs': 'Investigaciones',
+                    'comment': 'Comentario'
                 },
                 'units': {
                     'resources': {
                         601: 'metal',
                         602: 'cristal',
-                        603: 'deutério',
-                        604: 'energia'
+                        603: 'deuterio',
+                        604: 'energía'
                     },
                     'buildings': {
                         1: 'Mina de Metal',
                         2: 'Mina de Cristal',
-                        3: 'Sintetizador de Deutério',
-                        4: 'Planta de Energia Solar',
-                        12: 'Planta de Fusão',
+                        3: 'Sintetizador de Deuterio',
+                        4: 'Planta de Energía Solar',
+                        12: 'Planta de Fusión',
                         14: 'Fábrica de Robots',
-                        15: 'Fábrica de Nanites',
+                        15: 'Fábrica de Nanobots',
                         21: 'Hangar',
-                        22: 'Armazém de Metal',
-                        23: 'Armazém de Cristal',
-                        24: 'Tanque de Deutério',
-                        31: 'Laboratório de Pesquisas',
-                        33: 'Terra-Formador',
-                        34: 'Depósito de Aliança',
-                        44: 'Sílo de Mísseis',
+                        22: 'Almacén de Metal',
+                        23: 'Almacén de Cristal',
+                        24: 'Depósito de Deuterio',
+                        31: 'Laboratorio de Investigación',
+                        33: 'Terraformer',
+                        34: 'Depósito de Alianza',
+                        44: 'Silo de Misiles',
                         41: 'Base Lunar',
                         42: 'Sensor Phalanx',
-                        43: 'Portal de Salto Quântico'
+                        43: 'Salto Cuântico'
                     },
                     'researchs': {
-                        106: 'Tecnologia de Espionagem',
-                        108: 'Tecnologia de Computadores',
-                        109: 'Tecnologia de Armas',
-                        110: 'Tecnologia de Escudo',
-                        111: 'Tecnologia de Blindagem',
-                        113: 'Tecnologia de Energia',
-                        114: 'Tecnologia de Hiperespaço',
-                        115: 'Motor de Combustão',
-                        117: 'Motor de Impulsão',
-                        118: 'Motor Propulsor de Hiperespaço',
-                        120: 'Tecnologia Laser',
-                        121: 'Tecnologia de Iões',
-                        122: 'Tecnologia de Plasma',
-                        123: 'Rede Intergalática de Pesquisas',
-                        124: 'Tecnologia de Exploração Espacial',
-                        199: 'Tecnologia de Gravitação'
+                        106: 'Tecnología de Espionaje',
+                        108: 'Tecnología de Computación',
+                        109: 'Tecnología Militar',
+                        110: 'Tecnología de Defensa',
+                        111: 'Tecnología de Blindaje',
+                        113: 'Tecnología de Energía',
+                        114: 'Tecnología de Hiperespacio',
+                        115: 'Motor de Combustión',
+                        117: 'Motor de Impulso',
+                        118: 'Propulsor Hiperespacial',
+                        120: 'Tecnología Láser',
+                        121: 'Tecnología de Iónica',
+                        122: 'Tecnología de Plasma',
+                        123: 'Red de Investigación Intergaláctica',
+                        124: 'Astrofísica',
+                        199: 'Gravitón'
                     },
                     'fleet': {
-                        202: 'Cargueiro Pequeno',
-                        203: 'Cargueiro Grande',
-                        204: 'Caça Ligeiro',
-                        205: 'Caça Pesado',
-                        206: 'Cruzador',
-                        207: 'Nave de Batalha',
-                        208: 'Nave de Colonização',
+                        202: 'Nave pequeña de carga',
+                        203: 'Nave de carga grande',
+                        204: 'Cazador Ligero',
+                        205: 'Cazador Pesado',
+                        206: 'Crucero',
+                        207: 'Nave de Batalla',
+                        208: 'Colonizador',
                         209: 'Reciclador',
-                        210: 'Sonda de Espionagem',
-                        211: 'Bombardeiro',
+                        210: 'Sonda de Espionaje',
+                        211: 'Bombardero',
                         212: 'Satélite Solar',
-                        213: 'Destruidor',
-                        214: 'Estrela da Morte',
-                        215: 'Interceptor'
+                        213: 'Destructor',
+                        214: 'Estrella de la Muerte',
+                        215: 'Acorazado'
                     },
                     'defense': {
-                        401: 'Lançador de Mísseis',
-                        402: 'Laser Ligeiro',
-                        403: 'Laser Pesado',
-                        404: 'Canhão de Gauss',
-                        405: 'Canhão de Iões',
-                        406: 'Canhão de Plasma',
-                        407: 'Pequeno Escudo Planetário',
-                        408: 'Grande Escudo Planetário',
-                        502: 'Míssil de Intercepção',
-                        503: 'Míssil Interplanetário'
+                        401: 'Lanzamisiles',
+                        402: 'Láser Ligero',
+                        403: 'Láser grande',
+                        404: 'Canón Gauss',
+                        405: 'Cañón de Iones',
+                        406: 'Cañón de Plasma',
+                        407: 'Cúpula pequeña de protección',
+                        408: 'Cúpula grande de protección',
+                        502: 'Mísiles antibalísticos',
+                        503: 'Misil interplanetario'
                     },
                     'comment': {}
                 },
@@ -650,30 +650,30 @@ function initLocales() {
             'combat report': {
                 'units': {
                     'fleet': {
-                        202: 'Cargueiro Pequeno',
-                        203: 'Cargueiro Grande',
-                        204: 'Caça Ligeiro',
-                        205: 'Caça Pesado',
-                        206: 'Cruzador',
-                        207: 'Nave de Batalha',
-                        208: 'Nave de Colonização',
+                        202: 'Nave pequeña de carga',
+                        203: 'Nave de carga grande',
+                        204: 'Cazador Ligero',
+                        205: 'Cazador Pesado',
+                        206: 'Crucero',
+                        207: 'Nave de Batalla',
+                        208: 'Colonizador',
                         209: 'Reciclador',
-                        210: 'Sonda de Espionagem',
-                        211: 'Bombardeiro',
+                        210: 'Sonda de Espionaje',
+                        211: 'Bombardero',
                         212: 'Satélite Solar',
-                        213: 'Destruidor',
-                        214: 'Estrela da Morte',
-                        215: 'Interceptor'
+                        213: 'Destructor',
+                        214: 'Estrella de la Muerte',
+                        215: 'Acorazado'
                     },
                     'defense': {
-                        401: 'Lançador de Mísseis',
-                        402: 'Laser Ligeiro',
-                        403: 'Laser Pesado',
-                        404: 'Canhão de Gauss',
-                        405: 'Canhão de Iões',
-                        406: 'Canhão de Plasma',
-                        407: 'Pequeno Escudo Planetário',
-                        408: 'Grande Escudo Planetário'
+                        401: 'Lanzamisiles',
+                        402: 'Láser pequeño',
+                        403: 'Láser grande',
+                        404: 'Canón Gauss',
+                        405: 'Cañón de Iones',
+                        406: 'Cañón de Plasma',
+                        407: 'Cúpula pequeña de protección',
+                        408: 'Cúpula grande de protección',
                     }
                 },
                 'unitsCost': {
@@ -703,55 +703,55 @@ function initLocales() {
                 'regxps': {
                     'time': '/(\d+).(\d+).(\d+)\s(\d+):(\d+):(\d+)/',
                     'round': {
-                        'a_nb': 'Atacante dispara um total de ([\\d|\\.]*) tiros ',
-                        'a_shoot': 'com uma força total de ([\\d|\\.]*)\.',
-                        'd_bcl': 'Os escudos de defensor absorvem ([\\d|\\.]*) pontos de dano.',
-                        'd_nb': 'Defensor dispara um total de ([\\d|\\.]*) tiros ',
-                        'd_shoot': 'contra Atacante com uma força total de ([\\d|\\.]*)\.',
-                        'a_bcl': ' Os escudos de atacante absorvem ([\\d|\\.]*) pontos de dano'
+                        'a_nb': 'El Atacante dispara un total de ([\\d|\\.]*) veces ',
+                        'a_shoot': 'sobre el Defensor con una fuerza conjunta de ([\\d|\\.]*)\.',
+                        'd_bcl': 'Los escudos del defensor absorben ([\\d|\\.]*) puntos de daño.',
+                        'd_nb': 'El Defensor dispara un total de ([\\d|\\.]*) veces ',
+                        'd_shoot': 'sobre el Atacante con una fuerza conjunta de ([\\d|\\.]*)\.',
+                        'a_bcl': ' Los escudos del atacante absorben  ([\\d|\\.]*) puntos de daño.'
                     },
                     'result': {
                         'win': {
                             'win_metal': 'metal',
                             'win_cristal': 'cristal',
-                            'win_deut': 'deutério'
+                            'win_deut': 'deuterio'
                         },
                         'deb': {
                             'deb_metal': 'Metal',
                             'deb_cristal': 'Cristal'
                         },
-                        'a_lost': 'L`attaquant a perdu au total (.*) unités.',
-                        'd_lost': 'Le défenseur a perdu au total (.*) unités.'
+                        'a_lost': 'El atacante perdió un total de (.*) unidades.',
+                        'd_lost': 'El defensor perdió un total de (.*) unidades.'
                     },
                     'weapons': {
-                        'arm': 'weaponPercentage',
-                        'bcl': 'shieldPercentage',
-                        'coq': 'armorPercentage'
+                        'arm': 'Militar',
+                        'bcl': 'Defensa',
+                        'coq': 'Blindaje'
                     },
-                    'moon': 'formant ainsi une lune',
-                    'moonprob': 'une lune est de (\\d+) %',
+                    'moon': 'La probabilidad de crear ',
+                    'moonprob': 'una luna de los escombros es de (\\d+) %',
                     'attack': 'Atacante',
                     'defense': 'Defensor',
                     'nul': 'match nul',
-                    'attack_win': 'L`attaquant a gagné la bataille',
+                    'attack_win': '¡El atacante ha ganado la batalla!',
                     'ogameAPI_link': 'ogame-api'
                 }
             },
             'messages': {
-                'espionage of': 'Relatório de espionagem',
-                'unespionage prob': 'Probabilidade de contra-espionagem',
+                'espionage of': 'Informe de espionaje',
+                'unespionage prob': 'Posibilidades de contra-espionaje: ',
                 'activity': '(\\d+)</font> minutos',
-                'moon': 'type',
-                'espionnage action': 'Activité d`espionnage',
-                'fleet command': 'Comando da frota',
-                'expedition result': 'Résultat de l`expédition ',
-                'fleet': 'Flotte',
-                'harvesting': 'Explorão de Destroços em',
-                'combat of': 'Relatório de combate',
-                'combat defence': 'Bataille de',
-                'trade message 1': 'Livraison de ressources par',
-                'trade message 2': 'Arriv.*e sur une plan.*te',
-                'antimatiere': 'antimatière'
+                'moon': 'Tipo',
+                'espionnage action': 'Actividad de espionaje',
+                'fleet command': 'Comando de flota',
+                'expedition result': 'Resultado de la expedición ',
+                'fleet': 'Flota',
+                'harvesting': 'En estas coordenadas del espacio ahora flotan',
+                'combat of': 'Informe de batalla',
+                'combat defence': 'Batalla en',
+                'trade message 1': 'Entrega de recursos',
+                'trade message 2': 'Llegada a un planeta',
+                'antimatiere': 'Materia Oscura'
             },
             'dates': {
                 'messages': {
