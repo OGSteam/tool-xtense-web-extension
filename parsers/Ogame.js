@@ -954,11 +954,11 @@ function parse_messages() {
                         var fromToMoons = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
                         if (fromToMoons) {
                             data.toMoon = 0;
-                            if (fromToMoons[2] == 'Lune') {
+                            if (fromToMoons[2].match(new RegExp(locales['moon']))) {
                                 data.toMoon = 1;
                             }
                             data.fromMoon = 0;
-                            if (fromToMoons[1] == 'Lune') {
+                            if (fromToMoons[1].match(new RegExp(locales['moon']))) {
                                 data.fromMoon = 1;
                             }
                             data.proba = fromToInfo[3];
@@ -1175,11 +1175,11 @@ function parse_messages() {
                         data.to = m[2];
                         if (m2) {
                             data.toMoon = 0;
-                            if (m2[2] == 'Lune') {
+                            if (m2[2].match(new RegExp(locales['moon']))) {
                                 data.toMoon = 1;
                             }
                             data.fromMoon = 0;
-                            if (m2[1] == 'Lune') {
+                            if (m2[1].match(new RegExp(locales['moon']))) {
                                 data.fromMoon = 1;
                             }
                         }
@@ -1367,7 +1367,6 @@ function parse_spy_report(RE) {
     var res = [];
     var attackRef = Xpath.getStringValue(document, paths.moon);
     var isMoon = attackRef.search('type=3') > -1 ? true : false;
-    //isMoon = (moonNode.href).match(new RegExp(locales['moon'] + XtenseRegexps.moon))[1] == '3' ? true : false;
     var playerName = Xpath.getSingleNode(document, paths.playername).textContent.trim();
     var types = Xpath.getOrderedSnapshotNodes(document, paths.materialfleetdefbuildings);
     for (var i in spyStrings['units']) {
