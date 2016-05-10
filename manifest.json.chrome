@@ -9,7 +9,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["contribs/jquery-2.2.2.min.js",
+      "js": ["contribs/jquery-2.2.0.min.js",
 			 "parsers/OgameLocales.js",
 			 "parsers/OgameConstants.js",
 			 "parsers/Ogame.js",
@@ -27,18 +27,13 @@
     "images/pages.png",
     "images/server.png",
     "images/xtense.png",
-    "images/icones/xtense.gif",
-    "/icones/xtense-send.gif",
-    "images/icones/xtense-small.gif",
-    "images/icones/xtenseKo.gif",
-    "images/icones/xtenseKo-small.gif",
-    "images/icones/xtenseNo.gif",
-    "images/icones/xtenseNo-small.gif",
-    "images/icones/xtenseOk.gif",
-    "images/icones/xtenseOk-small.gif",
-    "images/icones/xtenseReady.gif",
-    "images/icones/xtenseWarn.gif",
-    "images/icones/xtenseWarn-small.gif"
+    "images/icones/xtense.png",
+    "images/icones/xtense-send.png",
+    "images/icones/xtenseKo.png",
+    "images/icones/xtenseNo.png",
+    "images/icones/xtenseOk.png",
+    "images/icones/xtenseReady.png",
+    "images/icones/xtenseWarn.png"
   ],
   "background": {
     "page": "background.html"
@@ -49,8 +44,7 @@
   "short_name": "Xtense",
   "browser_action": {
     "default_title": "Xtense",
-    "default_icon": "xtense.png",
+    "default_icon": "images/icones/xtense_default.png",
     "default_popup": "xtense.html"
   }
-
 }
