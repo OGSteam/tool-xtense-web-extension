@@ -44,7 +44,7 @@
     "images/icones/xtenseWarn.png"
   ],
   "background": {
-    "page": "background.html"
+    "scripts": ["background.js"]
   },
 
   "permissions": [ "notifications"],
