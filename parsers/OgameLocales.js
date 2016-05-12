@@ -155,7 +155,6 @@ function initLocales() {
                     408: 130000
                 },
                 'regxps': {
-                    'time': '/(\d+).(\d+).(\d+)\s(\d+):(\d+):(\d+)/',
                     'round': {
                         'a_nb': 'La flotte attaquante tire ([\\d|\\.]*) fois ',
                         'a_shoot': 'avec une force totale de ([\\d|\\.]*) sur le défenseur.',
@@ -239,7 +238,7 @@ function initLocales() {
                     'buildings': 'Buildings',
                     'defense': 'Defense',
                     'fleet': 'Fleet',
-                    'researchs': 'Research'
+                    'researchs': 'Research',
 					'comment': 'Comment'
                 },
                 'units': {
@@ -373,7 +372,6 @@ function initLocales() {
                     408: 130000
                 },
                 'regxps': {
-                    'time': '/(\d+).(\d+).(\d+)\s(\d+):(\d+):(\d+)/',
                     'round': {
                         'a_nb': 'Attacker fires a total of ([\\d|\\.]*) shots ',
                         'a_shoot': 'at the Defender with a total strength of ([\\d|\\.]*) .',
@@ -591,7 +589,6 @@ function initLocales() {
                     408: 130000
                 },
                 'regxps': {
-                    'time': '/(\d+).(\d+).(\d+)\s(\d+):(\d+):(\d+)/',
                     'round': {
                         'a_nb': 'Atacante dispara um total de ([\\d|\\.]*) tiros ',
                         'a_shoot': 'com uma força total de ([\\d|\\.]*)\.',
@@ -809,7 +806,6 @@ function initLocales() {
                     408: 130000
                 },
                 'regxps': {
-                    'time': '/(\d+).(\d+).(\d+)\s(\d+):(\d+):(\d+)/',
                     'round': {
                         'a_nb': 'El Atacante dispara un total de ([\\d|\\.]*) veces ',
                         'a_shoot': 'sobre el Defensor con una fuerza conjunta de ([\\d|\\.]*)\.',

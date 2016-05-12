@@ -32,6 +32,9 @@ function setStatus(type, message) {
         icone.title = message;
         icone.src = chrome.extension.getURL(img_url);
         //chrome.browserAction.setIcon({path:img_url});
+
+        chrome.runtime.sendMessage({ "newIconPath" : img_url });
+
         log("setStatus : " + message);
     } else {
         log("setStatus Error: Cannot set icon " + message);
@@ -51,7 +54,7 @@ function displayXtense() {
     //log(getElementByAttr(document, 'className', 'showmessage'));
     // Page classique
     if (document.getElementById('playerName') && !document.getElementById('ui-dialog-title-1') && !document.getElementById('combatreport')) {
-        var icone = chrome.extension.getURL('images/icones/xtense-small.gif');
+        var icone = chrome.extension.getURL('images/icones/xtense.png');
         var aAttrs = '';
         var urlIcone = '';
         var onClick = null;
