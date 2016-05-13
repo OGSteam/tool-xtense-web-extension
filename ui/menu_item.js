@@ -63,7 +63,7 @@ function displayXtense() {
         } else {
             aAttrs = 'href="' + ogspy_link + '" target="blank_" ';
         }
-        var aff_option = '<span class="menu_icon"><a ' + aAttrs + '><img id="xtense.icone" class="mouseSwitch" src="' + icone + '" height="29" width="38"></span><a class="menubutton " href="' + url + '&xtense=Options" accesskey="" target="_self">';
+        var aff_option = '<span class="menu_icon"><a ' + aAttrs + '><img id="xtense.icone" class="mouseSwitch" src="' + icone + '" height="27" width="27"></span><a class="menubutton " href="' + url + '&xtense=Options" accesskey="" target="_self">';
         aff_option += '<span class="textlabel">Xtense</span></a>';
         var li1 = document.createElement('li');
         li1.setAttribute('id', 'optionXtense');
