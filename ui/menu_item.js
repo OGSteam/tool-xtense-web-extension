@@ -179,10 +179,10 @@ function displayOptions() {
         '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
         '<tbody>' +
         '<tr>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_serveurs\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/server.png') + '"/><span id="menu_servers" style="font-size: 20px; color: white;"><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_pages\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/pages.png') + '"/><span id="menu_pages" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_options\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/conf.png') + '"/><span id="menu_options" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></span></a></td>' +
-        '<td align="center"><a onclick="displayOption(\'Xtense_about\')" style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/about.png') + '"/><span id="menu_about" style="font-size: 20px; color: orange;"><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></span></a></td>' +
+        '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/server.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/pages.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/conf.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/about.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></a></span></td>' +
         '</tr>' +
         '</tbody>' +
         '</table>';
@@ -332,25 +332,23 @@ function displayOptions() {
     options += '</div>';
     options += '<br><br></div>';
     //fin Tableau
-    var einhalt = $('inhalt');
+    var einhalt = $( "#inhalt" );
     if(einhalt == null) einhalt = $('buttonz');
-    var escriptopt = document.createElement('div');
-    escriptopt.id = 'xtenseScriptOpt';
-    escriptopt.innerHTML = options;
-    escriptopt.style.cssFloat = 'left';
-    escriptopt.style.position = 'relative';
-    escriptopt.style.width = '670px';
-    einhalt.style.display = 'none';
-    var script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    var newscriptText = document.createTextNode('function displayOption(id){if(id==\'Xtense_serveurs\'){$(id).style.display=\'block\';$(\'Xtense_pages\').style.display=\'none\';$(\'Xtense_options\').style.display=\'none\';$(\'Xtense_about\').style.display=\'none\';$(\'menu_servers\').style.color=\'white\';$(\'menu_pages\').style.color=\'orange\';$(\'menu_options\').style.color=\'orange\';$(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_pages\'){$(id).style.display=\'block\';$(\'Xtense_serveurs\').style.display=\'none\';$(\'Xtense_options\').style.display=\'none\';$(\'Xtense_about\').style.display=\'none\';$(\'menu_servers\').style.color=\'orange\';$(\'menu_pages\').style.color=\'white\';$(\'menu_options\').style.color=\'orange\';$(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_options\'){$(id).style.display=\'block\';$(\'Xtense_serveurs\').style.display=\'none\';$(\'Xtense_pages\').style.display=\'none\';$(\'Xtense_about\').style.display=\'none\';$(\'menu_servers\').style.color=\'orange\';$(\'menu_pages\').style.color=\'orange\';$(\'menu_options\').style.color=\'white\';$(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_about\'){$(id).style.display=\'block\';$(\'Xtense_serveurs\').style.display=\'none\';$(\'Xtense_pages\').style.display=\'none\';$(\'Xtense_options\').style.display=\'none\';$(\'menu_servers\').style.color=\'orange\';$(\'menu_pages\').style.color=\'orange\';$(\'menu_options\').style.color=\'orange\';$(\'menu_about\').style.color=\'white\';}}');
-    script.appendChild(newscriptText);
-    escriptopt.appendChild(script);
-    einhalt.parentNode.insertBefore(escriptopt, einhalt);
-    $('Xtense_serveurs').style.display = 'block';
-    $('Xtense_pages').style.display = 'none';
-    $('Xtense_options').style.display = 'none';
-    $('Xtense_about').style.display = 'none';
+    var escriptopt = $("<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" + options + "</div>");   //document.createElement('div');
+
+    einhalt.hide(); //On masque le jeu pour afficher le menu
+
+    $('#contentWrapper.with_chat_bar').css('padding-bottom','0px');
+    einhalt.parent().after(escriptopt);
+    $('#Xtense_serveurs').show();
+    $('#Xtense_pages').hide();
+    $('#Xtense_options').hide();
+    $('#Xtense_about').hide();
+
+    $('#menu_servers').click( function(){ displayOption('#Xtense_serveurs'); });
+    $('#menu_pages').click( function(){ displayOption('#Xtense_pages'); });
+    $('#menu_options').click( function(){ displayOption('#Xtense_options'); });
+    $('#menu_about').click( function(){ displayOption('#Xtense_about'); });
 
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
@@ -378,3 +376,46 @@ function displayOptions() {
     setInterval(enregistreOptionsXtense, 500);
 }
 
+function displayOption(id) {
+
+    $(id).show(); //On affiche le bloc courant
+
+    if (id == '#Xtense_serveurs') {
+
+        $('#Xtense_pages').hide();
+        $('#Xtense_options').hide();
+        $('#Xtense_about').hide();
+        $('#menu_servers').css('color' , 'white');
+        $('#menu_pages').css('color' , 'orange');
+        $('#menu_options').css('color' , 'orange');
+        $('#menu_about').css('color' , 'orange');
+    }
+    else if (id == '#Xtense_pages') {
+
+        $('#Xtense_serveurs').hide();
+        $('#Xtense_options').hide();
+        $('#Xtense_about').hide();
+        $('#menu_servers').css('color' , 'orange');
+        $('#menu_pages').css('color' , 'white');
+        $('#menu_options').css('color' , 'orange');
+        $('#menu_about').css('color' , 'orange');
+    } else if (id == '#Xtense_options') {
+
+        $('#Xtense_serveurs').hide();
+        $('#Xtense_pages').hide();
+        $('#Xtense_about').hide();
+        $('#menu_servers').css('color' , 'orange');
+        $('#menu_pages').css('color' , 'orange');
+        $('#menu_options').css('color' , 'white');
+        $('#menu_about').css('color' , 'orange');
+    } else if (id == '#Xtense_about') {
+
+        $('#Xtense_serveurs').hide();
+        $('#Xtense_pages').hide();
+        $('#Xtense_options').hide();
+        $('#menu_servers').css('color' , 'orange');
+        $('#menu_pages').css('color' , 'orange');
+        $('#menu_options').css('color' , 'orange');
+        $('#menu_about').css('color' , 'white');
+    }
+}
