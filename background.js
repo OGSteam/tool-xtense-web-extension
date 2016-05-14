@@ -9,4 +9,9 @@ chrome.runtime.onMessage.addListener(
             path: request.newIconPath,
             tabId: sender.tab.id
         });
+        chrome.browserAction.setTitle({
+            title: request.newTooltip,
+            tabId: sender.tab.id
+        });
+
     });
