@@ -33,7 +33,7 @@ function setStatus(type, message) {
         icone.src = chrome.extension.getURL(img_url);
         //chrome.browserAction.setIcon({path:img_url});
 
-        chrome.runtime.sendMessage({ "newIconPath" : img_url });
+        chrome.runtime.sendMessage({ "newIconPath" : img_url, "newTooltip" : message});
 
         log("setStatus : " + message);
     } else {
@@ -53,7 +53,7 @@ function displayXtense() {
     var ogspy_link = GM_getValue('server.url.plugin', 'http://www.ogsteam.fr').split('mod')[0];
     //log(getElementByAttr(document, 'className', 'showmessage'));
     // Page classique
-    if (document.getElementById('playerName') && !document.getElementById('ui-dialog-title-1') && !document.getElementById('combatreport')) {
+    if ($("playerName")) {
         var icone = chrome.extension.getURL('images/icones/xtense.png');
         var aAttrs = '';
         var urlIcone = '';
@@ -69,8 +69,8 @@ function displayXtense() {
         li1.setAttribute('id', 'optionXtense');
         li1.innerHTML = aff_option;
         var menuAlliance = Xpath.getSingleNode(document, '//*[@id=\'menuTable\']/li[contains(a/@href,\'page=alliance\')]');
-        if (document.getElementById('optionXtense') != null) {
-            document.getElementById('menuTable').removeChild(document.getElementById('optionXtense'));
+        if ($('optionXtense').length) {
+            $('menuTable').removeChild($('optionXtense'));
         }
         menuAlliance.parentNode.insertBefore(li1, menuAlliance.nextSibling);
     } else {
@@ -332,8 +332,8 @@ function displayOptions() {
     options += '</div>';
     options += '<br><br></div>';
     //fin Tableau
-    var einhalt = document.getElementById('inhalt');
-    if(einhalt == null) einhalt = document.getElementById('buttonz');
+    var einhalt = $('inhalt');
+    if(einhalt == null) einhalt = $('buttonz');
     var escriptopt = document.createElement('div');
     escriptopt.id = 'xtenseScriptOpt';
     escriptopt.innerHTML = options;
@@ -343,14 +343,14 @@ function displayOptions() {
     einhalt.style.display = 'none';
     var script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
-    var newscriptText = document.createTextNode('function displayOption(id){if(id==\'Xtense_serveurs\'){document.getElementById(id).style.display=\'block\';document.getElementById(\'Xtense_pages\').style.display=\'none\';document.getElementById(\'Xtense_options\').style.display=\'none\';document.getElementById(\'Xtense_about\').style.display=\'none\';document.getElementById(\'menu_servers\').style.color=\'white\';document.getElementById(\'menu_pages\').style.color=\'orange\';document.getElementById(\'menu_options\').style.color=\'orange\';document.getElementById(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_pages\'){document.getElementById(id).style.display=\'block\';document.getElementById(\'Xtense_serveurs\').style.display=\'none\';document.getElementById(\'Xtense_options\').style.display=\'none\';document.getElementById(\'Xtense_about\').style.display=\'none\';document.getElementById(\'menu_servers\').style.color=\'orange\';document.getElementById(\'menu_pages\').style.color=\'white\';document.getElementById(\'menu_options\').style.color=\'orange\';document.getElementById(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_options\'){document.getElementById(id).style.display=\'block\';document.getElementById(\'Xtense_serveurs\').style.display=\'none\';document.getElementById(\'Xtense_pages\').style.display=\'none\';document.getElementById(\'Xtense_about\').style.display=\'none\';document.getElementById(\'menu_servers\').style.color=\'orange\';document.getElementById(\'menu_pages\').style.color=\'orange\';document.getElementById(\'menu_options\').style.color=\'white\';document.getElementById(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_about\'){document.getElementById(id).style.display=\'block\';document.getElementById(\'Xtense_serveurs\').style.display=\'none\';document.getElementById(\'Xtense_pages\').style.display=\'none\';document.getElementById(\'Xtense_options\').style.display=\'none\';document.getElementById(\'menu_servers\').style.color=\'orange\';document.getElementById(\'menu_pages\').style.color=\'orange\';document.getElementById(\'menu_options\').style.color=\'orange\';document.getElementById(\'menu_about\').style.color=\'white\';}}');
+    var newscriptText = document.createTextNode('function displayOption(id){if(id==\'Xtense_serveurs\'){$(id).style.display=\'block\';$(\'Xtense_pages\').style.display=\'none\';$(\'Xtense_options\').style.display=\'none\';$(\'Xtense_about\').style.display=\'none\';$(\'menu_servers\').style.color=\'white\';$(\'menu_pages\').style.color=\'orange\';$(\'menu_options\').style.color=\'orange\';$(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_pages\'){$(id).style.display=\'block\';$(\'Xtense_serveurs\').style.display=\'none\';$(\'Xtense_options\').style.display=\'none\';$(\'Xtense_about\').style.display=\'none\';$(\'menu_servers\').style.color=\'orange\';$(\'menu_pages\').style.color=\'white\';$(\'menu_options\').style.color=\'orange\';$(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_options\'){$(id).style.display=\'block\';$(\'Xtense_serveurs\').style.display=\'none\';$(\'Xtense_pages\').style.display=\'none\';$(\'Xtense_about\').style.display=\'none\';$(\'menu_servers\').style.color=\'orange\';$(\'menu_pages\').style.color=\'orange\';$(\'menu_options\').style.color=\'white\';$(\'menu_about\').style.color=\'orange\';}else if(id==\'Xtense_about\'){$(id).style.display=\'block\';$(\'Xtense_serveurs\').style.display=\'none\';$(\'Xtense_pages\').style.display=\'none\';$(\'Xtense_options\').style.display=\'none\';$(\'menu_servers\').style.color=\'orange\';$(\'menu_pages\').style.color=\'orange\';$(\'menu_options\').style.color=\'orange\';$(\'menu_about\').style.color=\'white\';}}');
     script.appendChild(newscriptText);
     escriptopt.appendChild(script);
     einhalt.parentNode.insertBefore(escriptopt, einhalt);
-    document.getElementById('Xtense_serveurs').style.display = 'block';
-    document.getElementById('Xtense_pages').style.display = 'none';
-    document.getElementById('Xtense_options').style.display = 'none';
-    document.getElementById('Xtense_about').style.display = 'none';
+    $('Xtense_serveurs').style.display = 'block';
+    $('Xtense_pages').style.display = 'none';
+    $('Xtense_options').style.display = 'none';
+    $('Xtense_about').style.display = 'none';
 
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
