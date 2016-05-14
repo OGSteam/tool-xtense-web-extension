@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.6.9.19",
+  "version": "2.6.9.20",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -24,6 +24,7 @@
              "contribs/crypto.js",
              "ui/menu_item.js",
 			 "ogspy/send_data.js",
+			 "utilities.js",
 			 "xtense.user.js"],
 	  "run_at": "document_idle"
     }
