@@ -210,7 +210,7 @@ function parse_galaxy_system_inserted(event) {
                 var status = '';
                 if (statusNodes.snapshotLength > 0) {
                     for (var j = 0; j < statusNodes.snapshotLength; j++) {
-                        status += statusNodes.snapshotItem(j).textContent.trimAll();
+                        status += statusNodes.snapshotItem(j).textContent.trim();
                     }
                 } else {
                     status = '';
@@ -239,9 +239,7 @@ function parse_galaxy_system_inserted(event) {
                 var player_id = Xpath.getStringValue(document, paths.player_id, row).trim();
                 if (player_id != '') {
                     player_id = player_id.trimInt();
-                    //} else if(doc.cookie.match(/login_(.*)=U_/)){
                 } else if (player) {
-                    //player_id = doc.cookie.match(/login_(.*)=U_/)[1];
                     player_id = XtenseMetas.getPlayerId();
                 }
                 var allyid = Xpath.getStringValue(document, paths.ally_id, row).trim();
@@ -254,7 +252,7 @@ function parse_galaxy_system_inserted(event) {
                 var planet_id = Xpath.getStringValue(document, paths.planet_id, row).trim();
                 var moon_id = Xpath.getStringValue(document, paths.moon_id, row).trim();
                 log('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase['resources'][601]] + '/' + debris[XtenseDatabase['resources'][602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
-                var r = {
+                rowsData[position] = {
                     player_id: player_id,
                     planet_name: name,
                     planet_id: planet_id,
@@ -268,7 +266,6 @@ function parse_galaxy_system_inserted(event) {
                     activity: activity,
                     activityMoon: activityMoon
                 };
-                rowsData[position] = r;
             }
             XtenseRequest.set({
                 row: rowsData,
@@ -299,13 +296,12 @@ function parse_ally_inserted() {
             var rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
             var coords = Xpath.getStringValue(document, paths.coords, row).trim();
             coords = coords.match(new RegExp(XtenseRegexps.coords))[1];
-            var r = {
+            rowsData[i] = {
                 player: player,
                 points: points,
                 coords: coords,
                 rank: rank
             };
-            rowsData[i] = r;
         }
         if (rowsData.length > 0) {
             var tag = Xpath.getStringValue(document, paths.tag);
@@ -384,7 +380,7 @@ function parse_ranking_inserted(event) {
                     player_id = document.cookie.match(/login_(.*)=U_/)[1];
                 /*Nombre de vaisseaux*/
                 if (type[1] == 'fleet') {
-                    var NbVaisseaux = Xpath.getStringValue(document, paths.nb_vaisseaux, row).trimInt();
+                    var NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
                     log('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
                     var r = {
                         player_id: player_id,
@@ -1366,7 +1362,7 @@ function parse_spy_report(RE) {
     var typs = [];
     var res = [];
     var attackRef = Xpath.getStringValue(document, paths.moon);
-    var isMoon = attackRef.search('type=3') > -1 ? true : false;
+    var isMoon = attackRef.search('type=3') > -1;
     var playerName = Xpath.getSingleNode(document, paths.playername).textContent.trim();
     var types = Xpath.getOrderedSnapshotNodes(document, paths.materialfleetdefbuildings);
     for (var i in spyStrings['units']) {
@@ -1495,11 +1491,7 @@ function getPlanetBoostersAndExtensions() {
 // Permet de savoir si c'est une lune
 
 function isMoon() {
-    if (XtenseMetas.getPlanetType() == 'moon') {
-        return true;
-    } else {
-        return false;
-    }
+    return XtenseMetas.getPlanetType() == 'moon';
 }
 
 // Permet de stocker les planètes du joueur connecté
