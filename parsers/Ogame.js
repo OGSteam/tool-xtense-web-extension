@@ -1027,7 +1027,7 @@ function parse_messages() {
         }
     }
 
-    log("Traitement d'un message detaille");
+    //log("Traitement d'un message detaille");
     // Traitement d'un message detaille (declenche lorsque l'on affiche le detail d'un message ou lorsque l'on change de page de msg detaille)
     if (messages.snapshotLength > 0) {
         var messageNode = messages.snapshotItem(0);
