@@ -63,16 +63,19 @@ function displayXtense() {
         } else {
             aAttrs = 'href="' + ogspy_link + '" target="blank_" ';
         }
-        var aff_option = '<span class="menu_icon"><a ' + aAttrs + '><img id="xtense.icone" class="mouseSwitch" src="' + icone + '" height="27" width="27"></span><a class="menubutton " href="' + url + '&xtense=Options" accesskey="" target="_self">';
-        aff_option += '<span class="textlabel">Xtense</span></a>';
-        var li1 = document.createElement('li');
-        li1.setAttribute('id', 'optionXtense');
-        li1.innerHTML = aff_option;
-        var menuAlliance = Xpath.getSingleNode(document, '//*[@id=\'menuTable\']/li[contains(a/@href,\'page=alliance\')]');
+
+        var aff_option = $("<li id='optionXtense'>" +
+            "<span class='menu_icon'>" +
+            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone + "' height='27' width='27'></span>" +
+            "<a class='menubutton' href='" + url + "&xtense=Options' accesskey='' target='_self'><span class='textlabel'>Xtense</span></a>" +
+            "</li>");
+
+
         if ($('optionXtense').length) {
             $('menuTable').removeChild($('optionXtense'));
         }
-        menuAlliance.parentNode.insertBefore(li1, menuAlliance.nextSibling);
+        $("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
+
     } else {
 
         log("Problem to display Menu entry point");
