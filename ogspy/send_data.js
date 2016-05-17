@@ -127,11 +127,12 @@ function initOGSpyCommunication() {
         serializeObject: function (obj, parent, tab) {
             var retour = '';
             var type = typeof obj;
+            var str = '';
             if (type == 'object') {
                 for (var i in obj) {
                     if (parent != '')
-                        var str = parent + '[' + i + ']';
-                    else var str = i;
+                        str = parent + '[' + i + ']';
+                    else str = i;
                     var a = false;
                     // Patch pour Graphic Tools for Ogame
                     if (str.search('existsTOG') == -1) {
