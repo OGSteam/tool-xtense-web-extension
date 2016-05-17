@@ -1,3 +1,4 @@
+//noinspection JSUnresolvedVariable
 /**
  * Created by Anthony on 12/05/2016.
  */
