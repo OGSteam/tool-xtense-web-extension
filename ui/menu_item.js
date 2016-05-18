@@ -51,9 +51,9 @@ function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
     var ogspy_link = GM_getValue('server.url.plugin', 'http://www.ogsteam.fr').split('mod')[0];
-    //log(getElementByAttr(document, 'className', 'showmessage'));
+
     // Page classique
-    if ($("playerName")) {
+    if ($("#playerName")) {
         var icone = chrome.extension.getURL('images/icones/xtense.png');
         var aAttrs = '';
         var urlIcone = '';
@@ -70,9 +70,8 @@ function displayXtense() {
             "<a class='menubutton' href='" + url + "&xtense=Options' accesskey='' target='_self'><span class='textlabel'>Xtense</span></a>" +
             "</li>");
 
-
-        if ($('optionXtense').length) {
-            $('menuTable').removeChild($('optionXtense'));
+        if ($('#optionXtense').length) {
+            $('#menuTable').removeChild($('#optionXtense'));
         }
         $("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
 
