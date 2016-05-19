@@ -114,26 +114,52 @@ function manual_send() {
 
 function get_galaxycontent() {
 
-    $("#galaxyContent").on("DOMNodeInserted", parse_galaxy_system_inserted);
+    var target = document.getElementById('galaxyContent');
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            parse_galaxy_system_inserted();
+        })
+    });
+    observer.observe(target, { childList: true });
 
 }
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
 
 function get_ally_content() {
 
-    $("#inhalt").on("DOMNodeInserted", parse_ally_inserted);
+    var target = document.getElementById('inhalt');
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            parse_ally_inserted();
+        })
+    });
+    observer.observe(target, { childList: true });
+    //$("#inhalt").on("DOMNodeInserted", parse_ally_inserted);
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_ranking_content() {
 
-    $("#stat_list_content").on("DOMNodeInserted", parse_ranking_inserted);
+    var target = document.getElementById('stat_list_content');
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            parse_ranking_inserted();
+        })
+    });
+    observer.observe(target, { childList: true });
+    //$("#stat_list_content").on("DOMNodeInserted", parse_ranking_inserted);
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_message_content() {
-
-    $("#messages").on("DOMNodeInserted", parse_messages);
+    var target = document.getElementById('messages');
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            parse_messages();
+        })
+    });
+    observer.observe(target, { childList: true });
+    //$("#messages").on("DOMNodeInserted", parse_messages);
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
