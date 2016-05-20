@@ -121,7 +121,6 @@ function get_galaxycontent() {
         })
     });
     observer.observe(target, { childList: true });
-
 }
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
 
@@ -134,7 +133,6 @@ function get_ally_content() {
         })
     });
     observer.observe(target, { childList: true });
-    //$("#inhalt").on("DOMNodeInserted", parse_ally_inserted);
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
@@ -147,7 +145,6 @@ function get_ranking_content() {
         })
     });
     observer.observe(target, { childList: true });
-    //$("#stat_list_content").on("DOMNodeInserted", parse_ranking_inserted);
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
@@ -159,7 +156,6 @@ function get_message_content() {
         })
     });
     observer.observe(target, { childList: true });
-    //$("#messages").on("DOMNodeInserted", parse_messages);
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
