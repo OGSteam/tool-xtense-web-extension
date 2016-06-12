@@ -461,13 +461,13 @@ function parse_ranking_inserted(event) {
 /* Page Overview */
 
 function parse_overview(event) {
+    // Supression du setinterval si il existe
     if (typeof (delaytodisplay_overview) != 'undefined') {
         clearInterval(delaytodisplay_overview);
     }
-    //Supression du setinterval si il existe
 
     var temperatures = Xpath.getStringValue(document, XtenseXpaths.overview.temperatures);
-    if ((temperatures != null) && (temperatures != '')) {
+    if ((temperatures != null) && (temperatures != '') && (temperatures.indexOf('_') === -1)) {
         var planetData = getPlanetData();
         if (GM_getValue('lastAction', '') != 'planet_name:' + planetData.planet_name) {
             var cases = Xpath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
