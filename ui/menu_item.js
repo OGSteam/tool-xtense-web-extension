@@ -50,7 +50,7 @@ function setStatus(type, message) {
 function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
-    var ogspy_link = GM_getValue('server.url.plugin', 'http://www.ogsteam.fr').split('mod')[0];
+    var ogspy_link = GM_getValue('server.url.plugin', 'http://www.ogsteam.fr');
 
     // Page classique
     if ($("#playerName")) {
@@ -189,13 +189,13 @@ function displayOptions() {
         '</tbody>' +
         '</table>';
     options += '<div id="Xtense_serveurs">';
-    options += '<table id="Xtense_table_serveurs" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;">';
+    options += '<table id="Xtense_table_serveurs" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8; ">';
     options += '<colgroup><col width="20%"/><col/></colgroup>';
     options += '<thead><tr><th class="Xtense_th" colspan="2" style="font-size: 12px; text-align:center; font-weight: bold; color: #539fc8; line-height: 30px; height: 30px;"></th></tr></thead>';
     options += '<tbody>';
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server.url.plugin" value="' + GM_getValue('server.url.plugin', 'https://VOTRESITEPERSO/VOTREDOSSIEROGSPY/mod/xtense/xtense.php') + '" size="35" alt="24" type="text"/></td>';
+    options += '<td class="value"><input class="speed" id="server.url.plugin" value="' + GM_getValue('server.url.plugin', 'VOTRESITE/VOTREOGSPY/') + '" size="30" alt="24" type="url"/></td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
@@ -206,6 +206,14 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_password") + '</label></td>';
     options += '<td class="value"><input class="speed" id="server.pwd" value="' + GM_getValue('server.pwd', 'mot de passe') + '" size="35" alt="24" type="password"/></td>';
+    options += '</tr>';
+    options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
+    options += '<tr>';
+    options += '<td colspan="2"><img src="' + chrome.extension.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example")+ '</td>';
+    options += '</tr>';
+    options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
+    options += '<tr>';
+    options += '<td colspan="2"><a href="http://wiki.ogsteam.fr" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2")+ '</a></td>';
     options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
