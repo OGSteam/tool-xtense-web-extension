@@ -39,6 +39,14 @@
     "message": "Mot de passe",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
   },
+  "XtenseServer_example": {
+    "message": "Example :<br>Lien OGSpy: https://host.darkcity.fr/~demo/ogspy<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
+    "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
+  },
+  "XtenseServer_example_2": {
+    "message": "Aide complète",
+    "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
+  },
   "XtenseSend_title": {
     "message": "Envoi des données:",
     "description": "Titre Send Data"

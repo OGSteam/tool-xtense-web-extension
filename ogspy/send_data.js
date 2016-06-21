@@ -98,9 +98,9 @@ function initOGSpyCommunication() {
             var password_s = CryptoJS.SHA1(GM_getValue('server.pwd', ''));
             var password_m = CryptoJS.MD5(password_s.toString());
             var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
-            log('sending ' + postData + ' to ' + GM_getValue('server.url.plugin', '') + ' from ' + urlUnivers);
+            log('sending ' + postData + ' to ' + GM_getValue('server.url.plugin', '') + '/mod/xtense/xtense.php' + ' from ' + urlUnivers);
             new Xajax({
-                url: GM_getValue('server.url.plugin', ''),
+                url: GM_getValue('server.url.plugin', '') + '/mod/xtense/xtense.php',
                 post: postData,
                 callback: null,
                 scope: this
