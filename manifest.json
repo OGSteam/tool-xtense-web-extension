@@ -6,19 +6,26 @@
   "default_locale": "fr",
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "icons": { "128": "Xtense-128.png" },
+  "applications": {
+    "gecko": {
+      "id": "ogspy.team@gmail.com",
+      "strict_min_version": "42.0",
+      "strict_max_version": "*"
+    }
+  },
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["contribs/jquery-2.2.3.min.js",
-			 "parsers/OgameLocales.js",
-			 "parsers/OgameConstants.js",
-			 "parsers/Ogame.js",
-             "contribs/crypto.js",
-             "ui/menu_item.js",
-			 "ogspy/send_data.js",
-			  "utilities.js",
-			 "xtense.user.js"],
-	  "run_at": "document_idle"
+      "js": ["contribs/jquery-3.0.0.min.js",
+        "parsers/OgameLocales.js",
+        "parsers/OgameConstants.js",
+        "parsers/Ogame.js",
+        "contribs/crypto.js",
+        "ui/menu_item.js",
+        "ogspy/send_data.js",
+        "utilities.js",
+        "xtense.user.js"],
+      "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
