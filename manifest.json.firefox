@@ -11,13 +11,12 @@
       "id": "ogspy.team@gmail.com",
       "strict_min_version": "42.0",
       "strict_max_version": "*",
-      "update_url": "https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js"
     }
   },
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["contribs/jquery-2.2.3.min.js",
+      "js": ["contribs/jquery-3.0.0.min.js",
         "parsers/OgameLocales.js",
         "parsers/OgameConstants.js",
         "parsers/Ogame.js",
