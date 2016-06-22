@@ -3,8 +3,6 @@
 // @version     2.7.1.0
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
-// @updateURL   https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.meta.js
-// @downloadURL https://bitbucket.org/darknoon29/tool-xtense-greasemonkey/downloads/xtense.user.js
 // @include     https://*.ogame.*/game/index.php*
 // @grant       GM_getValue
 // @grant       GM_setValue
