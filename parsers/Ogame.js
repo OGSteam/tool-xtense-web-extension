@@ -149,6 +149,8 @@ function get_ranking_content() {
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_message_content() {
+    //1er passage
+    parse_messages();
     var target = document.getElementById('messages');
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
@@ -944,6 +946,10 @@ function parse_messages() {
                 // Recupere l'id du message court
                 var idmsg = shortMessageNode.attributes['data-msg-id'].value;
                 log("ID Message court : " + idmsg);
+                /*Récupération API */
+                //*[@id="messages"]/div[9]/div[3]/div/input
+                var api_key = $( "span[title|='sr-fr-67-']" );
+
                 /* Cache des messages */
                 if (messagesIdCache == null || messagesIdCache == 'undefined') {
                     // Initialisation du cache d'identifiant de message
@@ -1063,10 +1069,8 @@ function parse_messages() {
                 GM_setValue('lastAction', "combatreport:" + combatreportId);
                 log("Traitement du rapport de combat (" + combatreportId + ")");
                 //--------------------------------------
-                // Recupere le document parent du message detaille (la liste des messages court)
-                var parentdoc = event.relatedNode.ownerDocument;
                 // Recupere la liste des messages court
-                var messagesShort = Xpath.getOrderedSnapshotNodes(parentdoc.body.ownerDocument, paths.shortmessages, null);
+                var messagesShort = Xpath.getOrderedSnapshotNodes(document.body.ownerDocument, paths.shortmessages, null);
                 var messageShort = null;
                 var messageShortFound = null;
 
@@ -1390,7 +1394,7 @@ function parse_spy_report(RE) {
     for (var i in spyStrings['units']) {
         for (var k = 0; k < types.snapshotLength; k++) {
             if (types.snapshotItem(k).textContent.trim().match(new RegExp(spyStrings['groups'][i], 'gi'))) {
-                log("Groupe Trouvé = " + types.snapshotItem(k).textContent.trim());
+                //log("Groupe Trouvé = " + types.snapshotItem(k).textContent.trim());
                 if (k++ < types.snapshotLength) {
                     for (var z = k; z < types.snapshotLength; z++) {
                         var finish = false;
@@ -1433,14 +1437,14 @@ function parse_spy_report(RE) {
 
     // Ogame API
     var ogameAPILink = '';
-    var actionsLinksNodes = Xpath.getOrderedSnapshotNodes(document, paths.actions_links);
+    /*var actionsLinksNodes = Xpath.getOrderedSnapshotNodes(document, paths.actions_links);
     for (var cpt = 0; cpt < actionsLinksNodes.snapshotLength; cpt++) {
         if (actionsLinksNodes.snapshotItem(cpt).href != null
             && actionsLinksNodes.snapshotItem(cpt).href.match(new RegExp(spyStrings['ogameAPI_link']))) {
             ogameAPILink = actionsLinksNodes.snapshotItem(cpt).href;
             break;
         }
-    }
+    }*/
     return {
         content: data,
         playerName: playerName,
@@ -1460,7 +1464,7 @@ function getElementInSpyReport(RE, elem) {
     //log(RE);
     if (m)
         num = m[1].trimInt();
-    log(elem + " : " + num);
+    //log(elem + " : " + num);
     return num;
 }
 
