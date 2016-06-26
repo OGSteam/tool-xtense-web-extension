@@ -343,7 +343,7 @@ function displayOptions() {
     options += '<br><br></div>';
     //fin Tableau
     var einhalt = $( "#inhalt" );
-    if(einhalt == null) einhalt = $('buttonz');
+    if(einhalt == null) einhalt = $('#buttonz');
     var escriptopt = $("<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" + options + "</div>");   //document.createElement('div');
 
     einhalt.hide(); //On masque le jeu pour afficher le menu
