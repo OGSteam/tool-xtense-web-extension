@@ -965,35 +965,39 @@ function parse_messages() {
                 if ((GM_getValue('handle.msg.ennemy.spy').toString() == 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
 
                     log("Message court Espionnage Ennemi détecté : ");
-                    var fromToInfo = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy));
+                    var ToInfo = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy_to));
+                    var proba = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy_proba));
 
-                    if (fromToInfo) {
+                    if (ToInfo) {
                         var data = {};
 
                         data.type = 'ennemy_spy';
-                        data.from = fromToInfo[1];
-                        data.to = fromToInfo[2];
+                        //data.from = fromToInfo[1];
+                        data.to = ToInfo[1];
+                        data.proba = proba[1];
 
                         var msgInnerHTML = shortMessageNode.innerHTML.trim();
-                        var fromToMoons = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
-                        if (fromToMoons) {
+                        data.from = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_from))[1];
+                        //var fromToMoons = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
+                        //if (fromToMoons) {
                             data.toMoon = 0;
-                            if (fromToMoons[2].match(new RegExp(locales['moon']))) {
+                            /*if (fromToMoons[2].match(new RegExp(locales['moon']))) {
                                 data.toMoon = 1;
-                            }
+                            }*/
                             data.fromMoon = 0;
-                            if (fromToMoons[1].match(new RegExp(locales['moon']))) {
+                            /*if (fromToMoons[1].match(new RegExp(locales['moon']))) {
                                 data.fromMoon = 1;
-                            }
-                            data.proba = fromToInfo[3];
+                            }*/
+                            //data.proba = fromToInfo[3];
                             data.date = XtenseParseDate(msgContent, l('dates')['messages']);
                             XtenseRequest.set('data', data);
                             XtenseRequest.set('type', 'messages');
                             XtenseRequest.send();
                             log("Message court Espionnage Ennemi envoyé ");
-                        }
+                        //}
                     }
                 }
+
                 // Recyclage
                 else if ((GM_getValue('handle.msg.rc.cdr').toString() == 'true') && msgContent.match(new RegExp(locales['fleet'])) && msgContent.match(new RegExp(locales['harvesting']))) { //OK
                     log("Message court Recyclage détecté");
