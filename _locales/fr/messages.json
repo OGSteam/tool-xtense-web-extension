@@ -131,6 +131,10 @@
     "message": "Mode débogage",
     "description": "Activation des traces de debug"
   },
+  "XtenseOptionsPage_backuplink": {
+    "message": "Lien Backup OGSpy",
+    "description": "Activation des traces de debug"
+  },
   "XtenseOptionsPage_corsheader": {
     "message": "Mode de transmission au serveur OGSpy type CORS (En fonction de votre configuration serveur)",
     "description": "Mode de trasmission au serveur type CORS"

@@ -108,10 +108,8 @@ function displayOptions() {
     // Variables : Options
     var opt_debug_mode = ' ';
     var opt_cors_header = ' ';
-    // Récupération des préférences  : Serveur
-    if (GM_getValue('server.check', 'false').toString() == 'true') {
-        server_check += 'checked';
-    }
+    var opt_backup_link = ' ';
+
     // Récupération des préférences  : Pages
 
     if (GM_getValue('handle.overview', 'false').toString() == 'true') {
@@ -171,7 +169,10 @@ function displayOptions() {
         opt_debug_mode += ' checked';
     }
     if (GM_getValue('cors.mode', 'true').toString() == 'true') {
-        opt_cors_header += ' checked';
+        opt_cors_header += ' checked';		
+    }    
+	if (GM_getValue('backup.link', 'false').toString() == 'true') {
+        opt_backup_link += ' checked';
     }
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
@@ -195,7 +196,7 @@ function displayOptions() {
     options += '<tbody>';
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server.url.plugin" value="' + GM_getValue('server.url.plugin', 'VOTRESITE/VOTREOGSPY/') + '" size="40" alt="24" type="text"/></td>';
+    options += '<td class="value"><input class="speed" id="server.url.plugin" value="' + GM_getValue('server.url.plugin', 'https://VOTRESITE/VOTREOGSPY/') + '" size="40" alt="24" type="text"/></td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
@@ -206,6 +207,21 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_password") + '</label></td>';
     options += '<td class="value"><input class="speed" id="server.pwd" value="' + GM_getValue('server.pwd', 'mot de passe') + '" size="40" alt="24" type="password"/></td>';
+    options += '</tr>';
+    options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
+	options += '<tr class="server_url_backup">';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
+    options += '<td class="value"><input class="speed" id="server_backup.url.plugin" value="' + GM_getValue('server_backup.url.plugin', 'https://VOTRESITE/VOTREOGSPY/') + '" size="40" alt="24" type="text"/></td>';
+    options += '</tr>';
+    options += '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
+    options += '<tr class="server_url_backup">';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_username") + '</label></td>';
+    options += '<td class="value"><input class="speed" id="server_backup.user" value="' + GM_getValue('server_backup.user', 'utilisateur') + '" size="40" alt="24" type="text"/></td>';
+    options += '</tr>';
+    options += '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
+    options += '<tr class="server_url_backup">';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_password") + '</label></td>';
+    options += '<td class="value"><input class="speed" id="server_backup.pwd" value="' + GM_getValue('server_backup.pwd', 'mot de passe') + '" size="40" alt="24" type="password"/></td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
@@ -306,6 +322,8 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_debugmode") + '</label></td>';
     options += '<td class="value" style="text-align:left;"><input class="speed" id="debug.mode" size="35" alt="24" type="checkbox"' + opt_debug_mode + '/></td>';
+	options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_backuplink") + '</label></td>';
+    options += '<td class="value" style="text-align:left;"><input class="speed" id="backup.link" size="35" alt="24" type="checkbox"' + opt_backup_link + '/></td>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_corsheader") + '</label></td>';
     options += '<td class="value" style="text-align:left;"><input class="speed" id="cors.mode" size="35" alt="24" type="checkbox"' + opt_cors_header + '/></td>';
     options += '<td class="champ"></td>';
@@ -350,10 +368,11 @@ function displayOptions() {
 
     $('#contentWrapper.with_chat_bar').css('padding-bottom','0px');
     einhalt.parent().after(escriptopt);
-    $('#Xtense_serveurs').show();
+    displayOption('#Xtense_serveurs'); // Mise en place initiale du menu
+	/*$('#Xtense_serveurs').show();
     $('#Xtense_pages').hide();
     $('#Xtense_options').hide();
-    $('#Xtense_about').hide();
+    $('#Xtense_about').hide();*/
 
     $('#menu_servers').click( function(){ displayOption('#Xtense_serveurs'); });
     $('#menu_pages').click( function(){ displayOption('#Xtense_pages'); });
@@ -383,7 +402,7 @@ function displayOptions() {
         }
     }
 
-    setInterval(enregistreOptionsXtense, 500);
+    setInterval(enregistreOptionsXtense, 200);
 }
 
 function displayOption(id) {
@@ -399,6 +418,9 @@ function displayOption(id) {
         $('#menu_pages').css('color' , 'orange');
         $('#menu_options').css('color' , 'orange');
         $('#menu_about').css('color' , 'orange');
+		if (GM_getValue('backup.link', 'false').toString() == 'true') 
+			$('.server_url_backup').show();
+		else $('.server_url_backup').hide();
     }
     else if (id == '#Xtense_pages') {
 
