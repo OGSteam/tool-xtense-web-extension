@@ -1,0 +1,52 @@
+{
+  "manifest_version": 2,
+  "version": "2.7.1.2",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "fr",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "icons": { "128": "Xtense-128.png" },
+  "content_scripts": [
+    {
+      "matches": ["https://*.ogame.gameforge.com/game/*"],
+      "js": ["contribs/jquery-3.0.0.min.js",
+			 "parsers/OgameLocales.js",
+			 "parsers/OgameConstants.js",
+			 "parsers/Ogame.js",
+             "contribs/crypto.js",
+             "ui/menu_item.js",
+			 "ogspy/send_data.js",
+			  "utilities.js",
+			 "xtense.user.js"],
+	  "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    "images/about.png",
+    "images/conf.png",
+    "images/OGSteam.png",
+    "images/pages.png",
+    "images/server.png",
+    "images/xtense.png",
+    "images/icones/xtense.png",
+    "images/icones/xtense-send.png",
+    "images/icones/xtenseKo.png",
+    "images/icones/xtenseNo.png",
+    "images/icones/xtenseOk.png",
+    "images/icones/xtenseReady.png",
+    "images/icones/xtenseWarn.png",
+    "images/icones/infos.png"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "permissions": [ "notifications"],
+
+  "short_name": "Xtense",
+  "browser_action": {
+    "default_title": "Xtense",
+    "default_icon": "images/icones/xtense_default.png",
+    "default_popup": "xtense.html"
+  }
+}
