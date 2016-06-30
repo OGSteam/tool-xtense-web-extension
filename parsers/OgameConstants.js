@@ -243,7 +243,7 @@ function initParsers() {
             ennemy_spy_to: '\\[(\\d+:\\d+:\\d+)\\]', //Texte message court
             ennemy_spy_from: '\\[(\\d+:\\d+:\\d+)\\]<\\/a><\\/td>', //Coordonnées de la popup
             ennemy_spy_proba: '\\:.(\\d{1,3})%',//Texte message court
-            ennemy_spy_moon: '<figure\\s[^\\>]*\\stitle=\\"([^\\>]*)\\"><\\/figure>.*<figure\\s[^\\>]*\\stitle=\\"([^\\>]*)\\">',
+            ennemy_spy_moon: '<figure\\sclass=.*(moon)',
             trade_message_infos: 'Une flotte .trang.re de (.*) [(](.*)\\[(\\d+:\\d+:\\d+)\\][)] a livr. des ressources . (.*) \\[(\\d+:\\d+:\\d+)\\]',
             trade_message_infos_me: 'Votre flotte de la plan.te (.*) \\[(\\d+:\\d+:\\d+)\\] a atteint la plan.te (.*) \\[(\\d+:\\d+:\\d+)\\] et y a livr. les ressources suivantes',
             trade_message_infos_res_livrees: '(.*)Vous aviez [:]',
