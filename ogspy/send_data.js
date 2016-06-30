@@ -95,6 +95,7 @@ function initOGSpyCommunication() {
         loading: {},
         data: {},
         send: function () {
+            GM_setValue('server.name', 'OGSpy');
             var password_s = CryptoJS.SHA1(GM_getValue('server.pwd', ''));
             var password_m = CryptoJS.MD5(password_s.toString());
             var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
@@ -105,8 +106,20 @@ function initOGSpyCommunication() {
                 callback: null,
                 scope: this
             });
-            var postedData = postData;
-            var loading = true;
+            if (GM_getValue('backup.link', 'false').toString() === 'true') {
+                GM_setValue('server.name', 'OGSpy Backup');
+                var password_s = CryptoJS.SHA1(GM_getValue('server_backup.pwd', ''));
+                var password_m = CryptoJS.MD5(password_s.toString());
+                var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server_backup.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
+                log('sending backup ' + postData + ' to ' + GM_getValue('server_backup.url.plugin', '') + '/mod/xtense/xtense.php' + ' from ' + urlUnivers);
+                new Xajax({
+                    url: GM_getValue('server_backup.url.plugin', '') + '/mod/xtense/xtense.php',
+                    post: postData,
+                    callback: null,
+                    scope: this
+                });
+            }
+
         },
         call: function (Server, Response) {
             XtenseRequest.loading[Server.n] = false;
@@ -161,22 +174,23 @@ function initOGSpyCommunication() {
 function handleResponse(status, Response) {
     //log("Status: " + status);
     log("Response: " + Response);
-    var message_start = '"' + GM_getValue('server.name', '') + '" : ';
+    var message_start = GM_getValue('server.name', '');
 
     if (status != 'success') {
         switch (status) {
             case 404 :
-                setStatus(XLOG_ERROR, Xl('http_status_404'));
+                message = Xl('http_status_404');
                 break;
             case 403 :
-                setStatus(XLOG_ERROR, Xl('http_status_403'));
+                message =  Xl('http_status_403');
                 break;
             case 500 :
-                setStatus(XLOG_ERROR, Xl('http_status_500'));
+                message =  Xl('http_status_500');
                 break;
             default:
-                setStatus(XLOG_ERROR, Xl('http_status_unknown'));
+                message = Xl('http_status_unknown');
         }
+        setStatus(XLOG_ERROR,'[' + message_start + '] '+ message);
     } else {
         var type = XLOG_SUCCESS;
         if (Response == '' || typeof (Response) == 'undefined') {
@@ -302,7 +316,7 @@ function handleResponse(status, Response) {
                 }
             }
         }
-        setStatus(type, '[' + data.execution + ' ms] ' + message);
+        setStatus(type, '[' + data.execution + ' ms]' + '[' + message_start + '] '+ message);
     }
 }
 
