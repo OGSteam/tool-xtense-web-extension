@@ -115,49 +115,49 @@ function manual_send() {
 function get_galaxycontent() {
 
     var target = document.getElementById('galaxyContent');
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
             parse_galaxy_system_inserted();
         })
     });
-    observer.observe(target, { childList: true });
+    observer.observe(target, {childList: true});
 }
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
 
 function get_ally_content() {
 
     var target = document.getElementById('inhalt');
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
             parse_ally_inserted();
         })
     });
-    observer.observe(target, { childList: true });
+    observer.observe(target, {childList: true});
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_ranking_content() {
 
     var target = document.getElementById('stat_list_content');
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
             parse_ranking_inserted();
         })
     });
-    observer.observe(target, { childList: true });
+    observer.observe(target, {childList: true});
 }
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_message_content() {
     //1er passage
-    parse_messages();
+    //parse_messages();
     var target = document.getElementById('messages');
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
             parse_messages();
         })
     });
-    observer.observe(target, { childList: true });
+    observer.observe(target, {childList: true});
 }
 /* Fonction ajoutant lancant le parsing de la vue générale quand celle-ci est chargée */
 
@@ -189,7 +189,7 @@ function parse_galaxy_system_inserted(event) {
             log('invalid system' + ' ' + coords[0] + ' ' + coords[1]);
             return;
         }
-        setStatus(XLOG_NORMAL, Xl('system_detected') +"("+ coords[0] +":"+ coords[1]+")");
+        setStatus(XLOG_NORMAL, Xl('system_detected') + "(" + coords[0] + ":" + coords[1] + ")");
         if (rows.snapshotLength > 0) {
             //var XtenseRequest = new XtenseRequest(null, null, null);
             log(rows.snapshotLength + ' rows found in galaxy');
@@ -948,7 +948,7 @@ function parse_messages() {
                 log("ID Message court : " + idmsg);
                 /*Récupération API */
                 //*[@id="messages"]/div[9]/div[3]/div/input
-                var api_key = $( "span[title|='sr-fr-67-']" );
+                var api_key = $("span[title|='sr-fr-67-']");
 
                 /* Cache des messages */
                 if (messagesIdCache == null || messagesIdCache == 'undefined') {
@@ -975,25 +975,27 @@ function parse_messages() {
                         //data.from = fromToInfo[1];
                         data.to = ToInfo[1];
                         data.proba = proba[1];
-
                         var msgInnerHTML = shortMessageNode.innerHTML.trim();
                         data.from = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_from))[1];
                         //var fromToMoons = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
                         //if (fromToMoons) {
-                            data.toMoon = 0;
-                            /*if (fromToMoons[2].match(new RegExp(locales['moon']))) {
+                        data.toMoon = 0;
+                        var testlune = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
+                        if (testlune != null) { //Cas où la lune est absente
+                            if (testlune[1] == 'moon') {
                                 data.toMoon = 1;
-                            }*/
-                            data.fromMoon = 0;
-                            /*if (fromToMoons[1].match(new RegExp(locales['moon']))) {
-                                data.fromMoon = 1;
-                            }*/
-                            //data.proba = fromToInfo[3];
-                            data.date = XtenseParseDate(msgContent, l('dates')['messages']);
-                            XtenseRequest.set('data', data);
-                            XtenseRequest.set('type', 'messages');
-                            XtenseRequest.send();
-                            log("Message court Espionnage Ennemi envoyé ");
+                            }
+                        }
+                        data.fromMoon = 0;
+                        /*if (fromToMoons[1].match(new RegExp(locales['moon']))) {
+                         data.fromMoon = 1;
+                         }*/ //Information not available in source
+                        //data.proba = fromToInfo[3];
+                        data.date = XtenseParseDate(msgContent, l('dates')['messages']);
+                        XtenseRequest.set('data', data);
+                        XtenseRequest.set('type', 'messages');
+                        XtenseRequest.send();
+                        log("Message court Espionnage Ennemi envoyé ");
                         //}
                     }
                 }
@@ -1442,13 +1444,13 @@ function parse_spy_report(RE) {
     // Ogame API
     var ogameAPILink = '';
     /*var actionsLinksNodes = Xpath.getOrderedSnapshotNodes(document, paths.actions_links);
-    for (var cpt = 0; cpt < actionsLinksNodes.snapshotLength; cpt++) {
-        if (actionsLinksNodes.snapshotItem(cpt).href != null
-            && actionsLinksNodes.snapshotItem(cpt).href.match(new RegExp(spyStrings['ogameAPI_link']))) {
-            ogameAPILink = actionsLinksNodes.snapshotItem(cpt).href;
-            break;
-        }
-    }*/
+     for (var cpt = 0; cpt < actionsLinksNodes.snapshotLength; cpt++) {
+     if (actionsLinksNodes.snapshotItem(cpt).href != null
+     && actionsLinksNodes.snapshotItem(cpt).href.match(new RegExp(spyStrings['ogameAPI_link']))) {
+     ogameAPILink = actionsLinksNodes.snapshotItem(cpt).href;
+     break;
+     }
+     }*/
     return {
         content: data,
         playerName: playerName,
