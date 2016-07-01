@@ -241,7 +241,7 @@ function initParsers() {
             /*ennemy_spy: '\\[(\\d+:\\d+:\\d+)\\][^\\]]*\\[(\\d+:\\d+:\\d+)\\][^%\\d]*([\\d]+)[^%\\d]*%',*/
             ennemy_spy: '(.*).\\[(\\d+:\\d+:\\d+)\\].(\\d+.\\d+.\\d+).(\\d+:\\d+:\\d+)$\\n(.*)\\n.*\\((.*)\\).*(\\d{1,3})%', //Inutile now
             ennemy_spy_to: '\\[(\\d+:\\d+:\\d+)\\]', //Texte message court
-            ennemy_spy_from: '\\[(\\d+:\\d+:\\d+)\\]<\\/a><\\/td>', //Coordonnées de la popup
+            ennemy_spy_from: 'fleet.*galaxy=(\\d+).*system=(\\d+).*position=(\\d+).*type=(\\d+).*mission=1', //Coordonnées du lien attaque type=1 pour planètre tu 3 pour lune
             ennemy_spy_proba: '\\:.(\\d{1,3})%',//Texte message court
             ennemy_spy_moon: '<figure\\sclass=.*(moon)',
             trade_message_infos: 'Une flotte .trang.re de (.*) [(](.*)\\[(\\d+:\\d+:\\d+)\\][)] a livr. des ressources . (.*) \\[(\\d+:\\d+:\\d+)\\]',
