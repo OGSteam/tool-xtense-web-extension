@@ -149,11 +149,14 @@ function get_ranking_content() {
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_message_content() {
-    //1er passage
-    //parse_messages();
+    //Sur navigation onglets
+    $('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
+
+    //Sur affichage Message long
     var target = document.getElementById('messages');
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
+            log('Muation Message');
             parse_messages();
         })
     });
@@ -927,13 +930,17 @@ function parse_messages() {
     var paths = XtenseXpaths.messages;
     var data = {};
 
-    //GM_getValue('last_message')
+    var lastShtMsgsSize = GM_getValue('lastShtMsgsSize', 0);
+    var lastMsgsSize = GM_getValue('lastMsgsSize', 0);
 
     var messages = Xpath.getOrderedSnapshotNodes(document, paths.showmessage, null);
     var messagesCourt = Xpath.getOrderedSnapshotNodes(document, paths.shortmessages, null);
 
-    // Traitement des listes de messages court (declenche lorsque l'on change d'onglet ou de page)
-    if (messagesCourt.snapshotLength > 0 && messagesCourt.snapshotLength != this.lastShtMsgsSize && messages.snapshotLength == this.lastMsgsSize) {
+    //log('Nombre Messages courts: ' + messagesCourt.snapshotLength);
+    //log('Nombre Messages classiques: ' + messages.snapshotLength);
+
+    // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
+    if (messagesCourt.snapshotLength > 0 && messagesCourt.snapshotLength != lastShtMsgsSize || messages.snapshotLength != lastMsgsSize) {
         if ((GM_getValue("last_shortmessage", 0).toString()) != messagesCourt.snapshotLength) {
             GM_setValue("last_shortmessage", messagesCourt.snapshotLength);
             var locales = l('messages');
@@ -948,18 +955,6 @@ function parse_messages() {
                 log("ID Message court : " + idmsg);
                 /*Récupération API */
                 //*[@id="messages"]/div[9]/div[3]/div/input
-                var api_key = $("span[title|='sr-fr-67-']");
-
-                /* Cache des messages */
-                if (messagesIdCache == null || messagesIdCache == 'undefined') {
-                    // Initialisation du cache d'identifiant de message
-                    var messagesIdCache = Array();
-                }
-
-                // Verifie que le message court n'a pas deja ete traite
-                if (messagesIdCache.indexOf(idmsg) == -1) {
-                    messagesIdCache.push(idmsg);
-                }
 
                 // Espionnage ennemi
                 if ((GM_getValue('handle.msg.ennemy.spy').toString() == 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
@@ -972,30 +967,34 @@ function parse_messages() {
                         var data = {};
 
                         data.type = 'ennemy_spy';
-                        //data.from = fromToInfo[1];
                         data.to = ToInfo[1];
                         data.proba = proba[1];
                         var msgInnerHTML = shortMessageNode.innerHTML.trim();
-                        data.from = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_from))[1];
-                        //var fromToMoons = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
-                        //if (fromToMoons) {
+                        //log(msgInnerHTML);
+
+                        //Données de la planètre ciblées
                         data.toMoon = 0;
-                        var testlune = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
-                        if (testlune != null) { //Cas où la lune est absente
-                            if (testlune[1] == 'moon') {
+                        var moonTo = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_moon));
+                        if ( moonTo) { //Cas où la lune est absente
+                            if ( moonTo[1] == 'moon') {
                                 data.toMoon = 1;
                             }
                         }
-                        data.fromMoon = 0;
-                        /*if (fromToMoons[1].match(new RegExp(locales['moon']))) {
-                         data.fromMoon = 1;
-                         }*/ //Information not available in source
+                        //Données de la planètre origine
+                        fromdetails = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_from));
+                        if (fromdetails) {
+                            data.from = fromdetails[1] + ':' + fromdetails[2] + ':' + fromdetails[3];
+                            data.fromMoon = 0;
+                            if (fromdetails[4] == 3) { //3 is mission type for luna
+                                data.fromMoon = 1;
+                            }
+                        }
                         //data.proba = fromToInfo[3];
                         data.date = XtenseParseDate(msgContent, l('dates')['messages']);
                         XtenseRequest.set('data', data);
                         XtenseRequest.set('type', 'messages');
                         XtenseRequest.send();
-                        log("Message court Espionnage Ennemi envoyé ");
+                        log("Short Message Ennemy spy report sent from " + data.from + " to " + data.to);
                         //}
                     }
                 }
@@ -1378,8 +1377,8 @@ function parse_messages() {
             }
         }
     }
-    this.lastShtMsgsSize = messagesCourt.snapshotLength;
-    this.lastMsgsSize = messages.snapshotLength;
+    GM_setValue('lastShtMsgsSize', messagesCourt.snapshotLength); //Pour detection nouveau message
+    GM_setValue('lastMsgsSize', messages.snapshotLength); //Pour detection nouveau message
 }
 
 /* Fonction de parsing d'un RE */
