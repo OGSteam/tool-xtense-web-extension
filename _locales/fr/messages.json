@@ -27,10 +27,14 @@
     "message": "A Propos",
     "description": "Titre de la page de remerciements"
   },
-  "XtenseServer_URL": {
-    "message": "Lien OGSpy",
-    "description": "Intitulé pour le lien vers le serveur OGSpy"
+  "XtenseServer_Title": {
+    "message": "Configurez ici le lien vers votre serveur OGSpy pour l'univers",
+    "description": "Configure here the link to your OGSpy server concerning univers 22"
   },
+  "XtenseServer_URL": {
+  "message": "Lien OGSpy",
+  "description": "Intitulé pour le lien vers le serveur OGSpy"
+},
   "XtenseServer_username": {
     "message": "Utilisateur",
     "description": "Intitulé pour le nom d'utilisateur OGSpy"
@@ -39,6 +43,14 @@
     "message": "Mot de passe",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
   },
+  "XtenseServer_MainServer": {
+  "message": "Lien vers votre serveur OGSpy principal",
+  "description": "Intitulé pour la configuration du serveur principal"
+},
+  "XtenseServer_BackupServer": {
+  "message": "Lien vers votre serveur OGSpy de secours",
+  "description": "Intitulé pour la configuration du serveur backup"
+},
   "XtenseServer_example": {
     "message": "Example :<br>Lien OGSpy: https://host.darkcity.fr/~demo/ogspy<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
