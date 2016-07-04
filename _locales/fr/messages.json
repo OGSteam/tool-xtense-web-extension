@@ -48,11 +48,11 @@
   "description": "Intitulé pour la configuration du serveur principal"
 },
   "XtenseServer_BackupServer": {
-  "message": "Lien vers votre serveur OGSpy de secours",
+  "message": "Lien vers votre serveur OGSpy secondaire",
   "description": "Intitulé pour la configuration du serveur backup"
 },
   "XtenseServer_example": {
-    "message": "Example :<br>Lien OGSpy: https://host.darkcity.fr/~demo/ogspy<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
+    "message": "Exemple :<br>Lien OGSpy: https://host.darkcity.fr/~demo/ogspy<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
   },
   "XtenseServer_example_2": {
@@ -144,7 +144,7 @@
     "description": "Activation des traces de debug"
   },
   "XtenseOptionsPage_backuplink": {
-    "message": "Lien Backup OGSpy",
+    "message": "Utilser un second serveur OGSpy",
     "description": "Activation des traces de debug"
   },
   "XtenseOptionsPage_corsheader": {
