@@ -90,7 +90,7 @@ function XajaxCompo(url) {
 // Récupère les messages de retours et locales
 
 function Xl(name) {
-    return chrome.i18n.getMessage("XtenseMsg_" + name);
+    return browser.i18n.getMessage("XtenseMsg_" + name, "Error");
 }
 // Permet de connaitre les locales du jeu suivant la langue (FR,ENG, ...)
 
