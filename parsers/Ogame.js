@@ -1043,6 +1043,7 @@ function parse_messages() {
                         data.type = 'expedition';
                         data.coords = coords;
                         data.content = content;
+                        data.date = XtenseParseDate(msgContent, l('dates')['messages']);
 
                         XtenseRequest.set('data', data);
                         XtenseRequest.set('type', 'messages');
