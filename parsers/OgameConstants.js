@@ -100,7 +100,7 @@ function initParsers() {
             from: '//div[contains(@class,"detail_msg_head")]/span[4]',
             to: '//div[contains(@class,"detail_msg_head")]/table/tbody/tr[2]/td/text()',
             subject: '//div[contains(@class,"detail_msg_head")]/span',
-            shortmsgcontent: '//span[contains(@class,"msg_content")]',
+            shortmsgcontent: 'span[contains(@class,"msg_content")]',
             date: '//div[contains(@class,"detail_msg_head")]/span[2]',
             ogameapi: '//div[contains(@class,"msg_actions")]/a[2]/@href',
             reply: '//*[contains(@class,"toolbar")]/li[contains(@class,"reply")]',
