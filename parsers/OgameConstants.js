@@ -102,7 +102,6 @@ function initParsers() {
             subject: '//div[contains(@class,"detail_msg_head")]/span',
             shortmsgcontent: 'span[contains(@class,"msg_content")]',
             date: '//div[contains(@class,"detail_msg_head")]/span[2]',
-            ogameapi: '//div[contains(@class,"msg_actions")]/a[2]/@href',
             reply: '//*[contains(@class,"toolbar")]/li[contains(@class,"reply")]',
             contents: {
                 'spy': '//div[contains(@class,"detail_msg_ctn")]',
@@ -117,11 +116,14 @@ function initParsers() {
                 'url_combatreport': '//a[contains(@class,"msg_action_link")]/@href'
             },
             spy: {
+                list_infos: '//div[contains(@class,"detail_msg")]',
                 playername: '//div[contains(@class,"detail_txt")]//span[contains(@class,"status")]/text()',
                 materialfleetdefbuildings: '//div[contains(@class,"section_title")] | //ul[contains(@class,"detail_list")]/li[contains(@class,"resource_list_el")] | //ul[contains(@class,"detail_list")]/li[contains(@class,"detail_list_el")]',
                 moon: '//div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a[2]/@href',
                 actions_links: '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a'
-            }
+            },
+            tab: '//div[@aria-hidden="false"]//ul[contains(@class,"subtabs")]/li[@aria-selected ="true"]/@data-tabid',
+            ogameapi: './/span[contains(@class, "icon_apikey")]/@title'
         },
 
         parseTableStruct: {
@@ -236,7 +238,7 @@ function initParsers() {
         userNameAndCoords: '(.*) \\[(\\d+:\\d+:\\d+)\\]',
         userNameAndDestroyed: ' (.*) d.truit',
         moon: '=(\\d+)*',
-        ogameapi: 'ogame-api:\\/\\/(([0-9]|[a-z]|[-])*)',
+        ogameapi: 'input value=\'([a-z0-9-]+)\'',
         messages: {
             /*ennemy_spy: '\\[(\\d+:\\d+:\\d+)\\][^\\]]*\\[(\\d+:\\d+:\\d+)\\][^%\\d]*([\\d]+)[^%\\d]*%',*/
             ennemy_spy: '(.*).\\[(\\d+:\\d+:\\d+)\\].(\\d+.\\d+.\\d+).(\\d+:\\d+:\\d+)$\\n(.*)\\n.*\\((.*)\\).*(\\d{1,3})%', //Inutile now
