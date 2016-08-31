@@ -719,9 +719,13 @@ function parse_rc(doc, minirc) {
             }
         }
         // Ogame API
-        var ogameAPITitle = Xpath.getOrderedSnapshotNodes(doc, XtenseXpaths.messages.ogameapi, infosNode).snapshotItem(0).value;
-        var regexApi = new RegExp(XtenseRegexps.ogameapi);
-        var ogameAPILink = regexApi.exec(ogameAPITitle)[1];
+        var apiNode = Xpath.getOrderedSnapshotNodes(doc, XtenseXpaths.messages.ogameapi, infosNode).snapshotItem(0);
+        var ogameAPILink = null;
+        if(apiNode != null) {
+            var ogameAPITitle = apiNode.value;
+            var regexApi = new RegExp(XtenseRegexps.ogameapi);
+            ogameAPILink = regexApi.exec(ogameAPITitle)[1];
+        }
 
         //Texte entier du raid, brut
 
