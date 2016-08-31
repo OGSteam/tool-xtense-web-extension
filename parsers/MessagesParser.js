@@ -10,13 +10,13 @@ function get_tabid(doc) {
 
     switch (tab_id) {
         case '11':
-            type = 'spy-shared';
+            type = 'spy_shared';
             break;
         case '12':
-            type = 'rc-shared';
+            type = 'rc_shared';
             break;
         case '13':
-            type = 'expedition-shared';
+            type = 'expedition_shared';
             break;
         case '20':
             type = 'spy';
@@ -54,6 +54,8 @@ function parse_messages() {
         if ((GM_getValue("last_shortmessage", 0).toString()) != messagesCourt.snapshotLength) {
             GM_setValue("last_shortmessage", messagesCourt.snapshotLength);
             var locales = l('messages');
+
+            var tab_type = get_tabid(document);
 
             // Parcours de la liste de messages court
             // TODO : Ne pas re-parcourir les messages court deja parse
@@ -146,11 +148,15 @@ function parse_messages() {
                     var m = msgContent.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords));
                     var content = Xpath.getOrderedSnapshotNodes(document, paths.shortmsgcontent, shortMessageNode);
 
-                    if (m != null && content.snapshotLength > 0) {
+                    if (m != null && content.snapshotLength > 0)
+                    {
+
+
+
                         var data = {};
                         var coords = m[1];
                         var content = content.snapshotItem(0).textContent.trim();
-                        data.type = 'expedition';
+                        data.type = tab_type;
                         data.coords = coords;
                         data.content = content;
                         data.date = XtenseParseDate(msgContent, l('dates')['messages']);

@@ -60,7 +60,7 @@ function handle_current_page() {
  */
 function handle_page(page)
 {
-    if(GM_getValue('handle.' . page, 'false').toString() == 'true' || GM_getValue('manual.send', 'false').toString() == 'true')
+    if(GM_getValue('handle.'.concat(page), 'false').toString() == 'true' || GM_getValue('manual.send', 'false').toString() == 'true')
     {
         GM_setValue('lastAction', '');
         get_content(page);
