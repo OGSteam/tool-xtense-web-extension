@@ -27,6 +27,10 @@ function get_tabid(doc) {
         case '22':
             type = 'expedition';
             break;
+        // Dans les autres cas, on ne détermine pas le type par rapport à l'onglet
+        default:
+            type = 'undefined';
+            break;
     }
 
     return type;
