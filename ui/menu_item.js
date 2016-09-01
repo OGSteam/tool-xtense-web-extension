@@ -71,7 +71,7 @@ function displayXtense() {
             "</li>");
 
         if ($('#optionXtense').length) {
-            $('#menuTable').removeChild($('#optionXtense'));
+            $('#menuTable')[0].removeChild($('#optionXtense')[0]);
         }
         $("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
 
