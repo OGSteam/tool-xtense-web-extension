@@ -82,37 +82,37 @@ function manual_send() {
 function get_content(type)
 {
     var elementName;
-    var funcName;
+    var func;
     switch (type)
     {
         case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
             elementName = 'galaxyContent';
-            funcName = 'parse_galaxy_system_inserted';
+            func = parse_galaxy_system_inserted;
             break;
         case 'stats':
             elementName = 'stat_list_content';
-            funcName = 'parse_ranking_inserted';
+            func = parse_ranking_inserted;
             break;
         case 'overview':
-            funcName = 'parse_overview';
+            func = parse_overview;
             break;
         case 'researchs':
-            funcName = 'parse_researchs';
+            func = parse_researchs;
             break;
         case 'buildings':
-            funcName = 'parse_buildings';
+            func = parse_buildings;
             break;
         case 'station':
-            funcName = 'parse_station';
+            func = parse_station;
             break;
         case 'shipyard':
-            funcName = 'parse_shipyard';
+            func = parse_shipyard;
             break;
         case 'defense':
-            funcName = 'parse_defense';
+            func = parse_defense;
             break;
         case 'alliance':
-            funcName = 'parse_ally_inserted';
+            func = parse_ally_inserted;
             break;
     }
 
@@ -120,22 +120,12 @@ function get_content(type)
         var target = document.getElementById(elementName);
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                if(isFirefox) {
-                    var func = eval(funcName);
-                    func();
-                } else {
-                    window[funcName]();
-                }
+                func();
             })
         });
         observer.observe(target, {childList: true});
     } else {
-        if(isFirefox) {
-            var func = eval(funcName);
-            func();
-        } else {
-            window[funcName]();
-        }
+        func();
     }
 }
 
