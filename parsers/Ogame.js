@@ -82,37 +82,37 @@ function manual_send() {
 function get_content(type)
 {
     var elementName;
-    var func;
+    var funcName;
     switch (type)
     {
         case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
             elementName = 'galaxyContent';
-            func = 'parse_galaxy_system_inserted';
+            funcName = 'parse_galaxy_system_inserted';
             break;
         case 'stats':
             elementName = 'stat_list_content';
-            func = 'parse_ranking_inserted';
+            funcName = 'parse_ranking_inserted';
             break;
         case 'overview':
-            func = 'parse_overview';
+            funcName = 'parse_overview';
             break;
         case 'researchs':
-            func = 'parse_researchs';
+            funcName = 'parse_researchs';
             break;
         case 'buildings':
-            func = 'parse_buildings';
+            funcName = 'parse_buildings';
             break;
         case 'station':
-            func = 'parse_station';
+            funcName = 'parse_station';
             break;
         case 'shipyard':
-            func = 'parse_shipyard';
+            funcName = 'parse_shipyard';
             break;
         case 'defense':
-            func = 'parse_defense';
+            funcName = 'parse_defense';
             break;
         case 'alliance':
-            func = 'parse_ally_inserted';
+            funcName = 'parse_ally_inserted';
             break;
     }
 
@@ -120,12 +120,22 @@ function get_content(type)
         var target = document.getElementById(elementName);
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                window[func]();
+                if(isFirefox) {
+                    var func = eval(funcName);
+                    func();
+                } else {
+                    window[funcName]();
+                }
             })
         });
         observer.observe(target, {childList: true});
     } else {
-        window[func]();
+        if(isFirefox) {
+            var func = eval(funcName);
+            func();
+        } else {
+            window[funcName]();
+        }
     }
 }
 
