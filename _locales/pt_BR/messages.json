@@ -1,0 +1,398 @@
+{
+    "XtenseSend_rankings": {
+        "message": "Todas classificações",
+        "description": "Intitulé Envoi des données classements"
+    },
+    "XtenseMsg_ranking_research": {
+        "message": "pesquisas",
+        "description": "-Used-"
+    },
+    "XtenseMsg_ranking_fleet7": {
+        "message": "ponto de honra",
+        "description": "-Used-"
+    },
+    "XtenseMsg_response_hack": {
+        "message": "Os dados enviados foram recusados pelo plugin Xtense",
+        "description": "Copyright-Used-"
+    },
+    "XtenseMsg_page_fleet": {
+        "message": "Frota",
+        "description": "-Used-"
+    },
+    "XtenseMsg_http_status_500": {
+        "message": "Erro 500: Erro interno do servidor",
+        "description": "TODO"
+    },
+    "XtenseSend_tradingmessage": {
+        "message": "Entrega de comércio",
+        "description": "Intitulé Envoi des données commerce"
+    },
+    "XtenseMsg_page_buildings": {
+        "message": "Edifícios",
+        "description": "-Used-"
+    },
+    "XtenseSend_allymembers": {
+        "message": "Lista de membros da aliança",
+        "description": "Intitulé Envoi des données membres alliance"
+    },
+    "XtenseMsg_unknow_page": {
+        "message": "Página desconhecida",
+        "description": "-Used-"
+    },
+    "XtenseSend_researchs": {
+        "message": "Pesquisas",
+        "description": "Intitulé Envoi des données Recherche"
+    },
+    "XtenseMsg_ranking_fleet5": {
+        "message": "militar construído",
+        "description": "-Used-"
+    },
+    "XtenseSend_debrismessages": {
+        "message": "Relatórios de reciclagem",
+        "description": "Intitulé Envoi des données Rapport de recyclage"
+    },
+    "XtenseMsg_page_labo": {
+        "message": "Laboratório",
+        "description": "-Used-"
+    },
+    "XtenseAbout_version": {
+        "message": "Sobre o Xtense",
+        "description": "Activation des traces de debug"
+    },
+    "XtenseMsg_error_wrong_version_xtense": {
+        "message": "Seu ficheiro xtense.php não corresponde ao mod instalado",
+        "description": "-Used-"
+    },
+    "XtenseSend_allymessages": {
+        "message": "Mensagens aliança",
+        "description": "Intitulé Envoi des données messages alliance"
+    },
+    "XtenseMsg_invalid_response": {
+        "message": "Foi impossível recuperar os dados enviados para o plugin, verifique se sua hospedagem não inclui propagandas, o que pode provocar este erro.",
+        "description": "Copyright-Used-"
+    },
+    "XtenseServer_URL": {
+        "message": "Link OGSpy",
+        "description": "Intitulé pour le lien vers le serveur OGSpy"
+    },
+    "XtenseMsg_ranking_ally": {
+        "message": "alianças",
+        "description": "-Used-"
+    },
+    "XtenseSend_buildings": {
+        "message": "Edifícios",
+        "description": "Intitulé Envoi des données Bâtiments"
+    },
+    "XtenseMsg_re_detected": {
+        "message": "Relatório do tipo de espionagem detectado",
+        "description": "-Used-"
+    },
+    "XtenseMsg_fleet_detected": {
+        "message": "Frota detectada",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_wrong_version_plugin": {
+        "message": "A versão do mod Xtense no servidor é incompatível com seu plugin. Por favor atualize seu Módulo Xtense",
+        "description": "-Used-"
+    },
+    "XtenseMsg_buildings_detected": {
+        "message": "Edifícios detectados",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_plugin_univers": {
+        "message": "A configuração do módulo Xtense de seu OGSpy não corresponde ao seu universo de jogo, por favor verifique se o link do servidor Ogame está informado corretamente",
+        "description": "-Used-"
+    },
+    "XtenseMsg_http_status_404": {
+        "message": "Erro 404, Plugin Xtense não encontrado, verifique se você colocou o endereço correto para o plugin Xtense",
+        "description": "TODO"
+    },
+    "XtenseMsg_ranking_fleet": {
+        "message": "militar",
+        "description": "-Used-"
+    },
+    "XtenseMsg_success_messages": {
+        "message": "Mensagem enviada corretamente",
+        "description": "-Used-"
+    },
+    "XtenseMsg_success_rc": {
+        "message": "Relatório de combate enviado",
+        "description": "-Used-"
+    },
+    "XtenseOptions": {
+        "message": "Opções Xtense",
+        "description": "Titre du Menu principal"
+    },
+    "XtenseMsg_ranking_fleet4": {
+        "message": "militar perdido",
+        "description": "-Used-"
+    },
+    "XtenseMsg_page_overview": {
+        "message": "Vista Geral",
+        "description": "-Used-"
+    },
+    "appDesc": {
+        "message": "Este módulo utilizado para OGSpy permite recuperar os dados de seu jogo preferido.",
+        "description": "Description de l'application"
+    },
+    "XtenseMsg_no_messages": {
+        "message": "Nenhuma mensagem enviada",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_wrong_version_toolbar": {
+        "message": "A versão de seu plugin Xtense é incompatível com o módulo Xtense instalado no OGSpy",
+        "description": "-Used-"
+    },
+    "XtenseServer_password": {
+        "message": "Senha",
+        "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
+    },
+    "XtenseMsg_researchs_detected": {
+        "message": "Pèsquisas detectadas",
+        "description": "-Used-"
+    },
+    "XtenseMsg_ranking_defense": {
+        "message": "defesa",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_home_full": {
+        "message": "Seu espaço pessoal está cheio, por favor remova o planeta que foi destruído ou renomeie seu OGSpy",
+        "description": "-Used-"
+    },
+    "XtenseMsg_Xtense_activated": {
+        "message": "Xtense está pronto",
+        "description": "Appelé lorsque Xtense est prêt-Used-"
+    },
+    "XtenseMsg_ranking_points": {
+        "message": "pontos",
+        "description": "-Used-"
+    },
+    "XtenseSend_playermessages": {
+        "message": "Mensagens de jogadores",
+        "description": "Intitulé Envoi des données messages de joueurs"
+    },
+    "XtenseMsg_installations_detected": {
+        "message": "Instalações detectadas",
+        "description": "-Used-"
+    },
+    "XtenseSend_spymessages": {
+        "message": "Relatórios de espionagem",
+        "description": "Intitulé Envoi des données rapport espionnage"
+    },
+    "XtenseOptionsPage_debugmode": {
+        "message": "Modo depuração",
+        "description": "Activation des traces de debug"
+    },
+    "XtenseMsg_error_password": {
+        "message": "Senha inválida",
+        "description": "-Used-"
+    },
+    "XtenseMsg_success_system": {
+        "message": "Atualização do sistema solar efetuada",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_plugin_connections": {
+        "message": "Conexões ao plugin Xtense não autorizadas",
+        "description": "-Used-"
+    },
+    "XtenseMsg_overview_detected": {
+        "message": "Vista geral detectada",
+        "description": "-Used-"
+    },
+    "XtenseSend_systems": {
+        "message": "Sistemas solares",
+        "description": "Intitulé Envoi des données systèmes solaires"
+    },
+    "XtenseMsg_success_rc_cdr": {
+        "message": "Campo de destroços enviado",
+        "description": "-Used-"
+    },
+    "appName": {
+        "message": "Xtense GM",
+        "description": "The title of the application, displayed in the web store."
+    },
+    "XtenseSend_title": {
+        "message": "Envio de dados:",
+        "description": "Titre Send Data"
+    },
+    "XtenseMsg_error_plugin_config": {
+        "message": "Plugin Xtense não configurado por seu administrador, por favor contate-o para atualizar a configuração do mod",
+        "description": "-Used-"
+    },
+    "XtenseSed_shipyard": {
+        "message": "Frota",
+        "description": "Intitulé Envoi des données Flotte"
+    },
+    "XtenseMsg_success_ally_list": {
+        "message": "Lista de jogadores aliados enviada corretamente",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_server_active": {
+        "message": "Servidor OGSpy inativo",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_grant_start": {
+        "message": "Você não possui as autorizações necessárias para enviar",
+        "description": "-Used-"
+    },
+    "XtenseMsg_rc_detected": {
+        "message": "Relatório de combate detectado",
+        "description": "TODO"
+    },
+    "XtenseMsg_unknow_response": {
+        "message": "Código resposta desconhecido",
+        "description": "-Used-"
+    },
+    "XtenseMsg_defense_detected": {
+        "message": "Defesas detectadas",
+        "description": "-Used-"
+    },
+    "XtenseOptions_serveur": {
+        "message": "Servidor",
+        "description": "Titre des options Xtense"
+    },
+    "XtenseOptions_pages": {
+        "message": "Páginas",
+        "description": "Titre des pages à collecter"
+    },
+    "XtenseMsg_success_spy": {
+        "message": "Relatório de espionagem enviado corretamente",
+        "description": "-Used-"
+    },
+    "XtenseSend_Expeditions": {
+        "message": "Expedições",
+        "description": "Intitulé Envoi des données expéditions"
+    },
+    "XtenseMsg_success_home_updated": {
+        "message": "Espaço pessoal atualizar",
+        "description": "-Used-"
+    },
+    "XtenseMsg_empty_response": {
+        "message": "Resposta do plugin vazia",
+        "description": "Copyright-Used-"
+    },
+    "XtenseSend_title_messages": {
+        "message": "Envio de mensagens:",
+        "description": "Titre de la section messages"
+    },
+    "XtenseMsg_ally_list_detected": {
+        "message": "Lista de jogadores aliados detectada",
+        "description": "-Used-"
+    },
+    "XtenseAbout_ogsteam": {
+        "message": "Xtense GM é um OGSteam Software © 2005-2016",
+        "description": "Copyright"
+    },
+    "XtenseOptionsPage_corsheader": {
+        "message": "Mode de transmission au serveur OGSpy type CORS (En fonction de votre configuration serveur)",
+        "description": "Mode de trasmission au serveur type CORS"
+    },
+    "XtenseMsg_ranking_economy": {
+        "message": "econômico",
+        "description": "-Used-"
+    },
+    "XtenseAbout_support": {
+        "message": "Suporte disponível junto de",
+        "description": "Support"
+    },
+    "XtenseOptions_settings": {
+        "message": "Opções",
+        "description": "Titre des options supplémentaires comme le debug"
+    },
+    "XtenseMsg_ranking_buildings": {
+        "message": "edifício",
+        "description": "-Used-"
+    },
+    "XtenseOptions_about": {
+        "message": "Sobre",
+        "description": "Titre de la page de remerciements"
+    },
+    "XtenseMsg_system_detected": {
+        "message": "Sistema solar detectado:",
+        "description": "-Used-"
+    },
+    "XtenseMsg_error_php_version": {
+        "message": "O plugin requer PHP 5.1 para funcionar, a versão atual está obsoleta",
+        "description": "-Used-"
+    },
+    "XtenseMsg_ranking_fleet6": {
+        "message": "militar destruído",
+        "description": "-Used-"
+    },
+    "XtenseMsg_ranking_player": {
+        "message": "jogadores",
+        "description": "-Used-"
+    },
+    "XtenseMsg_http_status_403": {
+        "message": "Erro 403, Impossível o acesso ao plugin Xtense",
+        "description": "TODO"
+    },
+    "XtenseAbout_authors": {
+        "message": "Xtense GM por Jedinight e Darknoon",
+        "description": "Lieste des auteurs"
+    },
+    "XtenseMsg_error_user_active": {
+        "message": "Sua conta está inativa",
+        "description": "-Used-"
+    },
+    "XtenseMsg_page_defense": {
+        "message": "Defesa",
+        "description": "-Used-"
+    },
+    "XtenseMsg_ranking_detected": {
+        "message": "Página estatísticas detectada",
+        "description": "-Used-"
+    },
+    "XtenseMsg_wait_send": {
+        "message": "Em espera do envio manual dos dados",
+        "description": "-Used-"
+    },
+    "XtenseMsg_res_detected": {
+        "message": "Mensagem de comércio detectado",
+        "description": "TODO"
+    },
+    "XtenseServer_username": {
+        "message": "Usuário",
+        "description": "Intitulé pour le nom d'utilisateur OGSpy"
+    },
+    "XtenseMsg_error_username": {
+        "message": "Apelido inválido",
+        "description": "-Used-"
+    },
+    "XtenseSend_combatmessages": {
+        "message": "Relatórios de combate",
+        "description": "Intitulé Envoi des données Rapport de combat"
+    },
+    "XtenseSend_general": {
+        "message": "Vista geral",
+        "description": "Intitulé Envoi des données Vue Générale"
+    },
+    "XtenseMsg_messages_detected": {
+        "message": "Página de mensagens detectada",
+        "description": "-Used-"
+    },
+    "XtenseServer_defense": {
+        "message": "Defesas",
+        "description": "Intitulé Envoi des données défenses"
+    },
+    "XtenseSend_station": {
+        "message": "Instalações",
+        "description": "Intitulé Envoi des données Installations"
+    },
+    "XtenseMsg_success_ranking": {
+        "message": "Classificação atualizar",
+        "description": "-Used-"
+    },
+    "XtenseMsg_http_status_unknown": {
+        "message": "Pas de réponse serveur. Merci de vérifier le lien vers votre serveur OGSpy et de vérifier que celui-ci est bien actif.",
+        "description": "Copyright-Used-"
+    },
+    "XtenseSend_ennemyspymessages": {
+        "message": "Espionagens inimigas",
+        "description": "Intitulé Envoi des données rapport espionnage ennemi"
+    },
+    "XtenseOptionsPage_title": {
+        "message": "Opções Diversas",
+        "description": "Titre options diverses"
+    }
+}
