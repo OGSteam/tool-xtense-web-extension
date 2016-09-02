@@ -408,7 +408,7 @@ function initLocales() {
                 }
             },
             'messages': {
-                'espionage of': 'Espionage report of',
+                'espionage of': 'Espionage report from',
                 'unespionage prob': 'Chance of counter-espionage',
                 'activity': '(\\d+)</font> last minutes',
                 'moon': 'Moon',
