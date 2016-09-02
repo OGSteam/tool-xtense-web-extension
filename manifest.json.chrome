@@ -13,6 +13,7 @@
 			 "parsers/OgameLocales.js",
 			 "parsers/OgameConstants.js",
 			 "parsers/Ogame.js",
+			 "parsers/MessagesParser.js",
              "contribs/crypto.js",
              "ui/menu_item.js",
 			 "ogspy/send_data.js",
