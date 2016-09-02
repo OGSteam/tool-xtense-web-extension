@@ -1,3 +1,5 @@
 .idea
 syntax: glob
 *.iml
+*.xpi
+*.zip
