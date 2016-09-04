@@ -488,7 +488,7 @@ function parse_overview() {
         }
     } else {
         log('Temperature Content is not there! Retrying...');
-        delaytodisplay_overview = setInterval(get_planet_details, 50);
+        delaytodisplay_overview = setInterval(parse_overview, 50);
         // Necessaire car la page est remplie par des scripts JS. (Au premier passage les balises contenant les infomations sont vides)
     }
 }
