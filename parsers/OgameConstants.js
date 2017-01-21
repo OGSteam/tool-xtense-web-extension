@@ -92,7 +92,7 @@ function initParsers() {
         },
 
         messages: {
-            shortmessages: '//div[contains(@id,"boxBG")]//div[contains(@id,"contentWrapper")]//div[@class="content"]//div[@class="tab_ctn"]//div[contains(@id,"ui-id")]/ul/li[contains(@class,"msg ")]',
+            shortmessages: '//div[contains(@id,"boxBG")]//div[contains(@id,"contentWrapper")]//div[@class="content"]//div[contains(@id,"ui-id")][@aria-hidden="false"]/div/ul[contains(@class,"tab_inner")]/li[contains(@class, "msg ")]',
             showmessage: '//div[contains(@class,"detail_msg")]',
             combatreport: '//@data-combatreportid',
             messageid: "@data-msg-id",
@@ -181,6 +181,7 @@ function initParsers() {
 
         rc: {
             list_infos: '//div[contains(@class,"detail_msg")]',
+			script : '//div[contains(@class, "detail_msg_ctn")]/div/div/script[1]',
             list_rounds: '//li[contains(@class,"round_id")]',
             win_resource: '//div[contains(@class,"loot")]//li[contains(@class,"resource_list_el_small")]/span[contains(@class,"res_value")] | //div[contains(@class,"loot")]//li[contains(@class,"resource_list_el_small")]',
             deb_resource: '//div[contains(@class,"tf")]//li[contains(@class,"resource_list_el_small")]//span[contains(@class,"res_value")] | //div[contains(@class,"tf")]//li[contains(@class,"resource_list_el_small")]',
