@@ -1,0 +1,9 @@
+# IntelliJ project files
+.idea
+*.iml
+.idea/modules.xml
+.idea/tool-xtense-web-extension.iml
+.idea/vcs.xml
+.idea/workspace.xml
+
+release/
