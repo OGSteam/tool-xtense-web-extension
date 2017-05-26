@@ -52,7 +52,7 @@
   "description": "Intitulé pour la configuration du serveur backup"
 },
   "XtenseServer_example": {
-    "message": "Exemple :<br>Lien OGSpy: https://host.darkcity.fr/~demo/ogspy<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
+    "message": "Exemple :<br>Lien OGSpy: https://ogspy.fr/demo<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
   },
   "XtenseServer_example_2": {
@@ -163,8 +163,12 @@
     "message": "Support disponible auprès de",
     "description": "Support"
   },
+  "XtenseAbout_issue": {
+    "message": "En cas de problème, vous pouvez soumettre un ticket sur Github",
+    "description": "Support"
+  },
   "XtenseAbout_ogsteam": {
-    "message": "Xtense GM is an OGSteam Software © 2005-2016",
+    "message": "Xtense GM is an OGSteam Software © 2005-2017",
     "description": "Copyright"
   },
   "XtenseMsg_http_status_403": {
@@ -193,6 +197,10 @@
   },
   "XtenseMsg_unknow_page": {
     "message": "Page inconnue",
+    "description": "-Used-"
+  },
+  "XtenseMsg_unknown_server": {
+    "message": "Votre serveur OGSpy n'est pas configuré. Merci de vous rendre dans les options",
     "description": "-Used-"
   },
   "XtenseMsg_Xtense_activated": {
