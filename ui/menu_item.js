@@ -50,7 +50,7 @@ function setStatus(type, message) {
 function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
-    var ogspy_link = GM_getValue('server.url.plugin', 'http://www.ogsteam.fr');
+    var ogspy_link = GM_getValue('server.url.plugin', 'https://forum.ogsteam.fr');
 
     // Page classique
     if ($("#playerName")) {
@@ -241,7 +241,7 @@ function displayOptions() {
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td colspan="2"><a href="http://wiki.ogsteam.fr" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2")+ '</a></td>';
+    options += '<td colspan="2"><a href="https://wiki.ogsteam.fr" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2")+ '</a></td>';
     options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
@@ -363,7 +363,7 @@ function displayOptions() {
     options += '<tr>';
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseAbout_authors") + '<br /> ' + chrome.i18n.getMessage("XtenseAbout_support") + ' <a href="http://www.ogsteam.fr" target="_blank">l\'OGSteam</a></label></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseAbout_authors") + '<br> ' + chrome.i18n.getMessage("XtenseAbout_support") + ' <a href="https://forum.ogsteam.fr" target="_blank">l\'OGSteam</a><br>' + chrome.i18n.getMessage("XtenseAbout_issue") + ': <a href="https://github.com/OGSteam/tool-xtense-web-extension/issues" target="_blank">Github</a></label></td>';
     options += '<tr>';
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';

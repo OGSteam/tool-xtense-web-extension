@@ -95,6 +95,15 @@ function initOGSpyCommunication() {
         loading: {},
         data: {},
         send: function () {
+            //Check if server has been properly configured before sending data
+            if(GM_getValue('server.url.plugin', '' ) === 'https://VOTRESITE/VOTREOGSPY'){
+                log('Server 1 is not configured');
+                message = Xl('unknown_server');
+                setStatus(XLOG_WARNING,'[OGSpy] '+ message);
+                return;
+            }
+
+
             GM_setValue('server.name', 'OGSpy');
             var password_s = CryptoJS.SHA1(GM_getValue('server.pwd', ''));
             var password_m = CryptoJS.MD5(password_s.toString());

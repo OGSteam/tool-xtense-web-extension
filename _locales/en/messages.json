@@ -79,6 +79,10 @@
         "message": "Alliances",
         "description": "-Used-"
     },
+    "XtenseServer_MainServer": {
+        "message": "Link to your main OGSpy Server",
+        "description": "Intitulé pour la configuration du serveur principal"
+    },
     "XtenseSend_buildings": {
         "message": "Resources",
         "description": "Intitulé Envoi des données Bâtiments"
@@ -106,6 +110,10 @@
     "XtenseMsg_http_status_404": {
         "message": "Error 404, Xtense not found, check that you have correctly filled the OGSpy server link",
         "description": "TODO"
+    },
+    "XtenseServer_example_2": {
+        "message": "Complete Help",
+        "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
     },
     "XtenseMsg_ranking_fleet": {
         "message": "Military",
@@ -147,6 +155,10 @@
         "message": "Password",
         "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
     },
+    "XtenseMsg_unknown_server": {
+        "message": "Your OGSpy server is not configured yet. Please check your settings.",
+        "description": "-Used-"
+    },
     "XtenseMsg_researchs_detected": {
         "message": "Research page detected",
         "description": "-Used-"
@@ -183,6 +195,10 @@
         "message": "Debug Mode",
         "description": "Activation des traces de debug"
     },
+    "XtenseOptionsPage_backuplink": {
+        "message": "Use a secondary OGSpy Server",
+        "description": "Activation des traces de debug"
+    },
     "XtenseMsg_error_password": {
         "message": "Invalid user password",
         "description": "-Used-"
@@ -198,6 +214,10 @@
     "XtenseMsg_overview_detected": {
         "message": "Overview page detected",
         "description": "-Used-"
+    },
+    "XtenseServer_Title": {
+        "message": "Configure here the link to your OGSpy server for universe",
+        "description": "Configure here the link to your OGSpy server concerning univers 22"
     },
     "XtenseSend_systems": {
         "message": "Galaxy",
@@ -255,6 +275,10 @@
         "message": "Game sections",
         "description": "Titre des pages à collecter"
     },
+    "XtenseServer_example": {
+        "message": "Exemple :<br>OGSpy Link: https://ogspy.fr/demo<br> User: demo<br> Password : xxxxxx <br>",
+        "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
+    },
     "XtenseMsg_success_spy": {
         "message": "The spy report has been sent to your OGSpy.",
         "description": "-Used-"
@@ -275,12 +299,16 @@
         "message": "Send game messages:",
         "description": "Titre de la section messages"
     },
+    "XtenseAbout_issue": {
+        "message": "If any problems occurs, please submit a ticket on Github",
+        "description": "Support"
+    },
     "XtenseMsg_ally_list_detected": {
         "message": "Ally list page detected",
         "description": "-Used-"
     },
     "XtenseAbout_ogsteam": {
-        "message": "Xtense GM is an OGSteam Software © 2005-2016",
+        "message": "Xtense GM is an OGSteam Software © 2005-2017",
         "description": "Copyright"
     },
     "XtenseOptionsPage_corsheader": {
@@ -390,6 +418,10 @@
     "XtenseSend_ennemyspymessages": {
         "message": "Enemy spying activities",
         "description": "Intitulé Envoi des données rapport espionnage ennemi"
+    },
+    "XtenseServer_BackupServer": {
+        "message": "Link to your secondary OGSpy Server",
+        "description": "Intitulé pour la configuration du serveur backup"
     },
     "XtenseOptionsPage_title": {
         "message": "Other options",
