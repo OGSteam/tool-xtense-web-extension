@@ -15,7 +15,7 @@ This is the source code used to build Mozilla and Chrome extensions.
 ### Team
 * [DarkNoon](https://github.com/darknoon29)
 * [Jedinight](https://github.com/jedi-night)
-* Superbox 
+* Superbox
 * [Itori](https://github.com/Itori)
 * [Roms0406](https://github.com/Roms0406)
 
