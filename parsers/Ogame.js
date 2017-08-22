@@ -123,7 +123,9 @@ function get_content(type)
                 func();
             })
         });
-        observer.observe(target, {childList: true});
+		// configuration of the observer:
+		var config = { attributes: true, childList: true, characterData: true };
+        observer.observe(target, config);
     } else {
         func();
     }
@@ -139,7 +141,8 @@ function get_ally_content() {
             parse_ally_inserted();
         })
     });
-    observer.observe(target, {childList: true});
+	var config = { attributes: true, childList: true, characterData: true };
+    observer.observe(target, config);
 }
 
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
@@ -156,7 +159,8 @@ function get_message_content() {
             parse_messages();
         })
     });
-    observer.observe(target, {childList: true});
+    var config = { attributes: true, childList: true, characterData: true };
+    observer.observe(target, config);
 }
 
 /************************ PARSING DES PAGES  ***************************/
