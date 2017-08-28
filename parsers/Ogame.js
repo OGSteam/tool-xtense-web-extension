@@ -310,19 +310,21 @@ function parse_ally_inserted() {
         var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
         var rowsData = [];
         log(rows.snapshotLength + ' membres à envoyer !');
+
         for (var i = 0; i < rows.snapshotLength; i++) {
             var row = rows.snapshotItem(i);
             var player = Xpath.getStringValue(document, paths.player, row).trim();
             var points = Xpath.getStringValue(document, paths.points, row).trimInt();
             var rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
             var coords = Xpath.getStringValue(document, paths.coords, row).trim();
-            coords = coords.match(new RegExp(XtenseRegexps.coords))[1];
+            coords = coords.match(new RegExp(XtenseRegexps.coords))[0];
             rowsData[i] = {
                 player: player,
                 points: points,
                 coords: coords,
                 rank: rank
             };
+            log("Player: " + rowsData[i].player +  " Points: " + rowsData[i].points +" Coords: " + rowsData[i].coords + " Rank: " + rowsData[i].rank);
         }
         if (rowsData.length > 0) {
             var tag = Xpath.getStringValue(document, paths.tag);

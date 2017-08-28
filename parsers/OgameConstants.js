@@ -49,10 +49,10 @@ function initParsers() {
         },
         ally_members_list: {
             rows: '//table[@id="member-list"]/tbody/tr',
-            player: 'td[1]',
+            player: 'td[1]/span',
             rank: 'td[4]/a',
             points: 'td[4]/@title',
-            coords: 'td[5]/span/a',
+            coords: 'td[5]/span/a[2]',
             tag: '//table[@class="members bborder"]/tbody/tr[2]/td[2]/span'
         },
         overview: {
