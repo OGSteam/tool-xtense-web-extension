@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.7.7",
+  "version": "2.7.8alpha1",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -9,8 +9,7 @@
   "applications": {
     "gecko": {
       "id": "ogspy.team@gmail.com",
-      "strict_min_version": "42.0",
-      "strict_max_version": "58.*"
+      "strict_min_version": "42.0"
     }
   },
   "content_scripts": [
