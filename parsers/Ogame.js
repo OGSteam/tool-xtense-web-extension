@@ -112,6 +112,7 @@ function get_content(type)
             func = parse_defense;
             break;
         case 'alliance':
+            elementName = 'eins';
             func = parse_ally_inserted;
             break;
     }
