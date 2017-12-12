@@ -1,0 +1,11 @@
+{
+  "globals":
+  {
+    "log": true,
+    "setStatus" : true,
+    "GM_getValue" : true,
+    "GM_setValue" : true,
+    "Xpath" : true,
+    "url" : true
+  }
+}
