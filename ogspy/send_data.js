@@ -95,34 +95,38 @@ function initOGSpyCommunication() {
         loading: {},
         data: {},
         send: function () {
+
+            var password_s;
+            var password_m;
+            var postData;
+
             //Check if server has been properly configured before sending data
-            if(GM_getValue('server.url.plugin', '' ) === 'https://VOTRESITE/VOTREOGSPY'){
-                log('Server 1 is not configured');
-                message = Xl('unknown_server');
-                setStatus(XLOG_WARNING,'[OGSpy] '+ message);
+            if(GM_getValue("server.url.plugin", "" ) === "https://VOTRESITE/VOTREOGSPY"){
+                log("Server 1 is not configured");
+                var message = Xl("unknown_server");
+                setStatus(XLOG_WARNING,"[OGSpy] "+ message);
                 return;
             }
 
-
-            GM_setValue('server.name', 'OGSpy');
-            var password_s = CryptoJS.SHA1(GM_getValue('server.pwd', ''));
-            var password_m = CryptoJS.MD5(password_s.toString());
-            var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
-            log('sending ' + postData + ' to ' + GM_getValue('server.url.plugin', '') + '/mod/xtense/xtense.php' + ' from ' + urlUnivers);
+            GM_setValue("server.name", "OGSpy");
+            password_s = CryptoJS.SHA1(GM_getValue("server.pwd", ""));
+            password_m = CryptoJS.MD5(password_s.toString());
+            postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&user=" + GM_getValue("server.user", "") + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
+            log("sending " + postData + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
-                url: GM_getValue('server.url.plugin', '') + '/mod/xtense/xtense.php',
+                url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
                 post: postData,
                 callback: null,
                 scope: this
             });
-            if (GM_getValue('backup.link', 'false').toString() === 'true') {
-                GM_setValue('server.name', 'OGSpy Backup');
-                var password_s = CryptoJS.SHA1(GM_getValue('server_backup.pwd', ''));
-                var password_m = CryptoJS.MD5(password_s.toString());
-                var postData = 'toolbar_version=' + VERSION + '&toolbar_type=' + TYPE + '&mod_min_version=' + PLUGIN_REQUIRED + '&user=' + GM_getValue('server_backup.user', '') + '&password=' + password_m + '&univers=' + urlUnivers + XtenseRequest.serializeData();
-                log('sending backup ' + postData + ' to ' + GM_getValue('server_backup.url.plugin', '') + '/mod/xtense/xtense.php' + ' from ' + urlUnivers);
+            if (GM_getValue("backup.link", "false").toString() === "true") {
+                GM_setValue("server.name", "OGSpy Backup");
+                password_s = CryptoJS.SHA1(GM_getValue("server_backup.pwd", ""));
+                password_m = CryptoJS.MD5(password_s.toString());
+                postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&user=" + GM_getValue("server_backup.user", "") + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
+                log("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
-                    url: GM_getValue('server_backup.url.plugin', '') + '/mod/xtense/xtense.php',
+                    url: GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
                     post: postData,
                     callback: null,
                     scope: this
@@ -157,7 +161,7 @@ function initOGSpyCommunication() {
                     else str = i;
                     var a = false;
                     // Patch pour Graphic Tools for Ogame
-                    if (str.search('existsTOG') == -1) {
+                    if (str.search("existsTOG") == -1) {
                         a = this.serializeObject(obj[i], str, tab);
                     }
                     if (a !== false)
@@ -183,31 +187,31 @@ function initOGSpyCommunication() {
 function handleResponse(status, Response) {
     //log("Status: " + status);
     log("Response: " + Response);
-    var message_start = GM_getValue('server.name', '');
+    var message_start = GM_getValue("server.name", "");
 
-    if (status !== 'success') {
+    if (status !== "success") {
         switch (status) {
             case 404 :
-                message = Xl('http_status_404');
+                message = Xl("http_status_404");
                 break;
             case 403 :
-                message =  Xl('http_status_403');
+                message =  Xl("http_status_403");
                 break;
             case 500 :
-                message =  Xl('http_status_500');
+                message =  Xl("http_status_500");
                 break;
             default:
-                message = Xl('http_status_unknown');
+                message = Xl("http_status_unknown");
         }
-        setStatus(XLOG_ERROR,'[' + message_start + '] '+ message);
+        setStatus(XLOG_ERROR,"[" + message_start + "] "+ message);
     } else {
         var type = XLOG_SUCCESS;
         if (Response === '' || typeof (Response) === 'undefined') {
-            setStatus(XLOG_ERROR, Xl('empty_response'));
+            setStatus(XLOG_ERROR, Xl("empty_response"));
             return;
         }
-        if (Response === 'hack') {
-            setStatus(XLOG_ERROR, Xl('response_hack'));
+        if (Response === "hack") {
+            setStatus(XLOG_ERROR, Xl("response_hack"));
             return;
         }
         var data = {};
@@ -219,10 +223,10 @@ function handleResponse(status, Response) {
                 data = match[0];
                 // Message d'avertissement
                 type = XLOG_WARNING;
-                log('full response:' + Response);
+                log("full response:" + Response);
             } else {
                 // Message d'erreur
-                setStatus(XLOG_ERROR, Xl('invalid_response'));
+                setStatus(XLOG_ERROR, Xl("invalid_response"));
                 return;
             }
         }
@@ -232,76 +236,76 @@ function handleResponse(status, Response) {
         if (data.status === 0) {
             type = XLOG_ERROR;
             switch (code) {
-                case 'wrong version':
-                    if (data.target === 'plugin') message = Xl('error_wrong_version_plugin');
-                    else if (data.target === 'xtense.php') message = Xl('error_wrong_version_xtense');
-                    else message = Xl('error_wrong_version_toolbar');
+                case "wrong version":
+                    if (data.target === "plugin") message = Xl("error_wrong_version_plugin");
+                    else if (data.target === "xtense.php") message = Xl("error_wrong_version_xtense");
+                    else message = Xl("error_wrong_version_toolbar");
                     break;
-                case 'php version' :
-                    message = Xl('error_php_version');
+                case "php version" :
+                    message = Xl("error_php_version");
                     break;
-                case 'server active':
-                    message = Xl('error_server_active');
+                case "server active":
+                    message = Xl("error_server_active");
                     break;
-                case 'username' :
-                    message = Xl('error_username');
+                case "username" :
+                    message = Xl("error_username");
                     break;
-                case 'password' :
-                    message = Xl('error_password');
+                case "password" :
+                    message = Xl("error_password");
                     break;
-                case 'user active' :
-                    message = Xl('error_user_active');
+                case "user active" :
+                    message = Xl("error_user_active");
                     break;
-                case 'home full' :
-                    message = Xl('error_home_full');
+                case "home full" :
+                    message = Xl("error_home_full");
                     break;
-                case 'plugin connections' :
-                    message = Xl('error_plugin_connections');
+                case "plugin connections" :
+                    message = Xl("error_plugin_connections");
                     break;
-                case 'plugin config' :
-                    message = Xl('error_plugin_config');
+                case "plugin config" :
+                    message = Xl("error_plugin_config");
                     break;
-                case 'plugin univers' :
-                    message = Xl('error_plugin_univers');
+                case "plugin univers" :
+                    message = Xl("error_plugin_univers");
                     break;
-                case 'plugin grant' :
-                    message = Xl('error_grant_start');
+                case "plugin grant" :
+                    message = Xl("error_grant_start");
                     break;
                 default:
-                    message = Xl('unknow_response');
+                    message = Xl("unknow_response");
             }
         } else {
             switch (code) {
-                case 'home updated' :
-                    if(data.page === 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + " "+ data.planet +")";
-                    if(data.page === 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + " "+ data.planet +")";
-                    if(data.page === 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + " "+ data.planet +")";
-                    if(data.page === 'fleet') message = Xl('success_home_updated') + " (" + Xl('page_fleet') + " "+ data.planet +")";
-                    if(data.page === 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + " "+ data.planet +")";
+                case "home updated" :
+                    if(data.page === "overview") message = Xl("success_home_updated") + " (" + Xl("page_overview") + " "+ data.planet +")";
+                    if(data.page === "labo") message = Xl("success_home_updated") + " (" + Xl("page_labo") + " "+ data.planet +")";
+                    if(data.page === "buildings") message = Xl("success_home_updated") + " (" + Xl("page_buildings") + " "+ data.planet +")";
+                    if(data.page === "fleet") message = Xl("success_home_updated") + " (" + Xl("page_fleet") + " "+ data.planet +")";
+                    if(data.page === "defense") message = Xl("success_home_updated") + " (" + Xl("page_defense") + " "+ data.planet +")";
                     break;
-                case 'system' :
-                    message = Xl('success_system') + " ("+data.galaxy+":"+data.system+")";
+                case "system" :
+                    message = Xl("success_system") + " ("+data.galaxy+":"+data.system+")";
                     break;
-                case 'rc' :
-                    message = Xl('success_rc');
+                case "rc" :
+                    message = Xl("success_rc");
                     break;
-                case 'rc_cdr':
-                    message = Xl('success_rc_cdr');
+                case "rc_cdr":
+                    message = Xl("success_rc_cdr");
                     break;
-                case 'messages':
-                    message = Xl('success_messages');
+                case "messages":
+                    message = Xl("success_messages");
                     break;
-                case 'ranking':
-                    message = Xl('success_ranking') + " (" + data.offset.toString() +"-" + (data.offset + 99).toString() + ")";
+                case "ranking":
+                    message = Xl("success_ranking") + " (" + data.offset.toString() +"-" + (data.offset + 99).toString() + ")";
                     break;
-                case 'ally_list':
-                    message = Xl('success_ally_list');
+                case "ally_list":
+                    message = Xl("success_ally_list");
                     break;
-                case 'spy':
-                    message = Xl('success_spy');
+                case "spy":
+                    message = Xl("success_spy");
                     break;
                 default:
-                    message = Xl('unknow_response');
+                    message = Xl("unknow_response");
             }
         }
 
@@ -309,9 +313,9 @@ function handleResponse(status, Response) {
             // Merge the both objects
             //var calls = extra.calls = data.calls;
             var calls = data.calls;
-            calls.status = 'success';
-            if (calls.warning.length > 0) calls.status = 'warning';
-            if (calls.error.length > 0) calls.status = 'error';
+            calls.status = "success";
+            if (calls.warning.length > 0) calls.status = "warning";
+            if (calls.error.length > 0) calls.status = "error";
             // Calls messages
             if (data.call_messages) {
                 calls.messages = {
@@ -325,7 +329,7 @@ function handleResponse(status, Response) {
                 }
             }
         }
-        setStatus(type, '[' + data.execution + ' ms]' + '[' + message_start + '] '+ message);
+        setStatus(type, "[" + data.execution + " ms]" + "[" + message_start + "] "+ message);
     }
 }
 
