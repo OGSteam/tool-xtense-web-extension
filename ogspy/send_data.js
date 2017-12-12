@@ -139,7 +139,7 @@ function initOGSpyCommunication() {
             ]);
         },
         set: function (name, value) {
-            if (typeof name == 'string') this.data[name] = value;
+            if (typeof name === 'string') this.data[name] = value;
             else {
                 for (var n = 0, len = arguments.length; n < len; n++) {
                     for (var i in arguments[n]) this.data[i] = arguments[n][i];
@@ -150,9 +150,9 @@ function initOGSpyCommunication() {
             var retour = '';
             var type = typeof obj;
             var str = '';
-            if (type == 'object') {
+            if (type === 'object') {
                 for (var i in obj) {
-                    if (parent != '')
+                    if (parent !== '')
                         str = parent + '[' + i + ']';
                     else str = i;
                     var a = false;
@@ -160,12 +160,12 @@ function initOGSpyCommunication() {
                     if (str.search('existsTOG') == -1) {
                         a = this.serializeObject(obj[i], str, tab);
                     }
-                    if (a != false)
+                    if (a !== false)
                         tab.push(a);
                 }
                 return false;
-            } else if (type == 'boolean')
-                retour = (obj == true ? 1 : 0);
+            } else if (type === 'boolean')
+                retour = (obj === true ? 1 : 0);
             else retour = obj + '';
             return parent + '=' + encodeURIComponent(retour).replace(new RegExp('(%0A)+', 'g'), '%20').replace(new RegExp('(%09)+', 'g'), '%20').replace(new RegExp('(%20)+', 'g'), '%20');
         },
@@ -185,7 +185,7 @@ function handleResponse(status, Response) {
     log("Response: " + Response);
     var message_start = GM_getValue('server.name', '');
 
-    if (status != 'success') {
+    if (status !== 'success') {
         switch (status) {
             case 404 :
                 message = Xl('http_status_404');
@@ -202,11 +202,11 @@ function handleResponse(status, Response) {
         setStatus(XLOG_ERROR,'[' + message_start + '] '+ message);
     } else {
         var type = XLOG_SUCCESS;
-        if (Response == '' || typeof (Response) == 'undefined') {
+        if (Response === '' || typeof (Response) === 'undefined') {
             setStatus(XLOG_ERROR, Xl('empty_response'));
             return;
         }
-        if (Response == 'hack') {
+        if (Response === 'hack') {
             setStatus(XLOG_ERROR, Xl('response_hack'));
             return;
         }
@@ -229,12 +229,12 @@ function handleResponse(status, Response) {
         data = jQuery.parseJSON(data);
         var message = '';
         var code = data.type;
-        if (data.status == 0) {
+        if (data.status === 0) {
             type = XLOG_ERROR;
             switch (code) {
                 case 'wrong version':
-                    if (data.target == 'plugin') message = Xl('error_wrong_version_plugin');
-                    else if (data.target == 'xtense.php') message = Xl('error_wrong_version_xtense');
+                    if (data.target === 'plugin') message = Xl('error_wrong_version_plugin');
+                    else if (data.target === 'xtense.php') message = Xl('error_wrong_version_xtense');
                     else message = Xl('error_wrong_version_toolbar');
                     break;
                 case 'php version' :
@@ -273,11 +273,11 @@ function handleResponse(status, Response) {
         } else {
             switch (code) {
                 case 'home updated' :
-                    if(data.page == 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + " "+ data.planet +")";
-                    if(data.page == 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + " "+ data.planet +")";
-                    if(data.page == 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + " "+ data.planet +")";
-                    if(data.page == 'fleet') message = Xl('success_home_updated') + " (" + Xl('page_fleet') + " "+ data.planet +")";
-                    if(data.page == 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + " "+ data.planet +")";
+                    if(data.page === 'overview') message = Xl('success_home_updated') + " (" + Xl('page_overview') + " "+ data.planet +")";
+                    if(data.page === 'labo') message = Xl('success_home_updated') + " (" + Xl('page_labo') + " "+ data.planet +")";
+                    if(data.page === 'buildings') message = Xl('success_home_updated') + " (" + Xl('page_buildings') + " "+ data.planet +")";
+                    if(data.page === 'fleet') message = Xl('success_home_updated') + " (" + Xl('page_fleet') + " "+ data.planet +")";
+                    if(data.page === 'defense') message = Xl('success_home_updated') + " (" + Xl('page_defense') + " "+ data.planet +")";
                     break;
                 case 'system' :
                     message = Xl('success_system') + " ("+data.galaxy+":"+data.system+")";

@@ -54,7 +54,7 @@ String.prototype.getInts = function (/*separator*/) {
 //Affichage des Logs
 
 function log(message) {
-    if (GM_getValue('debug.mode', 'false').toString() == 'true') {
+    if (GM_getValue('debug.mode', 'false').toString() === 'true') {
         console.log(nomScript + ' says : ' + message);
     }
 }
@@ -104,18 +104,18 @@ function XtenseParseDate(dateString, handler) {
     var m = dateString.match(new RegExp(handler.regexp));
     var time = new Date();
     if (m) {
-        if (handler.fields.year != -1)
+        if (handler.fields.year !== -1)
             time.setYear(m[handler.fields.year]);
-        if (handler.fields.month != -1)
+        if (handler.fields.month !== -1)
             time.setMonth(m[handler.fields.month] * 1 - 1);
         //Xconsole('month:'+m[handler.fields.month]+'|'+parseInt(m[handler.fields.month].trimZeros()));
-        if (handler.fields.day != -1)
+        if (handler.fields.day !== -1)
             time.setDate(m[handler.fields.day]);
-        if (handler.fields.hour != -1)
+        if (handler.fields.hour !== -1)
             time.setHours(m[handler.fields.hour]);
-        if (handler.fields.min != -1)
+        if (handler.fields.min !== -1)
             time.setMinutes(m[handler.fields.min]);
-        if (handler.fields.sec != -1)
+        if (handler.fields.sec !== -1)
             time.setSeconds(m[handler.fields.sec]);
     }
     time = Math.floor(time.getTime() / 1000);

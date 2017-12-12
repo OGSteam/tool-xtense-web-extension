@@ -10,9 +10,9 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.7.8';
+var VERSION = '2.7.9';
 var TYPE = 'GM-';
-var PLUGIN_REQUIRED = '2.7.2';
+var PLUGIN_REQUIRED = '2.7.3';
 var nomScript = 'Xtense';
 var XtenseLocales = {};
 
@@ -24,9 +24,9 @@ var XLOG_WARNING = 1,
     XLOG_COMMENT = 5,
     XLOG_SEND = 6;
 // Navigateurs
-var isFirefox = (window.navigator.userAgent.indexOf('Firefox') > -1) ? true : false;
-var isChrome = (window.navigator.userAgent.indexOf('Chrome') > -1) ? true : false;
-var isOpera = (window.navigator.userAgent.indexOf('Opera') > -1) ? true : false;
+var isFirefox = (window.navigator.userAgent.indexOf('Firefox') > -1);
+var isChrome = (window.navigator.userAgent.indexOf('Chrome') > -1);
+var isOpera = (window.navigator.userAgent.indexOf('Opera') > -1);
 if (isFirefox) {
     TYPE += 'FF';
 } else if (isChrome) {

@@ -58,7 +58,7 @@ function displayXtense() {
         var aAttrs = '';
         var urlIcone = '';
         var onClick = null;
-        if (GM_getValue('manual.send', 'false').toString() == 'true') {
+        if (GM_getValue('manual.send', 'false').toString() === 'true') {
             aAttrs = 'onClick="window.location.reload()" target="_self"';
         } else {
             aAttrs = 'href="' + ogspy_link + '" target="blank_" ';
@@ -112,66 +112,66 @@ function displayOptions() {
 
     // Récupération des préférences  : Pages
 
-    if (GM_getValue('handle.overview', 'false').toString() == 'true') {
+    if (GM_getValue('handle.overview', 'false').toString() === 'true') {
         handle_overview += 'checked';
     }
-    if (GM_getValue('handle.buildings', 'false').toString() == 'true') {
+    if (GM_getValue('handle.buildings', 'false').toString() === 'true') {
         handle_buildings += 'checked';
     }
-    if (GM_getValue('handle.station', 'false').toString() == 'true') {
+    if (GM_getValue('handle.station', 'false').toString() === 'true') {
         handle_station += 'checked';
     }
-    if (GM_getValue('handle.researchs', 'false').toString() == 'true') {
+    if (GM_getValue('handle.researchs', 'false').toString() === 'true') {
         handle_researchs += 'checked';
     }
-    if (GM_getValue('handle.shipyard', 'false').toString() == 'true') {
+    if (GM_getValue('handle.shipyard', 'false').toString() === 'true') {
         handle_shipyard += 'checked';
     }
-    if (GM_getValue('handle.system', 'false').toString() == 'true') {
+    if (GM_getValue('handle.system', 'false').toString() === 'true') {
         handle_system += 'checked';
     }
-    if (GM_getValue('handle.defense', 'false').toString() == 'true') {
+    if (GM_getValue('handle.defense', 'false').toString() === 'true') {
         handle_defense += 'checked';
     }
-    if (GM_getValue('handle.alliance', 'false').toString() == 'true') {
+    if (GM_getValue('handle.alliance', 'false').toString() === 'true') {
         handle_alliance += 'checked';
     }
-    if (GM_getValue('handle.stats', 'false').toString() == 'true') {
+    if (GM_getValue('handle.stats', 'false').toString() === 'true') {
         handle_stats += 'checked';
     }
-    if (GM_getValue('handle.msg.msg', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.msg', 'false').toString() === 'true') {
         handle_msg_msg += 'checked';
     }
-    if (GM_getValue('handle.msg.ally', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.ally', 'false').toString() === 'true') {
         handle_msg_ally += 'checked';
     }
-    if (GM_getValue('handle.msg.spy', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.spy', 'false').toString() === 'true') {
         handle_msg_spy += 'checked';
     }
-    if (GM_getValue('handle.msg.ennemy.spy', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.ennemy.spy', 'false').toString() === 'true') {
         handle_msg_ennemy_spy += 'checked';
     }
-    if (GM_getValue('handle.msg.rc', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.rc', 'false').toString() === 'true') {
         handle_msg_rc += 'checked';
     }
-    if (GM_getValue('handle.msg.rc.cdr', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.rc.cdr', 'false').toString() ==='true') {
         handle_msg_rc_cdr += 'checked';
     }
-    if (GM_getValue('handle.msg.expeditions', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.expeditions', 'false').toString() === 'true') {
         handle_msg_expeditions += 'checked';
     }
-    if (GM_getValue('handle.msg.commerce', 'false').toString() == 'true') {
+    if (GM_getValue('handle.msg.commerce', 'false').toString() === 'true') {
         handle_msg_commerce += 'checked';
     }
     // Récupération des préférences  : Options
 
-    if (GM_getValue('debug.mode', 'false').toString() == 'true') {
+    if (GM_getValue('debug.mode', 'false').toString() === 'true') {
         opt_debug_mode += ' checked';
     }
-    if (GM_getValue('cors.mode', 'true').toString() == 'true') {
+    if (GM_getValue('cors.mode', 'true').toString() === 'true') {
         opt_cors_header += ' checked';		
     }    
-	if (GM_getValue('backup.link', 'false').toString() == 'true') {
+	if (GM_getValue('backup.link', 'false').toString() === 'true') {
         opt_backup_link += ' checked';
     }
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
@@ -463,3 +463,10 @@ function displayOption(id) {
         $('#menu_about').css('color' , 'white');
     }
 }
+
+
+function displayXlinks() {
+
+
+}
+
