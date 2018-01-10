@@ -6,7 +6,7 @@ This is the source code used to build Mozilla and Chrome extensions.
 [![GitHub forks](https://img.shields.io/github/forks/OGSteam/tool-xtense-web-extension.svg?style=flat-square)](https://github.com/OGSteam/tool-xtense-web-extension/network)
 [![GitHub stars](https://img.shields.io/github/stars/OGSteam/tool-xtense-web-extension.svg?style=flat-square)](https://github.com/OGSteam/tool-xtense-web-extension/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat-square)](https://raw.githubusercontent.com/OGSteam/tool-xtense-web-extension/master/LICENSE)
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/ogsteam/tool-xtense-web-extension.svg?style=flat-square)](https://scrutinizer-ci.com/g/OGSteam/tool-xtense-web-extension/)
+
 
 * [![Mozilla Add-on](https://img.shields.io/amo/v/xtense-we.svg?style=flat-square)](https://addons.mozilla.org/fr/firefox/addon/xtense-we) [![Mozilla Add-on](https://img.shields.io/amo/d/xtense-we.svg?style=flat-square)](https://addons.mozilla.org/fr/firefox/addon/xtense-we)
 * [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mkcgnadlbcakpmmmdfijdekknodapcgl.svg?style=flat-square)](https://chrome.google.com/webstore/detail/xtense-gm/mkcgnadlbcakpmmmdfijdekknodapcgl) [![Chrome Web Store](https://img.shields.io/chrome-web-store/d/mkcgnadlbcakpmmmdfijdekknodapcgl.svg?style=flat-square)](https://chrome.google.com/webstore/detail/xtense-gm/mkcgnadlbcakpmmmdfijdekknodapcgl)
@@ -23,13 +23,7 @@ This is the source code used to build Mozilla and Chrome extensions.
 
 * master - Branche Principale, utilisée uniquement pour publier les versions finales de nos outils.
 * development - branche qui contient les développements pour les futures versions
-* release-3.X.Y - Branche contenant les correctifs pour une future version
 
 ### Contact ###
 
 * [Forum](https://forum.ogsteam.fr)
-* [![Gitter](https://img.shields.io/gitter/room/ogsteam/support.svg?style=flat-square)](https://gitter.im/OGSteam/Support)
-
-### Support Project ###
-
-* [![Gratipay Team](https://img.shields.io/gratipay/team/ogsteam.svg?style=flat-square)](https://www.gratipay.com/ogsteam/)
