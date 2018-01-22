@@ -35,14 +35,8 @@
     "images/pages.png",
     "images/server.png",
     "images/xtense.png",
-    "images/icones/xtense.png",
-    "images/icones/xtense-send.png",
-    "images/icones/xtenseKo.png",
-    "images/icones/xtenseNo.png",
-    "images/icones/xtenseOk.png",
-    "images/icones/xtenseReady.png",
-    "images/icones/xtenseWarn.png",
-    "images/icones/infos.png"
+    "images/icones/*.png"
+
   ],
   "background": {
     "scripts": ["background.js"]

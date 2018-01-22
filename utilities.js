@@ -77,6 +77,10 @@ function Xajax(obj) {
              alert(errorThrown);*/
         });
 }
+
+/**
+ * @return {string}
+ */
 function XajaxCompo(url) {
     var rcString = "";
 
@@ -89,6 +93,9 @@ function XajaxCompo(url) {
 
 // Récupère les messages de retours et locales
 
+/**
+ * @return {string}
+ */
 function Xl(name) {
     return chrome.i18n.getMessage("XtenseMsg_" + name);
 }

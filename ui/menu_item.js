@@ -51,10 +51,14 @@ function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
     var ogspy_link = GM_getValue('server.url.plugin', 'https://forum.ogsteam.fr');
+    var ogsmarket_link = 'https://ogspy.fr/market';
 
     // Page classique
     if ($("#playerName")) {
         var icone = chrome.extension.getURL('images/icones/xtense.png');
+        var icone_planet = chrome.extension.getURL('images/icones/planet.png');
+        var icone_market= chrome.extension.getURL('images/icones/market.png');
+
         var aAttrs = '';
         var urlIcone = '';
         var onClick = null;
@@ -70,10 +74,30 @@ function displayXtense() {
             "<a class='menubutton' href='" + url + "&xtense=Options' accesskey='' target='_self'><span class='textlabel'>Xtense</span></a>" +
             "</li>");
 
+        var aff_ogspy = $("<li id='optionOGSpy'>" +
+            "<span class='menu_icon'>" +
+            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone_planet + "' height='27' width='27'></span>" +
+            "<a class='menubutton' href='" + ogspy_link + "' accesskey='' target='blank_'><span class='textlabel'>OGSpy</span></a>" +
+            "</li>");
+
+        var aff_market = $("<li id='optionOGSMarket'>" +
+            "<span class='menu_icon'>" +
+            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone_market + "' height='27' width='27'></span>" +
+            "<a class='menubutton' href='" + ogsmarket_link + "' accesskey='' target='blank_'><span class='textlabel'>OGSMarket</span></a>" +
+            "</li>");
+
+
+
         if ($('#optionXtense').length) {
             $('#menuTable')[0].removeChild($('#optionXtense')[0]);
         }
-        $("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
+        //$("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
+
+        $( "#toolLinksWrapper" ).addClass( "leftmenu" );
+        $("#menuTableTools").after(aff_option);
+        $("#optionXtense").after(aff_ogspy);
+        $("#optionOGSpy").after(aff_market);
+
 
     } else {
 
