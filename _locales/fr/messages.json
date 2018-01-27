@@ -147,9 +147,18 @@
     "message": "Utilser un second serveur OGSpy",
     "description": "Activation des traces de debug"
   },
-  "XtenseOptionsPage_corsheader": {
-    "message": "Mode de transmission au serveur OGSpy type CORS (En fonction de votre configuration serveur)",
-    "description": "Mode de trasmission au serveur type CORS"
+  "XtenseOptionsPage_ogspylink": {
+    "message": "Afficher un lien vers votre serveur OGSpy",
+    "description": "Activation des traces de debug"
+  },
+  "XtenseOptionsPage_ogsmarketlink": {
+    "message": "Afficher le lien du marché aux ressources",
+    "description": "Activation des traces de debug"
+  },
+
+  "XtenseOptionsPage_menu_settings": {
+    "message": "Paramètrage du Menu",
+    "description": "Title for menu options in settings"
   },
   "XtenseAbout_version": {
     "message": "A Propos de Xtense",
@@ -168,7 +177,7 @@
     "description": "Support"
   },
   "XtenseAbout_ogsteam": {
-    "message": "Xtense GM is an OGSteam Software © 2005-2017",
+    "message": "Xtense GM is an OGSteam Software © 2005-2018",
     "description": "Copyright"
   },
   "XtenseMsg_http_status_403": {

@@ -52,6 +52,8 @@ function displayXtense() {
     //Lien vers OGSpy
     var ogspy_link = GM_getValue('server.url.plugin', 'https://forum.ogsteam.fr');
     var ogsmarket_link = 'https://ogspy.fr/market';
+    var aff_ogspy = ' ';
+    var aff_market = ' ';
 
     // Page classique
     if ($("#playerName")) {
@@ -70,35 +72,31 @@ function displayXtense() {
 
         var aff_option = $("<li id='optionXtense'>" +
             "<span class='menu_icon'>" +
-            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone + "' height='27' width='27'></span>" +
+            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone + "' height='27' width='27' /></a></span>" +
             "<a class='menubutton' href='" + url + "&xtense=Options' accesskey='' target='_self'><span class='textlabel'>Xtense</span></a>" +
             "</li>");
 
-        var aff_ogspy = $("<li id='optionOGSpy'>" +
-            "<span class='menu_icon'>" +
-            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone_planet + "' height='27' width='27'></span>" +
-            "<a class='menubutton' href='" + ogspy_link + "' accesskey='' target='blank_'><span class='textlabel'>OGSpy</span></a>" +
-            "</li>");
-
-        var aff_market = $("<li id='optionOGSMarket'>" +
-            "<span class='menu_icon'>" +
-            "<a " + aAttrs + "><img id='xtense.icone' class='mouseSwitch' src='" + icone_market + "' height='27' width='27'></span>" +
-            "<a class='menubutton' href='" + ogsmarket_link + "' accesskey='' target='blank_'><span class='textlabel'>OGSMarket</span></a>" +
-            "</li>");
-
-
+        if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
+            aff_ogspy = create_menu_button('optionOGSpy', icone_planet, ogspy_link, 'OGSpy');
+        }
+        if (GM_getValue('market.link', 'true').toString() === 'true') {
+            aff_market = create_menu_button('optionOGSMarket', icone_market, ogsmarket_link, 'OGSMarket');
+        }
 
         if ($('#optionXtense').length) {
             $('#menuTable')[0].removeChild($('#optionXtense')[0]);
         }
         //$("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
 
-        $( "#toolLinksWrapper" ).addClass( "leftmenu" );
+        $("#toolLinksWrapper").addClass( "leftmenu" );
         $("#menuTableTools").after(aff_option);
         $("#optionXtense").after(aff_ogspy);
-        $("#optionOGSpy").after(aff_market);
 
-
+        if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
+            $("#optionOGSpy").after(aff_market);
+        }else{
+            $("#optionXtense").after(aff_market);
+        }
     } else {
 
         log("Problem to display Menu entry point");
@@ -133,6 +131,8 @@ function displayOptions() {
     var opt_debug_mode = ' ';
     var opt_cors_header = ' ';
     var opt_backup_link = ' ';
+    var opt_ogspy_link = ' ';
+    var opt_market_link = ' ';
 
     // Récupération des préférences  : Pages
 
@@ -192,12 +192,16 @@ function displayOptions() {
     if (GM_getValue('debug.mode', 'false').toString() === 'true') {
         opt_debug_mode += ' checked';
     }
-    if (GM_getValue('cors.mode', 'true').toString() === 'true') {
-        opt_cors_header += ' checked';		
-    }    
 	if (GM_getValue('backup.link', 'false').toString() === 'true') {
         opt_backup_link += ' checked';
     }
+    if (GM_getValue('ogspy.link', 'false').toString() === 'true') {
+        opt_ogspy_link += ' checked';
+    }
+    if (GM_getValue('market.link', 'false').toString() === 'true') {
+        opt_market_link += ' checked';
+    }
+
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
     options += '<img src="' + chrome.extension.getURL('images/xtense.png') + '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
@@ -350,7 +354,7 @@ function displayOptions() {
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
     options += '<tr>';
-    options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;">' + chrome.i18n.getMessage("XtenseOptionsPage_title") + '</td>';
+    options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' + chrome.i18n.getMessage("XtenseOptionsPage_title") + '</td>';
     options += '</tr>';
     options += '<tr>';
     options += '<td colspan="6">&nbsp;</td>';
@@ -360,16 +364,23 @@ function displayOptions() {
     options += '<td class="value" style="text-align:left;"><input class="speed" id="debug.mode" size="35" alt="24" type="checkbox"' + opt_debug_mode + '/></td>';
 	options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_backuplink") + '</label></td>';
     options += '<td class="value" style="text-align:left;"><input class="speed" id="backup.link" size="35" alt="24" type="checkbox"' + opt_backup_link + '/></td>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_corsheader") + '</label></td>';
-    options += '<td class="value" style="text-align:left;"><input class="speed" id="cors.mode" size="35" alt="24" type="checkbox"' + opt_cors_header + '/></td>';
     options += '<td class="champ"></td>';
     options += '<td class="value"></td>';
     options += '</tr>';
     options += '<tr>';
-    options += '<td class="champ"></td>';
-    options += '<td class="value"></td>';
-    options += '<td class="champ"></td>';
-    options += '<td class="value"></td>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' + chrome.i18n.getMessage("XtenseOptionsPage_menu_settings") + '</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_ogspylink") + '</label></td>';
+    options += '<td class="value" style="text-align:left;"><input class="speed" id="ogspy.link" size="35" alt="24" type="checkbox"' + opt_ogspy_link + '/></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_ogsmarketlink") + '</label></td>';
+    options += '<td class="value" style="text-align:left;"><input class="speed" id="market.link" size="35" alt="24" type="checkbox"' + opt_market_link + '/></td>';
     options += '</tbody></table>';
     options += '</div>';
     /*---------------------------- A propos -----------------------------------------------*/
@@ -445,7 +456,7 @@ function displayOption(id) {
 
     $(id).show(); //On affiche le bloc courant
 
-    if (id == '#Xtense_serveurs') {
+    if (id === '#Xtense_serveurs') {
 
         $('#Xtense_pages').hide();
         $('#Xtense_options').hide();
@@ -454,11 +465,11 @@ function displayOption(id) {
         $('#menu_pages').css('color' , 'orange');
         $('#menu_options').css('color' , 'orange');
         $('#menu_about').css('color' , 'orange');
-		if (GM_getValue('backup.link', 'false').toString() == 'true') 
+		if (GM_getValue('backup.link', 'false').toString() === 'true')
 			$('.server_url_backup').show();
 		else $('.server_url_backup').hide();
     }
-    else if (id == '#Xtense_pages') {
+    else if (id === '#Xtense_pages') {
 
         $('#Xtense_serveurs').hide();
         $('#Xtense_options').hide();
@@ -467,7 +478,7 @@ function displayOption(id) {
         $('#menu_pages').css('color' , 'white');
         $('#menu_options').css('color' , 'orange');
         $('#menu_about').css('color' , 'orange');
-    } else if (id == '#Xtense_options') {
+    } else if (id === '#Xtense_options') {
 
         $('#Xtense_serveurs').hide();
         $('#Xtense_pages').hide();
@@ -476,7 +487,7 @@ function displayOption(id) {
         $('#menu_pages').css('color' , 'orange');
         $('#menu_options').css('color' , 'white');
         $('#menu_about').css('color' , 'orange');
-    } else if (id == '#Xtense_about') {
+    } else if (id === '#Xtense_about') {
 
         $('#Xtense_serveurs').hide();
         $('#Xtense_pages').hide();
@@ -489,8 +500,13 @@ function displayOption(id) {
 }
 
 
-function displayXlinks() {
+function create_menu_button(item_id, icon, link, name) {
 
-
+    var button = $("<li id='" + item_id +"'>" +
+        "<span class='menu_icon'>" +
+        "<img class='mouseSwitch' src='" + icon + "' height='27' width='27'></span>" +
+        "<a class='menubutton' href='" + link + "' accesskey='' target='blank_'><span class='textlabel'>" + name + "</span></a>" +
+        "</li>");
+    return button;
 }
 
