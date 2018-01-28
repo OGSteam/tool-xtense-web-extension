@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.7.9",
+  "version": "2.7.10",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -9,7 +9,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["contribs/jquery-3.2.1.min.js",
+      "js": ["contribs/jquery-3.3.1.min.js",
 			 "parsers/OgameLocales.js",
 			 "parsers/OgameConstants.js",
 			 "parsers/Ogame.js",
