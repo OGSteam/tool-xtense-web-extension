@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.7.10",
+  "version": "2.7.11",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -42,7 +42,9 @@
     "images/icones/xtenseOk.png",
     "images/icones/xtenseReady.png",
     "images/icones/xtenseWarn.png",
-    "images/icones/infos.png"
+    "images/icones/infos.png",
+    "images/icones/market.png",
+    "images/icones/planet.png"
   ],
   "background": {
     "scripts": ["background.js"]
