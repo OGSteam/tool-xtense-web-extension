@@ -129,7 +129,6 @@ function displayOptions() {
     var handle_msg_commerce = ' ';
     // Variables : Options
     var opt_debug_mode = ' ';
-    var opt_cors_header = ' ';
     var opt_backup_link = ' ';
     var opt_ogspy_link = ' ';
     var opt_market_link = ' ';

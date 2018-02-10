@@ -47,8 +47,6 @@ var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
 var prefix_GMData = langUnivers + numUnivers + '.';
 log("Universe Number: " + numUnivers);
 log("Universe language: " + langUnivers);
-//Config JQuery
-jQuery.support.cors = GM_getValue('cors.mode', 'true');
 
 //Conversion Format adresse OGSPY
 var res = GM_getValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
