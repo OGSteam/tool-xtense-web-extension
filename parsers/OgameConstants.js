@@ -141,8 +141,8 @@ function initParsers() {
 
         boostersExtensions: {
             items: '//ul[contains(@class,"active_items")]//div[@data-uuid]',
-            dataUuid: '//a[@title]/@ref',
-            itemTime: '//div[contains(@class,"js_duration")]/text()'
+            dataUuid: 'a[@title]/@ref',
+            itemTime: 'div[contains(@class,"js_duration")]/text()'
             },
 
         ranking: {
