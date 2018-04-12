@@ -86,10 +86,8 @@ function displayXtense() {
         if ($('#optionXtense').length) {
             $('#menuTable')[0].removeChild($('#optionXtense')[0]);
         }
-        //$("li > a[href*='page=alliance']").parent().before(aff_option); // >  is https://api.jquery.com/child-selector/
 
-        $("#toolLinksWrapper").addClass( "leftmenu" );
-        $("#menuTableTools").after(aff_option);
+        $("#menuTableTools").append(aff_option);
         $("#optionXtense").after(aff_ogspy);
 
         if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
