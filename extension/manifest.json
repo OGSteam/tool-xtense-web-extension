@@ -1,11 +1,13 @@
 {
   "manifest_version": 2,
-  "version": "2.7.14",
+  "version": "$npm_package_version",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
   "content_security_policy": "script-src 'self'; object-src 'self'",
-  "icons": { "128": "Xtense-128.png" },
+  "icons": {
+    "128": "Xtense-128.png"
+  },
   "applications": {
     "gecko": {
       "id": "ogspy.team@gmail.com",
@@ -14,8 +16,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*.ogame.gameforge.com/game/*"],
-      "js": ["contribs/jquery-3.3.1.min.js",
+      "matches": [
+        "https://*.ogame.gameforge.com/game/*"
+      ],
+      "js": [
+        "contribs/jquery-3.3.1.min.js",
         "parsers/OgameLocales.js",
         "parsers/OgameConstants.js",
         "parsers/Ogame.js",
@@ -24,7 +29,8 @@
         "ui/menu_item.js",
         "ogspy/send_data.js",
         "utilities.js",
-        "xtense.user.js"],
+        "xtense.user.js"
+      ],
       "run_at": "document_idle"
     }
   ],
@@ -47,11 +53,15 @@
     "images/icones/planet.png"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
-
-  "permissions": [ "notifications", "webRequest","https://*/mod/xtense/xtense.php"],
-
+  "permissions": [
+    "notifications",
+    "webRequest",
+    "https://*/mod/xtense/xtense.php"
+  ],
   "short_name": "Xtense",
   "browser_action": {
     "default_title": "Xtense",
