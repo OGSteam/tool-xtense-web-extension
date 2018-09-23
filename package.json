@@ -1,6 +1,6 @@
 {
   "name": "xtense-web-extension",
-  "version": "2.7.15",
+  "version": "2.7.16",
   "description": "Collect Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
@@ -8,8 +8,7 @@
     "node-clean": "npm prune && npm install",
     "version": "dot-json extension/manifest.json version $npm_package_version && dot-json extension/manifest.chrome version $npm_package_version && dot-json extension/manifest.firefox version $npm_package_version",
     "zip:firefox": "cp -R extension/* release/firefox/. && rm release/firefox/manifest.chrome && rm release/firefox/manifest.json && mv release/firefox/manifest.firefox release/firefox/manifest.json && cross-zip release/firefox release/firefox-$npm_package_version.zip",
-    "zip:chrome": "cp -R extension/* release/chrome/. && rm release/chrome/manifest.firefox && rm release/chrome/manifest.json && mv release/chrome/manifest.chrome release/chrome/manifest.json && cross-zip release/chrome release/chrome-.zip"
-  ,
+    "zip:chrome": "cp -R extension/* release/chrome/. && rm release/chrome/manifest.firefox && rm release/chrome/manifest.json && mv release/chrome/manifest.chrome release/chrome/manifest.json && cross-zip release/chrome release/chrome-.zip",
     "zip": "npm run zip:firefox && npm run zip:chrome",
     "build": "npm run clean && gulp && npm run zip",
     "release": "npm run build && npm run release-cws && npm run release-amo",
