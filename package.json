@@ -6,14 +6,11 @@
   "scripts": {
     "clean": "rm -rf release && mkdirp release/chrome && mkdirp release/firefox",
     "node-clean": "npm prune && npm install",
-    "version": "dot-json extension/manifest.json version $npm_package_version && dot-json extension/manifest.chrome version $npm_package_version && dot-json extension/manifest.firefox version $npm_package_version",
-    "zip:firefox": "cp -R extension/* release/firefox/. && rm release/firefox/manifest.chrome && rm release/firefox/manifest.json && mv release/firefox/manifest.firefox release/firefox/manifest.json && cross-zip release/firefox release/firefox-$npm_package_version.zip",
-    "zip:chrome": "cp -R extension/* release/chrome/. && rm release/chrome/manifest.firefox && rm release/chrome/manifest.json && mv release/chrome/manifest.chrome release/chrome/manifest.json && cross-zip release/chrome release/chrome-.zip",
+    "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome version $npm_package_version && cross-var dot-json extension/manifest.firefox version $npm_package_version",
+    "zip:firefox": "cp -R extension/* release/firefox/. && rm release/firefox/manifest.chrome && rm release/firefox/manifest.json && mv release/firefox/manifest.firefox release/firefox/manifest.json && cross-var cross-zip release/firefox release/xtense-firefox-$npm_package_version.zip",
+    "zip:chrome": "cp -R extension/* release/chrome/. && rm release/chrome/manifest.firefox && rm release/chrome/manifest.json && mv release/chrome/manifest.chrome release/chrome/manifest.json && cross-var cross-zip release/chrome release/xtense-chrome-$npm_package_version.zip",
     "zip": "npm run zip:firefox && npm run zip:chrome",
-    "build": "npm run clean && gulp && npm run zip",
-    "release": "npm run build && npm run release-cws && npm run release-amo",
-    "release-amo": "cd extension && webext submit",
-    "release-cws": "webstore upload --source build/lesspass.chrome-v$npm_package_version.zip --auto-publish",
+    "release": "npm run clean && gulp && npm run zip",
     "dev": "cd extension && web-ext run --verbose --firefox=firefoxdeveloperedition --start-url www.ogame.fr",
     "lint": "cd extension && web-ext lint",
     "test": "echo 'no test'"
@@ -39,10 +36,11 @@
     "dot-json": "^1.0.4",
     "gulp": "^3.9.1",
     "web-ext": "2.9.1",
-    "minimatch": "^3.0.2"
-  },
-  "dependencies": {
+    "minimatch": "^3.0.2",
+    "cross-var": "^1.1.0",
     "cross-zip-cli": "^1.0.0",
     "mkdirp": "^0.5.1"
+  },
+  "dependencies": {
   }
 }

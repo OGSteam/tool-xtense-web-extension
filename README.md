@@ -19,6 +19,14 @@ This is the source code used to build Mozilla and Chrome extensions.
 * [Itori](https://github.com/Itori)
 * [Roms0406](https://github.com/Roms0406)
 
+### NPM Scripts
+
+Pré Requis : [Mozilla Firefox Dev Edition](https://www.mozilla.org/fr/firefox/channel/desktop/)
+
+* npm run release : Contruit les packages zip de l'extension à destination des stores Chrome et Mozilla
+* npm run dev : lance le navigateur Web avec l'extension chargée en vue des tests
+* npm run lint : Passe le script de certification Mozilla et remonte les problèmes détectés
+
 ### Branches de travail
 
 * master - Branche Principale, utilisée uniquement pour publier les versions finales de nos outils.
