@@ -1,18 +1,12 @@
 {
   "manifest_version": 2,
-  "version": "$npm_package_version",
+  "version": "2.7.15",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "icons": {
     "128": "Xtense-128.png"
-  },
-  "applications": {
-    "gecko": {
-      "id": "ogspy.team@gmail.com",
-      "strict_min_version": "42.0"
-    }
   },
   "content_scripts": [
     {
@@ -67,5 +61,11 @@
     "default_title": "Xtense",
     "default_icon": "images/icones/xtense_default.png",
     "default_popup": "xtense.html"
+  },
+  "applications": {
+    "gecko": {
+      "id": "ogspy.team@gmail.com",
+      "strict_min_version": "42.0"
+    }
   }
 }
