@@ -23,6 +23,7 @@ This is the source code used to build Mozilla and Chrome extensions.
 
 Pré Requis : [Mozilla Firefox Dev Edition](https://www.mozilla.org/fr/firefox/channel/desktop/)
 
+* npm run version : Mise à jour des versions dans les fichiers manifest
 * npm run release : Contruit les packages zip de l'extension à destination des stores Chrome et Mozilla
 * npm run dev : lance le navigateur Web avec l'extension chargée en vue des tests
 * npm run lint : Passe le script de certification Mozilla et remonte les problèmes détectés
