@@ -31,8 +31,10 @@ function handle_current_page() {
         handle_page('buildings');
     } else if (regStation.test(url)) {
         handle_page('station');
-    } else if (regShipyard.test(url) || regFleet1.test(url)) {
+    } else if (regShipyard.test(url)) {
         handle_page('shipyard');
+    } else if (regFleet1.test(url)) {
+        handle_page('fleet');
     } else if (regDefense.test(url)) {
         handle_page('defense');
     } else if (regMessages.test(url)) {
@@ -109,6 +111,9 @@ function get_content(type)
         case 'shipyard':
             func = parse_shipyard;
             break;
+        case 'fleet':
+            func = parse_fleet;
+            break;
         case 'defense':
             func = parse_defense;
             break;
@@ -118,18 +123,19 @@ function get_content(type)
             break;
     }
 
+    func();
+
     if(elementName != null) {
         var target = document.getElementById(elementName);
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
+                log('Mutation Observer : ' + mutation.addedNodes);
                 func();
             })
         });
 		// configuration of the observer:
 		var config = { attributes: true, childList: true, characterData: true };
         observer.observe(target, config);
-    } else {
-        func();
     }
 }
 
@@ -609,6 +615,42 @@ function parse_researchs() {
 /* Page Shipyard */
 
 function parse_shipyard() {
+    setStatus(XLOG_NORMAL, Xl('shipyard_detected'));
+    var paths = XtenseXpaths.levels;
+    XtenseRequest.set('type', 'fleet');
+    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    var tabLevel = [];
+    if (levels.snapshotLength > 0) {
+        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+            if (level !== '') {
+                tabLevel.push(level);
+            }
+        }
+    }
+    var req = {
+        'CLE': tabLevel[0],
+        'CLO': tabLevel[1],
+        'CR': tabLevel[2],
+        'VB': tabLevel[3],
+        'TRA': tabLevel[4],
+        'BMD': tabLevel[5],
+        'DST': tabLevel[6],
+        'EDLM': tabLevel[7],
+        'PT': tabLevel[8],
+        'GT': tabLevel[9],
+        'VC': tabLevel[10],
+        'REC': tabLevel[11],
+        'SE': tabLevel[12]
+
+    };
+    XtenseRequest.set(getPlanetData());
+    XtenseRequest.set(req);
+    XtenseRequest.send();
+}
+/* Page Fleet */
+
+function parse_fleet() {
     setStatus(XLOG_NORMAL, Xl('fleet_detected'));
     var paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'fleet');
@@ -635,13 +677,14 @@ function parse_shipyard() {
         'GT': tabLevel[9],
         'VC': tabLevel[10],
         'REC': tabLevel[11],
-        'SE': tabLevel[12],
-        'SAT': tabLevel[13]
+        'SE': tabLevel[12]
+
     };
     XtenseRequest.set(getPlanetData());
     XtenseRequest.set(req);
     XtenseRequest.send();
 }
+
 /* Page Defense */
 
 function parse_defense() {
