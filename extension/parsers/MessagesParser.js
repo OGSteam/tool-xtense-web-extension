@@ -375,10 +375,11 @@ function parse_detail_messages(messages) {
 
     // Recyclages
     if (GM_getValue("handle.msg.rc.cdr").toString() === 'true') {
-        log("Message Recyclage détecté");
+
         if (from.match(new RegExp(locales['fleet'])) && subject.match(new RegExp(locales['harvesting']))) {
             var m = subject.match(new RegExp(XtenseRegexps.coords));
             if (m) {
+                log("Message Recyclage détecté");
                 var coords = m[1];
                 var contentNode = Xpath.getSingleNode(document, paths.contents['rc_cdr']);
                 var message = Xpath.getStringValue(document, paths.contents['rc_cdr']).trim();
@@ -398,11 +399,11 @@ function parse_detail_messages(messages) {
 
     // Expeditions
     if (GM_getValue("handle.msg.expeditions").toString() === 'true') {
-        log("Message Expédition détecté");
         var m = subject.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords));
         var m2 = from.match(new RegExp(locales['fleet command']));
 
         if (m2 != null && m != null) {
+            log("Message Expédition détecté");
             var coords = m[1];
             var contentNode = Xpath.getSingleNode(document, paths.contents['expedition']);
             var message = Xpath.getStringValue(document, paths.contents['expedition']).trim();
@@ -416,12 +417,13 @@ function parse_detail_messages(messages) {
 
     // Commerce
     if (GM_getValue("handle.msg.commerce").toString() === 'true') {
-        log("Message Commerce détecté");
+
         var m = subject.match(new RegExp(locales['trade message 1']));
         var m2 = subject.match(new RegExp(locales['trade message 2']));
 
         // Livraison d'un ami sur une de mes plan�tes
         if (m != null) {
+            log("Message Commerce détecté");
             var message = Xpath.getStringValue(document, paths.contents['livraison']).trim();
             var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos));
 
@@ -454,7 +456,7 @@ function parse_detail_messages(messages) {
             var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_me)); // Infos sur la plan�te
             var planeteLivraison = infos[4].trim(); // Planete sur laquelle la livraison � eu lieu
 
-            // R�cup�ration de mes planètes
+            // Récupération de mes planètes
             var mesPlanetes = Xpath.getOrderedSnapshotNodes(this.win.parent.parent.document, Xpaths.planetData['coords']);
             var isMyPlanet = false;
 
