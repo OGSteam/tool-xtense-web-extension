@@ -97,6 +97,7 @@ function get_content(type)
             func = parse_ranking_inserted;
             break;
         case 'overview':
+            elementName = 'planetdata';
             func = parse_overview;
             break;
         case 'researchs':
@@ -123,10 +124,9 @@ function get_content(type)
             break;
     }
 
-    func();
-
     if(elementName != null) {
         var target = document.getElementById(elementName);
+        //console.log(document.body.serializeWithStyles());
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 log('Mutation Observer : ' + mutation.addedNodes);
@@ -137,6 +137,9 @@ function get_content(type)
 		var config = { attributes: true, childList: true, characterData: true };
         observer.observe(target, config);
     }
+
+    log('Static Observer : ' + 'Running ' + type );
+    func();
 }
 
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
@@ -157,7 +160,7 @@ function get_ally_content() {
 
 function get_message_content() {
     //Sur navigation onglets
-    $('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
+    //$('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
 
     //Sur affichage Message long
     var target = document.getElementById('messages');
@@ -169,6 +172,9 @@ function get_message_content() {
     });
     var config = { attributes: true, childList: true, characterData: true };
     observer.observe(target, config);
+
+    parse_messages(); // Première Page
+
 }
 
 /************************ PARSING DES PAGES  ***************************/
@@ -502,7 +508,7 @@ function parse_overview() {
         }
     } else {
         log('Temperature Content is not there! Retrying...');
-        delaytodisplay_overview = setInterval(parse_overview, 50);
+        delaytodisplay_overview = setInterval(parse_overview, 250);
         // Necessaire car la page est remplie par des scripts JS. (Au premier passage les balises contenant les infomations sont vides)
     }
 }
