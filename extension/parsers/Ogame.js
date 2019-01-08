@@ -649,8 +649,8 @@ function parse_shipyard() {
         'GT': tabLevel[9],
         'VC': tabLevel[10],
         'REC': tabLevel[11],
-        'SE': tabLevel[12]
-
+        'SE': tabLevel[12],
+        'SAT': tabLevel[13]
     };
     XtenseRequest.set(getPlanetData());
     XtenseRequest.set(req);
