@@ -67,18 +67,21 @@ function parse_short_messages(messagesCourt, messages) {
 
     // Pas de messages à traiter
     if (messagesCourt.snapshotLength === 0) {
+        log('Pas de messages à traiter');
         return;
     }
     // Si le nombre de messages présent est le même que lors du dernier traitement
     // On considère qu'il n'y a pas de nouveaux messages
     if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize){
+        log('Pas de nouveaux messages');
         return;
     }
     // On regarde si le dernier message traité correspond au nombre de message
     // Pas trop sûr de savoir à quoi ça sert
-    if ((GM_getValue("last_shortmessage", 0).toString()) === messagesCourt.snapshotLength.toString()) {
+    /** if ((GM_getValue("last_shortmessage", 0).toString()) === messagesCourt.snapshotLength.toString()) {
+        log('Id identique');
         return;
-    }
+    }*/
     GM_setValue("last_shortmessage", messagesCourt.snapshotLength);
 
     var locales = l('messages');

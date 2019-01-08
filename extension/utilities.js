@@ -54,11 +54,12 @@ String.prototype.getInts = function (/*separator*/) {
 //Affichage des Logs
 
 function log(message) {
-    if (GM_getValue('debug.mode', 'false').toString() === 'true') {
-        //d = new Date();
+    if (GM_getValue('debug.mode', 'false').toString() !== 'true')
+        return;
+
+    //d = new Date();
         d = $.now();
         console.log('[' + d + '] '+ nomScript + ' : ' + message);
-    }
 }
 
 //Requete Ajax

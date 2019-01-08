@@ -163,14 +163,16 @@ function get_message_content() {
     //$('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
 
     //Sur affichage Message long
-    var target = document.getElementById('messages');
+    var target = document.getElementById('content');
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-            log('Muation Message');
+            if(mutation.addedNodes.length == 0)
+                return;
+            log('Mutation Message');
             parse_messages();
-        })
+        });
     });
-    var config = { attributes: true, childList: true, characterData: true };
+    var config = { attributes: true, childList: true, characterData: true, subtree: true };
     observer.observe(target, config);
 
     parse_messages(); // Première Page
