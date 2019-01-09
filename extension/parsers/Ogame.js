@@ -150,7 +150,7 @@ function get_ally_content() {
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             parse_ally_inserted();
-        })
+        });
     });
 	var config = { attributes: true, childList: true, characterData: true };
     observer.observe(target, config);
@@ -168,11 +168,15 @@ function get_message_content() {
         mutations.forEach(function (mutation) {
             if(mutation.addedNodes.length == 0)
                 return;
+            var node = mutation.addedNodes[0];
+            if(node.id !== 'fleetsgenericpage')
+                return;
+
             log('Mutation Message');
             parse_messages();
         });
     });
-    var config = { attributes: true, childList: true, characterData: true, subtree: true };
+    var config = { attributes: false, childList: true, characterData: false, subtree: true };
     observer.observe(target, config);
 
     parse_messages(); // Première Page
