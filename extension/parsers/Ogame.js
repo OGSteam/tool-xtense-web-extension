@@ -163,14 +163,22 @@ function get_message_content() {
     //$('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
 
     //Sur affichage Message long
-    var target = document.getElementById('content');
+    var target = document.getElementById('messages');
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             if(mutation.addedNodes.length == 0)
                 return;
             var node = mutation.addedNodes[0];
-            if(node.id !== 'fleetsgenericpage')
-                return;
+            switch(node.id)
+            {
+                case  'fleetsgenericpage':
+                case 'communicationmessagespage':
+                case 'defaultmessagespage':
+                    break;
+                default:
+                    if(node.className !== 'pagination')
+                        return;
+            }
 
             log('Mutation Message');
             parse_messages();
