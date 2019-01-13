@@ -58,8 +58,8 @@ function log(message) {
         return;
 
     //d = new Date();
-        d = $.now();
-        console.log('[' + d + '] '+ nomScript + ' : ' + message);
+    var d = $.now();
+    console.log('[' + d + '] '+ nomScript + ' : ' + message);
 }
 
 //Requete Ajax

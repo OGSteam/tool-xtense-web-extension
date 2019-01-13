@@ -7,7 +7,7 @@ function handle_current_page() {
     var regGalaxy;
     regGalaxy = new RegExp(/page=(galaxy)/);
     var regOverview = new RegExp(/page=(overview)/);
-    var regOption = new RegExp(/page=(xtense=Options)/);
+    var regOption = new RegExp(/(xtense=Options)/);
     var regResearch = new RegExp(/page=(research)/);
     var regBuildings = new RegExp(/page=(resources)/);
     var regStation = new RegExp(/page=(station)/);

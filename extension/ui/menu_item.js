@@ -86,6 +86,12 @@ function displayXtense() {
         if ($('#optionXtense').length) {
             $('#menuTableTools')[0].removeChild($('#optionXtense')[0]);
         }
+        if ($('#optionOGSpy').length) {
+            $('#menuTableTools')[0].removeChild($('#optionOGSpy')[0]);
+        }
+        if ($('#optionOGSMarket').length) {
+            $('#menuTableTools')[0].removeChild($('#optionOGSMarket')[0]);
+        }
 
         $("#menuTableTools").append(aff_option);
         $("#optionXtense").after(aff_ogspy);
