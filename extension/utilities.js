@@ -54,8 +54,9 @@ String.prototype.getInts = function (/*separator*/) {
 //Affichage des Logs
 
 function log(message) {
-    if (GM_getValue('debug.mode', 'false').toString() !== 'true')
+    if (GM_getValue('debug.mode', 'false').toString() !== 'true') {
         return;
+    }
 
     //d = new Date();
     var d = $.now();
@@ -189,11 +190,11 @@ Element.prototype.serializeWithStyles = (function () {
             }
         }
         var result = this.outerHTML;
-        for ( var i = 0; i < elements.length; i++ ) {
-            elements[i].style.cssText = cssTexts[i];
+        for ( var index = 0; i < elements.length; i++ ) {
+            elements[index].style.cssText = cssTexts[index];
         }
         return result;
-    }
+    };
 })();
 
 /************************** Fin Utilities *******************************/
