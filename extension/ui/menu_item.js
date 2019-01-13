@@ -84,7 +84,7 @@ function displayXtense() {
         }
 
         if ($('#optionXtense').length) {
-            $('#menuTable')[0].removeChild($('#optionXtense')[0]);
+            $('#menuTableTools')[0].removeChild($('#optionXtense')[0]);
         }
 
         $("#menuTableTools").append(aff_option);

@@ -5,18 +5,18 @@
 function handle_current_page() {
     // Expressions régulières des pages
     var regGalaxy;
-    regGalaxy = new RegExp(/(galaxy)/);
-    var regOverview = new RegExp(/(overview)/);
-    var regOption = new RegExp(/(xtense=Options)/);
-    var regResearch = new RegExp(/(research)/);
-    var regBuildings = new RegExp(/(resources)/);
-    var regStation = new RegExp(/(station)/);
-    var regShipyard = new RegExp(/(shipyard)/);
-    var regFleet1 = new RegExp(/(fleet1)/);
-    var regDefense = new RegExp(/(defense)/);
-    var regMessages = new RegExp(/(messages)/);
-    var regAlliance = new RegExp(/(alliance)/);
-    var regStats = new RegExp(/(highscore)/);
+    regGalaxy = new RegExp(/page=(galaxy)/);
+    var regOverview = new RegExp(/page=(overview)/);
+    var regOption = new RegExp(/page=(xtense=Options)/);
+    var regResearch = new RegExp(/page=(research)/);
+    var regBuildings = new RegExp(/page=(resources)/);
+    var regStation = new RegExp(/page=(station)/);
+    var regShipyard = new RegExp(/page=(shipyard)/);
+    var regFleet1 = new RegExp(/page=(fleet1)/);
+    var regDefense = new RegExp(/page=(defense)/);
+    var regMessages = new RegExp(/page=(messages)/);
+    var regAlliance = new RegExp(/page=(alliance)/);
+    var regStats = new RegExp(/page=(highscore)/);
 
     if (regOption.test(url)) {
         displayOptions();
@@ -199,7 +199,10 @@ function parse_galaxy_system_inserted(event) {
     //var doc = event.target.ownerDocument;
     var paths = XtenseXpaths.galaxy;
     //Référence Xpaths
-    var galaxy = Xpath.getSingleNode(document, paths.galaxy_input).value.trim();
+    var galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
+    if(galaxyInput === null)
+        return;
+    var galaxy = galaxyInput.value.trim();
     //Récupération Galaxie
     var system = Xpath.getSingleNode(document, paths.system_input).value.trim();
     //Récupération SS
