@@ -197,9 +197,9 @@ function parse_short_messages(messagesCourt, messages) {
         } // Espionnages
         else if ((GM_getValue("handle.msg.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords))) {
             // Ogame API
-            var ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, shortMessageNode).snapshotItem(0).value;
+            /*var ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, shortMessageNode).snapshotItem(0).value;
             var regexApi = new RegExp(XtenseRegexps.ogameapi);
-            var ogameAPILink = regexApi.exec(ogameAPITitle)[1];
+            var ogameAPILink = regexApi.exec(ogameAPITitle)[1];*/
         }
 
         // TODO : Cas de perte de contact avec la flotte attaquante
@@ -535,7 +535,6 @@ function parse_rc(doc, script) {
         return false;
     }
 
-    var date = null;
     var infos = Xpath.getOrderedSnapshotNodes(document, paths.list_infos, null);
     if (infos.snapshotLength > 0) {
         var infosNode = infos.snapshotItem(0);
@@ -551,8 +550,8 @@ function parse_rc(doc, script) {
 
         var type = get_tabid(doc);
 
-
         XtenseRequest.set({
+            data: null,
             type: type,
             json: resultRegex[1],
             ogapilnk: ogameAPILink
