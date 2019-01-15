@@ -92,7 +92,7 @@ function initParsers() {
         },
 
         messages: {
-            shortmessages: '//div[contains(@id,"boxBG")]//div[contains(@id,"contentWrapper")]//div[@class="content"]//div[contains(@id,"ui-id")][@aria-hidden="false"]/div/ul[contains(@class,"tab_inner")]/li[contains(@class, "msg ")]',
+            shortmessages: '//div[contains(@id,"ui-id")][@aria-hidden="false"]/div/ul[contains(@class,"tab_inner")]/li[contains(@class, "msg ")]',
             showmessage: '//div[contains(@class,"detail_msg")]',
             combatreport: '//@data-combatreportid',
             messageid: "@data-msg-id",

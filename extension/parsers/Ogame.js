@@ -5,18 +5,18 @@
 function handle_current_page() {
     // Expressions régulières des pages
     var regGalaxy;
-    regGalaxy = new RegExp(/(galaxy)/);
-    var regOverview = new RegExp(/(overview)/);
+    regGalaxy = new RegExp(/page=(galaxy)/);
+    var regOverview = new RegExp(/page=(overview)/);
     var regOption = new RegExp(/(xtense=Options)/);
-    var regResearch = new RegExp(/(research)/);
-    var regBuildings = new RegExp(/(resources)/);
-    var regStation = new RegExp(/(station)/);
-    var regShipyard = new RegExp(/(shipyard)/);
-    var regFleet1 = new RegExp(/(fleet1)/);
-    var regDefense = new RegExp(/(defense)/);
-    var regMessages = new RegExp(/(messages)/);
-    var regAlliance = new RegExp(/(alliance)/);
-    var regStats = new RegExp(/(highscore)/);
+    var regResearch = new RegExp(/page=(research)/);
+    var regBuildings = new RegExp(/page=(resources)/);
+    var regStation = new RegExp(/page=(station)/);
+    var regShipyard = new RegExp(/page=(shipyard)/);
+    var regFleet1 = new RegExp(/page=(fleet1)/);
+    var regDefense = new RegExp(/page=(defense)/);
+    var regMessages = new RegExp(/page=(messages)/);
+    var regAlliance = new RegExp(/page=(alliance)/);
+    var regStats = new RegExp(/page=(highscore)/);
 
     if (regOption.test(url)) {
         displayOptions();
@@ -31,8 +31,10 @@ function handle_current_page() {
         handle_page('buildings');
     } else if (regStation.test(url)) {
         handle_page('station');
-    } else if (regShipyard.test(url) || regFleet1.test(url)) {
+    } else if (regShipyard.test(url)) {
         handle_page('shipyard');
+    } else if (regFleet1.test(url)) {
+        handle_page('fleet');
     } else if (regDefense.test(url)) {
         handle_page('defense');
     } else if (regMessages.test(url)) {
@@ -95,6 +97,7 @@ function get_content(type)
             func = parse_ranking_inserted;
             break;
         case 'overview':
+            elementName = 'planetdata';
             func = parse_overview;
             break;
         case 'researchs':
@@ -109,6 +112,9 @@ function get_content(type)
         case 'shipyard':
             func = parse_shipyard;
             break;
+        case 'fleet':
+            func = parse_fleet;
+            break;
         case 'defense':
             func = parse_defense;
             break;
@@ -120,17 +126,20 @@ function get_content(type)
 
     if(elementName != null) {
         var target = document.getElementById(elementName);
+        //console.log(document.body.serializeWithStyles());
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
+                log('Mutation Observer : ' + mutation.addedNodes);
                 func();
             })
         });
 		// configuration of the observer:
 		var config = { attributes: true, childList: true, characterData: true };
         observer.observe(target, config);
-    } else {
-        func();
     }
+
+    log('Static Observer : ' + 'Running ' + type );
+    func();
 }
 
 /* Fonction ajoutant lancant le parsing de la vue alliance quand celle-ci est chargée */
@@ -141,7 +150,7 @@ function get_ally_content() {
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             parse_ally_inserted();
-        })
+        });
     });
 	var config = { attributes: true, childList: true, characterData: true };
     observer.observe(target, config);
@@ -151,18 +160,35 @@ function get_ally_content() {
 
 function get_message_content() {
     //Sur navigation onglets
-    $('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
+    //$('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
 
     //Sur affichage Message long
     var target = document.getElementById('messages');
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-            log('Muation Message');
+            if(mutation.addedNodes.length == 0)
+                return;
+            var node = mutation.addedNodes[0];
+            switch(node.id)
+            {
+                case  'fleetsgenericpage':
+                case 'communicationmessagespage':
+                case 'defaultmessagespage':
+                    break;
+                default:
+                    if(node.className !== 'pagination')
+                        return;
+            }
+
+            log('Mutation Message');
             parse_messages();
-        })
+        });
     });
-    var config = { attributes: true, childList: true, characterData: true };
+    var config = { attributes: false, childList: true, characterData: false, subtree: true };
     observer.observe(target, config);
+
+    parse_messages(); // Première Page
+
 }
 
 /************************ PARSING DES PAGES  ***************************/
@@ -173,7 +199,10 @@ function parse_galaxy_system_inserted(event) {
     //var doc = event.target.ownerDocument;
     var paths = XtenseXpaths.galaxy;
     //Référence Xpaths
-    var galaxy = Xpath.getSingleNode(document, paths.galaxy_input).value.trim();
+    var galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
+    if(galaxyInput === null)
+        return;
+    var galaxy = galaxyInput.value.trim();
     //Récupération Galaxie
     var system = Xpath.getSingleNode(document, paths.system_input).value.trim();
     //Récupération SS
@@ -496,7 +525,7 @@ function parse_overview() {
         }
     } else {
         log('Temperature Content is not there! Retrying...');
-        delaytodisplay_overview = setInterval(parse_overview, 50);
+        delaytodisplay_overview = setInterval(parse_overview, 250);
         // Necessaire car la page est remplie par des scripts JS. (Au premier passage les balises contenant les infomations sont vides)
     }
 }
@@ -609,7 +638,7 @@ function parse_researchs() {
 /* Page Shipyard */
 
 function parse_shipyard() {
-    setStatus(XLOG_NORMAL, Xl('fleet_detected'));
+    setStatus(XLOG_NORMAL, Xl('shipyard_detected'));
     var paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'fleet');
     var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
@@ -642,6 +671,43 @@ function parse_shipyard() {
     XtenseRequest.set(req);
     XtenseRequest.send();
 }
+/* Page Fleet */
+
+function parse_fleet() {
+    setStatus(XLOG_NORMAL, Xl('fleet_detected'));
+    var paths = XtenseXpaths.levels;
+    XtenseRequest.set('type', 'fleet');
+    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    var tabLevel = [];
+    if (levels.snapshotLength > 0) {
+        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+            if (level !== '') {
+                tabLevel.push(level);
+            }
+        }
+    }
+    var req = {
+        'CLE': tabLevel[0],
+        'CLO': tabLevel[1],
+        'CR': tabLevel[2],
+        'VB': tabLevel[3],
+        'TRA': tabLevel[4],
+        'BMD': tabLevel[5],
+        'DST': tabLevel[6],
+        'EDLM': tabLevel[7],
+        'PT': tabLevel[8],
+        'GT': tabLevel[9],
+        'VC': tabLevel[10],
+        'REC': tabLevel[11],
+        'SE': tabLevel[12]
+
+    };
+    XtenseRequest.set(getPlanetData());
+    XtenseRequest.set(req);
+    XtenseRequest.send();
+}
+
 /* Page Defense */
 
 function parse_defense() {

@@ -67,18 +67,21 @@ function parse_short_messages(messagesCourt, messages) {
 
     // Pas de messages à traiter
     if (messagesCourt.snapshotLength === 0) {
+        log('Pas de messages à traiter');
         return;
     }
     // Si le nombre de messages présent est le même que lors du dernier traitement
     // On considère qu'il n'y a pas de nouveaux messages
     if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize){
+        log('Pas de nouveaux messages');
         return;
     }
     // On regarde si le dernier message traité correspond au nombre de message
     // Pas trop sûr de savoir à quoi ça sert
-    if ((GM_getValue("last_shortmessage", 0).toString()) === messagesCourt.snapshotLength.toString()) {
+    /** if ((GM_getValue("last_shortmessage", 0).toString()) === messagesCourt.snapshotLength.toString()) {
+        log('Id identique');
         return;
-    }
+    }*/
     GM_setValue("last_shortmessage", messagesCourt.snapshotLength);
 
     var locales = l('messages');
@@ -194,9 +197,9 @@ function parse_short_messages(messagesCourt, messages) {
         } // Espionnages
         else if ((GM_getValue("handle.msg.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords))) {
             // Ogame API
-            var ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, shortMessageNode).snapshotItem(0).value;
+            /*var ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, shortMessageNode).snapshotItem(0).value;
             var regexApi = new RegExp(XtenseRegexps.ogameapi);
-            var ogameAPILink = regexApi.exec(ogameAPITitle)[1];
+            var ogameAPILink = regexApi.exec(ogameAPITitle)[1];*/
         }
 
         // TODO : Cas de perte de contact avec la flotte attaquante
@@ -375,10 +378,11 @@ function parse_detail_messages(messages) {
 
     // Recyclages
     if (GM_getValue("handle.msg.rc.cdr").toString() === 'true') {
-        log("Message Recyclage détecté");
+
         if (from.match(new RegExp(locales['fleet'])) && subject.match(new RegExp(locales['harvesting']))) {
             var m = subject.match(new RegExp(XtenseRegexps.coords));
             if (m) {
+                log("Message Recyclage détecté");
                 var coords = m[1];
                 var contentNode = Xpath.getSingleNode(document, paths.contents['rc_cdr']);
                 var message = Xpath.getStringValue(document, paths.contents['rc_cdr']).trim();
@@ -398,11 +402,11 @@ function parse_detail_messages(messages) {
 
     // Expeditions
     if (GM_getValue("handle.msg.expeditions").toString() === 'true') {
-        log("Message Expédition détecté");
         var m = subject.match(new RegExp(locales['expedition result'] + XtenseRegexps.planetCoords));
         var m2 = from.match(new RegExp(locales['fleet command']));
 
         if (m2 != null && m != null) {
+            log("Message Expédition détecté");
             var coords = m[1];
             var contentNode = Xpath.getSingleNode(document, paths.contents['expedition']);
             var message = Xpath.getStringValue(document, paths.contents['expedition']).trim();
@@ -416,12 +420,13 @@ function parse_detail_messages(messages) {
 
     // Commerce
     if (GM_getValue("handle.msg.commerce").toString() === 'true') {
-        log("Message Commerce détecté");
+
         var m = subject.match(new RegExp(locales['trade message 1']));
         var m2 = subject.match(new RegExp(locales['trade message 2']));
 
         // Livraison d'un ami sur une de mes plan�tes
         if (m != null) {
+            log("Message Commerce détecté");
             var message = Xpath.getStringValue(document, paths.contents['livraison']).trim();
             var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos));
 
@@ -454,7 +459,7 @@ function parse_detail_messages(messages) {
             var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_me)); // Infos sur la plan�te
             var planeteLivraison = infos[4].trim(); // Planete sur laquelle la livraison � eu lieu
 
-            // R�cup�ration de mes planètes
+            // Récupération de mes planètes
             var mesPlanetes = Xpath.getOrderedSnapshotNodes(this.win.parent.parent.document, Xpaths.planetData['coords']);
             var isMyPlanet = false;
 
@@ -530,7 +535,6 @@ function parse_rc(doc, script) {
         return false;
     }
 
-    var date = null;
     var infos = Xpath.getOrderedSnapshotNodes(document, paths.list_infos, null);
     if (infos.snapshotLength > 0) {
         var infosNode = infos.snapshotItem(0);
@@ -546,8 +550,8 @@ function parse_rc(doc, script) {
 
         var type = get_tabid(doc);
 
-
         XtenseRequest.set({
+            data: null,
             type: type,
             json: resultRegex[1],
             ogapilnk: ogameAPILink
