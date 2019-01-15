@@ -1,7 +1,7 @@
 {
   "name": "xtense-web-extension",
-  "version": "2.7.16",
-  "description": "Collect Game Data for OGSpy",
+  "version": "2.7.18",
+  "description": "Xtense collects Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
     "clean": "rm -rf release && mkdirp release/chrome && mkdirp release/firefox",
@@ -11,7 +11,7 @@
     "zip:chrome": "cp -R extension/* release/chrome/. && rm release/chrome/manifest.firefox && rm release/chrome/manifest.json && mv release/chrome/manifest.chrome release/chrome/manifest.json && cross-var cross-zip release/chrome release/xtense-chrome-$npm_package_version.zip",
     "zip": "npm run zip:firefox && npm run zip:chrome",
     "release": "npm run clean && gulp && npm run zip",
-    "dev": "cd extension && web-ext run --verbose --firefox=firefoxdeveloperedition --start-url www.ogame.fr",
+    "dev": "cd extension && web-ext run --verbose --firefox=firefoxdeveloperedition --keep-profile-changes --start-url www.ogame.fr",
     "lint": "cd extension && web-ext lint",
     "test": "echo 'no test'"
   },
@@ -41,6 +41,5 @@
     "cross-zip-cli": "^1.0.0",
     "mkdirp": "^0.5.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
