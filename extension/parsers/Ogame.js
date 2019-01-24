@@ -707,6 +707,9 @@ function parse_fleet() {
         'SE': tabLevel[12]
 
     };
+
+    var events = getFlyingFleets();
+
     XtenseRequest.set(getPlanetData());
     XtenseRequest.set(req);
     XtenseRequest.send();
@@ -818,5 +821,102 @@ function getResources() {
     var energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
     log('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
     return Array(metal, cristal, deut, antimater, energy);
+}
+
+function getFlyingFleets() {
+    const nodes = Xpath.getOrderedSnapshotNodes(document, './/tr[contains(@class, "eventFleet")]');
+    if(nodes == null || nodes.snapshotLength === 0) {
+        return Array();
+    }
+
+    var parser = new DOMParser();
+
+    var results = Array();
+    for(var i = 0; i < nodes.snapshotLength; i++) {
+        const eventFleet = nodes.snapshotItem(i);
+
+        const missionType = eventFleet.dataset['missionType'];
+        const friendly = Xpath.getSingleNode(document, './/td[contains(@class, "friendly")]', eventFleet) != null;
+        const returnFlight = eventFleet.dataset['returnFlight'] === 'true';
+        const arrivalTime = eventFleet.dataset['arrivalTime'];
+        const coordsOrigin = Xpath.getStringValue(document, './/td[@class="coordsOrigin"]/a/text()', eventFleet).trim();
+        const coordsDest = Xpath.getStringValue(document, './/td[@class="destCoords"]/a/text()', eventFleet).trim();
+
+        const fleetInfo = Xpath.getStringValue(document, './/td[@class="icon_movement_reserve"]/span/@title', eventFleet).trim();
+        let fleetContent;
+        if(fleetInfo != "")
+        {
+                var tooltip = parser.parseFromString(fleetInfo.replace('&nbsp;', ''), "application/xml");
+                fleetContent = parseFleetTooltip(tooltip);
+        }
+
+        results.push({'missionType': missionType,
+                    'friendly': friendly,
+                    'returnFlight': returnFlight,
+                    'arrivalTime': arrivalTime,
+                    'coordsOrigin': coordsOrigin,
+                    'coordsDest': coordsDest,
+                    'fleetContent': fleetContent
+                    });
+        // switch(missionType)
+        // {
+        //     case '1': // attaques
+        //     case '2': // Attaque groupée
+        //     case '3': // transport
+        //     case '4': // stationner
+        //     case '5': // défense groupée
+        //     case '6': // espionnage
+        //     case '7': // colonisation
+        //     case '8': // recyclage
+        //     case '9': // Destruction de lune
+        //     case '15': // expéditions
+        //         if(!returnFlight)
+        //             continue;
+        //         break;
+        // }
+
+    }
+    return results;
+}
+
+function parseFleetTooltip(doc)
+{
+    var nodes = Xpath.getOrderedSnapshotNodes(doc, './/tr', doc);
+
+    if(nodes == null) {
+        return Array();
+    }
+    var locale = l('fleet movement');
+
+    let group;
+    const result = Array();
+    for(var i = 0; i < nodes.snapshotLength; i++)
+    {
+        var node = nodes.snapshotItem(i);
+
+        if(Xpath.getSingleNode(doc, './/td[@colspan]', node) != null)
+            continue;
+
+        var category = Xpath.getStringValue(doc, './/th/text()', node).trim();
+        if(category != "") {
+            for(var key in locale['groups']) {
+                if(locale['groups'][key] === category)
+                {
+                    group = Array();
+                    for(var j in locale[key]) {
+                        group[locale[key][j]] = j;
+                    }
+                    break;
+                }
+            }
+            continue;
+        } else {
+            var name = node.childNodes[1].textContent;
+            var value = node.childNodes[3].textContent.replace('.','');
+
+            result[group[name]] = value;
+        }
+    }
+    return result;
 }
 /********************* Fin Utilities Ogame ******************************/

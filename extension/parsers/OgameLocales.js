@@ -190,6 +190,33 @@ function initLocales() {
                     'ogameAPI_link': 'ogame-api'
                 }
             },
+            'fleet movement': {
+                'groups': {
+                    'resources': 'Shipment:',
+                    'fleet': 'Ships:'
+                },
+                'fleet': {
+                    202: 'Petit transporteur :',
+                    203: 'Grand transporteur :',
+                    204: 'Chasseur léger :',
+                    205: 'Chasseur lourd :',
+                    206: 'Croiseur :',
+                    207: 'Vaisseau de bataille :',
+                    208: 'Vaisseau de colonisation :',
+                    209: 'Recycleur :',
+                    210: 'Sonde d`espionnage :',
+                    211: 'Bombardier :',
+                    212: 'Satellite solaire :',
+                    213: 'Destructeur :',
+                    214: 'Étoile de la mort :',
+                    215: 'Traqueur :'
+                },
+                'resources': {
+                    601: 'metal :',
+                    602: 'crystal :',
+                    603: 'deuterium :',
+                }
+            },
             'messages': {
                 'espionage of': 'Rapport d`espionnage de',
                 'unespionage prob': 'Probabilité de contre-espionnage ',
@@ -407,6 +434,33 @@ function initLocales() {
                     'ogameAPI_link': 'ogame-api'
                 }
             },
+            'fleet movement': {
+                'groups': {
+                    'resources': 'Shipment:',
+                    'fleet': 'Ships:'
+                },
+                'fleet': {
+                    202: 'Small Cargo:',
+                    203: 'Large Cargo:',
+                    204: 'Light Fighter:',
+                    205: 'Heavy Fighter:',
+                    206: 'Cruiser:',
+                    207: 'Battleship:',
+                    208: 'Colony Ship:',
+                    209: 'Recycler:',
+                    210: 'Espionage Probe:',
+                    211: 'Bomber:',
+                    212: 'Solar Satellite:',
+                    213: 'Destroyer:',
+                    214: 'Deathstar:',
+                    215: 'Battlecruiser:'
+                },
+                'resources': {
+                    601: 'Metal:',
+                    602: 'Crystal:',
+                    603: 'Deuterium:',
+                }
+            },
             'messages': {
                 'espionage of': 'Espionage report from',
                 'unespionage prob': 'Chance of counter-espionage',
@@ -422,7 +476,7 @@ function initLocales() {
                 'trade message 1': 'Ressouces delivery from',
                 'trade message 2': 'Arrival on a planet',
                 'antimatiere': 'Dark matter'
-            },					
+            },
             'dates': {
                 'messages': {
                     regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
@@ -1073,7 +1127,7 @@ function initLocales() {
 				'trade message 1': 'risorse consegnate da una flotta straniera',
 				'trade message 2': 'Pianeta raggiunto',
 				'antimatiere': 'Materia oscura'
-			},					
+			},
 			'dates': {
 				'messages': {
 					regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
