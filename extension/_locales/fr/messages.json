@@ -79,11 +79,11 @@
     "message": "Recherches",
     "description": "Intitulé Envoi des données Recherche"
   },
-  "XtenseSed_shipyard": {
+  "XtenseSend_shipyard": {
     "message": "Flotte",
     "description": "Intitulé Envoi des données Flotte"
   },
-  "XtenseServer_defense": {
+  "XtenseSend_defense": {
     "message": "Défense",
     "description": "Intitulé Envoi des données défenses"
   },

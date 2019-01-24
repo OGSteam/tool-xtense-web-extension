@@ -219,7 +219,7 @@
         "message": "Plugin Xtense não configurado por seu administrador, por favor contate-o para atualizar a configuração do mod",
         "description": "-Used-"
     },
-    "XtenseSed_shipyard": {
+    "XtenseSend_shipyard": {
         "message": "Frota",
         "description": "Intitulé Envoi des données Flotte"
     },
@@ -371,7 +371,7 @@
         "message": "Página de mensagens detectada",
         "description": "-Used-"
     },
-    "XtenseServer_defense": {
+    "XtenseSend_defense": {
         "message": "Defesas",
         "description": "Intitulé Envoi des données défenses"
     },

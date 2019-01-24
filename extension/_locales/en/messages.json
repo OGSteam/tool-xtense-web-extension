@@ -239,7 +239,7 @@
         "message": "The Xtense module has not been configured on your OGSpy server, please contact your administrator.",
         "description": "-Used-"
     },
-    "XtenseSed_shipyard": {
+    "XtenseSend_shipyard": {
         "message": "Shipyard",
         "description": "Intitulé Envoi des données Flotte"
     },
@@ -399,7 +399,7 @@
         "message": "Message page detected",
         "description": "-Used-"
     },
-    "XtenseServer_defense": {
+    "XtenseSend_defense": {
         "message": "Defence",
         "description": "Intitulé Envoi des données défenses"
     },
