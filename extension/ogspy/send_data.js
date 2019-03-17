@@ -109,8 +109,7 @@ function initOGSpyCommunication() {
             }
 
             GM_setValue("server.name", "OGSpy");
-            password_s = CryptoJS.SHA1(GM_getValue("server.pwd", ""));
-            password_m = CryptoJS.MD5(password_s.toString());
+            password_m  = hash_data(GM_getValue("server.pwd", ""));
             postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&user=" + GM_getValue("server.user", "") + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
             log("sending " + postData + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
@@ -121,8 +120,7 @@ function initOGSpyCommunication() {
             });
             if (GM_getValue("backup.link", "false").toString() === "true") {
                 GM_setValue("server.name", "OGSpy Backup");
-                password_s = CryptoJS.SHA1(GM_getValue("server_backup.pwd", ""));
-                password_m = CryptoJS.MD5(password_s.toString());
+                password_m  = hash_data(GM_getValue("server_backup.pwd", ""));
                 postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&user=" + GM_getValue("server_backup.user", "") + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
                 log("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
@@ -185,11 +183,11 @@ function initOGSpyCommunication() {
 /* Interpretation des retours Xtense (module OGSPY) */
 
 function handleResponse(status, Response) {
-    //log("Status: " + status);
+    log("Status: " + status);
     log("Response: " + Response);
     var message_start = GM_getValue("server.name", "");
 
-    if (status !== "success") {
+    if (status !== 200) {
         switch (status) {
             case 404 :
                 message = Xl("http_status_404");
@@ -252,6 +250,9 @@ function handleResponse(status, Response) {
                     break;
                 case "password" :
                     message = Xl("error_password");
+                    break;
+                case "token" :
+                    message = Xl("error_token");
                     break;
                 case "user active" :
                     message = Xl("error_user_active");
@@ -331,5 +332,19 @@ function handleResponse(status, Response) {
         }
         setStatus(type, "[" + data.execution + " ms]" + "[" + message_start + "] "+ message);
     }
+}
+
+function hash_data (data) {
+
+    if (data.length !== 64){
+        let password_s = CryptoJS.SHA1(data);
+        return CryptoJS.MD5(password_s.toString());
+    } else
+    {
+        return data;
+
+    }
+
+
 }
 

@@ -40,7 +40,7 @@
     "description": "Intitulé pour le nom d'utilisateur OGSpy"
   },
   "XtenseServer_password": {
-    "message": "Mot de passe",
+    "message": "Mot de passe / Token personnel depuis OGSpy 3.3.5",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
   },
   "XtenseServer_MainServer": {
@@ -52,7 +52,7 @@
   "description": "Intitulé pour la configuration du serveur backup"
 },
   "XtenseServer_example": {
-    "message": "Exemple :<br>Lien OGSpy: https://ogspy.fr/demo<br> Utilisateur: demo<br> Mot de passe : xxxxxx <br>",
+    "message": "Exemple :<br>Lien OGSpy: https://ogspy.fr/demo<br> Utilisateur: demo<br> Mot de passe / Token (64 charactères): xxxxxx <br>",
     "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
   },
   "XtenseServer_example_2": {
@@ -354,6 +354,10 @@
   },
   "XtenseMsg_error_password": {
     "message": "Mot de passe invalide",
+    "description": "-Used-"
+  },
+  "XtenseMsg_error_token": {
+    "message": "Token personnel invalide",
     "description": "-Used-"
   },
   "XtenseMsg_error_user_active": {
