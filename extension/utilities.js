@@ -67,32 +67,23 @@ function log(message) {
 
 function Xajax(obj) {
     //xhr = new XMLHttpRequest();
-    url = obj.url || '';
-    post = obj.post || '';
+    url_to = obj.url || '';
+    post_data = obj.post || '';
+    callback = obj.callback || '';
+    scope = obj.scope || '';
 
-    $.post(url, post,
-        function (data, status) {
-            handleResponse(status, data);
-        })
-        .fail( function(jqXHR, textStatus, errorThrown) {
-            handleResponse(jqXHR.status, null);
-            /* alert(jqXHR.status);
-             alert(textStatus);
-             alert(errorThrown);*/
-        });
-}
+    var request = $.ajax({
+        url: url_to,
+        method: 'POST',
+        data: post_data,
+        dataType:  'text/plain; charset=UTF-8',
+        crossDomain : true
+    });
 
-/**
- * @return {string}
- */
-function XajaxCompo(url) {
-    var rcString = "";
+    request.always(function (jqXHR) {
+        handleResponse(jqXHR.status, jqXHR.responseText );
+    });
 
-    $.post(url, post,
-        function (data, status) {
-            rcString = data;
-        });
-    return rcString;
 }
 
 // Récupère les messages de retours et locales
