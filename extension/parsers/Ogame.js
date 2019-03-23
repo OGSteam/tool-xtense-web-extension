@@ -61,8 +61,14 @@ function handle_current_page() {
  * Gestion de la page
  * @param page
  */
-function handle_page(page) {
-    if (GM_getValue('handle.'.concat(page), 'false').toString() === 'true' || GM_getValue('manual.send', 'false').toString() === 'true') {
+function handle_page(page)
+{
+    var rights = page;
+    if(page == 'fleet')
+        rights = 'shipyard';
+
+    if(GM_getValue('handle.'.concat(rights), 'false').toString() === 'true' || GM_getValue('manual.send', 'false').toString() === 'true')
+    {
         GM_setValue('lastAction', '');
         get_content(page);
         GM_setValue('manual.send', 'false');
