@@ -4,7 +4,11 @@
  */
 
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
+
+
+    function(request, sender, callback) {
+
+        if (request.action === "toolbar_icon") {
         // read `newIconPath` from request and read `tab.id` from sender
         chrome.browserAction.setIcon({
             path: request.newIconPath,
@@ -14,5 +18,24 @@ chrome.runtime.onMessage.addListener(
             title: request.newTooltip,
             tabId: sender.tab.id
         });
+
+        }
+        if (request.action === "xhttp") {
+
+            var ajax_obj = $.ajax({
+                type: request.method,
+                url: request.url,
+                data: request.data,
+                dataType: request.dataType,
+                crossDomain : true,
+            });
+
+            ajax_obj.always(function (jqXHR) {
+                callback(jqXHR);
+            });
+
+
+            return true; // prevents the callback from being called too early on return
+        }
 
     });
