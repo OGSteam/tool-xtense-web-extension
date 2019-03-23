@@ -1,6 +1,6 @@
 {
   "name": "xtense-web-extension",
-  "version": "2.7.19",
+  "version": "2.7.21",
   "description": "Xtense collects Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
@@ -33,13 +33,13 @@
   "homepage": "https://github.com/OGSteam/tool-xtense-web-extension#readme",
   "devDependencies": {
     "chrome-webstore-upload-cli": "^1.2.0",
-    "dot-json": "^1.0.4",
-    "gulp": "^3.9.1",
-    "web-ext": "2.9.1",
-    "minimatch": "^3.0.2",
     "cross-var": "^1.1.0",
     "cross-zip-cli": "^1.0.0",
-    "mkdirp": "^0.5.1"
+    "dot-json": "^1.1.0",
+    "gulp": "^3.9.1",
+    "minimatch": "^3.0.2",
+    "mkdirp": "^0.5.1",
+    "web-ext": "2.9.1"
   },
   "dependencies": {}
 }

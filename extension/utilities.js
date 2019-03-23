@@ -66,33 +66,20 @@ function log(message) {
 //Requete Ajax
 
 function Xajax(obj) {
-    //xhr = new XMLHttpRequest();
-    url = obj.url || '';
-    post = obj.post || '';
 
-    $.post(url, post,
-        function (data, status) {
-            handleResponse(status, data);
-        })
-        .fail( function(jqXHR, textStatus, errorThrown) {
-            handleResponse(jqXHR.status, null);
-            /* alert(jqXHR.status);
-             alert(textStatus);
-             alert(errorThrown);*/
-        });
-}
+    url_to = obj.url || '';
+    post_data = obj.post || '';
 
-/**
- * @return {string}
- */
-function XajaxCompo(url) {
-    var rcString = "";
-
-    $.post(url, post,
-        function (data, status) {
-            rcString = data;
-        });
-    return rcString;
+    chrome.runtime.sendMessage({
+        method: 'POST',
+        action: 'xhttp',
+        url: url_to,
+        data: post_data,
+        dataType :  'text/plain; charset=UTF-8',
+        crossDomain : true
+    }, function(objResponse) {
+         handleResponse( objResponse.status, objResponse.responseText );
+    });
 }
 
 // Récupère les messages de retours et locales
