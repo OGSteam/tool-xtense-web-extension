@@ -153,10 +153,10 @@ function initParsers() {
             subnav_fleet: "//div[@id=\'subnav_fleet\']/a[contains(@class,'active')]/@rel",
 
             rows: "id(\'ranks\')/tbody/tr",
-            position: "td[contains(@class,\'position\')]/text()",
-            points: "td[contains(@class,\'score\')]/text()",
-            allytag: "td[@class=\'name\']/div[@class=\'ally-tag\']/a/text()",
-            ally_id: "td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href",
+            position: 'td[contains(@class,\'position\')]/text()',
+            points: 'td[contains(@class,\'score\')]/text()',
+            allytag: '//td[@class=\'name\']/span[@class=\'ally-tag\']/a/text()',
+            ally_id: '//td[@class=\'name\']/span[@class=\'ally-tag\']/a/@href',
             player: {
                 playername: "td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()",
                 player_id: "td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href",
@@ -166,8 +166,8 @@ function initParsers() {
             ally: {
                 members: "td[contains(@class,'member_count')]/text()",
                 points_moy: "td[contains(@class,'score')]/div/text()",
-                allytag: "td[@class=\'name\']/div[@class=\'ally-tag\']/a/text()",
-                ally_id: "td[@class=\'name\']/div[@class=\'ally-tag\']/a/@href"
+                allytag: "td[@class='name']/div[@class='ally-tag']/a/text()",
+                ally_id: "td[@class='name']/div[@class='ally-tag']/a/@href"
             }
         },
 
@@ -305,5 +305,5 @@ function initParsers() {
         getPlanetType: function () {
             return Xpath.getStringValue(document, XtenseXpaths.metas.planet_type);
         }
-    }
+    };
 }

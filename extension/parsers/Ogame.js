@@ -86,12 +86,10 @@ function manual_send() {
 }
 
 /************************ Declenchement des Parsings sur Remplissage Ajax ************************/
-function get_content(type)
-{
+function get_content(type) {
     var elementName;
     var func;
-    switch (type)
-    {
+    switch (type) {
         case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
             elementName = 'galaxyContent';
             func = parse_galaxy_system_inserted;
@@ -128,7 +126,7 @@ function get_content(type)
             break;
     }
 
-    if(elementName != null) {
+    if (elementName != null) {
         var target = document.getElementById(elementName);
         //console.log(document.body.serializeWithStyles());
         var observer = new MutationObserver(function (mutations) {
@@ -137,12 +135,12 @@ function get_content(type)
                 func();
             })
         });
-		// configuration of the observer:
-		var config = { attributes: true, childList: true, characterData: true };
+        // configuration of the observer:
+        var config = {attributes: true, childList: true, characterData: true};
         observer.observe(target, config);
     }
 
-    log('Static Observer : ' + 'Running ' + type );
+    log('Static Observer : ' + 'Running ' + type);
     func();
 }
 
@@ -156,7 +154,7 @@ function get_ally_content() {
             parse_ally_inserted();
         });
     });
-	var config = { attributes: true, childList: true, characterData: true };
+    var config = {attributes: true, childList: true, characterData: true};
     observer.observe(target, config);
 }
 
@@ -170,17 +168,16 @@ function get_message_content() {
     var target = document.getElementById('messages');
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-            if(mutation.addedNodes.length == 0)
+            if (mutation.addedNodes.length == 0)
                 return;
             var node = mutation.addedNodes[0];
-            switch(node.id)
-            {
+            switch (node.id) {
                 case  'fleetsgenericpage':
                 case 'communicationmessagespage':
                 case 'defaultmessagespage':
                     break;
                 default:
-                    if(node.className !== 'pagination')
+                    if (node.className !== 'pagination')
                         return;
             }
 
@@ -188,7 +185,7 @@ function get_message_content() {
             parse_messages();
         });
     });
-    var config = { attributes: false, childList: true, characterData: false, subtree: true };
+    var config = {attributes: false, childList: true, characterData: false, subtree: true};
     observer.observe(target, config);
 
     parse_messages(); // Première Page
@@ -196,6 +193,7 @@ function get_message_content() {
 }
 
 /************************ PARSING DES PAGES  ***************************/
+
 /* Fonction appelée lors d'évenement sur le chargement du contenu galaxie */
 
 function parse_galaxy_system_inserted(event) {
@@ -204,7 +202,7 @@ function parse_galaxy_system_inserted(event) {
     var paths = XtenseXpaths.galaxy;
     //Référence Xpaths
     var galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
-    if(galaxyInput === null)
+    if (galaxyInput === null)
         return;
     var galaxy = galaxyInput.value.trim();
     //Récupération Galaxie
@@ -252,8 +250,9 @@ function parse_galaxy_system_inserted(event) {
                         } else
                             name = name_l;
                     }
-                } else
+                } else {
                     name = name_tooltip;
+                }
                 //var position = i+1;
                 var position = Xpath.getNumberValue(document, paths.position, row);
                 if (isNaN(position)) {
@@ -335,6 +334,7 @@ function parse_galaxy_system_inserted(event) {
         }
     }
 }
+
 /* Fonction appelée lors d'évenement sur le chargement de la page d'alliance */
 
 function parse_ally_inserted() {
@@ -359,7 +359,7 @@ function parse_ally_inserted() {
                 coords: coords,
                 rank: rank
             };
-            log("Player: " + rowsData[i].player +  " Points: " + rowsData[i].points +" Coords: " + rowsData[i].coords + " Rank: " + rowsData[i].rank);
+            log("Player: " + rowsData[i].player + " Points: " + rowsData[i].points + " Coords: " + rowsData[i].coords + " Rank: " + rowsData[i].rank);
         }
         if (rowsData.length > 0) {
             var tag = Xpath.getStringValue(document, paths.tag);
@@ -375,6 +375,7 @@ function parse_ally_inserted() {
         get_ally_content(); // Pourquoi celui-ci est fait à l'envers par rapport aux autres ?
     }
 }
+
 /* Fonction appelée lors d'évenement sur le chargement des classements */
 
 function parse_ranking_inserted(event) {
@@ -418,8 +419,10 @@ function parse_ranking_inserted(event) {
                 offset = Math.floor(n / 100) * 100 + 1;
                 //parce que le nouveau classement ne commence pas toujours pile a la centaine et OGSpy toujours a 101,201...
             }
+            log('Allytag Non clean : ' + Xpath.getStringValue(document, paths.allytag, row));
             var ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
             var ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
+
             if (ally_id !== '' && !ally_id.match(/page\=alliance/)) {
                 //Pas d'id sur le lien de sa propre alliance (dans les classements alliances)
                 ally_id = ally_id.match(/allianceId\=(.*)/);
@@ -459,7 +462,7 @@ function parse_ranking_inserted(event) {
                     };
                 }
             } else if (type[0] === 'ally') {
-                var members = Xpath.getStringValue(document, paths.ally.members, row).trim().getInts();
+                var members = Xpath.getStringValue(document, paths.ally.members, row).trimInt();
                 var moy = Xpath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
                 log('row ' + n + ' > ally_id:' + ally_id + ',ally_tag:' + ally + ',members:' + members + ',points:' + points + ',mean:' + moy);
                 var r = {
@@ -475,7 +478,7 @@ function parse_ranking_inserted(event) {
         }
 
         if (GM_getValue('lastAction', '') !== 'r:' + type[0] + ':' + type[1] + ':' + offset) { //TODO Eviter de parser les classements pour rien...
-            setStatus(XLOG_NORMAL, Xl('ranking_detected'));
+            //setStatus(XLOG_NORMAL, Xl('ranking_detected'));
             GM_setValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
             if (offset !== 0 && length !== 0) {
                 XtenseRequest.set({
@@ -493,6 +496,7 @@ function parse_ranking_inserted(event) {
         }
     }
 }
+
 //Fin Fonction
 /* Page Overview */
 
@@ -533,6 +537,7 @@ function parse_overview() {
         // Necessaire car la page est remplie par des scripts JS. (Au premier passage les balises contenant les infomations sont vides)
     }
 }
+
 /* Page Buildings */
 
 function parse_buildings() {
@@ -563,6 +568,7 @@ function parse_buildings() {
     });
     XtenseRequest.send();
 }
+
 /* Page Stations */
 
 function parse_station() {
@@ -603,6 +609,7 @@ function parse_station() {
     XtenseRequest.set(send);
     XtenseRequest.send();
 }
+
 /* Page Researchs */
 
 function parse_researchs() {
@@ -639,6 +646,7 @@ function parse_researchs() {
     });
     XtenseRequest.send();
 }
+
 /* Page Shipyard */
 
 function parse_shipyard() {
@@ -675,6 +683,7 @@ function parse_shipyard() {
     XtenseRequest.set(req);
     XtenseRequest.send();
 }
+
 /* Page Fleet */
 
 function parse_fleet() {
@@ -746,6 +755,7 @@ function parse_defense() {
 
 
 /*********************** Utilities Ogame ********************************/
+
 /* Recuperation des données de la planète */
 
 function getPlanetData() {
@@ -819,4 +829,4 @@ function getResources() {
     log('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
     return Array(metal, cristal, deut, antimater, energy);
 }
-/********************* Fin Utilities Ogame ******************************/
+
