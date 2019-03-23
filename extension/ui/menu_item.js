@@ -33,7 +33,7 @@ function setStatus(type, message) {
         icone.src = chrome.extension.getURL(img_url);
         //chrome.browserAction.setIcon({path:img_url});
 
-        chrome.runtime.sendMessage({ "newIconPath" : img_url, "newTooltip" : message});
+        chrome.runtime.sendMessage({ "action" : "toolbar_icon", "newIconPath" : img_url, "newTooltip" : message});
 
         log("setStatus : " + message);
     } else {

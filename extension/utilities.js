@@ -66,24 +66,20 @@ function log(message) {
 //Requete Ajax
 
 function Xajax(obj) {
-    //xhr = new XMLHttpRequest();
+
     url_to = obj.url || '';
     post_data = obj.post || '';
-    callback = obj.callback || '';
-    scope = obj.scope || '';
 
-    var request = $.ajax({
-        url: url_to,
+    chrome.runtime.sendMessage({
         method: 'POST',
+        action: 'xhttp',
+        url: url_to,
         data: post_data,
-        dataType:  'text/plain; charset=UTF-8',
+        dataType :  'text/plain; charset=UTF-8',
         crossDomain : true
+    }, function(objResponse) {
+         handleResponse( objResponse.status, objResponse.responseText );
     });
-
-    request.always(function (jqXHR) {
-        handleResponse(jqXHR.status, jqXHR.responseText );
-    });
-
 }
 
 // Récupère les messages de retours et locales
