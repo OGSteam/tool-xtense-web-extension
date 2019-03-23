@@ -299,9 +299,9 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_researchs") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.researchs" size="35" alt="24" type="checkbox"' + handle_researchs + '/></td>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSed_shipyard") + '</label></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_shipyard") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.shipyard" size="35" alt="24" type="checkbox"' + handle_shipyard + '/></td>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_defense") + '</label></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_defense") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.defense" size="35" alt="24" type="checkbox"' + handle_defense + '/></td>';
     options += '</tr>';
     options += '<tr>';
