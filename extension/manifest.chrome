@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.7.21",
+  "version": "2.7.22",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -48,11 +48,14 @@
   ],
   "background": {
     "scripts": [
+      "contribs/jquery-3.3.1.min.js",
       "background.js"
     ]
   },
   "permissions": [
-    "notifications"
+    "notifications",
+    "webRequest",
+    "https://*/mod/xtense/xtense.php"
   ],
   "short_name": "Xtense",
   "browser_action": {
