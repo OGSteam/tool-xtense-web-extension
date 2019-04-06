@@ -53,9 +53,6 @@
     ]
   },
   "permissions": [
-    "notifications",
-    "webRequest",
-    "https://*/mod/xtense/xtense.php"
   ],
   "short_name": "Xtense",
   "browser_action": {
