@@ -595,7 +595,8 @@ function parse_station() {
             'DdR': tabLevel[3],
             'Silo': tabLevel[4],
             'UdN': tabLevel[5],
-            'Ter': tabLevel[6]
+            'Ter': tabLevel[6],
+            'Dock': tabLevel[7]
         };
     } else {
         send = {
