@@ -29,7 +29,7 @@
   },
   "XtenseServer_Title": {
     "message": "Configurez ici le lien vers votre serveur OGSpy pour l'univers",
-    "description": "Configure here the link to your OGSpy server concerning univers 22"
+    "description": "Configure here the link to your OGSpy server concerning univers"
   },
   "XtenseServer_URL": {
   "message": "Lien OGSpy",
