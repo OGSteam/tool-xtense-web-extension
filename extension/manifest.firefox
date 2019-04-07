@@ -58,8 +58,7 @@
       "background.js"
     ]
   },
-  "permissions": [
-  ],
+  "permissions": [],
   "short_name": "Xtense",
   "browser_action": {
     "default_title": "Xtense",
