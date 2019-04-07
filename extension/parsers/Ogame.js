@@ -131,7 +131,7 @@ function get_content(type) {
         //console.log(document.body.serializeWithStyles());
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
-                log('Mutation Observer : ' + mutation.addedNodes);
+                //log('Mutation Observer : ' + mutation.addedNodes);
                 func();
             })
         });
@@ -140,7 +140,7 @@ function get_content(type) {
         observer.observe(target, config);
     }
 
-    log('Static Observer : ' + 'Running ' + type);
+    //log('Static Observer : ' + 'Running ' + type);
     func();
 }
 
@@ -419,19 +419,20 @@ function parse_ranking_inserted(event) {
                 offset = Math.floor(n / 100) * 100 + 1;
                 //parce que le nouveau classement ne commence pas toujours pile a la centaine et OGSpy toujours a 101,201...
             }
-            log('Allytag Non clean : ' + Xpath.getStringValue(document, paths.allytag, row));
-            var ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
-            var ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
-
-            if (ally_id !== '' && !ally_id.match(/page\=alliance/)) {
-                //Pas d'id sur le lien de sa propre alliance (dans les classements alliances)
-                ally_id = ally_id.match(/allianceId\=(.*)/);
-                ally_id = ally_id[1];
-            } else if (ally) {
-                ally_id = XtenseMetas.getAllyId();
-            }
             var points = Xpath.getStringValue(document, paths.points, row).trimInt();
             if (type[0] === 'player') {
+
+                var ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
+                var ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
+
+                if (ally_id !== '' && !ally_id.match(/page\=alliance/)) {
+                    //Pas d'id sur le lien de sa propre alliance (dans les classements alliances)
+                    ally_id = ally_id.match(/allianceId\=(.*)/);
+                    ally_id = ally_id[1];
+                } else if (ally) {
+                    ally_id = XtenseMetas.getAllyId();
+                }
+
                 var name = Xpath.getStringValue(document, paths.player.playername, row).trim();
                 var player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
                 if (player_id !== '') {
@@ -464,10 +465,12 @@ function parse_ranking_inserted(event) {
             } else if (type[0] === 'ally') {
                 var members = Xpath.getStringValue(document, paths.ally.members, row).trimInt();
                 var moy = Xpath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
-                log('row ' + n + ' > ally_id:' + ally_id + ',ally_tag:' + ally + ',members:' + members + ',points:' + points + ',mean:' + moy);
+                var rank_ally_allytag = Xpath.getStringValue(document, paths.ally.allytag, row).trim().replace(/\]|\[/g, '');
+                var rank_ally_allyid = Xpath.getStringValue(document, paths.ally.ally_id, row).trim();
+                log('row ' + n + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',members:' + members + ',points:' + points + ',mean:' + moy);
                 var r = {
-                    ally_id: ally_id,
-                    ally_tag: ally,
+                    ally_id: rank_ally_allyid,
+                    ally_tag: rank_ally_allytag,
                     members: members,
                     points: points,
                     mean: moy
