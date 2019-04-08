@@ -452,7 +452,7 @@ function initLocales() {
             'spy reports': {
                 'groups': {
                     'resources': 'Resources',
-                    'buildings': 'Buildings',
+                    'buildings': 'Building',
                     'defense': 'Defense',
                     'fleet': 'Fleets',
                     'researchs': 'Research',
@@ -461,7 +461,7 @@ function initLocales() {
                 'units': {
                     'resources': {
                         601: 'Metal',
-                        602: 'Cristal',
+                        602: 'Crystal',
                         603: 'Deuterium',
                         604: 'Energy'
                     },
@@ -590,8 +590,8 @@ function initLocales() {
                 },
                 'regxps': {
                     'round': {
-                        'a_nb': 'Attacker fires a total of ([\\d|\\.]*) shots ',
-                        'a_shoot': 'at the Defender with a total strength of ([\\d|\\.]*) .',
+                        'a_nb': 'The Attacker fires a total of ([\\d|\\.]*) shots ',
+                        'a_shoot': 'at the Defender with a total strength of ([\\d|\\.]*)\.',
                         'd_bcl': 'The defender`s shields absorb ([\\d|\\.]*) points of damage.',
                         'd_nb': 'The Defender fires a total of ([\\d|\\.]*) shots',
                         'd_shoot': 'at the Attacker with a total strength of ([\\d|\\.]*)\. ',
