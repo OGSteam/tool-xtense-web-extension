@@ -38,15 +38,10 @@
     "del": "^5.0.0",
     "dot-json": "^1.1.0",
     "gulp": "^4.0.2",
-    "gulp-newer": "^1.4.0",
-    "gulp-prune": "^0.2.0",
     "gulp-rename": "^1.4.0",
-    "gulp-version-filename": "^1.0.2",
     "gulp-zip": "^5.0.0",
     "minimatch": "^3.0.4",
-    "mkdirp": "^0.5.1",
     "web-ext": "3.1.1",
-    "latest-version": "latest",
     "read-pkg": "latest"
   },
   "dependencies": {}
