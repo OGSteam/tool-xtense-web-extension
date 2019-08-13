@@ -8,30 +8,27 @@ const manifest = require('read-pkg')
 // The `clean` function is not exported so it can be considered a private task.
 // It can still be used within the `series()` composition.
 function clean(cb) {
-    del(['release/**']);
+    del.sync(['./release/**']);
     console.log('Deleted files and directories: release/**');
     cb();
 }
 
-function buid_for_firefox(cb){
-    //mv release/firefox/manifest.firefox release/firefox/manifest.json
-    //cross-var cross-zip release/firefox release/xtense-firefox-$npm_package_version.zip
-    src(['extension/**','!extension/manifest.*']).pipe(dest('release/firefox'));
-    src('extension/manifest.firefox').pipe(rename('manifest.json')).pipe(dest('release/firefox'));
-    console.log('Files copied to Firefox Release Folder');
-
-
-    cb();
+function copy_files_for_firefox() {
+    return src(['extension/**','!extension/manifest.*']).pipe(dest('release/firefox'));
+}
+function copy_firefox_manifest() {
+    return src('extension/manifest.firefox').pipe(rename('manifest.json')).pipe(dest('release/firefox'));
 }
 
-function buid_for_chrome(cb){
-    src(['extension/**','!extension/manifest.*']).pipe(dest('release/chrome'));
-    src('extension/manifest.chrome').pipe(rename('manifest.json')).pipe(dest('release/chrome'));
-    console.log('Files copied to Chrome Release Folder');
-    cb();
+function copy_files_for_chrome() {
+    return src(['extension/**', '!extension/manifest.*']).pipe(dest('release/chrome'));
+}
+function copy_chrome_manifest() {
+    return src('extension/manifest.chrome').pipe(rename('manifest.json')).pipe(dest('release/chrome'));
 }
 
 function package_for_chrome(cb){
+    console.log('Ready to Zip Chrome Files');
     src('release/chrome/*')
         .pipe(zip('chrome-' + manifest.sync().version + '.zip'))
         .pipe(dest('release'));
@@ -39,6 +36,7 @@ function package_for_chrome(cb){
 }
 
 function package_for_firefox(cb){
+    console.log('Ready to Zip Firefox Files');
     src('release/firefox/*')
         .pipe(zip('firefox-' + manifest.sync().version + '.zip'))
         .pipe(dest('release'));
@@ -46,6 +44,8 @@ function package_for_firefox(cb){
 }
 
 exports.clean = clean;
-exports.build = parallel(buid_for_firefox, buid_for_chrome );
-exports.package = parallel(package_for_chrome, package_for_firefox );
-exports.default = series(clean, buid_for_firefox, buid_for_chrome, package_for_chrome, package_for_firefox);
+exports.buildchrome = series(parallel(copy_files_for_chrome , copy_chrome_manifest), package_for_chrome);
+exports.buildfirefox = series(parallel(copy_files_for_firefox , copy_firefox_manifest), package_for_firefox);
+exports.default = series(clean,
+                         parallel(series(parallel(copy_files_for_chrome , copy_chrome_manifest), package_for_chrome),
+                         series(parallel(copy_files_for_firefox , copy_firefox_manifest), package_for_firefox)));
