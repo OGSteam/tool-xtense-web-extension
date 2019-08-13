@@ -43,6 +43,7 @@ function get_tabid() {
 function parse_messages() {
     setStatus(XLOG_NORMAL, Xl('messages_detected'));
     var data = {};
+    var json = {};
 
     var paths = XtenseXpaths.messages;
 
@@ -357,23 +358,9 @@ function parse_detail_messages(messages) {
 
             var scriptNode = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.rc.script, null).snapshotItem(0);
             parse_rc(document, scriptNode);
+            return true;
         }
 
-/*        var m = subject.match(new RegExp(locales['combat of']));
-        if (m != null) {
-            var rapport = Xpath.getStringValue(document, paths.contents['rc']).trim();
-            var m2 = rapport.match(new RegExp(locales['combat defence'] + XtenseRegexps.planetNameAndCoords));
-            if (m2) {
-                log("Traitement du rapport de combat (" + messageId + ") dans les messages");
-                var urlRc = Xpath.getStringValue(document, paths.contents['url_combatreport']).trim();
-
-                var rcString = XajaxCompo(urlRc);
-                rcString = rcString.replaceAll('<link rel.*!/>\n', '').replaceAll('&', '').replaceAll('\n', '').replaceAll('<script.*>.*', '');
-                log(rcString);
-                var docrc = new DOMParser().parseFromString(rcString, 'text/xml');
-                parse_rc(docrc, "");
-            }
-        }*/
     }
 
     // Recyclages
@@ -417,94 +404,8 @@ function parse_detail_messages(messages) {
             //log('The message is not an expedition report');
         }
     }
-
-    // Commerce
-    if (GM_getValue("handle.msg.commerce").toString() === 'true') {
-
-        var m = subject.match(new RegExp(locales['trade message 1']));
-        var m2 = subject.match(new RegExp(locales['trade message 2']));
-
-        // Livraison d'un ami sur une de mes plan�tes
-        if (m != null) {
-            log("Message Commerce détecté");
-            var message = Xpath.getStringValue(document, paths.contents['livraison']).trim();
-            var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos));
-
-            var ressourcesLivrees = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_res_livrees)); // ressources livr�es
-            //log(ressourcesLivrees[1]);
-            var ressources = ressourcesLivrees[1].match(new RegExp(XtenseRegexps.messages.trade_message_infos_res)); // Quantit� de ressources livr�es
-            //log(ressources[1]);
-            //log(ressources[2]);
-            //log(ressources[3]);
-
-            var met = ressources[1].trimInt();
-            var cri = ressources[2].trimInt();
-            var deut = ressources[3].trimInt();
-
-            data.type = 'trade';
-            data.trader = infos[1].trim();
-            data.trader_planet = infos[2].trim();
-            data.trader_planet_coords = infos[3].trim();
-            data.planet = infos[4].trim();
-            data.planet_coords = infos[5].trim();
-            data.metal = met;
-            data.cristal = cri;
-            data.deuterium = deut;
-
-            //log('Livraison du joueur ('+infos[1].trim()+') de la plan�te '+infos[2].trim()+'('+infos[3].trim()+')sur ma plan�te '+infos[4].trim()+'('+infos[5].trim()+') : Metal='+met+' Cristal='+cri+' Deuterium='+deut);
-
-        } else if (m2 != null) { // Livraison sur la plan�te d'un ami
-            var message = Xpath.getStringValue(document, paths.contents['livraison_me']).trim(); // Corps du message
-
-            var infos = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_me)); // Infos sur la plan�te
-            var planeteLivraison = infos[4].trim(); // Planete sur laquelle la livraison � eu lieu
-
-            // Récupération de mes planètes
-            var mesPlanetes = Xpath.getOrderedSnapshotNodes(this.win.parent.parent.document, Xpaths.planetData['coords']);
-            var isMyPlanet = false;
-
-            // Parcours de mes plan�te pour s'assurer que ce n'est pas une des mienne
-            if (mesPlanetes != null && mesPlanetes.snapshotLength > 0) {
-                for (var i = 0; i < mesPlanetes.snapshotLength; i++) {
-                    var coord = mesPlanetes.snapshotItem(i).textContent.trim();
-                    //log('Coordonnees='+coord+' | planeteLivraison='+planeteLivraison);
-                    if (coord.search(planeteLivraison) > -1) {
-                        isMyPlanet = true;
-                        break;
-                    }
-                }
-            }
-
-            // Livraison sur une planète amie ?
-            if (!isMyPlanet) {
-                var ressources = message.match(new RegExp(XtenseRegexps.messages.trade_message_infos_me_res)); // Quantit� de ressources livr�es
-
-                var met = ressources[1].trimInt();
-                var cri = ressources[2].trimInt();
-                var deut = ressources[3].trimInt();
-
-                data.type = 'trade_me';
-                data.planet_dest = infos[3].trim();
-                data.planet_dest_coords = planeteLivraison;
-                data.planet = infos[1].trim();
-                data.planet_coords = infos[2].trim();
-                data.trader = 'ME';
-                data.metal = met;
-                data.cristal = cri;
-                data.deuterium = deut;
-
-                //log('Je livre de ma plan�te '+infos[1].trim()+'('+infos[2].trim()+') sur la plan�te '+infos[3].trim()+'('+infos[4].trim()+') : Metal='+met+' Cristal='+cri+' Deuterium='+deut);
-            }
-
-        }
-        /* else {
-         log('The message is not a trade message');
-         }*/
-
-    }
-
     // Aucun message
-    if (data.type === '') {
+    if (data.type === '' && data.json === '') {
         setStatus(XLOG_NORMAL, Xl('no_messages'));
         return false;
     } else {
@@ -529,7 +430,7 @@ function parse_rc(doc, script) {
 
     var jsonRegex = new RegExp(/jQuery.parseJSON\('(.*)'\);/);
     var resultRegex = jsonRegex.exec(script.innerHTML);
-
+    log(resultRegex[1]);
     if(resultRegex.length !== 2) {
         log('Erreur lors de la récupération du json');
         return false;
@@ -557,6 +458,9 @@ function parse_rc(doc, script) {
             ogapilnk: ogameAPILink
         });
         XtenseRequest.send();
+        log("Message " + 'Combat Report' + "sent");
+        GM_setValue('lastMsgsSize', messages.snapshotLength); //Pour detection nouveau message
+
     }
 }
 
