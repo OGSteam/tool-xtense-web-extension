@@ -29,7 +29,7 @@ function copy_chrome_manifest() {
 
 function package_for_chrome(cb){
     console.log('Ready to Zip Chrome Files');
-    src('release/chrome/*')
+    src('release/chrome/**')
         .pipe(zip('chrome-' + manifest.sync().version + '.zip'))
         .pipe(dest('release'));
     cb();
@@ -37,7 +37,7 @@ function package_for_chrome(cb){
 
 function package_for_firefox(cb){
     console.log('Ready to Zip Firefox Files');
-    src('release/firefox/*')
+    src('release/firefox/**')
         .pipe(zip('firefox-' + manifest.sync().version + '.zip'))
         .pipe(dest('release'));
     cb();
