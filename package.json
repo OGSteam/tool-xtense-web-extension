@@ -43,5 +43,8 @@
     "web-ext": "3.1.1",
     "read-pkg": "latest"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cryptojslib": "^3.1.2",
+    "jquery": "^3.4.1"
+  }
 }

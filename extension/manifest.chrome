@@ -14,12 +14,13 @@
         "https://*.ogame.gameforge.com/game/*"
       ],
       "js": [
-        "contribs/jquery-3.3.1.min.js",
+        "contribs/jquery.min.js",
         "parsers/OgameLocales.js",
         "parsers/OgameConstants.js",
         "parsers/Ogame.js",
         "parsers/MessagesParser.js",
-        "contribs/crypto.js",
+        "contribs/sha1.js",
+        "contribs/md5.js",
         "ui/menu_item.js",
         "ogspy/send_data.js",
         "utilities.js",

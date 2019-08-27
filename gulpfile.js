@@ -13,6 +13,26 @@ function clean(cb) {
     cb();
 }
 
+function update_jquery() {
+    return src(['node_modules/jquery/dist/jquery.min.js']).pipe(dest('extension/contribs'));
+}
+
+function update_sha1() {
+    return src(['node_modules/cryptojslib/rollups/sha1.js']).pipe(dest('extension/contribs'));
+}
+
+function update_md5() {
+    return src(['node_modules/cryptojslib/rollups/md5.js']).pipe(dest('extension/contribs'));
+}
+
+function build(cb) {
+    update_jquery();
+    update_md5();
+    update_sha1();
+    console.log('External Libs found and moved to extension folder');
+    cb();
+}
+
 function copy_files_for_firefox() {
     return src(['extension/**','!extension/manifest.*']).pipe(dest('release/firefox'));
 }
@@ -43,9 +63,12 @@ function package_for_firefox(cb){
     cb();
 }
 
+
+
 exports.clean = clean;
-exports.buildchrome = series(parallel(copy_files_for_chrome , copy_chrome_manifest), package_for_chrome);
-exports.buildfirefox = series(parallel(copy_files_for_firefox , copy_firefox_manifest), package_for_firefox);
-exports.default = series(clean,
+exports.build = build;
+exports.packchrome = series(parallel(copy_files_for_chrome , copy_chrome_manifest), package_for_chrome);
+exports.packfirefox = series(parallel(copy_files_for_firefox , copy_firefox_manifest), package_for_firefox);
+exports.default = series(clean, build,
                          parallel(series(parallel(copy_files_for_chrome , copy_chrome_manifest), package_for_chrome),
                          series(parallel(copy_files_for_firefox , copy_firefox_manifest), package_for_firefox)));
