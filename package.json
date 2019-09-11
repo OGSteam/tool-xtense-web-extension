@@ -34,14 +34,14 @@
   "devDependencies": {
     "chrome-webstore-upload-cli": "^1.2.0",
     "cross-var": "^1.1.0",
-    "del": "^5.0.0",
+    "del": "^5.1.0",
     "dot-json": "^1.1.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^1.4.0",
     "gulp-zip": "^5.0.0",
     "minimatch": "^3.0.4",
-    "web-ext": "3.1.1",
-    "read-pkg": "latest"
+    "read-pkg": "latest",
+    "web-ext": "3.1.1"
   },
   "dependencies": {
     "cryptojslib": "^3.1.2",
