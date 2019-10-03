@@ -450,6 +450,224 @@ function initLocales() {
                 }
             }
         },
+        'de': {
+            'spy reports': {
+                'groups': {
+                    'resources': 'Resources',
+                    'buildings': 'Buildings',
+                    'defense': 'Defense',
+                    'fleet': 'Fleet',
+                    'researchs': 'Research',
+					'comment': 'Comment'
+                },
+                'units': {
+                    'resources': {
+                        601: 'Metal',
+                        602: 'Crystal',
+                        603: 'Deuterium',
+                        604: 'Energy'
+                    },
+                    'buildings': {
+                        1: 'Metal Mine',
+                        2: 'Crystal Mine',
+                        3: 'Deuterium Synthesizer',
+                        4: 'Solar Plant',
+                        12: 'Fusion Reactor',
+                        14: 'Robotics Factory',
+                        15: 'Nanite Factory',
+                        21: 'Shipyard',
+                        22: 'Metal Storage',
+                        23: 'Crystal Storage',
+                        24: 'Deuterium Tank',
+                        31: 'Research Lab',
+                        33: 'Terraformer',
+                        34: 'Alliance Depot',
+                        36: 'Space Dock',
+                        44: 'Missile Silo',
+                        41: 'Lunar Base',
+                        42: 'Sensor Phalanx',
+                        43: 'Jump Gate'
+                    },
+                    'researchs': {
+                        106: 'Espionage Technology',
+                        108: 'Computer Technology',
+                        109: 'Weapons Technology',
+                        110: 'Shielding Technology',
+                        111: 'Armour Technology',
+                        113: 'Energy Technology',
+                        114: 'Hyperspace Technology',
+                        115: 'Combustion Drive',
+                        117: 'Impulse Drive',
+                        118: 'Hyperspace Drive',
+                        120: 'Laser Technology',
+                        121: 'Ion Technology',
+                        122: 'Plasma Technology',
+                        123: 'Intergalactic Research Network',
+                        124: 'Astrophysics',
+                        199: 'Graviton Technology'
+                    },
+                    'fleet': {
+                        202: 'Small Cargo',
+                        203: 'Large Cargo',
+                        204: 'Light Fighter',
+                        205: 'Heavy Fighter',
+                        206: 'Cruiser',
+                        207: 'Battleship',
+                        208: 'Colony Ship',
+                        209: 'Recycler',
+                        210: 'Espionage Probe',
+                        211: 'Bomber',
+                        212: 'Solar Satellite',
+                        213: 'Destroyer',
+                        214: 'Deathstar',
+                        215: 'Battlecruiser'
+                    },
+                    'defense': {
+                        401: 'Rocket Launcher',
+                        402: 'Light Laser',
+                        403: 'Heavy Laser',
+                        404: 'Gauss Cannon',
+                        405: 'Ion Cannon',
+                        406: 'Plasma Turret',
+                        407: 'Small Shield Dome',
+                        408: 'Large Shield Dome',
+                        502: 'Anti-Ballistic Missiles',
+                        503: 'Interplanetary Missiles'
+                    },
+                    'comment': {}
+                },
+                'ogameAPI_link': 'ogame-api'
+            },
+            'combat report': {
+                'units': {
+                    'fleet': {
+                        202: 'Small Cargo',
+                        203: 'Large Cargo',
+                        204: 'Light Fighter',
+                        205: 'Heavy Fighter',
+                        206: 'Cruiser',
+                        207: 'Battleship',
+                        208: 'Colony Ship',
+                        209: 'Recycler',
+                        210: 'Espionage Probe',
+                        211: 'Bomber',
+                        212: 'Solar Satellite',
+                        213: 'Destroyer',
+                        214: 'Deathstar',
+                        215: 'Battlecruiser'
+                    },
+                    'defense': {
+                        401: 'Rocket Launcher',
+                        402: 'Light Laser',
+                        403: 'Heavy Laser',
+                        404: 'Gauss Cannon',
+                        405: 'Ion Cannon',
+                        406: 'Plasma Turret',
+                        407: 'Small Shield Dome',
+                        408: 'Large Shield Dome',
+                    }
+                },
+                'unitsCost': {
+                    202: 4000,
+                    203: 12000,
+                    204: 4000,
+                    205: 10000,
+                    206: 29000,
+                    207: 60000,
+                    208: 40000,
+                    209: 18000,
+                    210: 1000,
+                    211: 90000,
+                    212: 2500,
+                    213: 125000,
+                    214: 10000000,
+                    215: 85000,
+                    401: 2000,
+                    402: 2000,
+                    403: 8000,
+                    404: 37000,
+                    405: 8000,
+                    406: 130000,
+                    407: 20000,
+                    408: 130000
+                },
+                'regxps': {
+                    'round': {
+                        'a_nb': 'Attacker fires a total of ([\\d|\\.]*) shots ',
+                        'a_shoot': 'at the Defender with a total strength of ([\\d|\\.]*) .',
+                        'd_bcl': 'The defender`s shields absorb ([\\d|\\.]*) points of damage.',
+                        'd_nb': 'The Defender fires a total of ([\\d|\\.]*) shots',
+                        'd_shoot': 'at the Attacker with a total strength of ([\\d|\\.]*)\. ',
+                        'a_bcl': 'The attacker`s shields absorb ([\\d|\\.]*) points of damage'
+                    },
+                    'result': {
+                        'win': {
+                            'win_metal': 'Metal',
+                            'win_cristal': 'Crystal',
+                            'win_deut': 'Deuterium'
+                        },
+                        'deb': {
+                            'deb_metal': 'Metal',
+                            'deb_cristal': 'Crystal'
+                        },
+                        'a_lost': 'The attacker lost a total of (.*) units.',
+                        'd_lost': 'The defender lost a total of (.*) units.'
+                    },
+                    'weapons': {
+                        'arm': 'weaponPercentage',
+                        'bcl': 'shieldPercentage',
+                        'coq': 'armorPercentage'
+                    },
+                    'moon': 'thereby forming a moon',
+                    'moonprob': 'moon is (\\d+) %',
+                    'attack': 'Attacker',
+                    'defense': 'Defender',
+                    'nul': 'Draw',
+                    'attack_win': 'The attacker has won the battle',
+                    'ogameAPI_link': 'ogame-api'
+                }
+            },
+            'messages': {
+                'espionage of': 'Espionage report from',
+                'unespionage prob': 'Chance of counter-espionage',
+                'activity': '(\\d+)</font> last minutes',
+                'moon': 'Moon',
+                'espionnage action': 'Espionage action',
+                'fleet command': 'Fleet Command',
+                'expedition result': 'Expedition Result',
+                'fleet': 'Fleet',
+                'harvesting': 'Harvesting report from DF',
+                'combat of': 'Combat Report',
+                'combat defence': 'Combat from',
+                'trade message 1': 'Ressouces delivery from',
+                'trade message 2': 'Arrival on a planet',
+                'antimatiere': 'Dark matter'
+            },					
+            'dates': {
+                'messages': {
+                    regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
+                    fields: {
+                        year: 3,
+                        month: 2,
+                        day: 1,
+                        hour: 4,
+                        min: 5,
+                        sec: 6
+                }
+            },
+                'messagesRC': {
+                    regexp: '(\\d+).(\\d+).(\\d+)\\s(\\d+):(\\d+):(\\d+)',
+                    fields: {
+                        year: 3,
+                        month: 2,
+                        day: 1,
+                        hour: 4,
+                        min: 5,
+                        sec: 6
+                    }
+                }
+            }
+        },
         'us': {
             'spy reports': {
                 'groups': {
