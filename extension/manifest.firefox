@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "2.7.26",
+  "version": "2.8.0",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -55,7 +55,7 @@
   ],
   "background": {
     "scripts": [
-      "contribs/jquery-3.3.1.min.js",
+      "contribs/jquery.min.js",
       "background.js"
     ]
   },
