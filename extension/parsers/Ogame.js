@@ -5,15 +5,15 @@
 function handle_current_page() {
     // Expressions régulières des pages
     var regGalaxy;
-    regGalaxy = new RegExp(/page=(galaxy)/);
-    var regOverview = new RegExp(/page=(overview)/);
+    regGalaxy = new RegExp(/component=(galaxy)/);
+    var regOverview = new RegExp(/component=(overview)/);
     var regOption = new RegExp(/(xtense=Options)/);
-    var regResearch = new RegExp(/page=(research)/);
-    var regBuildings = new RegExp(/page=(resources)/);
-    var regStation = new RegExp(/page=(station)/);
-    var regShipyard = new RegExp(/page=(shipyard)/);
-    var regFleet1 = new RegExp(/page=(fleet1)/);
-    var regDefense = new RegExp(/page=(defense)/);
+    var regResearch = new RegExp(/component=(research)/);
+    var regBuildings = new RegExp(/component=(supplies)/);
+    var regStation = new RegExp(/component=(facilities)/);
+    var regShipyard = new RegExp(/component=(shipyard)/);
+    var regFleet1 = new RegExp(/component=(fleetdispatch)/);
+    var regDefense = new RegExp(/component=(defenses)/);
     var regMessages = new RegExp(/page=(messages)/);
     var regAlliance = new RegExp(/page=(alliance)/);
     var regStats = new RegExp(/page=(highscore)/);
@@ -681,7 +681,10 @@ function parse_shipyard() {
         'VC': tabLevel[10],
         'REC': tabLevel[11],
         'SE': tabLevel[12],
-        'SAT': tabLevel[13]
+        'SAT': tabLevel[13],
+        'RP': tabLevel[14],
+        'PF': tabLevel[15],
+        'CRW': tabLevel[16],
     };
     XtenseRequest.set(getPlanetData());
     XtenseRequest.set(req);

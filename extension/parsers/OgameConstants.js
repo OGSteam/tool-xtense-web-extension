@@ -88,7 +88,7 @@ function initParsers() {
         },
 
         levels: {
-            level: '//span[contains(@class,"level")]/text()'
+            level: '//span[contains(@class,"level" | "amount")]/@data-value'
         },
 
         messages: {
