@@ -413,8 +413,9 @@ function parse_ranking_inserted(event) {
         //if(rows.snapshotLength > 0){ //Double sécurité
         var rowsData = [];
         for (var i = 0; i < rows.snapshotLength; i++) {
-            var row = rows.snapshotItem(i);
-            var n = Xpath.getStringValue(document, paths.position, row).trimInt();
+            let row = rows.snapshotItem(i);
+            let data_row; //Initialize Row Data
+            let n = Xpath.getStringValue(document, paths.position, row).trimInt();
             if (i === 1) {
                 offset = Math.floor(n / 100) * 100 + 1;
                 //parce que le nouveau classement ne commence pas toujours pile a la centaine et OGSpy toujours a 101,201...
@@ -444,7 +445,7 @@ function parse_ranking_inserted(event) {
                 if (type[1] === 'fleet') {
                     var NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
                     log('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
-                    var r = {
+                    data_row = {
                         player_id: player_id,
                         player_name: name,
                         ally_id: ally_id,
@@ -454,7 +455,7 @@ function parse_ranking_inserted(event) {
                     };
                 } else {
                     log('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points);
-                    var r = {
+                    data_row = {
                         player_id: player_id,
                         player_name: name,
                         ally_id: ally_id,
@@ -463,12 +464,22 @@ function parse_ranking_inserted(event) {
                     };
                 }
             } else if (type[0] === 'ally') {
-                var members = Xpath.getStringValue(document, paths.ally.members, row).trimInt();
-                var moy = Xpath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
-                var rank_ally_allytag = Xpath.getStringValue(document, paths.ally.allytag, row).trim().replace(/\]|\[/g, '');
-                var rank_ally_allyid = Xpath.getStringValue(document, paths.ally.ally_id, row).trim();
-                log('row ' + n + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',members:' + members + ',points:' + points + ',mean:' + moy);
-                var r = {
+                let members = Xpath.getStringValue(document, paths.ally.members, row).trimInt();
+                let moy = Xpath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
+                let rank_ally_allytag = Xpath.getStringValue(document, paths.ally.allytag, row).trim().replace(/\]|\[/g, '');
+                let rank_ally_url = Xpath.getStringValue(document, paths.ally.ally_id, row).trim();
+                let rank_ally_allyid = -1;
+                if (rank_ally_url !== 'undefined' ) {
+                    //Affiché sous forme de lien vers page alliance
+                    if(rank_ally_url.match(/allianceId\=(.*)/)) {
+                        rank_ally_allyid = rank_ally_url.match(/allianceId\=(.*)/)[1];
+                    }else // Car lien vers sa propre page ally
+                    {
+                        rank_ally_allyid = XtenseMetas.getAllyId();
+                    }
+                }
+                log('position ' + n + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',members:' + members + ',points:' + points + ',mean:' + moy);
+                data_row = {
                     ally_id: rank_ally_allyid,
                     ally_tag: rank_ally_allytag,
                     members: members,
@@ -476,7 +487,7 @@ function parse_ranking_inserted(event) {
                     mean: moy
                 };
             }
-            rowsData[n] = r;
+            rowsData[n] = data_row;
             length++;
         }
 
@@ -565,9 +576,10 @@ function parse_buildings() {
         'CES': tabLevel[3],
         'CEF': tabLevel[4],
         'SAT': tabLevel[5],
-        'HM': tabLevel[6],
-        'HC': tabLevel[7],
-        'HD': tabLevel[8]
+        'FOR': tabLevel[6],
+        'HM': tabLevel[7],
+        'HC': tabLevel[8],
+        'HD': tabLevel[9]
     });
     XtenseRequest.send();
 }
@@ -676,15 +688,15 @@ function parse_shipyard() {
         'BMD': tabLevel[5],
         'DST': tabLevel[6],
         'EDLM': tabLevel[7],
-        'PT': tabLevel[8],
-        'GT': tabLevel[9],
-        'VC': tabLevel[10],
-        'REC': tabLevel[11],
-        'SE': tabLevel[12],
-        'SAT': tabLevel[13],
-        'RP': tabLevel[14],
-        'PF': tabLevel[15],
-        'CRW': tabLevel[16],
+        'RP': tabLevel[8],
+        'PF': tabLevel[9],
+        'PT': tabLevel[10],
+        'GT': tabLevel[11],
+        'VC': tabLevel[12],
+        'REC': tabLevel[13],
+        'SE': tabLevel[14],
+        'SAT': tabLevel[15],
+        'CRW': tabLevel[16]
     };
     XtenseRequest.set(getPlanetData());
     XtenseRequest.set(req);
