@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.8.1
+// @version     2.8.2
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @include     https://*.ogame.*/game/index.php*
@@ -10,7 +10,7 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.8.1';
+var VERSION = '2.8.2';
 var TYPE = 'GM-';
 var PLUGIN_REQUIRED = '2.7.3';
 var nomScript = 'Xtense';

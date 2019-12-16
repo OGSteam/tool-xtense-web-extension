@@ -88,8 +88,8 @@ function initParsers() {
         },
 
         levels: {
-            level: '//span[(@class = "level" | @class = "amount") and not (@class="targetlevel") and not (@class="targetamount")]/@data-value',
-            levelbonus: '//span[(@class = "level" | @class = "amount") and not (@class="targetlevel") and not (@class="targetamount")]/@data-bonus'
+            level: '//span[((@class = "level" or @class = "amount") and not (@class="targetlevel") and not (@class="targetamount"))]/@data-value',
+            levelbonus: '//span[((@class = "level" or @class = "amount") and not (@class="targetlevel") and not (@class="targetamount"))]/@data-bonus'
         },
 
         messages: {
