@@ -156,8 +156,8 @@ function initParsers() {
             rows: "id(\'ranks\')/tbody/tr",
             position: 'td[contains(@class,\'position\')]/text()',
             points: 'td[contains(@class,\'score\')]/text()',
-            allytag: "//td[@class='name']/span[@class='ally-tag']/a/text()",
-            ally_id: "//td[@class='name']/span[@class='ally-tag']/a/@href",
+            allytag: 'td[@class=\'name\']/span[@class=\'ally-tag\']/a/text()',
+            ally_id: 'td[@class=\'name\']/span[@class=\'ally-tag\']/a/@href',
             player: {
                 playername: "td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()",
                 player_id: "td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href",

@@ -579,7 +579,7 @@ function parse_buildings() {
         'FOR': tabLevel[6],
         'HM': tabLevel[7],
         'HC': tabLevel[8],
-        'HD': tabLevel[9]
+        'HD': tabLevel[9],
     });
     XtenseRequest.send();
 }
@@ -688,15 +688,15 @@ function parse_shipyard() {
         'BMD': tabLevel[5],
         'DST': tabLevel[6],
         'EDLM': tabLevel[7],
-        'RP': tabLevel[8],
-        'PF': tabLevel[9],
+        'FAU': tabLevel[8],
+        'ECL': tabLevel[9],
         'PT': tabLevel[10],
         'GT': tabLevel[11],
         'VC': tabLevel[12],
         'REC': tabLevel[13],
         'SE': tabLevel[14],
         'SAT': tabLevel[15],
-        'CRW': tabLevel[16]
+        'FOR': tabLevel[16]
     };
     XtenseRequest.set(getPlanetData());
     XtenseRequest.set(req);
@@ -728,11 +728,13 @@ function parse_fleet() {
         'BMD': tabLevel[5],
         'DST': tabLevel[6],
         'EDLM': tabLevel[7],
-        'PT': tabLevel[8],
-        'GT': tabLevel[9],
-        'VC': tabLevel[10],
-        'REC': tabLevel[11],
-        'SE': tabLevel[12]
+        'FAU': tabLevel[8],
+        'ECL': tabLevel[9],
+        'PT': tabLevel[10],
+        'GT': tabLevel[11],
+        'VC': tabLevel[12],
+        'REC': tabLevel[13],
+        'SE': tabLevel[14]
 
     };
     XtenseRequest.set(getPlanetData());
