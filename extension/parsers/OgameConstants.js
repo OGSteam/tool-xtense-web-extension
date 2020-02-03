@@ -36,16 +36,21 @@ function initParsers() {
             ogame_version: '//meta[@name=\'ogame-version\']/@content',
             timestamp: '//meta[@name=\'ogame-timestamp\']/@content',
             universe: '//meta[@name=\'ogame-universe\']/@content',
+            universename: '//meta[@name=\'ogame-universe-name\']/@content',
+            universespeed: '//meta[@name=\'ogame-universe-speed\']/@content',
+            universespeedfleet: '//meta[@name=\'ogame-universe-speed-fleet\']/@content',
             language: '//meta[@name=\'ogame-language\']/@content',
+            donutgalaxy: '//meta[@name=\'ogame-donut-galaxy\']/@content',
+            donutsystem: '//meta[@name=\'ogame-donut-system\']/@content',
             player_id: '//meta[@name=\'ogame-player-id\']/@content',
             player_name: '//meta[@name=\'ogame-player-name\']/@content',
-            ally_id: '//meta[@name=\'ogame-alliance-id\']/@content',
-            ally_name: '//meta[@name=\'ogame-alliance-name\']/@content',
-            ally_tag: '//meta[@name=\'ogame-alliance-tag\']/@content',
             planet_id: '//meta[@name=\'ogame-planet-id\']/@content',
             planet_name: '//meta[@name=\'ogame-planet-name\']/@content',
             planet_coords: '//meta[@name=\'ogame-planet-coordinates\']/@content',
-            planet_type: '//meta[@name=\'ogame-planet-type\']/@content'
+            planet_type: '//meta[@name=\'ogame-planet-type\']/@content',
+            ally_id: '//meta[@name=\'ogame-alliance-id\']/@content',
+            ally_name: '//meta[@name=\'ogame-alliance-name\']/@content',
+            ally_tag: '//meta[@name=\'ogame-alliance-tag\']/@content'
         },
         ally_members_list: {
             rows: '//table[@id="member-list"]/tbody/tr',
@@ -138,6 +143,16 @@ function initParsers() {
             name_planete: "//span[@class='planet-name']",
             coords: "//div[@id='planetList']//a[contains(@class,'planetlink')]/span[contains(@class,'planet-koords')]",
             coords_unique_planet: "//div[@id='planetList']//a[contains(@class,'') or @href='#']/span[contains(@class,'planet-koords')]"
+        },
+        playerData: {
+            playerclass_explorer: "id('characterclass')/a/div[contains(@class,'explorer')]",
+            playerclass_miner: "id('characterclass')/a/div[contains(@class,'miner')]",
+            playerclass_warrior: "id('characterclass')/a/div[contains(@class,'warrior')]",
+            officer_commander: "id('officers')/a[(@class='commander' and @class='on')]",
+            officer_amiral: "id('officers')/a[(@class='amiral' and @class='on')]",
+            officer_engineer: "id('officers')/a[(@class='engineer' and @class='on')]",
+            officer_geologist: "id('officers')/a[(@class='geologist' and @class='on')]",
+            officer_technocrate: "id('officers')/a[(@class='technocrate' and @class='on')]",
         },
 
         boostersExtensions: {
@@ -276,8 +291,23 @@ function initParsers() {
         getUniverse: function () {
             return Xpath.getStringValue(document, XtenseXpaths.metas.universe);
         },
+        getUniversename: function () {
+            return Xpath.getStringValue(document, XtenseXpaths.metas.universename);
+        },
+        getUniversespeed: function () {
+            return Xpath.getStringValue(document, XtenseXpaths.metas.universespeed);
+        },
+        getuniversespeedfleet: function () {
+            return Xpath.getStringValue(document, XtenseXpaths.metas.universespeedfleet);
+        },
         getLanguage: function () {
             return Xpath.getStringValue(document, XtenseXpaths.metas.language);
+        },
+        getdonutgalaxy: function () {
+            return Xpath.getStringValue(document, XtenseXpaths.metas.donutgalaxy);
+        },
+        getdonutsystem: function () {
+            return Xpath.getStringValue(document, XtenseXpaths.metas.donutsystem);
         },
         getPlayerId: function () {
             return Xpath.getStringValue(document, XtenseXpaths.metas.player_id);
@@ -308,3 +338,5 @@ function initParsers() {
         }
     };
 }
+
+

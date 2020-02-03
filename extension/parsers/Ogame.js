@@ -521,17 +521,18 @@ function parse_overview() {
         clearInterval(delaytodisplay_overview);
     }
 
-    var temperatures = Xpath.getStringValue(document, XtenseXpaths.overview.temperatures);
+    let temperatures = Xpath.getStringValue(document, XtenseXpaths.overview.temperatures);
     if ((temperatures != null) && (temperatures !== '') && (temperatures.indexOf('_') === -1)) {
-        var planetData = getPlanetData();
+        let planetData = getPlanetData();
         if (GM_getValue('lastAction', '') !== 'planet_name:' + planetData.planet_name) {
-            var cases = Xpath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
-            var temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
-            var temperature_min = temperatures.match(/(-?\d+)/)[1];
-            var resources = getResources();
-            var ogame_time = XtenseMetas.getTimestamp();
+            let cases = Xpath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
+            let temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
+            let temperature_min = temperatures.match(/(-?\d+)/)[1];
+            let resources = getResources();
+            let playerdetails = getPlayerDetails();
+            let unidetails = getUniverseDetails();
             // retreive boosters and extensions
-            var planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
+            let planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
 
             XtenseRequest.set({
                 type: 'overview',
@@ -539,9 +540,9 @@ function parse_overview() {
                 temperature_min: temperature_min,
                 temperature_max: temperature_max,
                 ressources: resources,
-                ogame_timestamp: ogame_time
+                playerdetails : playerdetails,
+                uni_details : unidetails
             }, planetData, planetBoostersAndExtensions);
-            XtenseRequest.set('og_lang', langUnivers);
             XtenseRequest.send();
             GM_setValue('lastAction', 'planet_name:' + planetData.planet_name);
         }
@@ -842,12 +843,90 @@ function save_my_planets_coords() {
 // Récupération des ressources d'une planète
 
 function getResources() {
-    var metal = Xpath.getStringValue(document, XtenseXpaths.ressources.metal).trimInt();
-    var cristal = Xpath.getStringValue(document, XtenseXpaths.ressources.cristal).trimInt();
-    var deut = Xpath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
-    var antimater = Xpath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
-    var energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
+    let metal = Xpath.getStringValue(document, XtenseXpaths.ressources.metal).trimInt();
+    let cristal = Xpath.getStringValue(document, XtenseXpaths.ressources.cristal).trimInt();
+    let deut = Xpath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
+    let antimater = Xpath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
+    let energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
+
     log('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
-    return Array(metal, cristal, deut, antimater, energy);
+    return { "metal" : metal,
+             "cristal" : cristal,
+             "deut" : deut,
+             "antimater" : antimater,
+             "energy" : energy};
 }
 
+//
+function getPlayerDetails() {
+
+    let player_pseudo = XtenseMetas.getPlayerName();
+    let player_id = XtenseMetas.getPlayerId();
+
+    let playerclass_explorer = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.playerclass_explorer).snapshotLength;
+    let playerclass_miner = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.playerclass_miner).snapshotLength;
+    let playerclass_warrior = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.playerclass_warrior).snapshotLength;
+
+    let player_officer_commander = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_commander).snapshotLength;
+    let player_officer_amiral = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_amiral).snapshotLength;
+    let player_officer_engineer= Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_engineer).snapshotLength;
+    let player_officer_geologist = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_geologist).snapshotLength;
+    let player_officer_technocrate = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_technocrate).snapshotLength;
+
+    log('player_pseudo=' + player_pseudo + ',' +
+        'player_id=' + player_id + ',' +
+        'playerclass_explorer=' + playerclass_explorer + ',' +
+        'playerclass_miner=' + playerclass_miner + ',' +
+        'playerclass_warrior=' + playerclass_warrior + ',' +
+        'player_officer_commander=' + player_officer_commander + ',' +
+        'player_officer_amiral=' + player_officer_amiral + ',' +
+        'player_officer_engineer=' + player_officer_engineer + ',' +
+        'player_officer_geologist=' + player_officer_geologist + ',' +
+        'player_officer_technocrate=' + player_officer_technocrate);
+
+    return {"player_name" : player_pseudo,
+            "player_id" : player_id,
+            "playerclass_explorer": playerclass_explorer,
+            "playerclass_miner" : playerclass_miner,
+            "playerclass_warrior" : playerclass_warrior,
+            "player_officer_commander" : player_officer_commander,
+            "player_officer_amiral" : player_officer_amiral,
+            "player_officer_engineer" : player_officer_engineer,
+            "player_officer_geologist" : player_officer_geologist,
+            "player_officer_technocrate" : player_officer_technocrate};
+}
+
+function getUniverseDetails() {
+
+    let uni_version = XtenseMetas.getOgameVersion();
+    let uni_url = XtenseMetas.getUniverse();
+    let uni_lang = XtenseMetas.getLanguage();
+    let uni_name = XtenseMetas.getUniversename();
+    let uni_time = XtenseMetas.getTimestamp();
+    let uni_speed = XtenseMetas.getUniversespeed();
+    let uni_speed_fleet = XtenseMetas.getuniversespeedfleet();
+    let uni_donut_g = XtenseMetas.getdonutgalaxy();
+    let uni_donut_s = XtenseMetas.getdonutsystem();
+
+
+
+    log('uni_version=' + uni_version + ',' +
+        'uni_url=' + uni_url + ',' +
+        'uni_lang=' + uni_lang + ',' +
+        'uni_name=' + uni_name + ',' +
+        'uni_time=' + uni_time + ',' +
+        'uni_speed=' + uni_speed + ',' +
+        'uni_speed_fleet=' + uni_speed_fleet + ',' +
+        'uni_donut_g=' + uni_donut_g + ',' +
+        'uni_donut_s=' + uni_donut_s);
+
+    return {"uni_version" : uni_version,
+        "uni_url" : uni_url,
+        "uni_lang" : uni_lang,
+        "uni_name" : uni_name,
+        "uni_time" : uni_time,
+        "uni_speed" : uni_speed,
+        "uni_speed_fleet" : uni_speed_fleet,
+        "uni_donut_g" : uni_donut_g,
+        "uni_donut_s" : uni_donut_s};
+}
