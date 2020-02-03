@@ -18,6 +18,7 @@ function initLocales() {
             'spy reports': {
                 'groups': {
                     'resources': 'Ressources',
+                    'debris' : 'Champ de débris',
                     'buildings': 'Bâtiment',
                     'defense': 'Défense',
                     'fleet': 'Flottes',
@@ -30,6 +31,10 @@ function initLocales() {
                         602: 'crystal',
                         603: 'deuterium',
                         604: 'energy'
+                    },
+                    'debris' : {
+                        701: 'metal',
+                        702: 'crystal'
                     },
                     'buildings': {
                         1: 'Mine de métal',
@@ -424,7 +429,7 @@ function initLocales() {
                 'trade message 1': 'Ressouces delivery from',
                 'trade message 2': 'Arrival on a planet',
                 'antimatiere': 'Dark matter'
-            },					
+            },
             'dates': {
                 'messages': {
                     regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
@@ -642,7 +647,7 @@ function initLocales() {
                 'trade message 1': 'Ressouces delivery from',
                 'trade message 2': 'Arrival on a planet',
                 'antimatiere': 'Dark matter'
-            },					
+            },
             'dates': {
                 'messages': {
                     regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
@@ -1514,7 +1519,7 @@ function initLocales() {
 				'trade message 1': 'risorse consegnate da una flotta straniera',
 				'trade message 2': 'Pianeta raggiunto',
 				'antimatiere': 'Materia oscura'
-			},					
+			},
 			'dates': {
 				'messages': {
 					regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',

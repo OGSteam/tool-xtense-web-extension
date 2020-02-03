@@ -15,6 +15,10 @@ function initOGSpyCommunication() {
             603: "deuterium",
             604: "energie"
         },
+        "debris": {
+            701: 'metal',
+            702: 'cristal'
+        },
         "buildings": {
             1: "M",
             2: "C",
