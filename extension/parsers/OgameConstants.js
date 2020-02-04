@@ -93,8 +93,8 @@ function initParsers() {
         },
 
         levels: {
-            level: '//span[((@class = "level" or @class = "amount") and not (@class="targetlevel") and not (@class="targetamount"))]/@data-value',
-            levelbonus: '//span[((@class = "level" or @class = "amount") and not (@class="targetlevel") and not (@class="targetamount"))]/@data-bonus'
+            level: '//span[((contains(@class,"level") or contains(@class,"amount")) and not (contains(@class,"targetlevel")) and not (contains(@class,"targetamount")))]/@data-value',
+            levelbonus: '//span[((contains(@class,"level") or contains(@class,"amount")) and not (contains(@class,"targetlevel")) and not (contains(@class,"targetamount")))]/@data-bonus'
         },
 
         messages: {
