@@ -580,7 +580,7 @@ function parse_buildings() {
         'FOR': tabLevel[6],
         'HM': tabLevel[7],
         'HC': tabLevel[8],
-        'HD': tabLevel[9],
+        'HD': tabLevel[9]
     });
     XtenseRequest.send();
 }
