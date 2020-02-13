@@ -541,7 +541,7 @@ function parse_overview() {
                 temperature_max: temperature_max,
                 ressources: resources,
                 playerdetails : playerdetails,
-                uni_details : unidetails
+                unidetails : unidetails
             }, planetData, planetBoostersAndExtensions);
             XtenseRequest.send();
             GM_setValue('lastAction', 'planet_name:' + planetData.planet_name);
