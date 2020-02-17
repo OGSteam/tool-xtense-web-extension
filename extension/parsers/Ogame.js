@@ -4,19 +4,19 @@
 
 function handle_current_page() {
     // Expressions régulières des pages
-    var regGalaxy;
+    let regGalaxy;
     regGalaxy = new RegExp(/component=(galaxy)/);
-    var regOverview = new RegExp(/component=(overview)/);
-    var regOption = new RegExp(/(xtense=Options)/);
-    var regResearch = new RegExp(/component=(research)/);
-    var regBuildings = new RegExp(/component=(supplies)/);
-    var regStation = new RegExp(/component=(facilities)/);
-    var regShipyard = new RegExp(/component=(shipyard)/);
-    var regFleet1 = new RegExp(/component=(fleetdispatch)/);
-    var regDefense = new RegExp(/component=(defenses)/);
-    var regMessages = new RegExp(/page=(messages)/);
-    var regAlliance = new RegExp(/page=(alliance)/);
-    var regStats = new RegExp(/page=(highscore)/);
+    let regOverview = new RegExp(/component=(overview)/);
+    let regOption = new RegExp(/(xtense=Options)/);
+    let regResearch = new RegExp(/component=(research)/);
+    let regBuildings = new RegExp(/component=(supplies)/);
+    let regStation = new RegExp(/component=(facilities)/);
+    let regShipyard = new RegExp(/component=(shipyard)/);
+    let regFleet1 = new RegExp(/component=(fleetdispatch)/);
+    let regDefense = new RegExp(/component=(defenses)/);
+    let regMessages = new RegExp(/page=(messages)/);
+    let regAlliance = new RegExp(/page=(alliance)/);
+    let regStats = new RegExp(/page=(highscore)/);
 
     if (regOption.test(url)) {
         displayOptions();
@@ -63,8 +63,8 @@ function handle_current_page() {
  */
 function handle_page(page)
 {
-    var rights = page;
-    if(page == 'fleet')
+    let rights = page;
+    if(page === 'fleet')
         rights = 'shipyard';
 
     if(GM_getValue('handle.'.concat(rights), 'false').toString() === 'true' || GM_getValue('manual.send', 'false').toString() === 'true')
@@ -87,8 +87,8 @@ function manual_send() {
 
 /************************ Declenchement des Parsings sur Remplissage Ajax ************************/
 function get_content(type) {
-    var elementName;
-    var func;
+    let elementName;
+    let func;
     switch (type) {
         case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
             elementName = 'galaxyContent';
@@ -127,16 +127,16 @@ function get_content(type) {
     }
 
     if (elementName != null) {
-        var target = document.getElementById(elementName);
+        let target = document.getElementById(elementName);
         //console.log(document.body.serializeWithStyles());
-        var observer = new MutationObserver(function (mutations) {
+        let observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 //log('Mutation Observer : ' + mutation.addedNodes);
                 func();
             })
         });
         // configuration of the observer:
-        var config = {attributes: true, childList: true, characterData: true};
+        let config = {attributes: true, childList: true, characterData: true};
         observer.observe(target, config);
     }
 
@@ -148,13 +148,13 @@ function get_content(type) {
 
 function get_ally_content() {
 
-    var target = document.getElementById('inhalt');
-    var observer = new MutationObserver(function (mutations) {
+    let target = document.getElementById('inhalt');
+    let observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             parse_ally_inserted();
         });
     });
-    var config = {attributes: true, childList: true, characterData: true};
+    let config = {attributes: true, childList: true, characterData: true};
     observer.observe(target, config);
 }
 
@@ -165,8 +165,8 @@ function get_message_content() {
     //$('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
 
     //Sur affichage Message long
-    var target = document.getElementById('messages');
-    var observer = new MutationObserver(function (mutations) {
+    let target = document.getElementById('messages');
+    let observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             if (mutation.addedNodes.length == 0)
                 return;
@@ -185,7 +185,7 @@ function get_message_content() {
             parse_messages();
         });
     });
-    var config = {attributes: false, childList: true, characterData: false, subtree: true};
+    let config = {attributes: false, childList: true, characterData: false, subtree: true};
     observer.observe(target, config);
 
     parse_messages(); // Première Page
@@ -199,19 +199,19 @@ function get_message_content() {
 function parse_galaxy_system_inserted(event) {
     log('In parse_galaxy_system_inserted()');
     //var doc = event.target.ownerDocument;
-    var paths = XtenseXpaths.galaxy;
+    let paths = XtenseXpaths.galaxy;
     //Référence Xpaths
-    var galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
+    let galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
     if (galaxyInput === null)
         return;
-    var galaxy = galaxyInput.value.trim();
+    let galaxy = galaxyInput.value.trim();
     //Récupération Galaxie
-    var system = Xpath.getSingleNode(document, paths.system_input).value.trim();
+    let system = Xpath.getSingleNode(document, paths.system_input).value.trim();
     //Récupération SS
-    var rows = Xpath.getUnorderedSnapshotNodes(document, paths.rows);
+    let rows = Xpath.getUnorderedSnapshotNodes(document, paths.rows);
     //log("lastAction : "+GM_getValue(prefix_GMData +'lastAction',''));
     if (GM_getValue('lastAction', '') !== 's:' + galaxy + ':' + system) {
-        var coords = [
+        let coords = [
             galaxy,
             system
         ];
@@ -223,15 +223,15 @@ function parse_galaxy_system_inserted(event) {
         if (rows.snapshotLength > 0) {
             //var XtenseRequest = new XtenseRequest(null, null, null);
             log(rows.snapshotLength + ' rows found in galaxy');
-            var rowsData = [];
-            for (var i = 0; i < rows.snapshotLength; i++) {
-                var row = rows.snapshotItem(i);
-                var name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
-                var name_l = Xpath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
-                var name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
-                var player = Xpath.getStringValue(document, paths.playername, row).trim();
-                var player2 = Xpath.getStringValue(document, paths.playername2, row).trim();
-                var player_tooltip = Xpath.getStringValue(document, paths.playername_tooltip, row).trim();
+            let rowsData = [];
+            for (let i = 0; i < rows.snapshotLength; i++) {
+                let row = rows.snapshotItem(i);
+                let name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
+                let name_l = Xpath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
+                let name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
+                let player = Xpath.getStringValue(document, paths.playername, row).trim();
+                let player2 = Xpath.getStringValue(document, paths.playername2, row).trim();
+                let player_tooltip = Xpath.getStringValue(document, paths.playername_tooltip, row).trim();
                 if (player_tooltip === '') {
                     if (player === '') {
                         if (player2 === '') {
@@ -254,58 +254,58 @@ function parse_galaxy_system_inserted(event) {
                     name = name_tooltip;
                 }
                 //var position = i+1;
-                var position = Xpath.getNumberValue(document, paths.position, row);
+                let position = Xpath.getNumberValue(document, paths.position, row);
                 if (isNaN(position)) {
                     log('position ' + position + ' is not a number');
                     continue;
                 }
-                var moon = Xpath.getUnorderedSnapshotNodes(document, paths.moon, row);
+                let moon = Xpath.getUnorderedSnapshotNodes(document, paths.moon, row);
                 moon = moon.snapshotLength > 0 ? 1 : 0;
-                var statusNodes = Xpath.getUnorderedSnapshotNodes(document, paths.status, row);
-                var status = '';
+                let statusNodes = Xpath.getUnorderedSnapshotNodes(document, paths.status, row);
+                let status = '';
                 if (statusNodes.snapshotLength > 0) {
-                    for (var j = 0; j < statusNodes.snapshotLength; j++) {
+                    for (let j = 0; j < statusNodes.snapshotLength; j++) {
                         status += statusNodes.snapshotItem(j).textContent.trim();
                     }
                 } else {
                     status = '';
                 }
-                var banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
+                let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
                 status = banned + status;
-                var activity = Xpath.getStringValue(document, paths.activity, row).trim();
+                let activity = Xpath.getStringValue(document, paths.activity, row).trim();
                 if (!activity) {
                     activity = (Xpath.getStringValue(document, paths.activity15, row) ? 0 : -1);
                     //If contains 'minutes15' in class
                 }
-                var activityMoon = Xpath.getStringValue(document, paths.activity_m, row).trim();
+                let activityMoon = Xpath.getStringValue(document, paths.activity_m, row).trim();
                 if (!activityMoon) {
                     activityMoon = (Xpath.getStringValue(document, paths.activity15_m, row) ? 0 : -1);
                     //If contains 'minutes15' in class
                 }
-                var allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
-                var debris = [];
-                for (var j = 0; j < 2; j++) {
+                let allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
+                let debris = [];
+                for (let j = 0; j < 2; j++) {
                     debris[XtenseDatabase['resources'][601 + j]] = 0;
                 }
-                var debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
-                for (var j = 0; j < debrisCells.snapshotLength; j++) {
+                let debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
+                for (let j = 0; j < debrisCells.snapshotLength; j++) {
                     debris[XtenseDatabase['resources'][601 + j]] = debrisCells.snapshotItem(j).innerHTML.trimInt();
                 }
-                var player_id = Xpath.getStringValue(document, paths.player_id, row).trim();
+                let player_id = Xpath.getStringValue(document, paths.player_id, row).trim();
                 if (player_id !== '') {
                     player_id = player_id.trimInt();
                 } else if (player) {
                     player_id = XtenseMetas.getPlayerId();
                 }
-                var allyid = Xpath.getStringValue(document, paths.ally_id, row).trim();
+                let allyid = Xpath.getStringValue(document, paths.ally_id, row).trim();
                 if (allyid !== '') {
                     allyid = allyid.trimInt();
                     log('Ally id' + allyid);
                 } else {
                     allyid = '0';
                 }
-                var planet_id = Xpath.getStringValue(document, paths.planet_id, row).trim();
-                var moon_id = Xpath.getStringValue(document, paths.moon_id, row).trim();
+                let planet_id = Xpath.getStringValue(document, paths.planet_id, row).trim();
+                let moon_id = Xpath.getStringValue(document, paths.moon_id, row).trim();
                 log('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase['resources'][601]] + '/' + debris[XtenseDatabase['resources'][602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
                 rowsData[position] = {
                     player_id: player_id,
@@ -341,17 +341,17 @@ function parse_ally_inserted() {
     //log("last_action="+GM_getValue(prefix_GMData +'lastAction',''));
     if (GM_getValue('lastAction', '') !== 'ally_list') {
         setStatus(XLOG_NORMAL, Xl('ally_list_detected'));
-        var paths = XtenseXpaths.ally_members_list;
-        var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
-        var rowsData = [];
+        let paths = XtenseXpaths.ally_members_list;
+        let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
+        let rowsData = [];
         log(rows.snapshotLength + ' membres à envoyer !');
 
-        for (var i = 0; i < rows.snapshotLength; i++) {
-            var row = rows.snapshotItem(i);
-            var player = Xpath.getStringValue(document, paths.player, row).trim();
-            var points = Xpath.getStringValue(document, paths.points, row).trimInt();
-            var rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
-            var coords = Xpath.getStringValue(document, paths.coords, row).trim();
+        for (let i = 0; i < rows.snapshotLength; i++) {
+            let row = rows.snapshotItem(i);
+            let player = Xpath.getStringValue(document, paths.player, row).trim();
+            let points = Xpath.getStringValue(document, paths.points, row).trimInt();
+            let rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
+            let coords = Xpath.getStringValue(document, paths.coords, row).trim();
             coords = coords.match(new RegExp(XtenseRegexps.coords))[0];
             rowsData[i] = {
                 player: player,
@@ -362,7 +362,7 @@ function parse_ally_inserted() {
             log("Player: " + rowsData[i].player + " Points: " + rowsData[i].points + " Coords: " + rowsData[i].coords + " Rank: " + rowsData[i].rank);
         }
         if (rowsData.length > 0) {
-            var tag = Xpath.getStringValue(document, paths.tag);
+            let tag = Xpath.getStringValue(document, paths.tag);
             XtenseRequest.set({
                 n: rowsData,
                 type: 'ally_list',
@@ -380,14 +380,14 @@ function parse_ally_inserted() {
 
 function parse_ranking_inserted(event) {
     log('Entering parse_ranking_inserted');
-    var paths = XtenseXpaths.ranking;
-    var rows = Xpath.getOrderedSnapshotNodes(document, paths.rows, null);
+    let paths = XtenseXpaths.ranking;
+    let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows, null);
     if (rows.snapshotLength > 0) {
         //Récupération de la date courante du jeu
-        var timeText = Xpath.getStringValue(document, paths.time).trim();
+        let timeText = Xpath.getStringValue(document, paths.time).trim();
         timeText = timeText.match(/(\d+).(\d+).(\d+)[^\d]+(\d+):\d+:\d+/);
         //Conversion dans la plage de 8 (0-8-16)
-        var time = new Date();
+        let time = new Date();
         time.setHours((Math.floor(time.getHours()) / 8) * 8);
         time.setMinutes(0);
         time.setSeconds(0);
@@ -399,20 +399,20 @@ function parse_ranking_inserted(event) {
         }
         time = Math.floor(time.getTime() / 1000);
         //Détermination du type de classement
-        var type = [];
+        let type = [];
         type[0] = Xpath.getStringValue(document, paths.who);
         type[1] = Xpath.getStringValue(document, paths.type);
         type[2] = Xpath.getStringValue(document, paths.subnav_fleet);
         type[0] = (type[0] !== '') ? type[0] : 'player';
         type[0] = (type[0] === 'alliance') ? 'ally' : type[0];
         type[1] = (type[1] !== '') ? type[1] : 'points';
-        var length = 0;
+        let length = 0;
         //var rows = Xpath.getOrderedSnapshotNodes(document,paths.rows,null);
-        var offset = 0;
+        let offset = 0;
         log('time:' + time + ',type1:' + type[0] + ',type2:' + type[1] + ',type3: ' + type[2] + ',nombreLignes:' + rows.snapshotLength);
         //if(rows.snapshotLength > 0){ //Double sécurité
-        var rowsData = [];
-        for (var i = 0; i < rows.snapshotLength; i++) {
+        let rowsData = [];
+        for (let i = 0; i < rows.snapshotLength; i++) {
             let row = rows.snapshotItem(i);
             let data_row; //Initialize Row Data
             let n = Xpath.getStringValue(document, paths.position, row).trimInt();
@@ -420,11 +420,11 @@ function parse_ranking_inserted(event) {
                 offset = Math.floor(n / 100) * 100 + 1;
                 //parce que le nouveau classement ne commence pas toujours pile a la centaine et OGSpy toujours a 101,201...
             }
-            var points = Xpath.getStringValue(document, paths.points, row).trimInt();
+            let points = Xpath.getStringValue(document, paths.points, row).trimInt();
             if (type[0] === 'player') {
 
-                var ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
-                var ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
+                let ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
+                let ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
 
                 if (ally_id !== '' && !ally_id.match(/page\=alliance/)) {
                     //Pas d'id sur le lien de sa propre alliance (dans les classements alliances)
@@ -434,8 +434,8 @@ function parse_ranking_inserted(event) {
                     ally_id = XtenseMetas.getAllyId();
                 }
 
-                var name = Xpath.getStringValue(document, paths.player.playername, row).trim();
-                var player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
+                let name = Xpath.getStringValue(document, paths.player.playername, row).trim();
+                let player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
                 if (player_id !== '') {
                     player_id = player_id.match(/\&to\=(.*)\&ajax/);
                     player_id = player_id[1];
@@ -443,7 +443,7 @@ function parse_ranking_inserted(event) {
                     player_id = document.cookie.match(/login_(.*)=U_/)[1];
                 /*Nombre de vaisseaux*/
                 if (type[1] === 'fleet') {
-                    var NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
+                    let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
                     log('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
                     data_row = {
                         player_id: player_id,
@@ -557,13 +557,13 @@ function parse_overview() {
 
 function parse_buildings() {
     setStatus(XLOG_NORMAL, Xl('buildings_detected'));
-    var paths = XtenseXpaths.levels;
+    let paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'buildings');
-    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-    var tabLevel = [];
+    let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    let tabLevel = [];
     if (levels.snapshotLength > 0) {
-        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+        for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level !== '') {
                 tabLevel.push(level);
             }
@@ -589,13 +589,13 @@ function parse_buildings() {
 
 function parse_station() {
     setStatus(XLOG_NORMAL, Xl('installations_detected'));
-    var paths = XtenseXpaths.levels;
+    let paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'buildings');
-    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-    var tabLevel = [];
+    let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    let tabLevel = [];
     if (levels.snapshotLength > 0) {
-        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim();
+        for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            let level = levels.snapshotItem(lvl).nodeValue.trim();
             if (level !== '') {
                 tabLevel.push(level);
             }
@@ -632,11 +632,11 @@ function parse_station() {
 function parse_researchs() {
     setStatus(XLOG_NORMAL, Xl('researchs_detected'));
     XtenseRequest.set('type', 'researchs');
-    var levels = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.levels.level, null);
-    var tabLevel = [];
+    let levels = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.levels.level, null);
+    let tabLevel = [];
     if (levels.snapshotLength > 0) {
-        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim();
+        for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            let level = levels.snapshotItem(lvl).nodeValue.trim();
             if (level !== '') {
                 tabLevel.push(level);
             }
@@ -668,19 +668,19 @@ function parse_researchs() {
 
 function parse_shipyard() {
     setStatus(XLOG_NORMAL, Xl('shipyard_detected'));
-    var paths = XtenseXpaths.levels;
+    let paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'fleet');
-    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-    var tabLevel = [];
+    let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    let tabLevel = [];
     if (levels.snapshotLength > 0) {
-        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+        for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level !== '') {
                 tabLevel.push(level);
             }
         }
     }
-    var req = {
+    let req = {
         'CLE': tabLevel[0],
         'CLO': tabLevel[1],
         'CR': tabLevel[2],
@@ -708,19 +708,19 @@ function parse_shipyard() {
 
 function parse_fleet() {
     setStatus(XLOG_NORMAL, Xl('fleet_detected'));
-    var paths = XtenseXpaths.levels;
+    let paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'fleet');
-    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-    var tabLevel = [];
+    let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    let tabLevel = [];
     if (levels.snapshotLength > 0) {
-        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+        for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level !== '') {
                 tabLevel.push(level);
             }
         }
     }
-    var req = {
+    let req = {
         'CLE': tabLevel[0],
         'CLO': tabLevel[1],
         'CR': tabLevel[2],
@@ -747,13 +747,13 @@ function parse_fleet() {
 
 function parse_defense() {
     setStatus(XLOG_NORMAL, Xl('defense_detected'));
-    var paths = XtenseXpaths.levels;
+    let paths = XtenseXpaths.levels;
     XtenseRequest.set('type', 'defense');
-    var levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-    var tabLevel = [];
+    let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+    let tabLevel = [];
     if (levels.snapshotLength > 0) {
-        for (var lvl = 0; lvl < levels.snapshotLength; lvl++) {
-            var level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+        for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+            let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
             if (level !== '') {
                 tabLevel.push(level);
             }
