@@ -133,7 +133,7 @@ function get_content(type) {
             mutations.forEach(function (mutation) {
                 //log('Mutation Observer : ' + mutation.addedNodes);
                 func();
-            })
+            });
         });
         // configuration of the observer:
         let config = {attributes: true, childList: true, characterData: true};
@@ -168,9 +168,9 @@ function get_message_content() {
     let target = document.getElementById('messages');
     let observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-            if (mutation.addedNodes.length == 0)
+            if (mutation.addedNodes.length === 0)
                 return;
-            var node = mutation.addedNodes[0];
+            let node = mutation.addedNodes[0];
             switch (node.id) {
                 case  'fleetsgenericpage':
                 case 'communicationmessagespage':
@@ -285,11 +285,11 @@ function parse_galaxy_system_inserted(event) {
                 let allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
                 let debris = [];
                 for (let j = 0; j < 2; j++) {
-                    debris[XtenseDatabase['resources'][601 + j]] = 0;
+                    debris[XtenseDatabase.resources[601 + j]] = 0;
                 }
                 let debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
                 for (let j = 0; j < debrisCells.snapshotLength; j++) {
-                    debris[XtenseDatabase['resources'][601 + j]] = debrisCells.snapshotItem(j).innerHTML.trimInt();
+                    debris[XtenseDatabase.resources[601 + j]] = debrisCells.snapshotItem(j).innerHTML.trimInt();
                 }
                 let player_id = Xpath.getStringValue(document, paths.player_id, row).trim();
                 if (player_id !== '') {
@@ -306,7 +306,7 @@ function parse_galaxy_system_inserted(event) {
                 }
                 let planet_id = Xpath.getStringValue(document, paths.planet_id, row).trim();
                 let moon_id = Xpath.getStringValue(document, paths.moon_id, row).trim();
-                log('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase['resources'][601]] + '/' + debris[XtenseDatabase['resources'][602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
+                log('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase.resources[601]] + '/' + debris[XtenseDatabase.resources[602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
                 rowsData[position] = {
                     player_id: player_id,
                     planet_name: name,
@@ -370,7 +370,7 @@ function parse_ally_inserted() {
             });
             XtenseRequest.set('og_lang', langUnivers);
             XtenseRequest.send();
-            GM_setValue('lastAction', 'ally_list')
+            GM_setValue('lastAction', 'ally_list');
         }
         get_ally_content(); // Pourquoi celui-ci est fait à l'envers par rapport aux autres ?
     }
@@ -798,15 +798,15 @@ function getPlanetData() {
 
 function getPlanetBoostersAndExtensions() {
 
-    var items = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.boostersExtensions['items']);
+    let items = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.boostersExtensions.items);
 
-    var datas = Array();
+    let datas = Array();
     if (items != null && items.snapshotLength > 0) {
-        for (var i = 0; i < items.snapshotLength; i++) {
-            var item = items.snapshotItem(i);
-            var uuid = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['dataUuid'], item);
-            var title = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions['itemTime'], item);
-            var temps = "";
+        for (let i = 0; i < items.snapshotLength; i++) {
+            let item = items.snapshotItem(i);
+            let uuid = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions.dataUuid, item);
+            let title = Xpath.getStringValue(document, XtenseXpaths.boostersExtensions.itemTime, item);
+            let temps = "";
 
             if (title != null) {
                 temps = title.match(/([\w\d\s]+)/);
@@ -830,10 +830,10 @@ function isMoon() {
 
 // Permet de stocker les planètes du joueur connecté
 function save_my_planets_coords() {
-    var mesPlanetes = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.planetData['coords']);
-    var pls = '';
+    let mesPlanetes = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.planetData.coords);
+    let pls = '';
     if (mesPlanetes != null && mesPlanetes.snapshotLength > 0) {
-        for (var i = 0; i < mesPlanetes.snapshotLength; i++) {
+        for (let i = 0; i < mesPlanetes.snapshotLength; i++) {
             pls += mesPlanetes.snapshotItem(i).textContent.trim() + ((i < (mesPlanetes.snapshotLength - 1)) ? ';' : '');
         }
     }
