@@ -5,7 +5,7 @@
 /*********************** Compatibilité Chrome ***************************/
 
 function GM_getValue(key, defaultVal) {
-    var retValue = localStorage.getItem(prefix_GMData + key);
+    let retValue = localStorage.getItem(prefix_GMData + key);
     if (!retValue) {
         return defaultVal;
     }

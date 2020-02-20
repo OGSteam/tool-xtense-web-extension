@@ -2,6 +2,8 @@
  * Created by Anthony on 13/12/2015.
  */
 
+/*eslint-env es6*/
+
 function handle_current_page() {
     // Expressions régulières des pages
     let regGalaxy;
