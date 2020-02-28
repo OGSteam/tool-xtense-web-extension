@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.8.5
+// @version     2.8.6
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @include     https://*.ogame.*/game/index.php*
@@ -10,23 +10,23 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-var VERSION = '2.8.5';
-var TYPE = 'GM-';
-var PLUGIN_REQUIRED = '2.7.7';
-var nomScript = 'Xtense';
-var XtenseLocales = {};
+const VERSION = '2.8.6';
+let TYPE = 'GM-';
+const PLUGIN_REQUIRED = '2.7.7';
+const nomScript = 'Xtense';
+const XtenseLocales = {};
 
 //Variables globales pour les status - Type d'erreur
-var XLOG_WARNING = 1,
+const XLOG_WARNING = 1,
     XLOG_ERROR = 2,
     XLOG_NORMAL = 3,
     XLOG_SUCCESS = 4,
     XLOG_COMMENT = 5,
     XLOG_SEND = 6;
 // Navigateurs
-var isFirefox = (window.navigator.userAgent.indexOf('Firefox') > -1);
-var isChrome = (window.navigator.userAgent.indexOf('Chrome') > -1);
-var isOpera = (window.navigator.userAgent.indexOf('Opera') > -1);
+let isFirefox = (window.navigator.userAgent.indexOf('Firefox') > -1);
+let isChrome = (window.navigator.userAgent.indexOf('Chrome') > -1);
+let isOpera = (window.navigator.userAgent.indexOf('Opera') > -1);
 if (isFirefox) {
     TYPE += 'FF';
 } else if (isChrome) {
@@ -38,17 +38,17 @@ if (isFirefox) {
 /*************************** Init ***************************************/
 // Variables globales données ogame
 
-var url = location.href;
+const url = location.href;
 // Adresse en cours sur la barre d'outils
-var urlUnivers = url.match(new RegExp('(.*)/game'))[1];
-var numUnivers = urlUnivers.match(new RegExp('\/s(.*)-[a-z]{2}.ogame'))[1];
-var langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
-var prefix_GMData = langUnivers + numUnivers + '.';
+const urlUnivers = url.match(new RegExp('(.*)/game'))[1];
+const numUnivers = urlUnivers.match(new RegExp('\/s(.*)-[a-z]{2}.ogame'))[1];
+const langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
+const prefix_GMData = langUnivers + numUnivers + '.';
 log("Universe Number: " + numUnivers);
 log("Universe language: " + langUnivers);
 
 //Conversion Format adresse OGSPY
-var res = GM_getValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
+const res = GM_getValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
 GM_setValue('server.url.plugin',res);
 
 /******************************* Main ***********************************/

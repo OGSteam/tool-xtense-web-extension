@@ -572,6 +572,19 @@ function parse_buildings() {
         }
     }
     XtenseRequest.set(getPlanetData());
+if ( isMoon() === true) {
+    XtenseRequest.set({
+        'M': tabLevel[0],
+        'C': tabLevel[1],
+        'D': tabLevel[2],
+        'CES': tabLevel[3],
+        'CEF': tabLevel[4],
+        'SAT': tabLevel[5],
+        'HM': tabLevel[6],
+        'HC': tabLevel[7],
+        'HD': tabLevel[8]
+    });
+} else {
     XtenseRequest.set({
         'M': tabLevel[0],
         'C': tabLevel[1],
@@ -584,6 +597,9 @@ function parse_buildings() {
         'HC': tabLevel[8],
         'HD': tabLevel[9]
     });
+}
+
+
     XtenseRequest.send();
 }
 
@@ -783,7 +799,7 @@ function parse_defense() {
 /* Recuperation des données de la planète */
 
 function getPlanetData() {
-    var planet_type = '';
+    let planet_type = '';
     if (XtenseMetas.getPlanetType() === 'moon') {
         planet_type = '1';
     } else {
