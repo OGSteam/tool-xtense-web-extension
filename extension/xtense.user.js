@@ -12,7 +12,7 @@
 // Variables Xtense
 const VERSION = '2.8.6';
 let TYPE = 'GM-';
-const PLUGIN_REQUIRED = '2.7.7';
+const PLUGIN_REQUIRED = '2.7.5';
 const nomScript = 'Xtense';
 const XtenseLocales = {};
 

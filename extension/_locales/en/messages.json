@@ -36,7 +36,7 @@
         "description": "Intitulé pour le nom d'utilisateur OGSpy"
     },
     "XtenseServer_password": {
-        "message": "Mot de passe / Token personnel depuis OGSpy 3.3.5",
+        "message": "Personal password / token since OGSpy 3.3.5",
         "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
     },
     "XtenseServer_MainServer": {
@@ -48,7 +48,7 @@
         "description": "Intitulé pour la configuration du serveur backup"
     },
     "XtenseServer_example": {
-        "message": "Exemple :<br>Lien OGSpy: https://ogspy.fr/demo<br> Utilisateur: demo<br> Mot de passe / Token (64 charactères): xxxxxx <br>",
+        "message": "Exemple :<br>OGSpy Link: https://ogspy.fr/demo<br> Username: demo<br> Password / Token (64 characters): xxxxxx <br>",
         "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
     },
     "XtenseServer_example_2": {
@@ -76,11 +76,11 @@
         "description": "Intitulé Envoi des données Recherche"
     },
     "XtenseSend_shipyard": {
-        "message": "Flotte",
+        "message": "Fleet",
         "description": "Intitulé Envoi des données Flotte"
     },
     "XtenseSend_defense": {
-        "message": "Défense",
+        "message": "Defense",
         "description": "Intitulé Envoi des données défenses"
     },
     "XtenseSend_systems": {
@@ -144,15 +144,11 @@
         "description": "Activation des traces de debug"
     },
     "XtenseOptionsPage_ogspylink": {
-        "message": "Afficher un lien vers votre serveur OGSpy",
-        "description": "Activation des traces de debug"
-    },
-    "XtenseOptionsPage_ogsmarketlink": {
-        "message": "Afficher le lien du marché aux ressources",
+        "message": "View a link to your OGSpy server",
         "description": "Activation des traces de debug"
     },
     "XtenseOptionsPage_menu_settings": {
-        "message": "Paramètrage du Menu",
+        "message": "Menu Settings",
         "description": "Title for menu options in settings"
     },
     "XtenseAbout_version": {
@@ -352,7 +348,7 @@
         "description": "-Used-"
     },
     "XtenseMsg_error_token": {
-        "message": "Token personnel invalide",
+        "message": "Personal Token Invalid",
         "description": "-Used-"
     },
     "XtenseMsg_error_user_active": {

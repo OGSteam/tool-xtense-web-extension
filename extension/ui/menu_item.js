@@ -51,15 +51,12 @@ function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
     var ogspy_link = GM_getValue('server.url.plugin', 'https://forum.ogsteam.fr');
-    var ogsmarket_link = 'https://ogspy.fr/market';
     var aff_ogspy = ' ';
-    var aff_market = ' ';
 
     // Page classique
     if ($("#playerName")) {
         var icone = chrome.extension.getURL('images/icones/xtense.png');
         var icone_planet = chrome.extension.getURL('images/icones/planet.png');
-        var icone_market= chrome.extension.getURL('images/icones/market.png');
 
         var aAttrs = '';
         var urlIcone = '';
@@ -79,9 +76,6 @@ function displayXtense() {
         if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
             aff_ogspy = create_menu_button('optionOGSpy', icone_planet, ogspy_link, 'OGSpy');
         }
-        if (GM_getValue('market.link', 'true').toString() === 'true') {
-            aff_market = create_menu_button('optionOGSMarket', icone_market, ogsmarket_link, 'OGSMarket');
-        }
 
         if ($('#optionXtense').length) {
             $('#menuTableTools')[0].removeChild($('#optionXtense')[0]);
@@ -89,17 +83,14 @@ function displayXtense() {
         if ($('#optionOGSpy').length) {
             $('#menuTableTools')[0].removeChild($('#optionOGSpy')[0]);
         }
-        if ($('#optionOGSMarket').length) {
-            $('#menuTableTools')[0].removeChild($('#optionOGSMarket')[0]);
-        }
 
         $("#menuTableTools").append(aff_option);
         $("#optionXtense").after(aff_ogspy);
 
         if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
-            $("#optionOGSpy").after(aff_market);
+            $("#optionOGSpy").after(aff_ogspy);
         }else{
-            $("#optionXtense").after(aff_market);
+            $("#optionXtense").after(aff_ogspy);
         }
     } else {
 
@@ -135,10 +126,8 @@ function displayOptions() {
     var opt_debug_mode = ' ';
     var opt_backup_link = ' ';
     var opt_ogspy_link = ' ';
-    var opt_market_link = ' ';
 
     // Récupération des préférences  : Pages
-
     if (GM_getValue('handle.overview', 'false').toString() === 'true') {
         handle_overview += 'checked';
     }
@@ -200,9 +189,6 @@ function displayOptions() {
     }
     if (GM_getValue('ogspy.link', 'false').toString() === 'true') {
         opt_ogspy_link += ' checked';
-    }
-    if (GM_getValue('market.link', 'false').toString() === 'true') {
-        opt_market_link += ' checked';
     }
 
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
@@ -382,8 +368,6 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_ogspylink") + '</label></td>';
     options += '<td class="value" style="text-align:left;"><input class="speed" id="ogspy.link" size="35" alt="24" type="checkbox"' + opt_ogspy_link + '/></td>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_ogsmarketlink") + '</label></td>';
-    options += '<td class="value" style="text-align:left;"><input class="speed" id="market.link" size="35" alt="24" type="checkbox"' + opt_market_link + '/></td>';
     options += '</tbody></table>';
     options += '</div>';
     /*---------------------------- A propos -----------------------------------------------*/
@@ -419,10 +403,6 @@ function displayOptions() {
     $('#contentWrapper.with_chat_bar').css('padding-bottom','0px');
     einhalt.parent().after(escriptopt);
     displayOption('#Xtense_serveurs'); // Mise en place initiale du menu
-	/*$('#Xtense_serveurs').show();
-    $('#Xtense_pages').hide();
-    $('#Xtense_options').hide();
-    $('#Xtense_about').hide();*/
 
     $('#menu_servers').click( function(){ displayOption('#Xtense_serveurs'); });
     $('#menu_pages').click( function(){ displayOption('#Xtense_pages'); });

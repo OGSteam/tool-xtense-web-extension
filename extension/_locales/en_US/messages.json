@@ -147,10 +147,6 @@
         "message": "Display a link to your OGSpy Server",
         "description": "Activation des traces de debug"
     },
-    "XtenseOptionsPage_ogsmarketlink": {
-        "message": "Display a link to OGSpy Market",
-        "description": "Activation des traces de debug"
-    },
     "XtenseOptionsPage_menu_settings": {
         "message": "Menu Parameters",
         "description": "Title for menu options in settings"
