@@ -225,11 +225,6 @@ function displayOptions() {
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_username") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server.user" value="' + GM_getValue('server.user', 'utilisateur') + '" size="64" alt="24" type="text"/></td>';
-    options += '</tr>';
-    options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
-    options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_password") + '</label></td>';
     options += '<td class="value"><input class="speed" id="server.pwd" value="' + GM_getValue('server.pwd', 'mot de passe') + '" size="64" alt="24" type="password"/></td>';
     options += '</tr>';
@@ -241,11 +236,6 @@ function displayOptions() {
 	options += '<tr class="server_url_backup">';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
     options += '<td class="value"><input class="speed" id="server_backup.url.plugin" value="' + GM_getValue('server_backup.url.plugin', 'https://VOTRESITE/VOTREOGSPY') + '" size="64" alt="24" type="text"/></td>';
-    options += '</tr>';
-    options += '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
-    options += '<tr class="server_url_backup">';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_username") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server_backup.user" value="' + GM_getValue('server_backup.user', 'utilisateur') + '" size="64" alt="24" type="text"/></td>';
     options += '</tr>';
     options += '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr class="server_url_backup">';

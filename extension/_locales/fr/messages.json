@@ -31,13 +31,9 @@
         "message": "Lien OGSpy",
         "description": "Intitulé pour le lien vers le serveur OGSpy"
     },
-    "XtenseServer_username": {
-        "message": "Utilisateur",
-        "description": "Intitulé pour le nom d'utilisateur OGSpy"
-    },
     "XtenseServer_password": {
-        "message": "Mot de passe / Token personnel depuis OGSpy 3.3.5",
-        "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
+        "message": "Token personnel",
+        "description": "Intitulé pour le Token utilisateur OGSpy"
     },
     "XtenseServer_MainServer": {
         "message": "Lien vers votre serveur OGSpy principal",
@@ -48,7 +44,7 @@
         "description": "Intitulé pour la configuration du serveur backup"
     },
     "XtenseServer_example": {
-        "message": "Exemple :<br>Lien OGSpy: https://ogspy.fr/demo<br> Utilisateur: demo<br> Mot de passe / Token (64 charactères): xxxxxx <br>",
+        "message": "Exemple :<br>Lien OGSpy: https://ogspy.fr/demo<br>Token (64 charactères) disponible dans votre profil OGSpy<br>",
         "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
     },
     "XtenseServer_example_2": {
@@ -172,7 +168,7 @@
         "description": "Support"
     },
     "XtenseAbout_ogsteam": {
-        "message": "Xtense GM is an OGSteam Software © 2005-2019",
+        "message": "Xtense GM is an OGSteam Software © 2005-2020",
         "description": "Copyright"
     },
     "XtenseMsg_http_status_403": {
@@ -324,7 +320,7 @@
         "description": "Copyright-Used-"
     },
     "XtenseMsg_error_php_version": {
-        "message": "Le plugin requiert PHP 5.1 pour fonctionner, la version actuelle est obsolète",
+        "message": "Le plugin requiert PHP 7.2 pour fonctionner, la version actuelle est obsolète",
         "description": "-Used-"
     },
     "XtenseMsg_error_wrong_version_plugin": {

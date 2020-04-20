@@ -15,12 +15,11 @@
       ],
       "js": [
         "contribs/jquery.min.js",
+        "contribs/loglevel.min.js",
         "parsers/OgameLocales.js",
         "parsers/OgameConstants.js",
         "parsers/Ogame.js",
         "parsers/MessagesParser.js",
-        "contribs/sha1.js",
-        "contribs/md5.js",
         "ui/menu_item.js",
         "ogspy/send_data.js",
         "utilities.js",
@@ -49,6 +48,7 @@
   "background": {
     "scripts": [
       "contribs/jquery.min.js",
+      "contribs/loglevel.min.js",
       "background.js"
     ]
   },

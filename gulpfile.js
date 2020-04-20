@@ -17,18 +17,13 @@ function update_jquery() {
     return src(['node_modules/jquery/dist/jquery.min.js']).pipe(dest('extension/contribs'));
 }
 
-function update_sha1() {
-    return src(['node_modules/cryptojslib/rollups/sha1.js']).pipe(dest('extension/contribs'));
-}
-
-function update_md5() {
-    return src(['node_modules/cryptojslib/rollups/md5.js']).pipe(dest('extension/contribs'));
+function update_loglevel() {
+    return src(['node_modules/loglevel/dist/loglevel.min.js']).pipe(dest('extension/contribs'));
 }
 
 function build(cb) {
     update_jquery();
-    update_md5();
-    update_sha1();
+    update_loglevel();
     console.log('External Libs found and moved to extension folder');
     cb();
 }

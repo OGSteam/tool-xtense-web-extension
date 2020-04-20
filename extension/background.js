@@ -22,7 +22,7 @@ chrome.runtime.onMessage.addListener(
         }
         if (request.action === "xhttp") {
 
-            var ajax_obj = $.ajax({
+            let ajax_obj = $.ajax({
                 type: request.method,
                 url: request.url,
                 data: request.data,
@@ -36,6 +36,12 @@ chrome.runtime.onMessage.addListener(
 
 
             return true; // prevents the callback from being called too early on return
+        }
+
+        if (request.action === "log") {
+
+
+
         }
 
     });
