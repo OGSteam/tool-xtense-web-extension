@@ -100,21 +100,20 @@ function initOGSpyCommunication() {
         data: {},
         send: function () {
 
-            var password_s;
-            var password_m;
-            var postData;
+            let password_m;
+            let postData;
 
             //Check if server has been properly configured before sending data
             if(GM_getValue("server.url.plugin", "" ) === "https://VOTRESITE/VOTREOGSPY"){
                 log("Server 1 is not configured");
-                var message = Xl("unknown_server");
+                let  message = Xl("unknown_server");
                 setStatus(XLOG_WARNING,"[OGSpy] "+ message);
                 return;
             }
 
             GM_setValue("server.name", "OGSpy");
-            password_m  = hash_data(GM_getValue("server.pwd", ""));
-            postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&user=" + GM_getValue("server.user", "") + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
+            password_m  = GM_getValue("server.pwd", "");
+            postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
             log("sending " + postData + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
                 url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
@@ -124,8 +123,8 @@ function initOGSpyCommunication() {
             });
             if (GM_getValue("backup.link", "false").toString() === "true") {
                 GM_setValue("server.name", "OGSpy Backup");
-                password_m  = hash_data(GM_getValue("server_backup.pwd", ""));
-                postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&user=" + GM_getValue("server_backup.user", "") + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
+                password_m  = GM_getValue("server_backup.pwd", "");
+                postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
                 log("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
                     url: GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
@@ -233,8 +232,8 @@ function handleResponse(status, Response) {
             }
         }
         data = jQuery.parseJSON(data);
-        var message = '';
-        var code = data.type;
+        let message = '';
+        let code = data.type;
         if (data.status === 0) {
             type = XLOG_ERROR;
             switch (code) {
@@ -336,19 +335,5 @@ function handleResponse(status, Response) {
         }
         setStatus(type, "[" + data.execution + " ms]" + "[" + message_start + "] "+ message);
     }
-}
-
-function hash_data (data) {
-
-    if (data.length !== 64){
-        let password_s = CryptoJS.SHA1(data);
-        return CryptoJS.MD5(password_s.toString());
-    } else
-    {
-        return data;
-
-    }
-
-
 }
 
