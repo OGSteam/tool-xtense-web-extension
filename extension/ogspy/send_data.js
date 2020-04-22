@@ -111,9 +111,18 @@ function initOGSpyCommunication() {
                 return;
             }
 
+            this.set({
+                toolbar_version : VERSION,
+                toolbar_type : TYPE,
+                mod_min_version : PLUGIN_REQUIRED,
+                password : password_m.toString(),
+                univers : urlUnivers
+            });
+
+
             GM_setValue("server.name", "OGSpy");
-            password_m  = GM_getValue("server.pwd", "");
-            postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
+            this.set({password : GM_getValue("server.pwd", "")});
+            postData = JSON.stringify(this.data);
             log("sending " + postData + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
                 url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
@@ -123,8 +132,8 @@ function initOGSpyCommunication() {
             });
             if (GM_getValue("backup.link", "false").toString() === "true") {
                 GM_setValue("server.name", "OGSpy Backup");
-                password_m  = GM_getValue("server_backup.pwd", "");
-                postData = "toolbar_version=" + VERSION + "&toolbar_type=" + TYPE + "&mod_min_version=" + PLUGIN_REQUIRED + "&password=" + password_m + "&univers=" + urlUnivers + XtenseRequest.serializeData();
+                this.set({password : GM_getValue("server_backup.pwd", "")});
+                postData = JSON.stringify(this.data);
                 log("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
                     url: GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
@@ -135,14 +144,7 @@ function initOGSpyCommunication() {
             }
 
         },
-        call: function (Server, Response) {
-            XtenseRequest.loading[Server.n] = false;
-            XtenseRequest.callback.apply(this.scope, [
-                this,
-                Server,
-                Response
-            ]);
-        },
+        //Prépare la donnée avant envoi
         set: function (name, value) {
             if (typeof name === 'string') this.data[name] = value;
             else {
@@ -150,37 +152,8 @@ function initOGSpyCommunication() {
                     for (var i in arguments[n]) this.data[i] = arguments[n][i];
                 }
             }
-        },
-        serializeObject: function (obj, parent, tab) {
-            var retour = '';
-            var type = typeof obj;
-            var str = '';
-            if (type === 'object') {
-                for (var i in obj) {
-                    if (parent !== '')
-                        str = parent + '[' + i + ']';
-                    else str = i;
-                    var a = false;
-                    // Patch pour Graphic Tools for Ogame
-                    if (str.search("existsTOG") == -1) {
-                        a = this.serializeObject(obj[i], str, tab);
-                    }
-                    if (a !== false)
-                        tab.push(a);
-                }
-                return false;
-            } else if (type === 'boolean')
-                retour = (obj === true ? 1 : 0);
-            else retour = obj + '';
-            return parent + '=' + encodeURIComponent(retour).replace(new RegExp('(%0A)+', 'g'), '%20').replace(new RegExp('(%09)+', 'g'), '%20').replace(new RegExp('(%20)+', 'g'), '%20');
-        },
-        serializeData: function () {
-            var uri = '';
-            var tab = [];
-            this.serializeObject(this.data, '', tab);
-            uri = '&' + tab.join('&');
-            return uri;
-        },
+        }
+
     };
 }
 /* Interpretation des retours Xtense (module OGSPY) */
@@ -231,7 +204,7 @@ function handleResponse(status, Response) {
                 return;
             }
         }
-        data = jQuery.parseJSON(data);
+        data = JSON.parse(data);
         let message = '';
         let code = data.type;
         if (data.status === 0) {
