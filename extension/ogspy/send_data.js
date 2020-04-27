@@ -95,13 +95,13 @@ function initOGSpyCommunication() {
     //*************************************************
 
     XtenseRequest = {
-        postedData: [],
         loading: {},
+        params: {},
         data: {},
         send: function () {
 
             let password_m;
-            let postData;
+            let postData = {};
 
             //Check if server has been properly configured before sending data
             if(GM_getValue("server.url.plugin", "" ) === "https://VOTRESITE/VOTREOGSPY"){
@@ -111,33 +111,35 @@ function initOGSpyCommunication() {
                 return;
             }
 
-            this.set({
-                toolbar_version : VERSION,
-                toolbar_type : TYPE,
-                mod_min_version : PLUGIN_REQUIRED,
-                password : password_m.toString(),
-                univers : urlUnivers
-            });
-
+            if (this.data.type === null)  {
+                let message = Xl("error_internal");
+                setStatus(XLOG_WARNING,"[OGSpy] "+ message);
+                return;
+            }
+            postData.toolbar_version = VERSION;
+            postData.toolbar_type = TYPE;
+            postData.mod_min_version = PLUGIN_REQUIRED;
+            postData.univers = urlUnivers;
+            postData.type = this.data.type;
 
             GM_setValue("server.name", "OGSpy");
-            this.set({password : GM_getValue("server.pwd", "")});
-            postData = JSON.stringify(this.data);
+            postData.password = GM_getValue("server.pwd", "");
+            postData.data = JSON.stringify(this.data);
             log("sending " + postData + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
                 url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
-                post: postData,
+                post: JSON.stringify(postData),
                 callback: null,
                 scope: this
             });
             if (GM_getValue("backup.link", "false").toString() === "true") {
                 GM_setValue("server.name", "OGSpy Backup");
-                this.set({password : GM_getValue("server_backup.pwd", "")});
-                postData = JSON.stringify(this.data);
+                postData.password = GM_getValue("server_backup.pwd", "");
+                postData.data = JSON.stringify(this.data);
                 log("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
                     url: GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
-                    post: postData,
+                    post: JSON.stringify(postData),
                     callback: null,
                     scope: this
                 });
@@ -161,7 +163,7 @@ function initOGSpyCommunication() {
 function handleResponse(status, Response) {
     log("Status: " + status);
     log("Response: " + Response);
-    var message_start = GM_getValue("server.name", "");
+    let message_start = GM_getValue("server.name", "");
 
     if (status !== 200) {
         switch (status) {

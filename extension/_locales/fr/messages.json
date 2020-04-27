@@ -339,10 +339,6 @@
         "message": "Serveur OGSpy inactif",
         "description": "-Used-"
     },
-    "XtenseMsg_error_username": {
-        "message": "Pseudo invalide",
-        "description": "-Used-"
-    },
     "XtenseMsg_error_password": {
         "message": "Mot de passe invalide",
         "description": "-Used-"
@@ -355,6 +351,10 @@
         "message": "Votre compte est inactif",
         "description": "-Used-"
     },
+  "XtenseMsg_error_internal": {
+    "message": "Erreur interne lors de l'envoi du message. Veuillez contacter l'OGSteam",
+    "description": "-Used-"
+  },
     "XtenseMsg_error_home_full": {
         "message": "Votre espace personnel est plein, merci de supprimer la planète qui a été détruite ou renommée sur OGSpy",
         "description": "-Used-"

@@ -325,7 +325,7 @@ function parse_galaxy_system_inserted(event) {
                 };
             }
             XtenseRequest.set({
-                row: rowsData,
+                rows: rowsData,
                 galaxy: coords[0],
                 system: coords[1],
                 type: 'system'
