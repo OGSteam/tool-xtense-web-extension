@@ -919,7 +919,7 @@ function getPlanetBoostersAndExtensions() {
         }
     }
 
-    return {boostExt: datas};
+    return datas;
 }
 
 
