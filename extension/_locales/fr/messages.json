@@ -224,23 +224,23 @@
         "description": "-Used-"
     },
     "XtenseMsg_buildings_detected": {
-        "message": "Batiments détectés",
+        "message": "Page Bâtiments détectée",
         "description": "-Used-"
     },
     "XtenseMsg_installations_detected": {
-        "message": "Installations détectés",
+        "message": "Page Installations détectée",
         "description": "-Used-"
     },
     "XtenseMsg_researchs_detected": {
-        "message": "Recherches détectés",
+        "message": "Page Recherches détectée",
         "description": "-Used-"
     },
     "XtenseMsg_fleet_detected": {
-        "message": "Flotte détectée",
+        "message": "Page Flotte détectée",
         "description": "-Used-"
     },
     "XtenseMsg_defense_detected": {
-        "message": "Défenses détectés",
+        "message": "Page Défenses détectée",
         "description": "-Used-"
     },
     "XtenseMsg_messages_detected": {
@@ -248,7 +248,7 @@
         "description": "-Used-"
     },
     "XtenseMsg_ranking_detected": {
-        "message": "Page statistiques détectées",
+        "message": "Page statistiques détectée",
         "description": "-Used-"
     },
     "XtenseMsg_ally_list_detected": {
@@ -265,10 +265,6 @@
     },
     "XtenseMsg_rc_detected": {
         "message": "Rapport de combat détecté",
-        "description": "TODO"
-    },
-    "XtenseMsg_res_detected": {
-        "message": "Message de commerce détecté",
         "description": "TODO"
     },
     "XtenseMsg_ranking_player": {

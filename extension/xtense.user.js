@@ -10,9 +10,9 @@
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
 // Variables Xtense
-const VERSION = '2.8.7';
+const VERSION = '2.9.0';
 let TYPE = 'GM-';
-const PLUGIN_REQUIRED = '2.7.5';
+const PLUGIN_REQUIRED = '2.9.0';
 const nomScript = 'Xtense';
 const XtenseLocales = {};
 
@@ -52,10 +52,8 @@ GM_setValue('server.url.plugin',res);
 
 /******************************* Main ***********************************/
 setlogLevel(); // Default Info
-log.info("Welcome");
-log.info("Universe Number: " + numUnivers);
-log.info("Universe language: " + langUnivers);
-log.info("Xtense WE Version : " + VERSION);
+log.info("Welcome to Xtense WE Version : " + VERSION);
+log.info("Universe : " + numUnivers + "-" + langUnivers);
 log.info("Xtense WE requires Mod Xtense " + PLUGIN_REQUIRED);
 
 initOGSpyCommunication();

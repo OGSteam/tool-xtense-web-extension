@@ -12,23 +12,23 @@ function setStatus(type, message) {
         switch (type){
             case XLOG_SUCCESS :
                 img_url = 'images/icones/xtenseOk.png';
-                log.info("setStatus : " + message);
+                log.info(message);
                 break;
             case XLOG_NORMAL :
                 img_url = 'images/icones/xtenseNo.png';
-                log.info("setStatus : " + message);
+                log.info(message);
                 break;
             case XLOG_WARNING :
                 img_url = 'images/icones/xtenseWarn.png';
-                log.warn("setStatus : " + message);
+                log.warn(message);
                 break;
             case XLOG_ERROR:
                 img_url = 'images/icones/xtenseKo.png';
-                log.error("setStatus : " + message);
+                log.error(message);
                 break;
             case XLOG_SEND:
                 img_url = 'images/icones/xtense-send.png';
-                log.info("setStatus : " + message);
+                log.info(message);
                 break;
             default:
                 img_url = 'images/icones/xtenseNo.png';
@@ -38,7 +38,7 @@ function setStatus(type, message) {
         chrome.runtime.sendMessage({ "action" : "toolbar_icon", "newIconPath" : img_url, "newTooltip" : message});
 
     } else {
-        log.error("setStatus Error: Cannot set icon " + message);
+        log.error("Error: Cannot set icon " + message);
     }
 }
 //Fin Gestion de l'icone

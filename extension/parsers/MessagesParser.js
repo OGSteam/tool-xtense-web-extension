@@ -45,8 +45,8 @@ function parse_messages() {
     let messages = Xpath.getOrderedSnapshotNodes(document, paths.showmessage, null);
     let messagesCourt = Xpath.getOrderedSnapshotNodes(document, paths.shortmessages, null);
 
-    //log.info('Nombre Messages courts: ' + messagesCourt.snapshotLength);
-    //log.info('Nombre Messages classiques: ' + messages.snapshotLength);
+    log.debug('Nombre Messages courts: ' + messagesCourt.snapshotLength);
+    log.debug('Nombre Messages classiques: ' + messages.snapshotLength);
 
     // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
     parse_short_messages(messagesCourt, messages);
@@ -63,13 +63,13 @@ function parse_short_messages(messagesCourt, messages) {
 
     // Pas de messages à traiter
     if (messagesCourt.snapshotLength === 0) {
-        log.info('Pas de messages à traiter');
+        log.debug('Pas de messages à traiter');
         return;
     }
     // Si le nombre de messages présent est le même que lors du dernier traitement
     // On considère qu'il n'y a pas de nouveaux messages
     if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize){
-        log.info('Pas de nouveaux messages');
+        log.debug('Pas de nouveaux messages');
         return;
     }
 
@@ -85,14 +85,14 @@ function parse_short_messages(messagesCourt, messages) {
         let msgContent = shortMessageNode.textContent.trim();
         // Recupere l'id du message court
         let idmsg = shortMessageNode.attributes['data-msg-id'].value;
-        log.info("ID Message court : " + idmsg);
+        log.debug("ID Message court : " + idmsg);
         /*Récupération API */
         //*[@id="messages"]/div[9]/div[3]/div/input
 
         // Espionnage ennemi
         if ((GM_getValue("handle.msg.ennemy.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
 
-            log.info("Message court Espionnage Ennemi détecté : ");
+            log.info("Message court Espionnage Ennemi détecté");
             let ToInfo = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy_to));
             let proba = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy_proba));
 
@@ -165,7 +165,7 @@ function parse_short_messages(messagesCourt, messages) {
         // Expeditions
         else if ((GM_getValue("handle.msg.expeditions").toString() === 'true') && msgContent.match(new RegExp(locales.expeditionResult + XtenseRegexps.planetCoords))) {
 
-            log.info("Message court Expédition détecté : ");
+            log.info("Message court Expédition détecté");
             let m = msgContent.match(new RegExp(locales.expeditionResult + XtenseRegexps.planetCoords));
             let content = Xpath.getOrderedSnapshotNodes(document, paths.shortmsgcontent, shortMessageNode);
 
@@ -211,12 +211,12 @@ function parse_detail_messages(messages) {
     let messageNode = messages.snapshotItem(0);
     // Recupere l'id du message detaille
     let messageId = Xpath.getStringValue(document, paths.messageid, messageNode);
-    log.info("Message Long messageid : " + messageId);
+    log.debug("Message Long messageid : " + messageId);
 
     if (GM_getValue("lastAction", '').toString() === "message:" + messageId)
         return false;
 
-    log.info("Traitement du message");
+    log.info("Traitement du message Long");
     GM_setValue('lastAction', "message:" + messageId);
     let locales = l('messages');
 
@@ -422,7 +422,7 @@ function parse_rc(doc, script) {
     let resultRegex = jsonRegex.exec(script.innerHTML);
     log.info(resultRegex[1]);
     if(resultRegex.length !== 2) {
-        log.info('Erreur lors de la récupération du json');
+        log.error('Erreur lors de la récupération du json');
         return false;
     }
 

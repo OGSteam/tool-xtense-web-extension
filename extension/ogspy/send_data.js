@@ -125,7 +125,8 @@ function initOGSpyCommunication() {
             GM_setValue("server.name", "OGSpy");
             postData.password = GM_getValue("server.pwd", "");
             postData.data = JSON.stringify(this.data.gamedata);
-            log.info("sending " + JSON.stringify(this.data) + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
+            log.info("Send Page Type " +  this.data.type);
+            log.debug("sending Data" + JSON.stringify(this.data) + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
                 url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
                 post: JSON.stringify(postData),
@@ -136,7 +137,7 @@ function initOGSpyCommunication() {
                 GM_setValue("server.name", "OGSpy Backup");
                 postData.password = GM_getValue("server_backup.pwd", "");
                 postData.data = JSON.stringify(this.data);
-                log.info("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
+                log.debug("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
                     url: GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
                     post: JSON.stringify(postData),
@@ -161,8 +162,8 @@ function initOGSpyCommunication() {
 /* Interpretation des retours Xtense (module OGSPY) */
 
 function handleResponse(status, Response) {
-    log.info("ResponseStatus: " + status);
-    log.info("ResponseData: " + Response);
+    log.debug("ResponseStatus: " + status);
+    log.debug("ResponseData: " + Response);
     let message_start = GM_getValue("server.name", "");
 
     if (status !== 200) {
@@ -275,7 +276,7 @@ function handleResponse(status, Response) {
                     message = Xl("success_messages");
                     break;
                 case "ranking":
-                    message = Xl("success_ranking") + " (" + data.offset.toString() +"-" + (data.offset + 99).toString() + ")";
+                    message = Xl("success_ranking") + " (" + data.offset.toString() +"-" + (parseInt(data.offset) + 99).toString() + ")";
                     break;
                 case "ally_list":
                     message = Xl("success_ally_list");
@@ -291,7 +292,7 @@ function handleResponse(status, Response) {
         if (data.calls) {
             // Merge the both objects
             //var calls = extra.calls = data.calls;
-            var calls = data.calls;
+            let calls = data.calls;
             calls.status = "success";
             if (calls.warning.length > 0) calls.status = "warning";
             if (calls.error.length > 0) calls.status = "error";
@@ -303,7 +304,7 @@ function handleResponse(status, Response) {
                     error: []
                 };
                 // Affichage des messages dans l'ordre : success, warning, error
-                for (var i = 0, len = data.call_messages.length; i < len; i++) {
+                for (let i = 0, len = data.call_messages.length; i < len; i++) {
                     calls.messages[data.call_messages[i].type].push(data.call_messages[i].mod + ' : ' + data.call_messages[i].message);
                 }
             }
