@@ -6,38 +6,39 @@
 //Gestion de l'icone
 
 function setStatus(type, message) {
-    var img_url = null;
-    var icone = Xpath.getSingleNode(document, '//img[@id=\'xtense.icone\']');
+    let img_url = null;
+    let icone = Xpath.getSingleNode(document, '//img[@id=\'xtense.icone\']');
     if (icone != null) {
         switch (type){
             case XLOG_SUCCESS :
                 img_url = 'images/icones/xtenseOk.png';
+                log.info("setStatus : " + message);
                 break;
             case XLOG_NORMAL :
                 img_url = 'images/icones/xtenseNo.png';
+                log.info("setStatus : " + message);
                 break;
             case XLOG_WARNING :
                 img_url = 'images/icones/xtenseWarn.png';
+                log.warn("setStatus : " + message);
                 break;
             case XLOG_ERROR:
                 img_url = 'images/icones/xtenseKo.png';
+                log.error("setStatus : " + message);
                 break;
             case XLOG_SEND:
                 img_url = 'images/icones/xtense-send.png';
+                log.info("setStatus : " + message);
                 break;
             default:
                 img_url = 'images/icones/xtenseNo.png';
-
         }
         icone.title = message;
         icone.src = chrome.extension.getURL(img_url);
-        //chrome.browserAction.setIcon({path:img_url});
-
         chrome.runtime.sendMessage({ "action" : "toolbar_icon", "newIconPath" : img_url, "newTooltip" : message});
 
-        log("setStatus : " + message);
     } else {
-        log("setStatus Error: Cannot set icon " + message);
+        log.error("setStatus Error: Cannot set icon " + message);
     }
 }
 //Fin Gestion de l'icone
@@ -92,7 +93,7 @@ function displayXtense() {
         }
     } else {
 
-        log("Problem to display Menu entry point");
+        log.info("Problem to display Menu entry point");
 
     }
 }
@@ -417,13 +418,13 @@ function displayOptions() {
 
     if(einhalt.visible) {
 
-        log("Erreur Affichage menu");
+        log.info("Erreur Affichage menu");
     }
 
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
         var inputOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[not(@type=\'checkbox\')]');
-        //log("inputOptions.snapshotLength="+inputOptions.snapshotLength);
+        //log.info("inputOptions.snapshotLength="+inputOptions.snapshotLength);
         if (inputOptions.snapshotLength > 0) {
             for (var i = 0; i < inputOptions.snapshotLength; i++) {
                 var input = inputOptions.snapshotItem(i);
@@ -433,11 +434,11 @@ function displayOptions() {
         // Sauvegarde des checkbox
 
         var checkboxOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[@type=\'checkbox\']');
-        //log("checkboxOptions.snapshotLength="+checkboxOptions.snapshotLength);
+        //log.info("checkboxOptions.snapshotLength="+checkboxOptions.snapshotLength);
         if (checkboxOptions.snapshotLength > 0) {
             for (var j = 0; j < checkboxOptions.snapshotLength; j++) {
                 var checkbox = checkboxOptions.snapshotItem(j);
-                //log('GM_setValue(prefix_GMData +'+checkbox.id+' , '+checkbox.checked+');');
+                //log.info('GM_setValue(prefix_GMData +'+checkbox.id+' , '+checkbox.checked+');');
                 GM_setValue(checkbox.id, checkbox.checked);
             }
         }

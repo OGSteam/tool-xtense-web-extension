@@ -105,7 +105,7 @@ function initOGSpyCommunication() {
 
             //Check if server has been properly configured before sending data
             if(GM_getValue("server.url.plugin", "" ) === "https://VOTRESITE/VOTREOGSPY"){
-                log("Server 1 is not configured");
+                log.info("Server 1 is not configured");
                 let  message = Xl("unknown_server");
                 setStatus(XLOG_WARNING,"[OGSpy] "+ message);
                 return;
@@ -125,7 +125,7 @@ function initOGSpyCommunication() {
             GM_setValue("server.name", "OGSpy");
             postData.password = GM_getValue("server.pwd", "");
             postData.data = JSON.stringify(this.data.gamedata);
-            log("sending " + JSON.stringify(this.data) + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
+            log.info("sending " + JSON.stringify(this.data) + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
                 url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
                 post: JSON.stringify(postData),
@@ -136,7 +136,7 @@ function initOGSpyCommunication() {
                 GM_setValue("server.name", "OGSpy Backup");
                 postData.password = GM_getValue("server_backup.pwd", "");
                 postData.data = JSON.stringify(this.data);
-                log("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
+                log.info("sending backup " + postData + " to " + GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
                 new Xajax({
                     url: GM_getValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
                     post: JSON.stringify(postData),
@@ -161,8 +161,8 @@ function initOGSpyCommunication() {
 /* Interpretation des retours Xtense (module OGSPY) */
 
 function handleResponse(status, Response) {
-    log("Status: " + status);
-    log("Response: " + Response);
+    log.info("ResponseStatus: " + status);
+    log.info("ResponseData: " + Response);
     let message_start = GM_getValue("server.name", "");
 
     if (status !== 200) {
@@ -199,7 +199,7 @@ function handleResponse(status, Response) {
                 data = match[0];
                 // Message d'avertissement
                 type = XLOG_WARNING;
-                log("full response:" + Response);
+                log.warn("full response:" + Response);
             } else {
                 // Message d'erreur
                 setStatus(XLOG_ERROR, Xl("invalid_response"));

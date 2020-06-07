@@ -39,6 +39,17 @@ Premier lancement : Lancer la commande ``npm install``
 * master - Branche Principale, utilisée uniquement pour publier les versions finales de nos outils.
 * development - branche qui contient les développements pour les futures versions
 
+### Journal
+
+Le journal est assuré par la librairie [LogLevel](https://github.com/pimterry/loglevel)
+
+Il existe 5 niveaux de Logs:
+* log.trace(msg) : Affiche le Log et la Callstack
+* log.debug(msg) : Niveau par défaut en mode Debug : Affiche les données envoyées aisni que les étapes intermédiaires
+* log.info(msg) : Niveau par défaut en mode normal : Affiche les pages détectée et le résultat de l'envoi
+* log.warn(msg) : Pour alerter l'utilisateur d'un Problème
+* log.error(msg) : : Pour alerter l'utilisateur d'une Erreur
+
 ### Contact ###
 
 * [Forum](https://forum.ogsteam.fr)

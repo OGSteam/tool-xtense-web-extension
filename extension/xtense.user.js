@@ -35,7 +35,7 @@ if (isFirefox) {
     TYPE += 'OP';
 }
 
-/*************************** Init ***************************************/
+// Init
 // Variables globales données ogame
 
 const url = location.href;
@@ -44,14 +44,19 @@ const urlUnivers = url.match(new RegExp('(.*)/game'))[1];
 const numUnivers = urlUnivers.match(new RegExp('\/s(.*)-[a-z]{2}.ogame'))[1];
 const langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
 const prefix_GMData = langUnivers + numUnivers + '.';
-log("Universe Number: " + numUnivers);
-log("Universe language: " + langUnivers);
+
 
 //Conversion Format adresse OGSPY
 const res = GM_getValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
 GM_setValue('server.url.plugin',res);
 
 /******************************* Main ***********************************/
+setlogLevel(); // Default Info
+log.info("Welcome");
+log.info("Universe Number: " + numUnivers);
+log.info("Universe language: " + langUnivers);
+log.info("Xtense WE Version : " + VERSION);
+log.info("Xtense WE requires Mod Xtense " + PLUGIN_REQUIRED);
 
 initOGSpyCommunication();
 initParsers();
