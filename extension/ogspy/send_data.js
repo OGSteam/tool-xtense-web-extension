@@ -144,15 +144,15 @@ function initOGSpyCommunication() {
                     scope: this
                 });
             }
-
+            /* Sauvegarde Pour Rapport utilisateur */
+            GM_setValue('report.type',postData.type);
+            GM_setValue('report.data',postData.data);
         },
         //Prépare la donnée avant envoi
         set: function (name, value) {
             if (typeof name === 'string') this.data[name] = value;
             else {
-                for (var n = 0, len = arguments.length; n < len; n++) {
-                    for (var i in arguments[n]) this.data[i] = arguments[n][i];
-                }
+                this.data[name].push(JSON.stringify(value));
             }
         }
 

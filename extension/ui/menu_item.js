@@ -59,8 +59,6 @@ function displayXtense() {
         var icone_planet = chrome.extension.getURL('images/icones/planet.png');
 
         var aAttrs = '';
-        var urlIcone = '';
-        var onClick = null;
         if (GM_getValue('manual.send', 'false').toString() === 'true') {
             aAttrs = 'onClick="window.location.reload()" target="_self"';
         } else {
@@ -333,23 +331,6 @@ function displayOptions() {
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
     options += '<tr>';
-    options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' + chrome.i18n.getMessage("XtenseOptionsPage_title") + '</td>';
-    options += '</tr>';
-    options += '<tr>';
-    options += '<td colspan="6">&nbsp;</td>';
-    options += '</tr>';
-    options += '<tr>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_debugmode") + '</label></td>';
-    options += '<td class="value" style="text-align:left;"><input class="speed" id="debug.mode" size="35" alt="24" type="checkbox"' + opt_debug_mode + '/></td>';
-	options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_backuplink") + '</label></td>';
-    options += '<td class="value" style="text-align:left;"><input class="speed" id="backup.link" size="35" alt="24" type="checkbox"' + opt_backup_link + '/></td>';
-    options += '<td class="champ"></td>';
-    options += '<td class="value"></td>';
-    options += '</tr>';
-    options += '<tr>';
-    options += '<td colspan="6">&nbsp;</td>';
-    options += '</tr>';
-    options += '<tr>';
     options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' + chrome.i18n.getMessage("XtenseOptionsPage_menu_settings") + '</td>';
     options += '</tr>';
     options += '<tr>';
@@ -358,6 +339,41 @@ function displayOptions() {
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_ogspylink") + '</label></td>';
     options += '<td class="value" style="text-align:left;"><input class="speed" id="ogspy.link" size="35" alt="24" type="checkbox"' + opt_ogspy_link + '/></td>';
+    options += '<tr>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' + chrome.i18n.getMessage("XtenseOptionsPage_title") + '</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_debugmode") + '</label></td>';
+    options += '<td class="value" style="text-align:left;"><input class="speed" id="debug.mode" size="35" alt="24" type="checkbox"' + opt_debug_mode + '/></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_backuplink") + '</label></td>';
+    options += '<td class="value" style="text-align:left;"><input class="speed" id="backup.link" size="35" alt="24" type="checkbox"' + opt_backup_link + '/></td>';
+    options += '<td class="champ"></td>';
+    options += '<td class="value"></td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' + chrome.i18n.getMessage("XtenseOptionsPage_report") + '</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_lastreportType") + '</label></td>';
+    options += '<td colspan="5" class="value" style="text-align:left "><input class="speed" id="report.type" value="' + GM_getValue('report.type', 'none') + '" size="32" alt="24" type="text"/></td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6">&nbsp;</td>';
+    options += '</tr>';
+    options += '<tr>';
+    options += '<td colspan="6"><textarea class="speed" rows="15" cols="100" readonly style="margin: 0; width: 425px; height: 200px;">'+ GM_getValue('report.data', 'none') +'</textarea></td>';
+    options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
     /*---------------------------- A propos -----------------------------------------------*/
@@ -384,7 +400,7 @@ function displayOptions() {
     options += '</div>';
     options += '<br><br></div>';
     //fin Tableau
-    var einhalt = $( "#inhalt" );
+    var einhalt = $( "#middle" );
     if(einhalt == null) einhalt = $('#buttonz');
     var escriptopt = $("<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" + options + "</div>");   //document.createElement('div');
 
@@ -398,6 +414,11 @@ function displayOptions() {
     $('#menu_pages').click( function(){ displayOption('#Xtense_pages'); });
     $('#menu_options').click( function(){ displayOption('#Xtense_options'); });
     $('#menu_about').click( function(){ displayOption('#Xtense_about'); });
+
+    if(einhalt.visible) {
+
+        log("Erreur Affichage menu");
+    }
 
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
@@ -475,7 +496,7 @@ function displayOption(id) {
 
 function create_menu_button(item_id, icon, link, name) {
 
-    var button = $("<li id='" + item_id +"'>" +
+    let button = $("<li id='" + item_id +"'>" +
         "<span class='menu_icon'>" +
         "<img class='mouseSwitch' src='" + icon + "' height='27' width='27'></span>" +
         "<a class='menubutton' href='" + link + "' accesskey='' target='blank_'><span class='textlabel'>" + name + "</span></a>" +
