@@ -139,12 +139,20 @@
         "message": "Utilser un second serveur OGSpy",
         "description": "Activation des traces de debug"
     },
+    "XtenseOptionsPage_report": {
+      "message": "Rapports",
+      "description": "Titre section Rapport"
+    },
+    "XtenseOptionsPage_lastreportType": {
+      "message": "Dernier type de message envoyé à OGSpy",
+      "description": "last type of message sent"
+    },
+    "XtenseOptionsPage_lastreport": {
+      "message": "Dernier message envoyé à OGSpy",
+      "description": "last message sent"
+    },
     "XtenseOptionsPage_ogspylink": {
         "message": "Afficher un lien vers votre serveur OGSpy",
-        "description": "Activation des traces de debug"
-    },
-    "XtenseOptionsPage_ogsmarketlink": {
-        "message": "Afficher le lien du marché aux ressources",
         "description": "Activation des traces de debug"
     },
     "XtenseOptionsPage_menu_settings": {
@@ -157,7 +165,7 @@
     },
     "XtenseAbout_authors": {
         "message": "Xtense GM par Jedinight et DarkNoon.",
-        "description": "Lieste des auteurs"
+        "description": "Liste des auteurs"
     },
     "XtenseAbout_support": {
         "message": "Support disponible auprès de",

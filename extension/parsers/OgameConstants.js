@@ -89,7 +89,9 @@ function initParsers() {
             table_galaxy: '//table[@id="galaxytable"]/tbody',
             table_galaxy_header: '//table[@id="galaxytable"]/tbody/tr[@class="info info_header"]',
             galaxy_input: '//table[@id="galaxytable"]/@data-galaxy',
-            system_input: '//table[@id="galaxytable"]/@data-system'
+            system_input: '//table[@id="galaxytable"]/@data-system',
+            debris16_m : '//*[@id="debris16"]/ul[@class= "ListLinks"]/li[1]/text()',
+            debris16_c : '//*[@id="debris16"]/ul[@class= "ListLinks"]/li[2]/text()'
         },
 
         levels: {

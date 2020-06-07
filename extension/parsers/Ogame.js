@@ -319,18 +319,49 @@ function parse_galaxy_system_inserted(event) {
                     status: status,
                     ally_id: allyid,
                     ally_tag: allytag,
-                    debris: debris,
+                    debris: { metal : debris[XtenseDatabase.debris[701]] , cristal :debris[XtenseDatabase.debris[702]] },
                     activity: activity,
                     activityMoon: activityMoon
                 };
+                log('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase.resources[601]] + '/' + debris[XtenseDatabase.resources[602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
             }
-            XtenseRequest.set({
+
+            /* Traitement Spécifique Profondeur de l'espace */
+
+            let debris = [];
+            debris[XtenseDatabase.debris[701]] = Xpath.getStringValue(document, paths.debris16_m).trimInt();
+            debris[XtenseDatabase.debris[702]] = Xpath.getStringValue(document, paths.debris16_c).trimInt();
+
+            if (debris[XtenseDatabase.resources[601]] !== '' || debris[XtenseDatabase.resources[602]] !== '') {
+
+                let position = 16;
+                rowsData[position] = {
+                    player_id: '',
+                    planet_name: 'Black Hole',
+                    planet_id: '',
+                    moon_id: '',
+                    moon: 0,
+                    player_name: 'Lost in space',
+                    status: '',
+                    ally_id: '',
+                    ally_tag: '',
+                    debris: { metal : debris[XtenseDatabase.debris[701]] , cristal :debris[XtenseDatabase.debris[702]] },
+                    activity: '',
+                    activityMoon: ''
+                };
+                log('row ' + position + ' debris:(' + debris[XtenseDatabase.debris[701]] + '/' + debris[XtenseDatabase.debris[702]] + ')');
+
+            }
+
+            /* Envoi */
+            XtenseRequest.set('type','system');
+            XtenseRequest.set('gamedata',{
                 rows: rowsData,
                 galaxy: coords[0],
-                system: coords[1],
-                type: 'system'
+                system: coords[1]
+
             });
-            XtenseRequest.set('og_lang', langUnivers);
+
             XtenseRequest.send();
             GM_setValue('lastAction', 's:' + coords[0] + ':' + coords[1]);
         }
