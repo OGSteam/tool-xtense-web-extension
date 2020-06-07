@@ -124,8 +124,8 @@ function initOGSpyCommunication() {
 
             GM_setValue("server.name", "OGSpy");
             postData.password = GM_getValue("server.pwd", "");
-            postData.data = JSON.stringify(this.data);
-            log("sending " + postData + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
+            postData.data = JSON.stringify(this.data.gamedata);
+            log("sending " + JSON.stringify(this.data) + " to " + GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
             new Xajax({
                 url: GM_getValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
                 post: JSON.stringify(postData),
