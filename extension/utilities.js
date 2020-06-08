@@ -27,28 +27,15 @@ function GM_deleteValue(value) {
 /***************************** Utilities ********************************/
 /* Fonctions sur strings */
 
-String.prototype.trim = function () {
-    return this.replace(/^\s*/, '').replace(/\s*$/, '');
-};
-String.prototype.trimAll = function () {
-    return this.replace(/\s*/g, '');
-};
 String.prototype.trimInt = function () {
-    string = this.replace(/([^-\d])/g, '');
+    let string = this.replace(/([^-\d])/g, '');
     return string ? parseInt(string) : 0;
 };
 String.prototype.trimZeros = function () {
     return this.replace(/^0+/g, '');
 };
-String.prototype.replaceAll = function (replace, with_this) {
-    var re = new RegExp(replace, "g");
-    return this.replace(re, with_this);
-};
-
 String.prototype.getInts = function (/*separator*/) {
-    /*if(typeof separator!="undefined")reg=new Regexp("[0-9("+separator+")]+","g");
-     else reg=new Regexp("[0-9("+separator+")]+","g");*/
-    var v = this.match(/[0-9][0-9.]*/g);
+    let v = this.match(/[0-9][0-9.]*/g);
     v.forEach(function (el, index, arr) {
         arr[index] = parseInt(el.replace(/\./g, ''));
     });
