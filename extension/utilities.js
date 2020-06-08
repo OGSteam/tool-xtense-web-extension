@@ -1,6 +1,9 @@
 /**
  * Created by Anthony on 14/05/2016.
  */
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
 
 /*********************** Compatibilité Chrome ***************************/
 

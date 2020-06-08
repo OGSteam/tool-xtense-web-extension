@@ -9,6 +9,9 @@
 // @grant       GM_xmlhttpRequest
 // @description Cette extension permet d'envoyer des données du jeu à votre serveur OGSPY d'alliance
 // ==/UserScript==
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
 // Variables Xtense
 const VERSION = '2.9.1';
 let TYPE = 'GM-';

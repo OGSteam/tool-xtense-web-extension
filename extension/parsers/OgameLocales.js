@@ -3,6 +3,11 @@
  * @license GNU/GPL
  */
 
+/*eslint-env es6*/
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
+
 /************************ Locales & Lang ********************************/
 /* Fonction d'implementation des locales, lang */
 

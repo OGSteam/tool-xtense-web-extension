@@ -3,6 +3,11 @@
  * @license GNU/GPL
  */
 
+/*eslint-env es6*/
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
+
 /* Permet d'initialiser la communication avec OGSPY (serveur, BDD)*/
 
 function initOGSpyCommunication() {

@@ -3,6 +3,9 @@
  */
 
 /*eslint-env es6*/
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
 
 function handle_current_page() {
     // Expressions régulières des pages

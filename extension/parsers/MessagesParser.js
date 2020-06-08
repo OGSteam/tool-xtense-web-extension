@@ -1,7 +1,10 @@
 /**
  * Created by Itori on 31/08/2016.
  */
-
+/*eslint-env es6*/
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
 
 function get_tabid() {
     let current_tab = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.tab);

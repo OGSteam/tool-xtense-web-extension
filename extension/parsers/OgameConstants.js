@@ -3,6 +3,11 @@
  * @license GNU/GPL
  */
 
+/*eslint-env es6*/
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global log*/
+
 /**************** PARSERS & Communication OGSPY *************************/
 /* Fonction permettant d'initialiser les Xpaths, les parsers Xpath et le parser des metasdonnées */
 
