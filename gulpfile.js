@@ -1,5 +1,3 @@
-/* eslint no-console: "error" */
-
 const { series, parallel , src, dest } = require("gulp");
 const rename = require("gulp-rename");
 const zip = require("gulp-zip");
@@ -10,7 +8,6 @@ const manifest = require("read-pkg");
 // It can still be used within the `series()` composition.
 function clean(cb) {
     del.sync(["./release/**"]);
-    console.log("Deleted files and directories: release/**");
     cb();
 }
 
@@ -25,7 +22,6 @@ function update_loglevel() {
 function build(cb) {
     update_jquery();
     update_loglevel();
-    console.log("External Libs found and moved to extension folder");
     cb();
 }
 
@@ -44,7 +40,6 @@ function copy_chrome_manifest() {
 }
 
 function package_for_chrome(cb){
-    console.log("Ready to Zip Chrome Files");
     src("release/chrome/**")
         .pipe(zip("chrome-" + manifest.sync().version + ".zip"))
         .pipe(dest("release"));
@@ -52,7 +47,6 @@ function package_for_chrome(cb){
 }
 
 function package_for_firefox(cb){
-    console.log("Ready to Zip Firefox Files");
     src("release/firefox/**")
         .pipe(zip("firefox-" + manifest.sync().version + ".zip"))
         .pipe(dest("release"));
