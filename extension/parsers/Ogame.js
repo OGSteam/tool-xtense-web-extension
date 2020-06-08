@@ -5,7 +5,7 @@
 /*eslint-env es6*/
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
-/*global log*/
+/*global displayOptions,log,url*/
 
 function handle_current_page() {
     // Expressions régulières des pages
