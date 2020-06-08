@@ -1,3 +1,4 @@
+/* eslint no-console: "error" */
 
 const { series, parallel , src, dest } = require('gulp');
 const rename = require('gulp-rename');

@@ -40,14 +40,6 @@ chrome.runtime.onMessage.addListener(
                 callback(jqXHR);
             });
 
-
             return true; // prevents the callback from being called too early on return
         }
-
-        if (request.action === "log") {
-
-
-
-        }
-
     });
