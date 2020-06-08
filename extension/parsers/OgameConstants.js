@@ -286,64 +286,7 @@ function initParsers() {
 
         parseTableStruct: '<a[^>]*id="details(\\d+)"[^>]*>[\\D\\d]*?([\\d.]+[KMG]?)<\/span>[^<]*<\/span>[^<]*<\/a>'
     };
-    /* Fonctions permettant de récupérer les données des balises metas */
 
-    XtenseMetas = {
-        getOgameVersion: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.ogame_version);
-        },
-        getTimestamp: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.timestamp);
-        },
-        getUniverse: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.universe);
-        },
-        getUniversename: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.universename);
-        },
-        getUniversespeed: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.universespeed);
-        },
-        getuniversespeedfleet: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.universespeedfleet);
-        },
-        getLanguage: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.language);
-        },
-        getdonutgalaxy: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.donutgalaxy);
-        },
-        getdonutsystem: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.donutsystem);
-        },
-        getPlayerId: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.player_id);
-        },
-        getPlayerName: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.player_name);
-        },
-        getAllyId: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.ally_id);
-        },
-        getAllyName: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.ally_name);
-        },
-        getAllyTag: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.ally_tag);
-        },
-        getPlanetId: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_id);
-        },
-        getPlanetName: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_name);
-        },
-        getPlanetCoords: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_coords);
-        },
-        getPlanetType: function () {
-            return Xpath.getStringValue(document, XtenseXpaths.metas.planet_type);
-        }
-    };
 }
 
 
