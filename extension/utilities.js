@@ -3,7 +3,7 @@
  */
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
-/*global log*/
+/*global log,prefix_GMData*/
 
 /*********************** Compatibilité Chrome ***************************/
 

@@ -6,7 +6,7 @@
 /*eslint-env es6*/
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
-/*global log*/
+/*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_NORMAL,XLOG_SUCCESS,XLOG_COMMENT,XLOG_SEND*/
 
 /* Permet d'initialiser la communication avec OGSPY (serveur, BDD)*/
 
