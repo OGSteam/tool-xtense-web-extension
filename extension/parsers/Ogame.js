@@ -573,18 +573,18 @@ function parse_overview() {
             // retreive boosters and extensions
             let planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
 
-            XtenseRequest.set('type','overview');
-            XtenseRequest.set('gamedata',{
-                planetName : planetData.planet_name,
-                coords : planetData.coords,
-                planetType : planetData.planet_type,
+            XtenseRequest.set('type', 'overview');
+            XtenseRequest.set('gamedata', {
+                planetName: planetData.planet_name,
+                coords: planetData.coords,
+                planetType: planetData.planet_type,
                 fields: cases,
                 temperature_min: temperature_min,
                 temperature_max: temperature_max,
                 ressources: resources,
-                playerdetails : playerdetails,
-                unidetails : unidetails,
-                boosters : planetBoostersAndExtensions
+                playerdetails: playerdetails,
+                unidetails: unidetails,
+                boosters: planetBoostersAndExtensions
             });
             XtenseRequest.send();
             GM_setValue('lastAction', 'planet_name:' + planetData.planet_name);

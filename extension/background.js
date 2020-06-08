@@ -4,22 +4,23 @@
  */
 
 /*eslint-env es6*/
+/*global log,chrome */
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
-/*global log*/
 
-browser.runtime.onMessage.addListener(
+
+chrome.runtime.onMessage.addListener(
 
 
     function(request, sender, callback) {
 
         if (request.action === "toolbar_icon") {
         // read `newIconPath` from request and read `tab.id` from sender
-            browser.browserAction.setIcon({
+            chrome.browserAction.setIcon({
             path: request.newIconPath,
             tabId: sender.tab.id
         });
-            browser.browserAction.setTitle({
+            chrome.browserAction.setTitle({
             title: request.newTooltip,
             tabId: sender.tab.id
         });
