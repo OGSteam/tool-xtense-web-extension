@@ -7,7 +7,7 @@
 
 /*********************** Compatibilité Chrome ***************************/
 
-function GM_getValue(key, defaultVal) {
+function storageGetValue(key, defaultVal) {
     let retValue = localStorage.getItem(prefix_GMData + key);
     if (!retValue) {
         return defaultVal;
@@ -15,11 +15,11 @@ function GM_getValue(key, defaultVal) {
     return retValue;
 }
 
-function GM_setValue(key, value) {
+function storageSetValue(key, value) {
     localStorage.setItem(prefix_GMData + key, value);
 }
 
-function GM_deleteValue(value) {
+function storageDeleteValue(value) {
     localStorage.removeItem(value);
 }
 
@@ -45,7 +45,7 @@ String.prototype.getInts = function (/*separator*/) {
 
 function setlogLevel() {
 
-    if (GM_getValue('debug.mode', 'false').toString() !== 'true') {
+    if (storageGetValue('debug.mode', 'false').toString() !== 'true') {
         log.setLevel('info');
 
     }else {
@@ -75,22 +75,25 @@ function Xajax(obj) {
 // Récupère les messages de retours et locales
 
 /**
+ * Gets Strings from the language file extension Folder (_locales)
  * @return {string}
  */
-function Xl(name) {
+function xlang(name) {
     return chrome.i18n.getMessage("XtenseMsg_" + name);
 }
-// Permet de connaitre les locales du jeu suivant la langue (FR,ENG, ...)
 
-function l(id) {
+/**
+ * Gets Strings from the xtense file definition (OgameLocales.js)
+ * @return {string}
+ */
+function glang(id) {
     return XtenseLocales[XtenseMetas.getLanguage()][id];
 }
 // Permet de récuper le time d'une date
 
 function XtenseParseDate(dateString, handler) {
-    var date = new Date();
-    var m = dateString.match(new RegExp(handler.regexp));
-    var time = new Date();
+    let m = dateString.match(new RegExp(handler.regexp));
+    let time = new Date();
     if (m) {
         if (handler.fields.year !== -1)
             time.setYear(m[handler.fields.year]);
@@ -110,3 +113,4 @@ function XtenseParseDate(dateString, handler) {
     return time;
 }
 /************************** Fin Utilities *******************************/
+

@@ -11,12 +11,13 @@
 // ==/UserScript==
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
-/*global log*/
+/*global log,initOGSpyCommunication,setlogLevel*/
+
 // Variables Xtense
-const VERSION = '2.9.1';
-let TYPE = 'GM-';
-const PLUGIN_REQUIRED = '2.9.0';
-const nomScript = 'Xtense';
+const VERSION = "2.9.1";
+let TYPE = "GM-";
+const PLUGIN_REQUIRED = "2.9.0";
+const nomScript = "Xtense";
 const XtenseLocales = {};
 
 //Variables globales pour les status - Type d'erreur
@@ -50,8 +51,8 @@ const prefix_GMData = langUnivers + numUnivers + '.';
 
 
 //Conversion Format adresse OGSPY
-const res = GM_getValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
-GM_setValue('server.url.plugin',res);
+const res = storageGetValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
+storageSetValue('server.url.plugin',res);
 
 /******************************* Main ***********************************/
 setlogLevel(); // Default Info
@@ -63,7 +64,7 @@ initOGSpyCommunication();
 initParsers();
 initLocales();
 displayXtense();
-setStatus(XLOG_NORMAL, Xl('Xtense_activated'));
+setStatus(XLOG_NORMAL, xlang('Xtense_activated'));
 handle_current_page();
 //exit !!
 /***************************** Fin Main *********************************/

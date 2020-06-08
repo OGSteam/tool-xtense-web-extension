@@ -1,7 +1,10 @@
 /**
  * Created by Anthony on 12/12/2015.
  */
-
+/*eslint-env es6*/
+/*eslint no-undef: "error"*/
+/*eslint-env browser*/
+/*global XLOG_SUCCESS,XLOG_NORMAL,XLOG_WARNING,XLOG_ERROR,XLOG_SEND  */
 
 //Gestion de l'icone
 
@@ -51,7 +54,7 @@ function setStatus(type, message) {
 function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
-    var ogspy_link = GM_getValue('server.url.plugin', 'https://forum.ogsteam.fr');
+    var ogspy_link = storageGetValue('server.url.plugin', 'https://forum.ogsteam.fr');
     var aff_ogspy = ' ';
 
     // Page classique
@@ -60,7 +63,7 @@ function displayXtense() {
         var icone_planet = chrome.extension.getURL('images/icones/planet.png');
 
         var aAttrs = '';
-        if (GM_getValue('manual.send', 'false').toString() === 'true') {
+        if (storageGetValue('manual.send', 'false').toString() === 'true') {
             aAttrs = 'onClick="window.location.reload()" target="_self"';
         } else {
             aAttrs = 'href="' + ogspy_link + '" target="blank_" ';
@@ -72,7 +75,7 @@ function displayXtense() {
             "<a class='menubutton' href='" + url + "&xtense=Options' accesskey='' target='_self'><span class='textlabel'>Xtense</span></a>" +
             "</li>");
 
-        if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
+        if (storageGetValue('ogspy.link', 'true').toString() === 'true') {
             aff_ogspy = create_menu_button('optionOGSpy', icone_planet, ogspy_link, 'OGSpy');
         }
 
@@ -86,7 +89,7 @@ function displayXtense() {
         $("#menuTableTools").append(aff_option);
         $("#optionXtense").after(aff_ogspy);
 
-        if (GM_getValue('ogspy.link', 'true').toString() === 'true') {
+        if (storageGetValue('ogspy.link', 'true').toString() === 'true') {
             $("#optionOGSpy").after(aff_ogspy);
         }else{
             $("#optionXtense").after(aff_ogspy);
@@ -127,66 +130,66 @@ function displayOptions() {
     var opt_ogspy_link = ' ';
 
     // Récupération des préférences  : Pages
-    if (GM_getValue('handle.overview', 'false').toString() === 'true') {
+    if (storageGetValue('handle.overview', 'false').toString() === 'true') {
         handle_overview += 'checked';
     }
-    if (GM_getValue('handle.buildings', 'false').toString() === 'true') {
+    if (storageGetValue('handle.buildings', 'false').toString() === 'true') {
         handle_buildings += 'checked';
     }
-    if (GM_getValue('handle.station', 'false').toString() === 'true') {
+    if (storageGetValue('handle.station', 'false').toString() === 'true') {
         handle_station += 'checked';
     }
-    if (GM_getValue('handle.researchs', 'false').toString() === 'true') {
+    if (storageGetValue('handle.researchs', 'false').toString() === 'true') {
         handle_researchs += 'checked';
     }
-    if (GM_getValue('handle.shipyard', 'false').toString() === 'true') {
+    if (storageGetValue('handle.shipyard', 'false').toString() === 'true') {
         handle_shipyard += 'checked';
     }
-    if (GM_getValue('handle.system', 'false').toString() === 'true') {
+    if (storageGetValue('handle.system', 'false').toString() === 'true') {
         handle_system += 'checked';
     }
-    if (GM_getValue('handle.defense', 'false').toString() === 'true') {
+    if (storageGetValue('handle.defense', 'false').toString() === 'true') {
         handle_defense += 'checked';
     }
-    if (GM_getValue('handle.alliance', 'false').toString() === 'true') {
+    if (storageGetValue('handle.alliance', 'false').toString() === 'true') {
         handle_alliance += 'checked';
     }
-    if (GM_getValue('handle.stats', 'false').toString() === 'true') {
+    if (storageGetValue('handle.stats', 'false').toString() === 'true') {
         handle_stats += 'checked';
     }
-    if (GM_getValue('handle.msg.msg', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.msg', 'false').toString() === 'true') {
         handle_msg_msg += 'checked';
     }
-    if (GM_getValue('handle.msg.ally', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.ally', 'false').toString() === 'true') {
         handle_msg_ally += 'checked';
     }
-    if (GM_getValue('handle.msg.spy', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.spy', 'false').toString() === 'true') {
         handle_msg_spy += 'checked';
     }
-    if (GM_getValue('handle.msg.ennemy.spy', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.ennemy.spy', 'false').toString() === 'true') {
         handle_msg_ennemy_spy += 'checked';
     }
-    if (GM_getValue('handle.msg.rc', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.rc', 'false').toString() === 'true') {
         handle_msg_rc += 'checked';
     }
-    if (GM_getValue('handle.msg.rc.cdr', 'false').toString() ==='true') {
+    if (storageGetValue('handle.msg.rc.cdr', 'false').toString() ==='true') {
         handle_msg_rc_cdr += 'checked';
     }
-    if (GM_getValue('handle.msg.expeditions', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.expeditions', 'false').toString() === 'true') {
         handle_msg_expeditions += 'checked';
     }
-    if (GM_getValue('handle.msg.commerce', 'false').toString() === 'true') {
+    if (storageGetValue('handle.msg.commerce', 'false').toString() === 'true') {
         handle_msg_commerce += 'checked';
     }
     // Récupération des préférences  : Options
 
-    if (GM_getValue('debug.mode', 'false').toString() === 'true') {
+    if (storageGetValue('debug.mode', 'false').toString() === 'true') {
         opt_debug_mode += ' checked';
     }
-	if (GM_getValue('backup.link', 'false').toString() === 'true') {
+	if (storageGetValue('backup.link', 'false').toString() === 'true') {
         opt_backup_link += ' checked';
     }
-    if (GM_getValue('ogspy.link', 'false').toString() === 'true') {
+    if (storageGetValue('ogspy.link', 'false').toString() === 'true') {
         opt_ogspy_link += ' checked';
     }
 
@@ -220,12 +223,12 @@ function displayOptions() {
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server.url.plugin" value="' + GM_getValue('server.url.plugin', 'https://VOTRESITE/VOTREOGSPY') + '" size="64" alt="24" type="text"/></td>';
+    options += '<td class="value"><input class="speed" id="server.url.plugin" value="' + storageGetValue('server.url.plugin', 'https://VOTRESITE/VOTREOGSPY') + '" size="64" alt="24" type="text"/></td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_password") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server.pwd" value="' + GM_getValue('server.pwd', 'mot de passe') + '" size="64" alt="24" type="password"/></td>';
+    options += '<td class="value"><input class="speed" id="server.pwd" value="' + storageGetValue('server.pwd', 'mot de passe') + '" size="64" alt="24" type="password"/></td>';
     options += '</tr>';
     options += '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr class="server_url_backup">';
@@ -234,12 +237,12 @@ function displayOptions() {
     options += '<tr class="server_url_backup"><td >&#160;</td><td>&#160;</td></tr>';
 	options += '<tr class="server_url_backup">';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server_backup.url.plugin" value="' + GM_getValue('server_backup.url.plugin', 'https://VOTRESITE/VOTREOGSPY') + '" size="64" alt="24" type="text"/></td>';
+    options += '<td class="value"><input class="speed" id="server_backup.url.plugin" value="' + storageGetValue('server_backup.url.plugin', 'https://VOTRESITE/VOTREOGSPY') + '" size="64" alt="24" type="text"/></td>';
     options += '</tr>';
     options += '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr class="server_url_backup">';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_password") + '</label></td>';
-    options += '<td class="value"><input class="speed" id="server_backup.pwd" value="' + GM_getValue('server_backup.pwd', 'mot de passe') + '" size="64" alt="24" type="password"/></td>';
+    options += '<td class="value"><input class="speed" id="server_backup.pwd" value="' + storageGetValue('server_backup.pwd', 'mot de passe') + '" size="64" alt="24" type="password"/></td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
@@ -367,13 +370,13 @@ function displayOptions() {
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseOptionsPage_lastreportType") + '</label></td>';
-    options += '<td colspan="5" class="value" style="text-align:left "><input class="speed" id="report.type" value="' + GM_getValue('report.type', 'none') + '" size="32" alt="24" type="text"/></td>';
+    options += '<td colspan="5" class="value" style="text-align:left "><input class="speed" id="report.type" value="' + storageGetValue('report.type', 'none') + '" size="32" alt="24" type="text"/></td>';
     options += '</tr>';
     options += '<tr>';
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
     options += '<tr>';
-    options += '<td colspan="6"><textarea class="speed" rows="15" cols="100" readonly style="margin: 0; width: 425px; height: 200px;">'+ GM_getValue('report.data', 'none') +'</textarea></td>';
+    options += '<td colspan="6"><textarea class="speed" rows="15" cols="100" readonly style="margin: 0; width: 425px; height: 200px;">'+ storageGetValue('report.data', 'none') +'</textarea></td>';
     options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
@@ -428,7 +431,7 @@ function displayOptions() {
         if (inputOptions.snapshotLength > 0) {
             for (var i = 0; i < inputOptions.snapshotLength; i++) {
                 var input = inputOptions.snapshotItem(i);
-                GM_setValue(input.id, input.value);
+                storageSetValue(input.id, input.value);
             }
         }
         // Sauvegarde des checkbox
@@ -439,7 +442,7 @@ function displayOptions() {
             for (var j = 0; j < checkboxOptions.snapshotLength; j++) {
                 var checkbox = checkboxOptions.snapshotItem(j);
                 //log.info('GM_setValue(prefix_GMData +'+checkbox.id+' , '+checkbox.checked+');');
-                GM_setValue(checkbox.id, checkbox.checked);
+                storageSetValue(checkbox.id, checkbox.checked);
             }
         }
     }
@@ -460,7 +463,7 @@ function displayOption(id) {
         $('#menu_pages').css('color' , 'orange');
         $('#menu_options').css('color' , 'orange');
         $('#menu_about').css('color' , 'orange');
-		if (GM_getValue('backup.link', 'false').toString() === 'true')
+		if (storageGetValue('backup.link', 'false').toString() === 'true')
 			$('.server_url_backup').show();
 		else $('.server_url_backup').hide();
     }

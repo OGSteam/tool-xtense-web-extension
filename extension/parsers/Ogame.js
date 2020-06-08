@@ -26,39 +26,39 @@ function handle_current_page() {
     if (regOption.test(url)) {
         displayOptions();
     } else if (regGalaxy.test(url)) {
-        handle_page('system');
+        handle_page("system");
     } else if (regOverview.test(url)) {
         save_my_planets_coords();
-        handle_page('overview');
+        handle_page("overview");
     } else if (regResearch.test(url)) {
-        handle_page('researchs');
+        handle_page("researchs");
     } else if (regBuildings.test(url)) {
-        handle_page('buildings');
+        handle_page("buildings");
     } else if (regStation.test(url)) {
-        handle_page('station');
+        handle_page("station");
     } else if (regShipyard.test(url)) {
-        handle_page('shipyard');
+        handle_page("shipyard");
     } else if (regFleet1.test(url)) {
-        handle_page('fleet');
+        handle_page("fleet");
     } else if (regDefense.test(url)) {
-        handle_page('defense');
+        handle_page("defense");
     } else if (regMessages.test(url)) {
-        if (GM_getValue('handle.msg.msg', 'false').toString() === 'true' ||
-            GM_getValue('handle.msg.ally', 'false').toString() === 'true' ||
-            GM_getValue('handle.msg.spy', 'false').toString() === 'true' ||
-            GM_getValue('handle.msg.ennemy.spy', 'false').toString() === 'true' ||
-            GM_getValue('handle.msg.rc.cdr', 'false').toString() === 'true' ||
-            GM_getValue('handle.msg.expeditions', 'false').toString() === 'true' ||
-            GM_getValue('handle.msg.commerce', 'false').toString() === 'true'
+        if (storageGetValue('handle.msg.msg', 'false').toString() === 'true' ||
+            storageGetValue('handle.msg.ally', 'false').toString() === 'true' ||
+            storageGetValue('handle.msg.spy', 'false').toString() === 'true' ||
+            storageGetValue('handle.msg.ennemy.spy', 'false').toString() === 'true' ||
+            storageGetValue('handle.msg.rc.cdr', 'false').toString() === 'true' ||
+            storageGetValue('handle.msg.expeditions', 'false').toString() === 'true' ||
+            storageGetValue('handle.msg.commerce', 'false').toString() === 'true'
         ) {
             get_message_content();
         }
     } else if (regAlliance.test(url)) {
-        handle_page('alliance');
+        handle_page("alliance");
     } else if (regStats.test(url)) {
-        handle_page('stats');
+        handle_page("stats");
     } else {
-        setStatus(XLOG_NORMAL, Xl('unknow_page'));
+        setStatus(XLOG_NORMAL, xlang("unknow_page"));
     }
 }
 
@@ -72,11 +72,11 @@ function handle_page(page)
     if(page === 'fleet')
         rights = 'shipyard';
 
-    if(GM_getValue('handle.'.concat(rights), 'false').toString() === 'true' || GM_getValue('manual.send', 'false').toString() === 'true')
+    if(storageGetValue("handle.".concat(rights), 'false').toString() === 'true' || storageGetValue('manual.send', 'false').toString() === 'true')
     {
-        GM_setValue('lastAction', '');
+        storageSetValue("lastAction", "");
         get_content(page);
-        GM_setValue('manual.send', 'false');
+        storageSetValue("manual.send", "false");
     } else {
         manual_send();
     }
@@ -85,9 +85,9 @@ function handle_page(page)
 /* Fonction d'envoi manuel */
 
 function manual_send() {
-    GM_setValue('manual.send', 'true');
+    storageSetValue('manual.send', 'true');
     displayXtense();
-    setStatus(XLOG_SEND, Xl('wait_send'));
+    setStatus(XLOG_SEND, xlang('wait_send'));
 }
 
 /************************ Declenchement des Parsings sur Remplissage Ajax ************************/
@@ -215,7 +215,7 @@ function parse_galaxy_system_inserted(event) {
     //Récupération SS
     let rows = Xpath.getUnorderedSnapshotNodes(document, paths.rows);
     //log.info("lastAction : "+GM_getValue(prefix_GMData +'lastAction',''));
-    if (GM_getValue('lastAction', '') !== 's:' + galaxy + ':' + system) {
+    if (storageGetValue('lastAction', '') !== 's:' + galaxy + ':' + system) {
         let coords = [
             galaxy,
             system
@@ -224,7 +224,7 @@ function parse_galaxy_system_inserted(event) {
             log.info('invalid system' + ' ' + coords[0] + ' ' + coords[1]);
             return;
         }
-        setStatus(XLOG_NORMAL, Xl('system_detected') + "(" + coords[0] + ":" + coords[1] + ")");
+        setStatus(XLOG_NORMAL, xlang('system_detected') + "(" + coords[0] + ":" + coords[1] + ")");
         if (rows.snapshotLength > 0) {
             log.debug(rows.snapshotLength + ' rows found in galaxy');
             let rowsData = [];
@@ -366,7 +366,7 @@ function parse_galaxy_system_inserted(event) {
             });
 
             XtenseRequest.send();
-            GM_setValue('lastAction', 's:' + coords[0] + ':' + coords[1]);
+            storageSetValue('lastAction', 's:' + coords[0] + ':' + coords[1]);
         }
     }
 }
@@ -375,8 +375,8 @@ function parse_galaxy_system_inserted(event) {
 
 function parse_ally_inserted() {
     //log.info("last_action="+GM_getValue(prefix_GMData +'lastAction',''));
-    if (GM_getValue('lastAction', '') !== 'ally_list') {
-        setStatus(XLOG_NORMAL, Xl('ally_list_detected'));
+    if (storageGetValue('lastAction', '') !== 'ally_list') {
+        setStatus(XLOG_NORMAL, xlang('ally_list_detected'));
         let paths = XtenseXpaths.ally_members_list;
         let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
         let rowsData = [];
@@ -405,7 +405,7 @@ function parse_ally_inserted() {
                 tag: tag
             });
             XtenseRequest.send();
-            GM_setValue('lastAction', 'ally_list');
+            storageSetValue('lastAction', 'ally_list');
         }
         get_ally_content(); // Pourquoi celui-ci est fait à l'envers par rapport aux autres ?
     }
@@ -530,9 +530,9 @@ function parse_ranking_inserted(event) {
             length++;
         }
 
-        if (GM_getValue('lastAction', '') !== 'r:' + type[0] + ':' + type[1] + ':' + offset) { //TODO Eviter de parser les classements pour rien...
+        if (storageGetValue('lastAction', '') !== 'r:' + type[0] + ':' + type[1] + ':' + offset) { //TODO Eviter de parser les classements pour rien...
             //setStatus(XLOG_NORMAL, Xl('ranking_detected'));
-            GM_setValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
+            storageSetValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
             if (offset !== 0 && length !== 0) {
                 XtenseRequest.set('type','ranking');
                 XtenseRequest.set('gamedata',{
@@ -561,9 +561,9 @@ function parse_overview() {
 
     let temperatures = Xpath.getStringValue(document, XtenseXpaths.overview.temperatures);
     if ((temperatures != null) && (temperatures !== '') && (temperatures.indexOf('_') === -1)) {
-        setStatus(XLOG_NORMAL, Xl('overview_detected'));
+        setStatus(XLOG_NORMAL, xlang('overview_detected'));
         let planetData = getPlanetData();
-        if (GM_getValue('lastAction', '') !== 'planet_name:' + planetData.planet_name) {
+        if (storageGetValue('lastAction', '') !== 'planet_name:' + planetData.planet_name) {
             let cases = Xpath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
             let temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
             let temperature_min = temperatures.match(/(-?\d+)/)[1];
@@ -587,7 +587,7 @@ function parse_overview() {
                 boosters: planetBoostersAndExtensions
             });
             XtenseRequest.send();
-            GM_setValue('lastAction', 'planet_name:' + planetData.planet_name);
+            storageSetValue('lastAction', 'planet_name:' + planetData.planet_name);
         }
     } else {
         log.trace('Temperature Content is not there! Retrying...');
@@ -599,7 +599,7 @@ function parse_overview() {
 /* Page Buildings */
 
 function parse_buildings() {
-    setStatus(XLOG_NORMAL, Xl('buildings_detected'));
+    setStatus(XLOG_NORMAL, xlang('buildings_detected'));
     let paths = XtenseXpaths.levels;
 
     let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
@@ -654,7 +654,7 @@ if ( isMoon() === true) {
 /* Page Stations */
 
 function parse_station() {
-    setStatus(XLOG_NORMAL, Xl('installations_detected'));
+    setStatus(XLOG_NORMAL, xlang('installations_detected'));
     let paths = XtenseXpaths.levels;
 
     let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
@@ -703,7 +703,7 @@ function parse_station() {
 /* Page Researchs */
 
 function parse_researchs() {
-    setStatus(XLOG_NORMAL, Xl('researchs_detected'));
+    setStatus(XLOG_NORMAL, xlang('researchs_detected'));
     let levels = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.levels.level, null);
     let tabLevel = [];
     if (levels.snapshotLength > 0) {
@@ -749,7 +749,7 @@ function parse_researchs() {
 /* Page Shipyard */
 
 function parse_shipyard() {
-    setStatus(XLOG_NORMAL, Xl('shipyard_detected'));
+    setStatus(XLOG_NORMAL, xlang('shipyard_detected'));
     let paths = XtenseXpaths.levels;
 
     let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
@@ -795,7 +795,7 @@ function parse_shipyard() {
 /* Page Fleet */
 
 function parse_fleet() {
-    setStatus(XLOG_NORMAL, Xl('fleet_detected'));
+    setStatus(XLOG_NORMAL, xlang('fleet_detected'));
     let paths = XtenseXpaths.levels;
 
     let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
@@ -840,7 +840,7 @@ function parse_fleet() {
 /* Page Defense */
 
 function parse_defense() {
-    setStatus(XLOG_NORMAL, Xl('defense_detected'));
+    setStatus(XLOG_NORMAL, xlang('defense_detected'));
     let paths = XtenseXpaths.levels;
 
     let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
@@ -940,7 +940,7 @@ function save_my_planets_coords() {
             pls += mesPlanetes.snapshotItem(i).textContent.trim() + ((i < (mesPlanetes.snapshotLength - 1)) ? ';' : '');
         }
     }
-    GM_setValue('my.planets', pls);
+    storageSetValue('my.planets', pls);
 }
 
 // Récupération des ressources d'une planète
