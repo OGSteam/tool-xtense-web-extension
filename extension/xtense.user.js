@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name	    Xtense-GM
-// @version     2.9.1
+// @version     2.9.2
 // @author      OGSteam
 // @namespace	xtense.ogsteam.fr
 // @include     https://*.ogame.*/game/index.php*
@@ -14,7 +14,7 @@
 /*global log,initOGSpyCommunication,setlogLevel*/
 
 // Variables Xtense
-const VERSION = "2.9.1";
+const VERSION = "2.9.2";
 let TYPE = "GM-";
 const PLUGIN_REQUIRED = "2.9.0";
 const nomScript = "Xtense";

@@ -404,9 +404,9 @@ function displayOptions() {
     options += '</div>';
     options += '<br><br></div>';
     //fin Tableau
-    var einhalt = $( "#middle" );
-    if(einhalt == null) einhalt = $('#buttonz');
-    var escriptopt = $("<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" + options + "</div>");   //document.createElement('div');
+    let einhalt = $( "#middle" );
+    if(einhalt.length === 0) einhalt = $('#inhalt');
+    let escriptopt = $("<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" + options + "</div>");   //document.createElement('div');
 
     einhalt.hide(); //On masque le jeu pour afficher le menu
 
@@ -426,21 +426,21 @@ function displayOptions() {
 
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
-        var inputOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[not(@type=\'checkbox\')]');
+        let inputOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[not(@type=\'checkbox\')]');
         //log.info("inputOptions.snapshotLength="+inputOptions.snapshotLength);
         if (inputOptions.snapshotLength > 0) {
-            for (var i = 0; i < inputOptions.snapshotLength; i++) {
-                var input = inputOptions.snapshotItem(i);
+            for (let i = 0; i < inputOptions.snapshotLength; i++) {
+                let input = inputOptions.snapshotItem(i);
                 storageSetValue(input.id, input.value);
             }
         }
         // Sauvegarde des checkbox
 
-        var checkboxOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[@type=\'checkbox\']');
+        let checkboxOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[@type=\'checkbox\']');
         //log.info("checkboxOptions.snapshotLength="+checkboxOptions.snapshotLength);
         if (checkboxOptions.snapshotLength > 0) {
-            for (var j = 0; j < checkboxOptions.snapshotLength; j++) {
-                var checkbox = checkboxOptions.snapshotItem(j);
+            for (let j = 0; j < checkboxOptions.snapshotLength; j++) {
+                let checkbox = checkboxOptions.snapshotItem(j);
                 //log.info('GM_setValue(prefix_GMData +'+checkbox.id+' , '+checkbox.checked+');');
                 storageSetValue(checkbox.id, checkbox.checked);
             }

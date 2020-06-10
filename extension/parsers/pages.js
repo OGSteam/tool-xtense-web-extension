@@ -278,11 +278,9 @@ function parse_ranking_inserted(event) {
 
                 let name = Xpath.getStringValue(document, paths.player.playername, row).trim();
                 let player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
-                if (player_id !== '') {
-                    player_id = player_id.match(/\&to\=(.*)\&ajax/);
-                    player_id = player_id[1];
-                } else if (document.cookie.match(/login_(.*)=U_/))
-                    player_id = document.cookie.match(/login_(.*)=U_/)[1];
+                if (player_id === '') {
+                    player_id = XtenseMetas.getPlayerId();
+                }
                 /*Nombre de vaisseaux*/
                 if (type[1] === 'fleet') {
                     let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();

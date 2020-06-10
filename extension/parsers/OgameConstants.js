@@ -182,7 +182,7 @@ function initParsers() {
             ally_id: 'td[@class=\'name\']/span[@class=\'ally-tag\']/a/@href',
             player: {
                 playername: "td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()",
-                player_id: "td[@class=\'sendmsg\']//a[contains(@href,\'writemessage\')]/@href",
+                player_id: "td[@class='sendmsg']//a[@data-playerid]/@data-playerid",
                 spacecraft: "td[contains(@class,\'score\')]/@title"
             },
 
