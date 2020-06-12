@@ -94,7 +94,10 @@ function initLocales() {
                         212: 'Satellite solaire',
                         213: 'Destructeur',
                         214: 'Étoile de la mort',
-                        215: 'Traqueur'
+                        215: 'Traqueur',
+                        217: 'Foreuse',
+                        218: 'Faucheur',
+                        219: 'Eclaireur'
                     },
                     'defense': {
                         401: 'Lanceur de missiles',

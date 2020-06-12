@@ -248,6 +248,12 @@ function parse_detail_messages(messages) {
             data.coords = coords;
             data.subject = subject;
             data.message = message;
+
+            XtenseRequest.set('gamedata', data);
+            XtenseRequest.set('type', 'messages');
+            XtenseRequest.send();
+            log.info("Message Privé envoyé");
+
         } else {
             //log.info('The message is not a private message');
         }
@@ -266,6 +272,11 @@ function parse_detail_messages(messages) {
             data.from = m[1];
             data.tag = m[1];
             data.message = message;
+
+            XtenseRequest.set('gamedata', data);
+            XtenseRequest.set('type', 'messages');
+            XtenseRequest.send();
+            log.info("Message Alliance envoyé");
         } else {
             //log.info('The message is not an ally message');
         }
@@ -280,22 +291,40 @@ function parse_detail_messages(messages) {
 
             let contentNode = Xpath.getSingleNode(document, paths.contents.spy);
             let content = contentNode.innerHTML;
-
+            data.type = 'spy';
             data.planetName = m[1].trim();
             data.coords = m[2];
 
+            // contre Espionnage
             m = content.match(new RegExp(locales['unespionage prob'] + XtenseRegexps.probability));
             if (m)
                 data.proba = m[1];
             else data.proba = 0;
 
+            // Activite
             data.activity = 0;
             m = content.match(new RegExp(locales.activity));
             if (m)
                 data.activity = m[1];
 
-            Ximplements(data, parse_spy_report(content));
-            data.type = get_tabid(document);
+            // Lune ?
+            let attackRef = Xpath.getStringValue(document, paths.spy.moon);
+            data.isMoon = attackRef.indexOf('type=3') > -1;
+            // Player Name
+            data.playerName = Xpath.getSingleNode(document, paths.spy.playername).textContent.trim();
+
+            // Ogame API
+            let ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi).snapshotItem(0).value;
+            let regexApi = new RegExp(XtenseRegexps.ogameapi);
+            data.ogapilnk = regexApi.exec(ogameAPITitle)[1];
+
+
+            data.content = parse_spy_report(content);
+
+
+            XtenseRequest.set('gamedata', data);
+            XtenseRequest.set('type', 'messages');
+            XtenseRequest.send();
 
         } else {
             //log.info('The message is not a spy report');
@@ -330,6 +359,10 @@ function parse_detail_messages(messages) {
                     }
                 }
                 data.proba = m[3];
+
+                XtenseRequest.set('gamedata', data);
+                XtenseRequest.set('type', 'messages');
+                XtenseRequest.send();
             }
         } else {
             //log.info('The message is not an ennemy spy');
@@ -372,6 +405,10 @@ function parse_detail_messages(messages) {
                 data.C_recovered = nums[8];
                 data.M_total = nums[2];
                 data.C_total = nums[3];
+
+                XtenseRequest.set('gamedata', data);
+                XtenseRequest.set('type', 'messages');
+                XtenseRequest.send();
             }
         } else {
             //log.info('The message is not a harvesting report');
@@ -391,25 +428,19 @@ function parse_detail_messages(messages) {
             data.type = get_tabid(document);
             data.coords = coords;
             data.content = message;
+
+            XtenseRequest.set('gamedata', data);
+            XtenseRequest.set('type', 'messages');
+            XtenseRequest.send();
+
         } else {
             //log.info('The message is not an expedition report');
         }
     }
-    // Aucun message
+    // Aucun message pour Affichage Xtense
     if (data.type === '' && data.json === '') {
         setStatus(XLOG_NORMAL, xlang('no_messages'));
         return false;
-    } else {
-
-        XtenseRequest.set('type', 'messages');
-        XtenseRequest.set('gamedata',
-        {
-            type: 'messages',
-            lang: langUnivers,
-            data: data
-        });
-        XtenseRequest.send();
-        log.info("Message " + data.type + "sent");
     }
 
     storageSetValue('lastMsgsSize', messages.snapshotLength); //Pour detection nouveau message
@@ -475,11 +506,10 @@ function parse_spy_report(RE) {
     let typs = [];
     let res = [];
 
-    let attackRef = Xpath.getStringValue(document, paths.moon);
-    let isMoon = attackRef.search('type=3') > -1;
-    let playerName = Xpath.getSingleNode(document, paths.playername).textContent.trim();
     let types = Xpath.getOrderedSnapshotNodes(document, paths.materialfleetdefbuildings);
+    // i est le groupe
     for (let i in spyStrings.units) {
+        //k est la ressource ?
         for (let k = 0; k < types.snapshotLength; k++) {
             if (types.snapshotItem(k).textContent.trim().match(new RegExp(spyStrings.groups[i], 'gi'))) {
                 log.info("Groupe Trouvé = " + types.snapshotItem(k).textContent.trim());
@@ -487,7 +517,7 @@ function parse_spy_report(RE) {
                     for (let z = k; z < types.snapshotLength; z++) {
                         let finish = false;
                         for (let units in spyStrings.units) {
-                            if (types.snapshotItem(z).textContent.trim().match(new RegExp(spyStrings.groups.units, 'gi'))) {
+                            if (types.snapshotItem(z).textContent.trim().match(new RegExp(spyStrings.groups[units], 'gi'))) {
                                 finish = true;
                                 k = z - 1;
                                 break;
@@ -501,8 +531,8 @@ function parse_spy_report(RE) {
                         if (types.snapshotItem(z).title != null && types.snapshotItem(z).title.trim() !== '') {
                             for (let j in spyStrings.units[i]) {
                                 if (types.snapshotItem(z).innerHTML.match(new RegExp(spyStrings.units[i][j], 'gi'))) {
-                                    data[XtenseDatabase[i][j]] = types.snapshotItem(z).title.trim().replace(/\./g, '');
-                                    log.info("R="+XtenseDatabase[i][j] + " = " + data[XtenseDatabase[i][j]]);
+                                    data[j] = types.snapshotItem(z).title.trim().replace(/\./g, '');
+                                    log.debug("R="+j + " = " + data[j]);
                                 }
                             }
                         } else {
@@ -510,8 +540,8 @@ function parse_spy_report(RE) {
                                 let m = getElementInSpyReport(types.snapshotItem(z).textContent.trim(), spyStrings.units[i][j]);
 
                                 if (m > -1) {
-                                    data[XtenseDatabase[i][j]] = m;
-                                    log.info("BT="+spyStrings.units[i][j] + " = " + data[XtenseDatabase[i][j]]);
+                                    data[j] = m;
+                                    log.debug("BT="+j + " = " + data[j]);
                                 }
                             }
                         }
@@ -522,18 +552,7 @@ function parse_spy_report(RE) {
             }
         }
     }
-
-    // Ogame API
-    let ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, infosNode).snapshotItem(0).value;
-    let regexApi = new RegExp(XtenseRegexps.ogameapi);
-    let ogameAPILink = regexApi.exec(ogameAPITitle)[1];
-
-    return {
-        content: data,
-        playerName: playerName,
-        moon: isMoon,
-        ogapilnk: ogameAPILink
-    };
+    return data;
 }
 
 /* Fonction de récupération de données dans un RE */
@@ -543,9 +562,8 @@ function getElementInSpyReport(RE, elem) {
     let reg = new RegExp(elem + '\\D+(\\d[\\d.]*)'); // (\D+)(.\d*(\,|\.)\d*\w{1})
     //recupere le nombre le plus proche apres le texte
     let m = reg.exec(RE);
-    //log.info(RE);
     if (m)
         num = m[1].trimInt();
-    //log.info(elem + " : " + num);
+    if (num !== -1) log.debug(elem + " : " + num);
     return num;
 }
