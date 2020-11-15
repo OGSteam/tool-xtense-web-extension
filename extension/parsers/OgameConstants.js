@@ -69,6 +69,11 @@ function initParsers() {
             cases: './/*[@id=\'diameterContentField\']/span[2]/text()',
             temperatures: './/*[@id=\'temperatureContentField\']/text()'
         },
+        ressourcesSettings: {
+            rows: '//table[contains(@class, "listOfResourceSettingsPerPlanet")]/tbody/tr',
+            rowName : 'td[contains(@class, "label")]/text()',
+            rowPercent : 'td[7]/span/a/text()'
+        },
         galaxy: {
             rows: '//tr[contains(@class, "row")]',
             position: 'td[contains(@class, "position")]/text()',

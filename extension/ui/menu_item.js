@@ -103,18 +103,18 @@ function displayXtense() {
 
 function displayOptions() {
     // Variables : Serveur
-    var server_check = ' ';
     // Variables : Pages
     // Variables recupération des pages
-    var handle_overview = ' ';
-    var handle_system = ' ';
-    var handle_researchs = ' ';
-    var handle_buildings = ' ';
-    var handle_station = ' ';
-    var handle_shipyard = ' ';
-    var handle_defense = ' ';
-    var handle_alliance = ' ';
-    var handle_stats = ' ';
+    let handle_overview = ' ';
+    let handle_system = ' ';
+    let handle_researchs = ' ';
+    let handle_buildings = ' ';
+    let handle_resourceSettings = ' ';
+    let handle_station = ' ';
+    let handle_shipyard = ' ';
+    let handle_defense = ' ';
+    let handle_alliance = ' ';
+    let handle_stats = ' ';
     // Variables recupération des messages
     var handle_msg_msg = ' ';
     var handle_msg_ally = ' ';
@@ -135,6 +135,9 @@ function displayOptions() {
     }
     if (storageGetValue('handle.buildings', 'false').toString() === 'true') {
         handle_buildings += 'checked';
+    }
+    if (storageGetValue('handle.resources', 'false').toString() === 'true') {
+        handle_resourceSettings += 'checked';
     }
     if (storageGetValue('handle.station', 'false').toString() === 'true') {
         handle_station += 'checked';
@@ -271,6 +274,8 @@ function displayOptions() {
     options += '<td class="value"><input class="speed" id="handle.overview" size="35" alt="24" type="checkbox"' + handle_overview + '/></td>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_buildings") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.buildings" size="35" alt="24" type="checkbox"' + handle_buildings + '/></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_resourceSettings") + '</label></td>';
+    options += '<td class="value"><input class="speed" id="handle.resourceSettings" size="35" alt="24" type="checkbox"' + handle_resourceSettings + '/></td>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_station") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.station" size="35" alt="24" type="checkbox"' + handle_station + '/></td>';
     options += '</tr>';

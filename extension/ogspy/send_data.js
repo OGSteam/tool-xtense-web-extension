@@ -167,8 +167,7 @@ function initOGSpyCommunication() {
 /* Interpretation des retours Xtense (module OGSPY) */
 
 function handleResponse(status, Response) {
-    log.debug("ResponseStatus: " + status);
-    log.debug("ResponseData: " + Response);
+
     let message_start = storageGetValue("server.name", "");
 
     if (status !== 200) {
@@ -187,7 +186,7 @@ function handleResponse(status, Response) {
         }
         setStatus(XLOG_ERROR,"[" + message_start + "] "+ message);
     } else {
-        var type = XLOG_SUCCESS;
+        let type = XLOG_SUCCESS;
         if (Response === '' || typeof (Response) === 'undefined') {
             setStatus(XLOG_ERROR, xlang("empty_response"));
             return;
@@ -196,11 +195,11 @@ function handleResponse(status, Response) {
             setStatus(XLOG_ERROR, xlang("response_hack"));
             return;
         }
-        var data = {};
+        let data = {};
         if (Response.match(/^\{.*\}$/g)) {
             data = Response;
         } else {
-            var match = null;
+            let match = null;
             if ((match = Response.match(/\(\{.*\}\)/))) {
                 data = match[0];
                 // Message d'avertissement
@@ -209,6 +208,8 @@ function handleResponse(status, Response) {
             } else {
                 // Message d'erreur
                 setStatus(XLOG_ERROR, xlang("invalid_response"));
+                log.debug("ResponseStatus: " + status);
+                log.debug("ResponseData: " + Response);
                 return;
             }
         }

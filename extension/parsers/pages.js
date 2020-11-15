@@ -455,6 +455,67 @@ function parse_buildings() {
     XtenseRequest.send();
 }
 
+function parse_ressource_settings() {
+    setStatus(XLOG_NORMAL, xlang('XtenseMsg_resources_detected'));
+
+    let paths = XtenseXpaths.ressourcesSettings;
+    let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
+    let resLevel = [];
+
+    if (rows.snapshotLength > 0) {
+        log.trace("Resource Table Found");
+        for (let i = 0; i < rows.snapshotLength; i++) {
+            let row = rows.snapshotItem(i);
+            let name = Xpath.getStringValue(document, paths.rowName, row).trim();
+            log.debug("Resource name : " + name);
+            let percent = Xpath.getStringValue(document, paths.rowPercent, row).trim();
+            log.debug("Resource Usage : " + percent);
+            if (percent !== '') {
+
+
+            }else {}
+
+
+
+        }
+    }
+
+
+
+    let planetData = getPlanetData();
+    let send;
+
+    /*if (!isMoon()) {
+        send = {
+            'UdR': tabLevel[0],
+            'CSp': tabLevel[1],
+            'Lab': tabLevel[2],
+            'DdR': tabLevel[3],
+            'Silo': tabLevel[4],
+            'UdN': tabLevel[5],
+            'Ter': tabLevel[6],
+            'Dock': tabLevel[7]
+        };
+    } else {
+        send = {
+            'UdR': tabLevel[0],
+            'CSp': tabLevel[1],
+            'BaLu': tabLevel[2],
+            'Pha': tabLevel[3],
+            'PoSa': tabLevel[4]
+        };
+    }
+
+    XtenseRequest.set('type', 'resources');
+    XtenseRequest.set('gamedata', {
+        planetName : planetData.planet_name,
+        coords : planetData.coords,
+        planetType : planetData.planet_type,
+        resources : send
+    });
+    XtenseRequest.send();*/
+}
+
 /* Page Stations */
 
 function parse_station() {
