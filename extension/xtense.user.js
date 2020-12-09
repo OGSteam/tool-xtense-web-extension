@@ -2,7 +2,7 @@
 // @name	    Xtense-GM
 // @version     2.9.5
 // @author      OGSteam
-// @namespace	xtense.ogsteam.fr
+// @namespace	xtense.ogsteam.eu.org
 // @include     https://*.ogame.*/game/index.php*
 // @grant       GM_getValue
 // @grant       GM_setValue

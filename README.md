@@ -52,4 +52,4 @@ Il existe 5 niveaux de Logs:
 
 ### Contact ###
 
-* [Forum](https://forum.ogsteam.fr)
+* [Forum](https://forum.ogsteam.eu.org)
