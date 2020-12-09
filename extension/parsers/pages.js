@@ -494,7 +494,7 @@ function parse_ressource_settings() {
             planetName : planetData.planet_name,
             coords : planetData.coords,
             planetType : planetData.planet_type,
-            resources : send
+            resourceSettings : send
         });
         XtenseRequest.send();
     }
