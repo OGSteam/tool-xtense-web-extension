@@ -60,7 +60,7 @@ function get_content(type) {
     let func;
     switch (type) {
         case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
-            elementName = 'galaxyContent';
+            elementName = 'galaxyLoading';
             func = parse_galaxy_system_inserted;
             break;
         case 'stats':
@@ -148,8 +148,7 @@ function handle_page(page)
 
 function handle_current_page() {
     // Expressions régulières des pages
-    let regGalaxy;
-    regGalaxy = new RegExp(/component=(galaxy)/);
+    let regGalaxy = new RegExp(/component=(galaxy)/);
     let regOverview = new RegExp(/component=(overview)/);
     let regOption = new RegExp(/(xtense=Options)/);
     let regResearch = new RegExp(/component=(research)/);
