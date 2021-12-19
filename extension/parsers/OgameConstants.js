@@ -77,14 +77,14 @@ function initParsers() {
         galaxy: {
             rows: '//div[contains(@class, "galaxyRow")]',
             position: 'div[contains(@class, "cellPosition")]/text()',
-            planetname: 'div[contains(@class,"cellPlanetname")]/text()',
+            planetname: 'div[contains(@class,"cellPlanetname")]/span/text()',
             planetname_l: 'div[contains(@class,"cellPlanetname")]/a/text()',
             planetname_tooltip: 'div[contains(@class,"microplanet")]//div[contains(@id,"planet")]/h1/span/text()',
             moon: 'div[contains(@class,"moon")]/a',
             debris: 'descendant::li[contains(@class,"debris-content")]',
-            playername: 'div[contains(@class,"cellPlayername")]//span[starts-with(@class,"status_")]/text()',//* pour a en general, span pour joueur courant,
-            playername2: 'div[contains(@class,"cellPlayername")]/*[2]/text()', //Pour joueur bandit ou empereur
-            playername_tooltip: 'div[contains(@class,"playername")]//div[contains(@id,"player")]/h1/span/text()',
+            playername: 'div[contains(@class,"cellPlayerName")]//span[starts-with(@class,"status_")]/text()',//* pour a en general, span pour joueur courant,
+            playername2: 'div[contains(@class,"cellPlayerName")]/*[2]/text()', //Pour joueur bandit ou empereur
+            playername_tooltip: 'div[contains(@class,"playerName")]//div[contains(@id,"player")]/h1/span/text()',
             allytag: 'div[contains(@class, "allytag")]/span/text()',
             status: 'descendant::span[starts-with(@class,"status_") and @title]',
             status_baned: 'descendant::span[starts-with(@class,"status_")]/a[@title]/text()',
