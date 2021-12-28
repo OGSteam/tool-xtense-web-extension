@@ -86,8 +86,8 @@ function parse_galaxy_system_inserted(event) {
                 } else {
                     status = '';
                 }
-                let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
-                status = banned + status;
+                //let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
+                //status = banned + status;
                 let activity = Xpath.getStringValue(document, paths.activity, row).trim();
                 if (!activity) {
                     activity = (Xpath.getStringValue(document, paths.activity15, row) ? 0 : -1);

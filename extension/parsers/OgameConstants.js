@@ -87,8 +87,8 @@ function initParsers() {
             playername2: 'div[contains(@class,"cellPlayerName")]/span[contains(@class,"ownPlayerRow")]/text()', //Pour soi même
             playername_tooltip: 'div[contains(@class,"playerName")]//div[contains(@id,"player")]/h1/span/text()',
             allytag: 'div[contains(@class, "cellAlliance")]/span/text()',
-            status: 'descendant::span[starts-with(@class,"status_") and @data-title]',
-            status_baned: 'descendant::span[starts-with(@class,"status_")]/a[@data-title]/text()',
+            status: 'div[contains(@class,"cellPlayerName")]/pre/span[starts-with(@class,"status_abbr")]',
+            //status_baned: 'descendant::span[starts-with(@class,"status_")]/a[@title]/text()',
             activity: 'div[contains(@class,"cellPlanet")]/a/div[contains(@class,"microplanet")]/div[contains(@class,"activity")]/text()',
             activity15: 'div[contains(@class,"cellPlanet")]/a/div[contains(@class,"microplanet")]/div[contains(@class,"minute15")]/@class',
             activity_m: 'div[contains(@class,"cellMoon")]/a/div[contains(@class,"micromoon")]/div[contains(@class,"activity")]/text()',
@@ -101,8 +101,8 @@ function initParsers() {
             table_galaxy_header: '//table[@id="galaxytable"]/tbody/tr[@class="info info_header"]',
             galaxy_input: '//input[@id="galaxy_input"]',
             system_input: '//input[@id="system_input"]',
-            debris16_m : '//div[@id="galaxyRow16"]/div/div[1]/text()',
-            debris16_c : '//div[@id="galaxyRow16"]/div/div[2]/text()',
+            debris16_m : '//*[@id="galaxyRow16"]/div/div[1]/text()',
+            debris16_c : '//*[@id="galaxyRow16"]/div/div[2]/text()',
         },
 
         levels: {
