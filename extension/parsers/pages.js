@@ -11,6 +11,10 @@ function parse_galaxy_system_inserted(event) {
     log.debug('In parse_galaxy_system_inserted()');
     //var doc = event.target.ownerDocument;
     let paths = XtenseXpaths.galaxy;
+    let loadingDiv = Xpath.getSingleNode(document, paths.loading_div);
+    if (loadingDiv.style.display != "none"){
+        return;
+    }
     //Référence Xpaths
     let galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
     if (galaxyInput === null)
@@ -82,8 +86,8 @@ function parse_galaxy_system_inserted(event) {
                 } else {
                     status = '';
                 }
-                let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
-                status = banned + status;
+                //let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
+                //status = banned + status;
                 let activity = Xpath.getStringValue(document, paths.activity, row).trim();
                 if (!activity) {
                     activity = (Xpath.getStringValue(document, paths.activity15, row) ? 0 : -1);
