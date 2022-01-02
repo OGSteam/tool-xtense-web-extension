@@ -38,24 +38,26 @@ function initParsers() {
     };
     XtenseXpaths = {
         metas: {
-            ogame_version: '//meta[@name=\'ogame-version\']/@content',
-            timestamp: '//meta[@name=\'ogame-timestamp\']/@content',
-            universe: '//meta[@name=\'ogame-universe\']/@content',
-            universename: '//meta[@name=\'ogame-universe-name\']/@content',
-            universespeed: '//meta[@name=\'ogame-universe-speed\']/@content',
-            universespeedfleet: '//meta[@name=\'ogame-universe-speed-fleet\']/@content',
-            language: '//meta[@name=\'ogame-language\']/@content',
-            donutgalaxy: '//meta[@name=\'ogame-donut-galaxy\']/@content',
-            donutsystem: '//meta[@name=\'ogame-donut-system\']/@content',
-            player_id: '//meta[@name=\'ogame-player-id\']/@content',
-            player_name: '//meta[@name=\'ogame-player-name\']/@content',
-            planet_id: '//meta[@name=\'ogame-planet-id\']/@content',
-            planet_name: '//meta[@name=\'ogame-planet-name\']/@content',
-            planet_coords: '//meta[@name=\'ogame-planet-coordinates\']/@content',
-            planet_type: '//meta[@name=\'ogame-planet-type\']/@content',
-            ally_id: '//meta[@name=\'ogame-alliance-id\']/@content',
-            ally_name: '//meta[@name=\'ogame-alliance-name\']/@content',
-            ally_tag: '//meta[@name=\'ogame-alliance-tag\']/@content'
+            ogame_version: "//meta[@name='ogame-version']/@content",
+            timestamp: "//meta[@name='ogame-timestamp']/@content",
+            universe: "//meta[@name='ogame-universe']/@content",
+            universename: "//meta[@name='ogame-universe-name']/@content",
+            universespeed: "//meta[@name='ogame-universe-speed']/@content",
+            universespeedfleetpeaceful: "//meta[@name='ogame-universe-speed-fleet-peaceful']/@content",
+            universespeedfleetwar: "//meta[@name='ogame-universe-speed-fleet-war']/@content",
+            universespeedholding: "//meta[@name='ogame-universe-speed-fleet-holding']/@content",
+            language: "//meta[@name='ogame-language']/@content",
+            donutgalaxy: "//meta[@name='ogame-donut-galaxy']/@content",
+            donutsystem: "//meta[@name='ogame-donut-system']/@content",
+            player_id: "//meta[@name='ogame-player-id']/@content",
+            player_name: "//meta[@name='ogame-player-name']/@content",
+            planet_id: "//meta[@name='ogame-planet-id']/@content",
+            planet_name: "//meta[@name='ogame-planet-name']/@content",
+            planet_coords: "//meta[@name='ogame-planet-coordinates']/@content",
+            planet_type: "//meta[@name='ogame-planet-type']/@content",
+            ally_id: "//meta[@name='ogame-alliance-id']/@content",
+            ally_name: "//meta[@name='ogame-alliance-name']/@content",
+            ally_tag: "//meta[@name='ogame-alliance-tag']/@content"
         },
         ally_members_list: {
             rows: '//table[@id="member-list"]/tbody/tr',
@@ -175,21 +177,21 @@ function initParsers() {
             },
 
         ranking: {
-            date: "//div[@id=\'OGameClock\']/text()",
-            time: "//div[@id=\'OGameClock\']/span/text()",
-            who: "//div[@id=\'categoryButtons\']/a[contains(@class,'active')]/@id",
-            type: "//div[@id=\'typeButtons\']/a[contains(@class,'active')]/@id",
-            subnav_fleet: "//div[@id=\'subnav_fleet\']/a[contains(@class,'active')]/@rel",
+            date: "//div[@id='OGameClock']/text()",
+            time: "//div[@id='OGameClock']/span/text()",
+            who: "//div[@id='categoryButtons']/a[contains(@class,'active')]/@id",
+            type: "//div[@id='typeButtons']/a[contains(@class,'active')]/@id",
+            subnav_fleet: "//div[@id='subnav_fleet']/a[contains(@class,'active')]/@rel",
 
-            rows: "id(\'ranks\')/tbody/tr",
-            position: 'td[contains(@class,\'position\')]/text()',
-            points: 'td[contains(@class,\'score\')]/text()',
-            allytag: 'td[@class=\'name\']/span[@class=\'ally-tag\']/a/text()',
-            ally_id: 'td[@class=\'name\']/span[@class=\'ally-tag\']/a/@href',
+            rows: "id('ranks')/tbody/tr",
+            position: "td[contains(@class,'position')]/text()",
+            points: "td[contains(@class,'score')]/text()",
+            allytag: "td[@class='name']/span[@class='ally-tag']/a/text()",
+            ally_id: "td[@class='name']/span[@class='ally-tag']/a/@href",
             player: {
-                playername: "td[@class=\'name\']//a[contains(@href,\'galaxy\') and contains(@href,\'system\')]/span/text()",
+                playername: "td[@class='name']//a[contains(@href,'galaxy') and contains(@href,'system')]/span/text()",
                 player_id: "td[@class='sendmsg']//a[@data-playerid]/@data-playerid",
-                spacecraft: "td[contains(@class,\'score\')]/@title"
+                spacecraft: "td[contains(@class,'score')]/@title"
             },
 
             ally: {

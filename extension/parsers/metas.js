@@ -23,8 +23,14 @@ XtenseMetas = {
     getUniversespeed: function () {
         return Xpath.getStringValue(document, XtenseXpaths.metas.universespeed);
     },
-    getuniversespeedfleet: function () {
-        return Xpath.getStringValue(document, XtenseXpaths.metas.universespeedfleet);
+    getUniverseSpeedfleetpeaceful: function () {
+        return Xpath.getStringValue(document, XtenseXpaths.metas.universespeedfleetpeaceful);
+    },
+    getUniverseSpeedfleetwar: function () {
+        return Xpath.getStringValue(document, XtenseXpaths.metas.universespeedfleetwar);
+    },
+    getUniverseSpeedfleetholding: function () {
+        return Xpath.getStringValue(document, XtenseXpaths.metas.universespeedholding);
     },
     getLanguage: function () {
         return Xpath.getStringValue(document, XtenseXpaths.metas.language);
@@ -126,7 +132,9 @@ function getUniverseDetails() {
     let uni_name = XtenseMetas.getUniversename();
     let uni_time = XtenseMetas.getTimestamp();
     let uni_speed = XtenseMetas.getUniversespeed();
-    let uni_speed_fleet = XtenseMetas.getuniversespeedfleet();
+    let uni_speed_fleet_peaceful = XtenseMetas.getUniverseSpeedfleetpeaceful();
+    let uni_speed_fleet_war = XtenseMetas.getUniverseSpeedfleetwar();
+    let uni_speed_fleet_holding = XtenseMetas.getUniverseSpeedfleetholding();
     let uni_donut_g = XtenseMetas.getdonutgalaxy();
     let uni_donut_s = XtenseMetas.getdonutsystem();
 
@@ -138,7 +146,9 @@ function getUniverseDetails() {
         'uni_name=' + uni_name + ',' +
         'uni_time=' + uni_time + ',' +
         'uni_speed=' + uni_speed + ',' +
-        'uni_speed_fleet=' + uni_speed_fleet + ',' +
+        'uni_speed_fleet_peaceful=' + uni_speed_fleet_peaceful + ',' +
+        'uni_speed_fleet_war=' + uni_speed_fleet_war + ',' +
+        'uni_speed_fleet_holding=' + uni_speed_fleet_holding + ',' +
         'uni_donut_g=' + uni_donut_g + ',' +
         'uni_donut_s=' + uni_donut_s);
 
@@ -148,7 +158,9 @@ function getUniverseDetails() {
         "uni_name" : uni_name,
         "uni_time" : uni_time,
         "uni_speed" : uni_speed,
-        "uni_speed_fleet" : uni_speed_fleet,
+        "uni_speed_fleet_peaceful" : uni_speed_fleet_peaceful,
+        "uni_speed_fleet_war" : uni_speed_fleet_war,
+        "uni_speed_fleet_holding" : uni_speed_fleet_holding,
         "uni_donut_g" : uni_donut_g,
         "uni_donut_s" : uni_donut_s};
 }
