@@ -1,6 +1,6 @@
 {
   "name": "xtense-web-extension",
-  "version": "2.9.6",
+  "version": "2.9.7",
   "description": "Xtense collects Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
@@ -34,18 +34,19 @@
   "devDependencies": {
     "chrome-webstore-upload-cli": "^1.2.0",
     "cross-var": "^1.1.0",
-    "del": "^5.1.0",
+    "del": "^6.0.0",
     "dot-json": "^1.2.1",
-    "eslint": "^7.17.0",
+    "eslint": "^8.6.0",
     "gulp": "^4.0.2",
-    "gulp-rename": "^1.4.0",
-    "gulp-zip": "^5.0.2",
+    "gulp-rename": "^2.0.0",
+    "gulp-zip": "^5.1.0",
     "minimatch": "^3.0.4",
-    "read-pkg": "latest",
-    "web-ext": "3.1.1"
+    "read-pkg": "~5.2.0",
+    "web-ext": "^6.6.0"
   },
   "dependencies": {
-    "jquery": "^3.5.1",
-    "loglevel": "^1.7.1"
+    "jquery": "^3.6.0",
+    "loglevel": "^1.8.0",
+    "npm": "^8.3.0"
   }
 }
