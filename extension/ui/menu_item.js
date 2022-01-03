@@ -37,7 +37,7 @@ function setStatus(type, message) {
                 img_url = 'images/icones/xtenseNo.png';
         }
         icone.title = message;
-        icone.src = chrome.extension.getURL(img_url);
+        icone.src = chrome.runtime.getURL(img_url);
         chrome.runtime.sendMessage({ "action" : "toolbar_icon", "newIconPath" : img_url, "newTooltip" : message});
 
     } else {
@@ -59,8 +59,8 @@ function displayXtense() {
 
     // Page classique
     if ($("#playerName")) {
-        var icone = chrome.extension.getURL('images/icones/xtense.png');
-        var icone_planet = chrome.extension.getURL('images/icones/planet.png');
+        var icone = chrome.runtime.getURL('images/icones/xtense.png');
+        var icone_planet = chrome.runtime.getURL('images/icones/planet.png');
 
         var aAttrs = '';
         if (storageGetValue('manual.send', 'false').toString() === 'true') {
@@ -198,16 +198,16 @@ function displayOptions() {
 
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
-    options += '<img src="' + chrome.extension.getURL('images/xtense.png') + '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
+    options += '<img src="' + chrome.runtime.getURL('images/xtense.png') + '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
     options += '<br><br>';
     options += '<table style="width:675px;">' +
         '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
         '<tbody>' +
         '<tr>' +
-        '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/server.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></a></span></td>' +
-        '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/pages.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></a></span></td>' +
-        '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/conf.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></a></span></td>' +
-        '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/about.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/server.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/pages.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/conf.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/about.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></a></span></td>' +
         '</tr>' +
         '</tbody>' +
         '</table>';
@@ -249,7 +249,7 @@ function displayOptions() {
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td colspan="2"><img src="' + chrome.extension.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example")+ '</td>';
+    options += '<td colspan="2"><img src="' + chrome.runtime.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example")+ '</td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
