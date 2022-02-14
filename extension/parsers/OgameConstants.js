@@ -85,11 +85,11 @@ function initParsers() {
             planetname_tooltip: 'div[contains(@class,"microplanet")]//div[contains(@id,"planet")]/h1/span/text()',
             moon: 'div[contains(@class,"cellMoon")]/a',
             debris: 'descendant::li[contains(@class,"debris-content")]',
-            playername: 'div[contains(@class,"cellPlayerName")]/span[contains(@rel,"player")]/text()',//* pour a en general, span pour joueur courant,
-            playername2: 'div[contains(@class,"cellPlayerName")]/span[contains(@class,"ownPlayerRow")]/text()', //Pour soi même
+            playername: 'div[contains(@class,"cellPlayerName")]//span[contains(@rel,"player")]/text()',//* pour a en general, span pour joueur courant,
+            playername2: 'div[contains(@class,"cellPlayerName")]//span[contains(@class,"ownPlayerRow")]/text()', //Pour soi même
             playername_tooltip: 'div[contains(@class,"playerName")]//div[contains(@id,"player")]/h1/span/text()',
             allytag: 'div[contains(@class, "cellAlliance")]/span/text()',
-            status: 'div[contains(@class,"cellPlayerName")]/pre/span[starts-with(@class,"status_abbr")]',
+            status: 'div[contains(@class,"cellPlayerName")]//pre/span[starts-with(@class,"status_abbr")]',
             //status_baned: 'descendant::span[starts-with(@class,"status_")]/a[@title]/text()',
             activity: 'div[contains(@class,"cellPlanet")]/a/div[contains(@class,"microplanet")]/div[contains(@class,"activity")]/text()',
             activity15: 'div[contains(@class,"cellPlanet")]/a/div[contains(@class,"microplanet")]/div[contains(@class,"minute15")]/@class',
