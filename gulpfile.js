@@ -1,4 +1,4 @@
-const { series, parallel , src, dest } = require("gulp");
+const { series, parallel, src, dest } = require("gulp");
 const rename = require("gulp-rename");
 const zip = require("gulp-zip");
 const del = require("del");
@@ -26,7 +26,7 @@ function build(cb) {
 }
 
 function copy_files_for_firefox() {
-    return src(["extension/**","!extension/manifest.*"]).pipe(dest("release/firefox"));
+    return src(["extension/**", "!extension/manifest.*"]).pipe(dest("release/firefox"));
 }
 function copy_firefox_manifest() {
     return src("extension/manifest.firefox").pipe(rename("manifest.json")).pipe(dest("release/firefox"));
@@ -60,21 +60,21 @@ function copy_edge_htmlfiles() {
 
 
 
-function package_for_chrome(cb){
+function package_for_chrome(cb) {
     src("release/chrome/**")
         .pipe(zip("chrome-" + manifest.sync().version + ".zip"))
         .pipe(dest("release"));
     cb();
 }
 
-function package_for_firefox(cb){
+function package_for_firefox(cb) {
     src("release/firefox/**")
         .pipe(zip("firefox-" + manifest.sync().version + ".zip"))
         .pipe(dest("release"));
     cb();
 }
 
-function package_for_edge(cb){
+function package_for_edge(cb) {
     src("release/firefox/**")
         .pipe(zip("edge-" + manifest.sync().version + ".zip"))
         .pipe(dest("release"));
@@ -83,10 +83,10 @@ function package_for_edge(cb){
 
 exports.clean = clean;
 exports.build = build;
-exports.packchrome = series(parallel(copy_files_for_chrome , copy_chrome_manifest, copy_chrome_htmlfiles), package_for_chrome);
-exports.packfirefox = series(parallel(copy_files_for_firefox , copy_firefox_manifest, copy_firefox_htmlfiles), package_for_firefox);
-exports.packedge = series(parallel(copy_files_for_edge , copy_edge_manifest, copy_edge_htmlfiles), package_for_edge);
+exports.packchrome = series(parallel(copy_files_for_chrome, copy_chrome_manifest, copy_chrome_htmlfiles), package_for_chrome);
+exports.packfirefox = series(parallel(copy_files_for_firefox, copy_firefox_manifest, copy_firefox_htmlfiles), package_for_firefox);
+exports.packedge = series(parallel(copy_files_for_edge, copy_edge_manifest, copy_edge_htmlfiles), package_for_edge);
 exports.default = series(clean, build,
-                         parallel(series(parallel(copy_files_for_chrome , copy_chrome_manifest, copy_chrome_htmlfiles), package_for_chrome),
-                                  series(parallel(copy_files_for_firefox , copy_firefox_manifest, copy_firefox_htmlfiles), package_for_firefox),
-                                  series(parallel(copy_files_for_edge , copy_edge_manifest, copy_edge_htmlfiles), package_for_edge)));
+    parallel(series(parallel(copy_files_for_chrome, copy_chrome_manifest, copy_chrome_htmlfiles), package_for_chrome),
+        series(parallel(copy_files_for_firefox, copy_firefox_manifest, copy_firefox_htmlfiles), package_for_firefox),
+        series(parallel(copy_files_for_edge, copy_edge_manifest, copy_edge_htmlfiles), package_for_edge)));

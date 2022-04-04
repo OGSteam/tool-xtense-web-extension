@@ -23,7 +23,7 @@ function initLocales() {
             'spy reports': {
                 'groups': {
                     'resources': 'Ressources',
-                    'debris' : 'Champ de débris',
+                    'debris': 'Champ de débris',
                     'buildings': 'Bâtiment',
                     'defense': 'Défense',
                     'fleet': 'Flottes',
@@ -37,7 +37,7 @@ function initLocales() {
                         603: 'deuterium',
                         604: 'energy'
                     },
-                    'debris' : {
+                    'debris': {
                         701: 'metal',
                         702: 'crystal'
                     },
@@ -253,7 +253,7 @@ function initLocales() {
                     'defense': 'Defense',
                     'fleet': 'Fleet',
                     'researchs': 'Research',
-					'comment': 'Comment'
+                    'comment': 'Comment'
                 },
                 'units': {
                     'resources': {
@@ -448,8 +448,8 @@ function initLocales() {
                         hour: 4,
                         min: 5,
                         sec: 6
-                }
-            },
+                    }
+                },
                 'messagesRC': {
                     regexp: '(\\d+).(\\d+).(\\d+)\\s(\\d+):(\\d+):(\\d+)',
                     fields: {
@@ -471,7 +471,7 @@ function initLocales() {
                     'defense': 'Defense',
                     'fleet': 'Fleet',
                     'researchs': 'Research',
-					'comment': 'Comment'
+                    'comment': 'Comment'
                 },
                 'units': {
                     'resources': {
@@ -666,8 +666,8 @@ function initLocales() {
                         hour: 4,
                         min: 5,
                         sec: 6
-                }
-            },
+                    }
+                },
                 'messagesRC': {
                     regexp: '(\\d+).(\\d+).(\\d+)\\s(\\d+):(\\d+):(\\d+)',
                     fields: {
@@ -1335,223 +1335,223 @@ function initLocales() {
                 }
             }
         },
-		'it': {
-			'spy reports': {
-				'groups': {
-					'resources': 'Risorse',
-					'buildings': 'Strutture',
-					'defense': 'Difese',
-					'fleet': 'Flotta',
-					'researchs': 'Ricerche',
-					'comment': 'Commenti'
-				},
-				'units': {
-					'resources': {
-						601: 'Metallo',
-						602: 'Cristallo',
-						603: 'Deuterio',
-						604: 'Energia'
-					},
-					'buildings': {
-						1: 'Miniera di metallo',
-						2: 'Miniera di cristallo',
-						3: 'Sintetizzatore di deuterio',
-						4: 'Centrale solare',
-						12: 'Centrale a fusione',
-						14: 'Fabbrica dei robot',
-						15: 'Fabbrica dei naniti',
-						21: 'Porto spaziale',
-						22: 'Deposito di metallo',
-						23: 'Deposito di cristallo',
-						24: 'Deposito di deuterio',
-						31: 'Laboratorio di ricerca',
-						33: 'Terraformer',
-						34: 'Base di appoggio',
+        'it': {
+            'spy reports': {
+                'groups': {
+                    'resources': 'Risorse',
+                    'buildings': 'Strutture',
+                    'defense': 'Difese',
+                    'fleet': 'Flotta',
+                    'researchs': 'Ricerche',
+                    'comment': 'Commenti'
+                },
+                'units': {
+                    'resources': {
+                        601: 'Metallo',
+                        602: 'Cristallo',
+                        603: 'Deuterio',
+                        604: 'Energia'
+                    },
+                    'buildings': {
+                        1: 'Miniera di metallo',
+                        2: 'Miniera di cristallo',
+                        3: 'Sintetizzatore di deuterio',
+                        4: 'Centrale solare',
+                        12: 'Centrale a fusione',
+                        14: 'Fabbrica dei robot',
+                        15: 'Fabbrica dei naniti',
+                        21: 'Porto spaziale',
+                        22: 'Deposito di metallo',
+                        23: 'Deposito di cristallo',
+                        24: 'Deposito di deuterio',
+                        31: 'Laboratorio di ricerca',
+                        33: 'Terraformer',
+                        34: 'Base di appoggio',
                         36: 'Space Dock',
-						44: 'Base missilistica',
-						41: 'Avamposto lunare',
-						42: 'Falange di sensori',
-						43: 'Portale iperspaziale'
-					},
-					'researchs': {
-						106: 'Teconologia per lo spionaggio',
-						108: 'Tecnologia informatica',
-						109: 'Tecnologia delle armi',
-						110: 'Tecnologia degli scudi',
-						111: 'Tecnologia delle corazze',
-						113: 'Tecnologia energetica',
-						114: 'Tecnologia iperspaziale',
-						115: 'Propulsore a combustione',
-						117: 'Propulsore ad impulso',
-						118: 'Propulsore iperspaziale',
-						120: 'Laser dei Laser',
-						121: 'Ion ionica',
-						122: 'Plasma del plasma',
-						123: 'Rete interplanetaria di ricerca',
-						124: 'Astrofisica',
-						199: 'Tecnologia Gravitonica'
-					},
-					'fleet': {
-						202: 'Cargo leggero',
-						203: 'Cargo pesante',
-						204: 'Caccia leggero',
-						205: 'Caccia pesante',
-						206: 'Incrociatore',
-						207: 'Nave da battaglia',
-						208: 'Colonizzatrice',
-						209: 'Riciclatrice',
-						210: 'Sonda spia',
-						211: 'Bombardiere',
-						212: 'Satellite solare ',
-						213: 'Corazzata',
-						214: 'Morte nera',
-						215: 'Incrociatore da battaglia'
-					},
-					'defense': {
-						401: 'Lanciamissili',
-						402: 'Laser leggero',
-						403: 'Laser pesante',
-						404: 'Cannone di Gauss',
-						405: 'Cannone ionico',
-						406: 'Cannone al Plasma',
-						407: 'Cupola scudo piccola',
-						408: 'Cupola scudo potenziata',
-						502: 'Missili anti balistici',
-						503: 'Missili interplanetari'
-					},
-					'comment': {}
-				},
-				'ogameAPI_link': 'ogame-api'
-			},
-			'combat report': {
-				'units': {
-					'fleet': {
-						202: 'Cargo leggero',
-						203: 'Cargo pesante',
-						204: 'Caccia leggero',
-						205: 'Caccia pesante',
-						206: 'Incrociatore',
-						207: 'Nave da battaglia',
-						208: 'Colonizzatrice',
-						209: 'Riciclatrice',
-						210: 'Sonda spia',
-						211: 'Bombardiere',
-						212: 'Satellite solare ',
-						213: 'Corazzata',
-						214: 'Morte nera',
-						215: 'Incrociatore da battaglia'
-					},
-					'defense': {
-						401: 'Lanciamissili',
-						402: 'Laser leggero',
-						403: 'Laser pesante',
-						404: 'Cannone di Gauss',
-						405: 'Cannone ionico',
-						406: 'Cannone al Plasma',
-						407: 'Cupola scudo piccola',
-						408: 'Cupola scudo potenziata'
-					}
-				},
-				'unitsCost': {
-					202: 4000,
-					203: 12000,
-					204: 4000,
-					205: 10000,
-					206: 29000,
-					207: 60000,
-					208: 40000,
-					209: 18000,
-					210: 1000,
-					211: 90000,
-					212: 2500,
-					213: 125000,
-					214: 10000000,
-					215: 85000,
-					401: 2000,
-					402: 2000,
-					403: 8000,
-					404: 37000,
-					405: 8000,
-					406: 130000,
-					407: 20000,
-					408: 130000
-				},
-				'regxps': {
-					'round': {
-						'a_nb': 'Attaccante spara per un totale di ([\\d|\\.]*) volte ',
-						'a_shoot': 'con una potenza di fuoco di ([\\d|\\.]*) sul Difensore.',
-						'd_bcl': 'Gli scudi del Difensore assorbono ([\\d|\\.]*) punti danno.',
-						'd_nb': 'Il Difensore spara per un totale di ([\\d|\\.]*) volte',
-						'd_shoot': 'con una potenza di fuoco di ([\\d|\\.]*)\ sul Attaccante',
-						'a_bcl': 'Gli scudi del Attaccante assorbono ([\\d|\\.]*) punti danno'
-					},
-					'result': {
-						'win': {
-							'win_metal': 'Metallo',
-							'win_cristal': 'Cristallo',
-							'win_deut': 'Deuterio'
-						},
-						'deb': {
-							'deb_metal': 'Metallo',
-							'deb_cristal': 'Cristallo'
-						},
-						'a_lost': 'Attaccante ha perso un totale di (.*) unità.',
-						'd_lost': 'Difensore ha perso un totale di	(.*) unità.'
-					},
-					'weapons': {
-						'arm': 'weaponPercentage',
-						'bcl': 'shieldPercentage',
-						'coq': 'armorPercentage'
-					},
-					'moon': 'formano una luna',
-					'moonprob': 'la probabilità di creazione di una luna è del (\\d+) %',
-					'attack': 'Attaccante',
-					'defense': 'Difensore',
-					'nul': 'Parità',
-					'attack_win': 'Attaccante vince la battaglia',
-					'ogameAPI_link': 'ogame-api'
-				}
-			},
-			'messages': {
-				'espionage of': 'Rapporto di spionaggio di',
-				'unespionage prob': 'Probabilità di controspionaggio',
-				'activity': 'ultimi (\\d+)</font> minuti',
-				'moon': 'Luna',
-				'espionnage action': 'Spia',
-				'fleet command': 'Attacca',
-				'expeditionResult': 'Risultato della spedizione',
-				'fleet': 'Flotta',
-				'harvesting': 'Rapporto di riciclaggio',
-				'combat of': 'Rapporto di combattimento',
-				'combat defence': 'Attacco da',
-				'trade message 1': 'risorse consegnate da una flotta straniera',
-				'trade message 2': 'Pianeta raggiunto',
-				'antimatiere': 'Materia oscura'
-			},
-			'dates': {
-				'messages': {
-					regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
-					fields: {
-						year: 3,
-						month: 2,
-						day: 1,
-						hour: 4,
-						min: 5,
-						sec: 6
-				}
-			},
-				'messagesRC': {
-					regexp: '(\\d+).(\\d+).(\\d+)\\s(\\d+):(\\d+):(\\d+)',
-					fields: {
-						year: 3,
-						month: 2,
-						day: 1,
-						hour: 4,
-						min: 5,
-						sec: 6
-					}
-				}
-			}
-		}
-	})
+                        44: 'Base missilistica',
+                        41: 'Avamposto lunare',
+                        42: 'Falange di sensori',
+                        43: 'Portale iperspaziale'
+                    },
+                    'researchs': {
+                        106: 'Teconologia per lo spionaggio',
+                        108: 'Tecnologia informatica',
+                        109: 'Tecnologia delle armi',
+                        110: 'Tecnologia degli scudi',
+                        111: 'Tecnologia delle corazze',
+                        113: 'Tecnologia energetica',
+                        114: 'Tecnologia iperspaziale',
+                        115: 'Propulsore a combustione',
+                        117: 'Propulsore ad impulso',
+                        118: 'Propulsore iperspaziale',
+                        120: 'Laser dei Laser',
+                        121: 'Ion ionica',
+                        122: 'Plasma del plasma',
+                        123: 'Rete interplanetaria di ricerca',
+                        124: 'Astrofisica',
+                        199: 'Tecnologia Gravitonica'
+                    },
+                    'fleet': {
+                        202: 'Cargo leggero',
+                        203: 'Cargo pesante',
+                        204: 'Caccia leggero',
+                        205: 'Caccia pesante',
+                        206: 'Incrociatore',
+                        207: 'Nave da battaglia',
+                        208: 'Colonizzatrice',
+                        209: 'Riciclatrice',
+                        210: 'Sonda spia',
+                        211: 'Bombardiere',
+                        212: 'Satellite solare ',
+                        213: 'Corazzata',
+                        214: 'Morte nera',
+                        215: 'Incrociatore da battaglia'
+                    },
+                    'defense': {
+                        401: 'Lanciamissili',
+                        402: 'Laser leggero',
+                        403: 'Laser pesante',
+                        404: 'Cannone di Gauss',
+                        405: 'Cannone ionico',
+                        406: 'Cannone al Plasma',
+                        407: 'Cupola scudo piccola',
+                        408: 'Cupola scudo potenziata',
+                        502: 'Missili anti balistici',
+                        503: 'Missili interplanetari'
+                    },
+                    'comment': {}
+                },
+                'ogameAPI_link': 'ogame-api'
+            },
+            'combat report': {
+                'units': {
+                    'fleet': {
+                        202: 'Cargo leggero',
+                        203: 'Cargo pesante',
+                        204: 'Caccia leggero',
+                        205: 'Caccia pesante',
+                        206: 'Incrociatore',
+                        207: 'Nave da battaglia',
+                        208: 'Colonizzatrice',
+                        209: 'Riciclatrice',
+                        210: 'Sonda spia',
+                        211: 'Bombardiere',
+                        212: 'Satellite solare ',
+                        213: 'Corazzata',
+                        214: 'Morte nera',
+                        215: 'Incrociatore da battaglia'
+                    },
+                    'defense': {
+                        401: 'Lanciamissili',
+                        402: 'Laser leggero',
+                        403: 'Laser pesante',
+                        404: 'Cannone di Gauss',
+                        405: 'Cannone ionico',
+                        406: 'Cannone al Plasma',
+                        407: 'Cupola scudo piccola',
+                        408: 'Cupola scudo potenziata'
+                    }
+                },
+                'unitsCost': {
+                    202: 4000,
+                    203: 12000,
+                    204: 4000,
+                    205: 10000,
+                    206: 29000,
+                    207: 60000,
+                    208: 40000,
+                    209: 18000,
+                    210: 1000,
+                    211: 90000,
+                    212: 2500,
+                    213: 125000,
+                    214: 10000000,
+                    215: 85000,
+                    401: 2000,
+                    402: 2000,
+                    403: 8000,
+                    404: 37000,
+                    405: 8000,
+                    406: 130000,
+                    407: 20000,
+                    408: 130000
+                },
+                'regxps': {
+                    'round': {
+                        'a_nb': 'Attaccante spara per un totale di ([\\d|\\.]*) volte ',
+                        'a_shoot': 'con una potenza di fuoco di ([\\d|\\.]*) sul Difensore.',
+                        'd_bcl': 'Gli scudi del Difensore assorbono ([\\d|\\.]*) punti danno.',
+                        'd_nb': 'Il Difensore spara per un totale di ([\\d|\\.]*) volte',
+                        'd_shoot': 'con una potenza di fuoco di ([\\d|\\.]*)\ sul Attaccante',
+                        'a_bcl': 'Gli scudi del Attaccante assorbono ([\\d|\\.]*) punti danno'
+                    },
+                    'result': {
+                        'win': {
+                            'win_metal': 'Metallo',
+                            'win_cristal': 'Cristallo',
+                            'win_deut': 'Deuterio'
+                        },
+                        'deb': {
+                            'deb_metal': 'Metallo',
+                            'deb_cristal': 'Cristallo'
+                        },
+                        'a_lost': 'Attaccante ha perso un totale di (.*) unità.',
+                        'd_lost': 'Difensore ha perso un totale di	(.*) unità.'
+                    },
+                    'weapons': {
+                        'arm': 'weaponPercentage',
+                        'bcl': 'shieldPercentage',
+                        'coq': 'armorPercentage'
+                    },
+                    'moon': 'formano una luna',
+                    'moonprob': 'la probabilità di creazione di una luna è del (\\d+) %',
+                    'attack': 'Attaccante',
+                    'defense': 'Difensore',
+                    'nul': 'Parità',
+                    'attack_win': 'Attaccante vince la battaglia',
+                    'ogameAPI_link': 'ogame-api'
+                }
+            },
+            'messages': {
+                'espionage of': 'Rapporto di spionaggio di',
+                'unespionage prob': 'Probabilità di controspionaggio',
+                'activity': 'ultimi (\\d+)</font> minuti',
+                'moon': 'Luna',
+                'espionnage action': 'Spia',
+                'fleet command': 'Attacca',
+                'expeditionResult': 'Risultato della spedizione',
+                'fleet': 'Flotta',
+                'harvesting': 'Rapporto di riciclaggio',
+                'combat of': 'Rapporto di combattimento',
+                'combat defence': 'Attacco da',
+                'trade message 1': 'risorse consegnate da una flotta straniera',
+                'trade message 2': 'Pianeta raggiunto',
+                'antimatiere': 'Materia oscura'
+            },
+            'dates': {
+                'messages': {
+                    regexp: '(\\d+).(\\d+).(\\d+)[^\\d]+(\\d+):(\\d+):(\\d+)',
+                    fields: {
+                        year: 3,
+                        month: 2,
+                        day: 1,
+                        hour: 4,
+                        min: 5,
+                        sec: 6
+                    }
+                },
+                'messagesRC': {
+                    regexp: '(\\d+).(\\d+).(\\d+)\\s(\\d+):(\\d+):(\\d+)',
+                    fields: {
+                        year: 3,
+                        month: 2,
+                        day: 1,
+                        hour: 4,
+                        min: 5,
+                        sec: 6
+                    }
+                }
+            }
+        }
+    })
 }

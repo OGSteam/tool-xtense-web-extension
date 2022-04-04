@@ -73,8 +73,8 @@ function initParsers() {
         },
         ressourcesSettings: {
             rows: '//table[contains(@class, "listOfResourceSettingsPerPlanet")]/tbody/tr',
-            rowName : 'td[contains(@class, "label")]/text()',
-            rowPercent : 'td[7]/span/a/text()'
+            rowName: 'td[contains(@class, "label")]/text()',
+            rowPercent: 'td[7]/span/a/text()'
         },
         galaxy: {
             loading_div: '//div[contains(@id, "galaxyLoading")]',
@@ -103,8 +103,8 @@ function initParsers() {
             table_galaxy_header: '//table[@id="galaxytable"]/tbody/tr[@class="info info_header"]',
             galaxy_input: '//input[@id="galaxy_input"]',
             system_input: '//input[@id="system_input"]',
-            debris16_m : '//*[@id="galaxyRow16"]/div/div[1]/text()',
-            debris16_c : '//*[@id="galaxyRow16"]/div/div[2]/text()',
+            debris16_m: '//*[@id="galaxyRow16"]/div/div[1]/text()',
+            debris16_c: '//*[@id="galaxyRow16"]/div/div[2]/text()',
         },
 
         levels: {
@@ -174,7 +174,7 @@ function initParsers() {
             items: '//ul[contains(@class,"active_items")]//div[@data-uuid]',
             dataUuid: 'a[@title]/@ref',
             itemTime: 'div[contains(@class,"js_duration")]/text()'
-            },
+        },
 
         ranking: {
             date: "//div[@id='OGameClock']/text()",
@@ -212,7 +212,7 @@ function initParsers() {
 
         rc: {
             list_infos: '//div[contains(@class,"detail_msg")]',
-			script : '//div[contains(@class, "detail_msg_ctn")]/div/div/script[1]',
+            script: '//div[contains(@class, "detail_msg_ctn")]/div/div/script[1]',
             list_rounds: '//li[contains(@class,"round_id")]',
             win_resource: '//div[contains(@class,"loot")]//li[contains(@class,"resource_list_el_small")]/span[contains(@class,"res_value")] | //div[contains(@class,"loot")]//li[contains(@class,"resource_list_el_small")]',
             deb_resource: '//div[contains(@class,"tf")]//li[contains(@class,"resource_list_el_small")]//span[contains(@class,"res_value")] | //div[contains(@class,"tf")]//li[contains(@class,"resource_list_el_small")]',

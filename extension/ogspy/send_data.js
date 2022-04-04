@@ -109,16 +109,16 @@ function initOGSpyCommunication() {
             let postData = {};
 
             //Check if server has been properly configured before sending data
-            if(storageGetValue("server.url.plugin", "" ) === "https://VOTRESITE/VOTREOGSPY"){
+            if (storageGetValue("server.url.plugin", "") === "https://VOTRESITE/VOTREOGSPY") {
                 log.info("Server 1 is not configured");
-                let  message = xlang("unknown_server");
-                setStatus(XLOG_WARNING,"[OGSpy] "+ message);
+                let message = xlang("unknown_server");
+                setStatus(XLOG_WARNING, "[OGSpy] " + message);
                 return;
             }
 
-            if (this.data.type === null)  {
+            if (this.data.type === null) {
                 let message = xlang("error_internal");
-                setStatus(XLOG_WARNING,"[OGSpy] "+ message);
+                setStatus(XLOG_WARNING, "[OGSpy] " + message);
                 return;
             }
             postData.toolbar_version = VERSION;
@@ -130,9 +130,9 @@ function initOGSpyCommunication() {
             storageSetValue("server.name", "OGSpy");
             postData.password = storageGetValue("server.pwd", "");
             postData.data = JSON.stringify(this.data.gamedata);
-            log.info("Send Page Type " +  this.data.type);
+            log.info("Send Page Type " + this.data.type);
             log.debug("sending Data" + JSON.stringify(this.data) + " to " + storageGetValue("server.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
-            new Xajax({
+            let sendobject = new Xajax({
                 url: storageGetValue("server.url.plugin", "") + "/mod/xtense/xtense.php",
                 post: JSON.stringify(postData),
                 callback: null,
@@ -143,7 +143,7 @@ function initOGSpyCommunication() {
                 postData.password = storageGetValue("server_backup.pwd", "");
                 postData.data = JSON.stringify(this.data);
                 log.debug("sending backup " + postData + " to " + storageGetValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php" + " from " + urlUnivers);
-                new Xajax({
+                let sendobject = new Xajax({
                     url: storageGetValue("server_backup.url.plugin", "") + "/mod/xtense/xtense.php",
                     post: JSON.stringify(postData),
                     callback: null,
@@ -151,8 +151,8 @@ function initOGSpyCommunication() {
                 });
             }
             /* Sauvegarde Pour Rapport utilisateur */
-            storageSetValue('report.type',postData.type);
-            storageSetValue('report.data',postData.data);
+            storageSetValue('report.type', postData.type);
+            storageSetValue('report.data', postData.data);
         },
         //Prépare la donnée avant envoi
         set: function (name, value) {
@@ -172,19 +172,19 @@ function handleResponse(status, Response) {
 
     if (status !== 200) {
         switch (status) {
-            case 404 :
+            case 404:
                 message = xlang("http_status_404");
                 break;
-            case 403 :
-                message =  xlang("http_status_403");
+            case 403:
+                message = xlang("http_status_403");
                 break;
-            case 500 :
-                message =  xlang("http_status_500");
+            case 500:
+                message = xlang("http_status_500");
                 break;
             default:
                 message = xlang("http_status_unknown");
         }
-        setStatus(XLOG_ERROR,"[" + message_start + "] "+ message);
+        setStatus(XLOG_ERROR, "[" + message_start + "] " + message);
     } else {
         let type = XLOG_SUCCESS;
         if (Response === '' || typeof (Response) === 'undefined') {
@@ -224,37 +224,37 @@ function handleResponse(status, Response) {
                     else if (data.target === "xtense.php") message = xlang("error_wrong_version_xtense");
                     else message = xlang("error_wrong_version_toolbar");
                     break;
-                case "php version" :
+                case "php version":
                     message = xlang("error_php_version");
                     break;
                 case "server active":
                     message = xlang("error_server_active");
                     break;
-                case "username" :
+                case "username":
                     message = xlang("error_username");
                     break;
-                case "password" :
+                case "password":
                     message = xlang("error_password");
                     break;
-                case "token" :
+                case "token":
                     message = xlang("error_token");
                     break;
-                case "user active" :
+                case "user active":
                     message = xlang("error_user_active");
                     break;
-                case "home full" :
+                case "home full":
                     message = xlang("error_home_full");
                     break;
-                case "plugin connections" :
+                case "plugin connections":
                     message = xlang("error_plugin_connections");
                     break;
-                case "plugin config" :
+                case "plugin config":
                     message = xlang("error_plugin_config");
                     break;
-                case "plugin univers" :
+                case "plugin univers":
                     message = xlang("error_plugin_univers");
                     break;
-                case "plugin grant" :
+                case "plugin grant":
                     message = xlang("error_grant_start");
                     break;
                 default:
@@ -262,17 +262,17 @@ function handleResponse(status, Response) {
             }
         } else {
             switch (code) {
-                case "home updated" :
-                    if(data.page === "overview") message = xlang("success_home_updated") + " (" + xlang("page_overview") + " "+ data.planet +")";
-                    if(data.page === "labo") message = xlang("success_home_updated") + " (" + xlang("page_labo") + " "+ data.planet +")";
-                    if(data.page === "buildings") message = xlang("success_home_updated") + " (" + xlang("page_buildings") + " "+ data.planet +")";
-                    if(data.page === "fleet") message = xlang("success_home_updated") + " (" + xlang("page_fleet") + " "+ data.planet +")";
-                    if(data.page === "defense") message = xlang("success_home_updated") + " (" + xlang("page_defense") + " "+ data.planet +")";
+                case "home updated":
+                    if (data.page === "overview") message = xlang("success_home_updated") + " (" + xlang("page_overview") + " " + data.planet + ")";
+                    if (data.page === "labo") message = xlang("success_home_updated") + " (" + xlang("page_labo") + " " + data.planet + ")";
+                    if (data.page === "buildings") message = xlang("success_home_updated") + " (" + xlang("page_buildings") + " " + data.planet + ")";
+                    if (data.page === "fleet") message = xlang("success_home_updated") + " (" + xlang("page_fleet") + " " + data.planet + ")";
+                    if (data.page === "defense") message = xlang("success_home_updated") + " (" + xlang("page_defense") + " " + data.planet + ")";
                     break;
-                case "system" :
-                    message = xlang("success_system") + " ("+data.galaxy+":"+data.system+")";
+                case "system":
+                    message = xlang("success_system") + " (" + data.galaxy + ":" + data.system + ")";
                     break;
-                case "rc" :
+                case "rc":
                     message = xlang("success_rc");
                     break;
                 case "rc_cdr":
@@ -282,7 +282,7 @@ function handleResponse(status, Response) {
                     message = xlang("success_messages");
                     break;
                 case "ranking":
-                    message = xlang("success_ranking") + " (" + data.offset.toString() +"-" + (parseInt(data.offset) + 99).toString() + ")";
+                    message = xlang("success_ranking") + " (" + data.offset.toString() + "-" + (parseInt(data.offset) + 99).toString() + ")";
                     break;
                 case "ally_list":
                     message = xlang("success_ally_list");
@@ -315,7 +315,7 @@ function handleResponse(status, Response) {
                 }
             }
         }
-        setStatus(type, "[" + data.execution + " ms]" + "[" + message_start + "] "+ message);
+        setStatus(type, "[" + data.execution + " ms]" + "[" + message_start + "] " + message);
     }
 }
 

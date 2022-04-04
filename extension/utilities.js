@@ -48,7 +48,7 @@ function setlogLevel() {
     if (storageGetValue('debug.mode', 'false').toString() !== 'true') {
         log.setLevel('info');
 
-    }else {
+    } else {
         log.setLevel('debug');
     }
 }
@@ -65,10 +65,10 @@ function Xajax(obj) {
         action: 'xhttp',
         url: url_to,
         data: post_data,
-        dataType :  'text/plain; charset=UTF-8',
-        crossDomain : true
-    }, function(objResponse) {
-         handleResponse( objResponse.status, objResponse.responseText );
+        dataType: 'text/plain; charset=UTF-8',
+        crossDomain: true
+    }, function (objResponse) {
+        handleResponse(objResponse.status, objResponse.responseText);
     });
 }
 

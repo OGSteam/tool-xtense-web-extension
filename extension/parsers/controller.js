@@ -18,7 +18,7 @@ function get_ally_content() {
             parse_ally_inserted();
         });
     });
-    let config = {attributes: true, childList: true, characterData: true};
+    let config = { attributes: true, childList: true, characterData: true };
     observer.observe(target, config);
 }
 
@@ -36,7 +36,7 @@ function get_message_content() {
                 return;
             let node = mutation.addedNodes[0];
             switch (node.id) {
-                case  'fleetsgenericpage':
+                case 'fleetsgenericpage':
                 case 'communicationmessagespage':
                 case 'defaultmessagespage':
                     break;
@@ -49,7 +49,7 @@ function get_message_content() {
             parse_messages();
         });
     });
-    let config = {attributes: false, childList: true, characterData: false, subtree: true};
+    let config = { attributes: false, childList: true, characterData: false, subtree: true };
     observer.observe(target, config);
     parse_messages(); // Première Page
 }
@@ -108,7 +108,7 @@ function get_content(type) {
             });
         });
         // configuration of the observer:
-        let config = {attributes: true, childList: true, characterData: true};
+        let config = { attributes: true, childList: true, characterData: true };
         observer.observe(target, config);
     }
 
@@ -128,14 +128,12 @@ function manual_send() {
  * Gestion de la page
  * @param page
  */
-function handle_page(page)
-{
+function handle_page(page) {
     let rights = page;
-    if(page === 'fleet')
+    if (page === 'fleet')
         rights = 'shipyard';
 
-    if(storageGetValue("handle.".concat(rights), 'false').toString() === 'true' || storageGetValue('manual.send', 'false').toString() === 'true')
-    {
+    if (storageGetValue("handle.".concat(rights), 'false').toString() === 'true' || storageGetValue('manual.send', 'false').toString() === 'true') {
         storageSetValue("lastAction", "");
         get_content(page);
         storageSetValue("manual.send", "false");
