@@ -63,6 +63,10 @@
         "message": "Bâtiments",
         "description": "Intitulé Envoi des données Bâtiments"
     },
+  "XtenseSend_resourceSettings": {
+    "message": "Productions",
+    "description": "Intitulé Envoi des données Bâtiments"
+  },
     "XtenseSend_station": {
         "message": "Installations",
         "description": "Intitulé Envoi des données Installations"
@@ -176,7 +180,7 @@
         "description": "Support"
     },
     "XtenseAbout_ogsteam": {
-        "message": "Xtense GM is an OGSteam Software © 2005-2020",
+        "message": "Xtense GM is an OGSteam Software © 2005-2021",
         "description": "Copyright"
     },
     "XtenseMsg_http_status_403": {
@@ -227,6 +231,10 @@
         "message": "Page Bâtiments détectée",
         "description": "-Used-"
     },
+    "XtenseMsg_resources_detected": {
+    "message": "Page Paramétrage de la production détectée",
+    "description": "-Used-"
+  },
     "XtenseMsg_installations_detected": {
         "message": "Page Installations détectée",
         "description": "-Used-"

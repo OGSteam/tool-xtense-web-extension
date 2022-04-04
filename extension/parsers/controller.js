@@ -51,9 +51,7 @@ function get_message_content() {
     });
     let config = {attributes: false, childList: true, characterData: false, subtree: true};
     observer.observe(target, config);
-
     parse_messages(); // Première Page
-
 }
 
 /************************ Declenchement des Parsings sur Remplissage Ajax ************************/
@@ -62,7 +60,7 @@ function get_content(type) {
     let func;
     switch (type) {
         case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
-            elementName = 'galaxyContent';
+            elementName = 'galaxyLoading';
             func = parse_galaxy_system_inserted;
             break;
         case 'stats':
@@ -94,6 +92,9 @@ function get_content(type) {
         case 'alliance':
             elementName = 'eins';
             func = parse_ally_inserted;
+            break;
+        case 'resourceSettings':
+            func = parse_ressource_settings;
             break;
     }
 
@@ -160,6 +161,7 @@ function handle_current_page() {
     let regMessages = new RegExp(/page=(messages)/);
     let regAlliance = new RegExp(/page=(alliance)/);
     let regStats = new RegExp(/page=(highscore)/);
+    let regRessources = new RegExp(/page=(resourceSettings)/);
 
     if (regOption.test(url)) {
         displayOptions();
@@ -170,6 +172,8 @@ function handle_current_page() {
         handle_page("overview");
     } else if (regResearch.test(url)) {
         handle_page("researchs");
+    } else if (regRessources.test(url)) {
+        handle_page("resourceSettings");
     } else if (regBuildings.test(url)) {
         handle_page("buildings");
     } else if (regStation.test(url)) {

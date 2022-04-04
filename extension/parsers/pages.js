@@ -11,6 +11,10 @@ function parse_galaxy_system_inserted(event) {
     log.debug('In parse_galaxy_system_inserted()');
     //var doc = event.target.ownerDocument;
     let paths = XtenseXpaths.galaxy;
+    let loadingDiv = Xpath.getSingleNode(document, paths.loading_div);
+    if (loadingDiv.style.display != "none"){
+        return;
+    }
     //Référence Xpaths
     let galaxyInput = Xpath.getSingleNode(document, paths.galaxy_input);
     if (galaxyInput === null)
@@ -82,8 +86,8 @@ function parse_galaxy_system_inserted(event) {
                 } else {
                     status = '';
                 }
-                let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
-                status = banned + status;
+                //let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
+                //status = banned + status;
                 let activity = Xpath.getStringValue(document, paths.activity, row).trim();
                 if (!activity) {
                     activity = (Xpath.getStringValue(document, paths.activity15, row) ? 0 : -1);
@@ -453,6 +457,51 @@ function parse_buildings() {
     });
     XtenseRequest.set('type', 'buildings');
     XtenseRequest.send();
+}
+
+function parse_ressource_settings() {
+    setStatus(XLOG_NORMAL, xlang('XtenseMsg_resources_detected'));
+
+    let paths = XtenseXpaths.ressourcesSettings;
+    let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
+    let resLevel = [];
+
+    if (rows.snapshotLength > 0) {
+        log.debug("Resource Table Found");
+        for (let i = 0; i < rows.snapshotLength; i++) {
+            let row = rows.snapshotItem(i);
+            let name = Xpath.getStringValue(document, paths.rowName, row).trim();
+            //log.debug("Resource name : " + name);
+            let percent = Xpath.getStringValue(document, paths.rowPercent, row).trim();
+            //log.debug("Resource Usage : " + percent);
+            if (percent !== '') {
+                log.debug("Resource name : " + name);
+                log.debug("Resource Usage : " + percent.trimInt());
+                resLevel.push(percent.trimInt());
+            }
+        }
+
+        let planetData = getPlanetData();
+        let send;
+        send = {
+            'M_percentage': resLevel[0],
+            'C_Percentage': resLevel[1],
+            'D_percentage': resLevel[2],
+            'CES_percentage': resLevel[3],
+            'CEF_percentage': resLevel[4],
+            'SAT_percentage': resLevel[5],
+            'FOR_percentage': resLevel[6]
+        };
+
+        XtenseRequest.set('type', 'resourceSettings');
+        XtenseRequest.set('gamedata', {
+            planetName : planetData.planet_name,
+            coords : planetData.coords,
+            planetType : planetData.planet_type,
+            resourceSettings : send
+        });
+        XtenseRequest.send();
+    }
 }
 
 /* Page Stations */

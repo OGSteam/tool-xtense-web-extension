@@ -37,7 +37,7 @@ function setStatus(type, message) {
                 img_url = 'images/icones/xtenseNo.png';
         }
         icone.title = message;
-        icone.src = chrome.extension.getURL(img_url);
+        icone.src = chrome.runtime.getURL(img_url);
         chrome.runtime.sendMessage({ "action" : "toolbar_icon", "newIconPath" : img_url, "newTooltip" : message});
 
     } else {
@@ -54,13 +54,13 @@ function setStatus(type, message) {
 function displayXtense() {
     // Ajout du Menu Options (Barre latérale de Ogame)
     //Lien vers OGSpy
-    var ogspy_link = storageGetValue('server.url.plugin', 'https://forum.ogsteam.fr');
+    var ogspy_link = storageGetValue('server.url.plugin', 'https://forum.ogsteam.eu');
     var aff_ogspy = ' ';
 
     // Page classique
     if ($("#playerName")) {
-        var icone = chrome.extension.getURL('images/icones/xtense.png');
-        var icone_planet = chrome.extension.getURL('images/icones/planet.png');
+        var icone = chrome.runtime.getURL('images/icones/xtense.png');
+        var icone_planet = chrome.runtime.getURL('images/icones/planet.png');
 
         var aAttrs = '';
         if (storageGetValue('manual.send', 'false').toString() === 'true') {
@@ -103,18 +103,18 @@ function displayXtense() {
 
 function displayOptions() {
     // Variables : Serveur
-    var server_check = ' ';
     // Variables : Pages
     // Variables recupération des pages
-    var handle_overview = ' ';
-    var handle_system = ' ';
-    var handle_researchs = ' ';
-    var handle_buildings = ' ';
-    var handle_station = ' ';
-    var handle_shipyard = ' ';
-    var handle_defense = ' ';
-    var handle_alliance = ' ';
-    var handle_stats = ' ';
+    let handle_overview = ' ';
+    let handle_system = ' ';
+    let handle_researchs = ' ';
+    let handle_buildings = ' ';
+    let handle_resourceSettings = ' ';
+    let handle_station = ' ';
+    let handle_shipyard = ' ';
+    let handle_defense = ' ';
+    let handle_alliance = ' ';
+    let handle_stats = ' ';
     // Variables recupération des messages
     var handle_msg_msg = ' ';
     var handle_msg_ally = ' ';
@@ -135,6 +135,9 @@ function displayOptions() {
     }
     if (storageGetValue('handle.buildings', 'false').toString() === 'true') {
         handle_buildings += 'checked';
+    }
+    if (storageGetValue('handle.resources', 'false').toString() === 'true') {
+        handle_resourceSettings += 'checked';
     }
     if (storageGetValue('handle.station', 'false').toString() === 'true') {
         handle_station += 'checked';
@@ -195,16 +198,16 @@ function displayOptions() {
 
     var options = '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
     // Serveur Univers
-    options += '<img src="' + chrome.extension.getURL('images/xtense.png') + '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
+    options += '<img src="' + chrome.runtime.getURL('images/xtense.png') + '" alt="' + chrome.i18n.getMessage("XtenseOptions") + '"/>';
     options += '<br><br>';
     options += '<table style="width:675px;">' +
         '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
         '<tbody>' +
         '<tr>' +
-        '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/server.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></a></span></td>' +
-        '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/pages.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></a></span></td>' +
-        '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/conf.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></a></span></td>' +
-        '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.extension.getURL('images/about.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/server.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_serveur") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/pages.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_pages") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/conf.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_settings") + '</b></a></span></td>' +
+        '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' + chrome.runtime.getURL('images/about.png') + '"/><b>' + chrome.i18n.getMessage("XtenseOptions_about") + '</b></a></span></td>' +
         '</tr>' +
         '</tbody>' +
         '</table>';
@@ -246,11 +249,11 @@ function displayOptions() {
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td colspan="2"><img src="' + chrome.extension.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example")+ '</td>';
+    options += '<td colspan="2"><img src="' + chrome.runtime.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example")+ '</td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td colspan="2"><a href="https://wiki.ogsteam.fr" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2")+ '</a></td>';
+    options += '<td colspan="2"><a href="https://wiki.ogsteam.eu" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2")+ '</a></td>';
     options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
@@ -271,6 +274,8 @@ function displayOptions() {
     options += '<td class="value"><input class="speed" id="handle.overview" size="35" alt="24" type="checkbox"' + handle_overview + '/></td>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_buildings") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.buildings" size="35" alt="24" type="checkbox"' + handle_buildings + '/></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_resourceSettings") + '</label></td>';
+    options += '<td class="value"><input class="speed" id="handle.resourceSettings" size="35" alt="24" type="checkbox"' + handle_resourceSettings + '/></td>';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseSend_station") + '</label></td>';
     options += '<td class="value"><input class="speed" id="handle.station" size="35" alt="24" type="checkbox"' + handle_station + '/></td>';
     options += '</tr>';
@@ -395,7 +400,7 @@ function displayOptions() {
     options += '<tr>';
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
-    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseAbout_authors") + '<br> ' + chrome.i18n.getMessage("XtenseAbout_support") + ' <a href="https://forum.ogsteam.fr" target="_blank">l\'OGSteam</a><br>' + chrome.i18n.getMessage("XtenseAbout_issue") + ': <a href="https://github.com/OGSteam/tool-xtense-web-extension/issues" target="_blank">Github</a></label></td>';
+    options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseAbout_authors") + '<br> ' + chrome.i18n.getMessage("XtenseAbout_support") + ' <a href="https://forum.ogsteam.eu" target="_blank">l\'OGSteam</a><br>' + chrome.i18n.getMessage("XtenseAbout_issue") + ': <a href="https://github.com/OGSteam/tool-xtense-web-extension/issues" target="_blank">Github</a></label></td>';
     options += '<tr>';
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
