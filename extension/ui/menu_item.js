@@ -136,7 +136,7 @@ function displayOptions() {
     if (storageGetValue('handle.buildings', 'false').toString() === 'true') {
         handle_buildings += 'checked';
     }
-    if (storageGetValue('handle.resources', 'false').toString() === 'true') {
+    if (storageGetValue('handle.resourceSettings', 'false').toString() === 'true') {
         handle_resourceSettings += 'checked';
     }
     if (storageGetValue('handle.station', 'false').toString() === 'true') {
@@ -419,10 +419,10 @@ function displayOptions() {
     einhalt.parent().after(escriptopt);
     displayOption('#Xtense_serveurs'); // Mise en place initiale du menu
 
-    $('#menu_servers').click( function(){ displayOption('#Xtense_serveurs'); });
-    $('#menu_pages').click( function(){ displayOption('#Xtense_pages'); });
-    $('#menu_options').click( function(){ displayOption('#Xtense_options'); });
-    $('#menu_about').click( function(){ displayOption('#Xtense_about'); });
+    $('#menu_servers').on( "click", function(){ displayOption('#Xtense_serveurs'); });
+    $('#menu_pages').on( "click", function(){ displayOption('#Xtense_pages'); });
+    $('#menu_options').on( "click", function(){ displayOption('#Xtense_options'); });
+    $('#menu_about').on( "click", function(){ displayOption('#Xtense_about'); });
 
     if(einhalt.visible) {
 
