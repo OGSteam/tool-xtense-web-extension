@@ -54,7 +54,7 @@ function parse_messages() {
     // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
     parse_short_messages(messagesCourt, messages);
 
-    //log.info("Traitement d'un message detaille");
+    log.info("Traitement d'un message detaille");
     // Traitement d'un message detaille (declenche lorsque l'on affiche le detail d'un message ou lorsque l'on change de page de msg detaille)
     parse_detail_messages(messages);
 }
@@ -71,7 +71,7 @@ function parse_short_messages(messagesCourt, messages) {
     }
     // Si le nombre de messages présent est le même que lors du dernier traitement
     // On considère qu'il n'y a pas de nouveaux messages
-    if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize){
+    if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize) {
         log.debug('Pas de nouveaux messages');
         return;
     }
@@ -79,7 +79,7 @@ function parse_short_messages(messagesCourt, messages) {
     storageSetValue("last_shortmessage", messagesCourt.snapshotLength);
 
     let locales = glang('messages');
-    let tab_type = get_tabid(document);
+    let tab_type = get_tabid();
 
     // Parcours de la liste de messages court
     // TODO : Ne pas re-parcourir les messages court deja parse
@@ -455,7 +455,7 @@ function parse_rc(doc, script) {
     let jsonRegex = new RegExp(/jQuery.parseJSON\('(.*)'\);/);
     let resultRegex = jsonRegex.exec(script.innerHTML);
     log.info(resultRegex[1]);
-    if(resultRegex.length !== 2) {
+    if (resultRegex.length !== 2) {
         log.error('Erreur lors de la récupération du json');
         return false;
     }
@@ -476,7 +476,7 @@ function parse_rc(doc, script) {
         let type = get_tabid(doc);
 
         XtenseRequest.set('type', type);
-        XtenseRequest.set('gamedata',{
+        XtenseRequest.set('gamedata', {
             json: resultRegex[1],
             ogapilnk: ogameAPILink
         });
@@ -532,7 +532,7 @@ function parse_spy_report(RE) {
                             for (let j in spyStrings.units[i]) {
                                 if (types.snapshotItem(z).innerHTML.match(new RegExp(spyStrings.units[i][j], 'gi'))) {
                                     data[j] = types.snapshotItem(z).title.trim().replace(/\./g, '');
-                                    log.debug("R="+j + " = " + data[j]);
+                                    log.debug("R=" + j + " = " + data[j]);
                                 }
                             }
                         } else {
@@ -541,7 +541,7 @@ function parse_spy_report(RE) {
 
                                 if (m > -1) {
                                     data[j] = m;
-                                    log.debug("BT="+j + " = " + data[j]);
+                                    log.debug("BT=" + j + " = " + data[j]);
                                 }
                             }
                         }

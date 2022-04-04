@@ -12,7 +12,7 @@ function parse_galaxy_system_inserted(event) {
     //var doc = event.target.ownerDocument;
     let paths = XtenseXpaths.galaxy;
     let loadingDiv = Xpath.getSingleNode(document, paths.loading_div);
-    if (loadingDiv.style.display != "none"){
+    if (loadingDiv.style.display != "none") {
         return;
     }
     //Référence Xpaths
@@ -132,7 +132,7 @@ function parse_galaxy_system_inserted(event) {
                     status: status,
                     ally_id: allyid,
                     ally_tag: allytag,
-                    debris: { metal : debris[XtenseDatabase.debris[701]] , cristal :debris[XtenseDatabase.debris[702]] },
+                    debris: { metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]] },
                     activity: activity,
                     activityMoon: activityMoon
                 };
@@ -158,7 +158,7 @@ function parse_galaxy_system_inserted(event) {
                     status: '',
                     ally_id: '',
                     ally_tag: '',
-                    debris: { metal : debris[XtenseDatabase.debris[701]] , cristal :debris[XtenseDatabase.debris[702]] },
+                    debris: { metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]] },
                     activity: '',
                     activityMoon: ''
                 };
@@ -167,8 +167,8 @@ function parse_galaxy_system_inserted(event) {
             }
 
             /* Envoi */
-            XtenseRequest.set('type','system');
-            XtenseRequest.set('gamedata',{
+            XtenseRequest.set('type', 'system');
+            XtenseRequest.set('gamedata', {
                 rows: rowsData,
                 galaxy: coords[0],
                 system: coords[1]
@@ -209,8 +209,8 @@ function parse_ally_inserted() {
         }
         if (rowsData.length > 0) {
             let tag = Xpath.getStringValue(document, paths.tag);
-            XtenseRequest.set('type','ally_list');
-            XtenseRequest.set('gamedata',{
+            XtenseRequest.set('type', 'ally_list');
+            XtenseRequest.set('gamedata', {
                 allyList: rowsData,
                 tag: tag
             });
@@ -315,11 +315,11 @@ function parse_ranking_inserted(event) {
                 let rank_ally_allytag = Xpath.getStringValue(document, paths.ally.allytag, row).trim().replace(/\]|\[/g, '');
                 let rank_ally_url = Xpath.getStringValue(document, paths.ally.ally_id, row).trim();
                 let rank_ally_allyid = -1;
-                if (rank_ally_url !== 'undefined' ) {
+                if (rank_ally_url !== 'undefined') {
                     //Affiché sous forme de lien vers page alliance
-                    if(rank_ally_url.match(/allianceId\=(.*)/)) {
+                    if (rank_ally_url.match(/allianceId\=(.*)/)) {
                         rank_ally_allyid = rank_ally_url.match(/allianceId\=(.*)/)[1];
-                    }else // Car lien vers sa propre page ally
+                    } else // Car lien vers sa propre page ally
                     {
                         rank_ally_allyid = XtenseMetas.getAllyId();
                     }
@@ -342,8 +342,8 @@ function parse_ranking_inserted(event) {
             //setStatus(XLOG_NORMAL, Xl('ranking_detected'));
             storageSetValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
             if (offset !== 0 && length !== 0) {
-                XtenseRequest.set('type','ranking');
-                XtenseRequest.set('gamedata',{
+                XtenseRequest.set('type', 'ranking');
+                XtenseRequest.set('gamedata', {
                     n: rowsData,
                     offset: offset,
                     type1: type[0],
@@ -423,7 +423,7 @@ function parse_buildings() {
     let planetData = getPlanetData();
     let send;
 
-    if ( isMoon() === true) {
+    if (isMoon() === true) {
         send = {
             'M': tabLevel[0],
             'C': tabLevel[1],
@@ -450,10 +450,10 @@ function parse_buildings() {
         };
     }
     XtenseRequest.set('gamedata', {
-        planetName : planetData.planet_name,
-        coords : planetData.coords,
-        planetType : planetData.planet_type,
-        buildings : send
+        planetName: planetData.planet_name,
+        coords: planetData.coords,
+        planetType: planetData.planet_type,
+        buildings: send
     });
     XtenseRequest.set('type', 'buildings');
     XtenseRequest.send();
@@ -495,10 +495,10 @@ function parse_ressource_settings() {
 
         XtenseRequest.set('type', 'resourceSettings');
         XtenseRequest.set('gamedata', {
-            planetName : planetData.planet_name,
-            coords : planetData.coords,
-            planetType : planetData.planet_type,
-            resourceSettings : send
+            planetName: planetData.planet_name,
+            coords: planetData.coords,
+            planetType: planetData.planet_type,
+            resourceSettings: send
         });
         XtenseRequest.send();
     }
@@ -545,10 +545,10 @@ function parse_station() {
     }
     XtenseRequest.set('type', 'buildings');
     XtenseRequest.set('gamedata', {
-        planetName : planetData.planet_name,
-        coords : planetData.coords,
-        planetType : planetData.planet_type,
-        buildings : send
+        planetName: planetData.planet_name,
+        coords: planetData.coords,
+        planetType: planetData.planet_type,
+        buildings: send
     });
     XtenseRequest.send();
 }
@@ -591,10 +591,10 @@ function parse_researchs() {
 
     XtenseRequest.set('type', 'researchs');
     XtenseRequest.set('gamedata', {
-        planetName : planetData.planet_name,
-        coords : planetData.coords,
-        planetType : planetData.planet_type,
-        researchs : send
+        planetName: planetData.planet_name,
+        coords: planetData.coords,
+        planetType: planetData.planet_type,
+        researchs: send
     });
     XtenseRequest.send();
 }
@@ -637,10 +637,10 @@ function parse_shipyard() {
     };
     XtenseRequest.set('type', 'fleet');
     XtenseRequest.set('gamedata', {
-        planetName : planetData.planet_name,
-        coords : planetData.coords,
-        planetType : planetData.planet_type,
-        fleet : send
+        planetName: planetData.planet_name,
+        coords: planetData.coords,
+        planetType: planetData.planet_type,
+        fleet: send
     });
     XtenseRequest.send();
 }
@@ -682,10 +682,10 @@ function parse_fleet() {
     };
     XtenseRequest.set('type', 'fleet');
     XtenseRequest.set('gamedata', {
-        planetName : planetData.planet_name,
-        coords : planetData.coords,
-        planetType : planetData.planet_type,
-        fleet : send
+        planetName: planetData.planet_name,
+        coords: planetData.coords,
+        planetType: planetData.planet_type,
+        fleet: send
     });
     XtenseRequest.send();
 }
@@ -722,10 +722,10 @@ function parse_defense() {
     };
     XtenseRequest.set('type', 'defense');
     XtenseRequest.set('gamedata', {
-        planetName : planetData.planet_name,
-        coords : planetData.coords,
-        planetType : planetData.planet_type,
-        defense : send
+        planetName: planetData.planet_name,
+        coords: planetData.coords,
+        planetType: planetData.planet_type,
+        defense: send
     });
 
     XtenseRequest.send();
@@ -790,9 +790,11 @@ function getResources() {
     let energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
 
     log.debug('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
-    return { "metal" : metal,
-        "cristal" : cristal,
-        "deut" : deut,
-        "antimater" : antimater,
-        "energy" : energy};
+    return {
+        "metal": metal,
+        "cristal": cristal,
+        "deut": deut,
+        "antimater": antimater,
+        "energy": energy
+    };
 }

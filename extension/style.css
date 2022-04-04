@@ -10,7 +10,10 @@ body {
 	width: 320px;
 }
 
-th, td, button, input {
+th,
+td,
+button,
+input {
 	font-size: 12px;
 }
 
@@ -31,7 +34,7 @@ h2 {
 }
 
 a {
-	font-weight:bold;
+	font-weight: bold;
 	color: #666;
 	text-decoration: underline;
 }
@@ -40,25 +43,27 @@ a:hover {
 	text-decoration: none;
 }
 
-img { border: none; }
+img {
+	border: none;
+}
 
 
 
 
 table {
 	border-collapse: collapse;
-	empty-cells : show;
+	empty-cells: show;
 }
 
 table th {
 	font-weight: bold;
 	color: #000;
-	text-align:left;
+	text-align: left;
 	border-bottom: 2px solid #93B300;
 }
 
 table td {
-	text-align:left;
+	text-align: left;
 	border: 1px solid #DDD;
 }
 
@@ -67,6 +72,17 @@ table tr.bottom th {
 	border-top: 2px solid #93B300;
 }
 
-td.c, th.c { text-align: center; }
-td.r, th.r { text-align: right; }
-td.l, th.l { text-align: left; }
+td.c,
+th.c {
+	text-align: center;
+}
+
+td.r,
+th.r {
+	text-align: right;
+}
+
+td.l,
+th.l {
+	text-align: left;
+}

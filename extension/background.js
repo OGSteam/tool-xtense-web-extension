@@ -12,18 +12,18 @@
 chrome.runtime.onMessage.addListener(
 
 
-    function(request, sender, callback) {
+    function (request, sender, callback) {
 
         if (request.action === "toolbar_icon") {
-        // read `newIconPath` from request and read `tab.id` from sender
+            // read `newIconPath` from request and read `tab.id` from sender
             chrome.browserAction.setIcon({
-            path: request.newIconPath,
-            tabId: sender.tab.id
-        });
+                path: request.newIconPath,
+                tabId: sender.tab.id
+            });
             chrome.browserAction.setTitle({
-            title: request.newTooltip,
-            tabId: sender.tab.id
-        });
+                title: request.newTooltip,
+                tabId: sender.tab.id
+            });
 
         }
         if (request.action === "xhttp") {
@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener(
                 url: request.url,
                 data: request.data,
                 dataType: request.dataType,
-                crossDomain : true,
+                crossDomain: true,
             });
 
             ajax_obj.always(function (jqXHR) {

@@ -50,6 +50,7 @@
   "background": {
     "scripts": [
       "contribs/jquery.min.js",
+      "contribs/loglevel.min.js",
       "background.js"
     ]
   },

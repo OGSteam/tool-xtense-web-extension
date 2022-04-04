@@ -12,16 +12,16 @@ function setStatus(type, message) {
     let img_url = null;
     let icone = Xpath.getSingleNode(document, '//img[@id=\'xtense.icone\']');
     if (icone != null) {
-        switch (type){
-            case XLOG_SUCCESS :
+        switch (type) {
+            case XLOG_SUCCESS:
                 img_url = 'images/icones/xtenseOk.png';
                 log.info(message);
                 break;
-            case XLOG_NORMAL :
+            case XLOG_NORMAL:
                 img_url = 'images/icones/xtenseNo.png';
                 log.info(message);
                 break;
-            case XLOG_WARNING :
+            case XLOG_WARNING:
                 img_url = 'images/icones/xtenseWarn.png';
                 log.warn(message);
                 break;
@@ -38,7 +38,7 @@ function setStatus(type, message) {
         }
         icone.title = message;
         icone.src = chrome.runtime.getURL(img_url);
-        chrome.runtime.sendMessage({ "action" : "toolbar_icon", "newIconPath" : img_url, "newTooltip" : message});
+        chrome.runtime.sendMessage({ "action": "toolbar_icon", "newIconPath": img_url, "newTooltip": message });
 
     } else {
         log.error("Error: Cannot set icon " + message);
@@ -91,7 +91,7 @@ function displayXtense() {
 
         if (storageGetValue('ogspy.link', 'true').toString() === 'true') {
             $("#optionOGSpy").after(aff_ogspy);
-        }else{
+        } else {
             $("#optionXtense").after(aff_ogspy);
         }
     } else {
@@ -130,13 +130,14 @@ function displayOptions() {
     var opt_ogspy_link = ' ';
 
     // Récupération des préférences  : Pages
+
     if (storageGetValue('handle.overview', 'false').toString() === 'true') {
         handle_overview += 'checked';
     }
     if (storageGetValue('handle.buildings', 'false').toString() === 'true') {
         handle_buildings += 'checked';
     }
-    if (storageGetValue('handle.resources', 'false').toString() === 'true') {
+    if (storageGetValue('handle.resourceSettings', 'false').toString() === 'true') {
         handle_resourceSettings += 'checked';
     }
     if (storageGetValue('handle.station', 'false').toString() === 'true') {
@@ -175,7 +176,7 @@ function displayOptions() {
     if (storageGetValue('handle.msg.rc', 'false').toString() === 'true') {
         handle_msg_rc += 'checked';
     }
-    if (storageGetValue('handle.msg.rc.cdr', 'false').toString() ==='true') {
+    if (storageGetValue('handle.msg.rc.cdr', 'false').toString() === 'true') {
         handle_msg_rc_cdr += 'checked';
     }
     if (storageGetValue('handle.msg.expeditions', 'false').toString() === 'true') {
@@ -189,7 +190,7 @@ function displayOptions() {
     if (storageGetValue('debug.mode', 'false').toString() === 'true') {
         opt_debug_mode += ' checked';
     }
-	if (storageGetValue('backup.link', 'false').toString() === 'true') {
+    if (storageGetValue('backup.link', 'false').toString() === 'true') {
         opt_backup_link += ' checked';
     }
     if (storageGetValue('ogspy.link', 'false').toString() === 'true') {
@@ -238,7 +239,7 @@ function displayOptions() {
     options += '<td class="champ" colspan="2"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_BackupServer") + '</label></td>';
     options += '</tr>';
     options += '<tr class="server_url_backup"><td >&#160;</td><td>&#160;</td></tr>';
-	options += '<tr class="server_url_backup">';
+    options += '<tr class="server_url_backup">';
     options += '<td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_URL") + '</label></td>';
     options += '<td class="value"><input class="speed" id="server_backup.url.plugin" value="' + storageGetValue('server_backup.url.plugin', 'https://VOTRESITE/VOTREOGSPY') + '" size="64" alt="24" type="text"/></td>';
     options += '</tr>';
@@ -249,11 +250,11 @@ function displayOptions() {
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td colspan="2"><img src="' + chrome.runtime.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example")+ '</td>';
+    options += '<td colspan="2"><img src="' + chrome.runtime.getURL('images/icones/infos.png') + '"/>' + chrome.i18n.getMessage("XtenseServer_Example") + '</td>';
     options += '</tr>';
     options += '<tr><td>&#160;</td><td>&#160;</td></tr>';
     options += '<tr>';
-    options += '<td colspan="2"><a href="https://wiki.ogsteam.eu" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2")+ '</a></td>';
+    options += '<td colspan="2"><a href="https://wiki.ogsteam.eu" target="_blank" >' + chrome.i18n.getMessage("XtenseServer_Example_2") + '</a></td>';
     options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
@@ -381,7 +382,7 @@ function displayOptions() {
     options += '<td colspan="6">&nbsp;</td>';
     options += '</tr>';
     options += '<tr>';
-    options += '<td colspan="6"><textarea class="speed" rows="15" cols="100" readonly style="margin: 0; width: 425px; height: 200px;">'+ storageGetValue('report.data', 'none') +'</textarea></td>';
+    options += '<td colspan="6"><textarea class="speed" rows="15" cols="100" readonly style="margin: 0; width: 425px; height: 200px;">' + storageGetValue('report.data', 'none') + '</textarea></td>';
     options += '</tr>';
     options += '</tbody></table>';
     options += '</div>';
@@ -409,22 +410,22 @@ function displayOptions() {
     options += '</div>';
     options += '<br><br></div>';
     //fin Tableau
-    let einhalt = $( "#middle" );
-    if(einhalt.length === 0) einhalt = $('#inhalt');
+    let einhalt = $("#middle");
+    if (einhalt.length === 0) einhalt = $('#inhalt');
     let escriptopt = $("<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" + options + "</div>");   //document.createElement('div');
 
     einhalt.hide(); //On masque le jeu pour afficher le menu
 
-    $('#contentWrapper.with_chat_bar').css('padding-bottom','0px');
+    $('#contentWrapper.with_chat_bar').css('padding-bottom', '0px');
     einhalt.parent().after(escriptopt);
     displayOption('#Xtense_serveurs'); // Mise en place initiale du menu
 
-    $('#menu_servers').click( function(){ displayOption('#Xtense_serveurs'); });
-    $('#menu_pages').click( function(){ displayOption('#Xtense_pages'); });
-    $('#menu_options').click( function(){ displayOption('#Xtense_options'); });
-    $('#menu_about').click( function(){ displayOption('#Xtense_about'); });
+    $('#menu_servers').on("click", function () { displayOption('#Xtense_serveurs'); });
+    $('#menu_pages').on("click", function () { displayOption('#Xtense_pages'); });
+    $('#menu_options').on("click", function () { displayOption('#Xtense_options'); });
+    $('#menu_about').on("click", function () { displayOption('#Xtense_about'); });
 
-    if(einhalt.visible) {
+    if (einhalt.visible) {
 
         log.info("Erreur Affichage menu");
     }
@@ -432,7 +433,7 @@ function displayOptions() {
     function enregistreOptionsXtense() {
         // Sauvegarde des inputs
         let inputOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[not(@type=\'checkbox\')]');
-        //log.info("inputOptions.snapshotLength="+inputOptions.snapshotLength);
+        log.trace("inputOptions.snapshotLength=" + inputOptions.snapshotLength);
         if (inputOptions.snapshotLength > 0) {
             for (let i = 0; i < inputOptions.snapshotLength; i++) {
                 let input = inputOptions.snapshotItem(i);
@@ -442,11 +443,11 @@ function displayOptions() {
         // Sauvegarde des checkbox
 
         let checkboxOptions = Xpath.getOrderedSnapshotNodes(document, '//div[@id=\'Xtense_Div\']//input[@type=\'checkbox\']');
-        //log.info("checkboxOptions.snapshotLength="+checkboxOptions.snapshotLength);
+        log.trace("checkboxOptions.snapshotLength=" + checkboxOptions.snapshotLength);
         if (checkboxOptions.snapshotLength > 0) {
             for (let j = 0; j < checkboxOptions.snapshotLength; j++) {
                 let checkbox = checkboxOptions.snapshotItem(j);
-                //log.info('GM_setValue(prefix_GMData +'+checkbox.id+' , '+checkbox.checked+');');
+                log.trace('GM_setValue(prefix_GMData +' + checkbox.id + ' , ' + checkbox.checked + ');');
                 storageSetValue(checkbox.id, checkbox.checked);
             }
         }
@@ -464,48 +465,48 @@ function displayOption(id) {
         $('#Xtense_pages').hide();
         $('#Xtense_options').hide();
         $('#Xtense_about').hide();
-        $('#menu_servers').css('color' , 'white');
-        $('#menu_pages').css('color' , 'orange');
-        $('#menu_options').css('color' , 'orange');
-        $('#menu_about').css('color' , 'orange');
-		if (storageGetValue('backup.link', 'false').toString() === 'true')
-			$('.server_url_backup').show();
-		else $('.server_url_backup').hide();
+        $('#menu_servers').css('color', 'white');
+        $('#menu_pages').css('color', 'orange');
+        $('#menu_options').css('color', 'orange');
+        $('#menu_about').css('color', 'orange');
+        if (storageGetValue('backup.link', 'false').toString() === 'true')
+            $('.server_url_backup').show();
+        else $('.server_url_backup').hide();
     }
     else if (id === '#Xtense_pages') {
 
         $('#Xtense_serveurs').hide();
         $('#Xtense_options').hide();
         $('#Xtense_about').hide();
-        $('#menu_servers').css('color' , 'orange');
-        $('#menu_pages').css('color' , 'white');
-        $('#menu_options').css('color' , 'orange');
-        $('#menu_about').css('color' , 'orange');
+        $('#menu_servers').css('color', 'orange');
+        $('#menu_pages').css('color', 'white');
+        $('#menu_options').css('color', 'orange');
+        $('#menu_about').css('color', 'orange');
     } else if (id === '#Xtense_options') {
 
         $('#Xtense_serveurs').hide();
         $('#Xtense_pages').hide();
         $('#Xtense_about').hide();
-        $('#menu_servers').css('color' , 'orange');
-        $('#menu_pages').css('color' , 'orange');
-        $('#menu_options').css('color' , 'white');
-        $('#menu_about').css('color' , 'orange');
+        $('#menu_servers').css('color', 'orange');
+        $('#menu_pages').css('color', 'orange');
+        $('#menu_options').css('color', 'white');
+        $('#menu_about').css('color', 'orange');
     } else if (id === '#Xtense_about') {
 
         $('#Xtense_serveurs').hide();
         $('#Xtense_pages').hide();
         $('#Xtense_options').hide();
-        $('#menu_servers').css('color' , 'orange');
-        $('#menu_pages').css('color' , 'orange');
-        $('#menu_options').css('color' , 'orange');
-        $('#menu_about').css('color' , 'white');
+        $('#menu_servers').css('color', 'orange');
+        $('#menu_pages').css('color', 'orange');
+        $('#menu_options').css('color', 'orange');
+        $('#menu_about').css('color', 'white');
     }
 }
 
 
 function create_menu_button(item_id, icon, link, name) {
 
-    let button = $("<li id='" + item_id +"'>" +
+    let button = $("<li id='" + item_id + "'>" +
         "<span class='menu_icon'>" +
         "<img class='mouseSwitch' src='" + icon + "' height='27' width='27'></span>" +
         "<a class='menubutton' href='" + link + "' accesskey='' target='blank_'><span class='textlabel'>" + name + "</span></a>" +

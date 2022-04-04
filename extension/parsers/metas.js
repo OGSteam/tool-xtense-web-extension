@@ -97,7 +97,7 @@ function getPlayerDetails() {
 
     let player_officer_commander = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_commander).snapshotLength;
     let player_officer_amiral = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_amiral).snapshotLength;
-    let player_officer_engineer= Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_engineer).snapshotLength;
+    let player_officer_engineer = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_engineer).snapshotLength;
     let player_officer_geologist = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_geologist).snapshotLength;
     let player_officer_technocrate = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.playerData.officer_technocrate).snapshotLength;
 
@@ -112,16 +112,18 @@ function getPlayerDetails() {
         'player_officer_geologist=' + player_officer_geologist + ',' +
         'player_officer_technocrate=' + player_officer_technocrate);
 
-    return {"player_name" : player_pseudo,
-        "player_id" : player_id,
+    return {
+        "player_name": player_pseudo,
+        "player_id": player_id,
         "playerclass_explorer": playerclass_explorer,
-        "playerclass_miner" : playerclass_miner,
-        "playerclass_warrior" : playerclass_warrior,
-        "player_officer_commander" : player_officer_commander,
-        "player_officer_amiral" : player_officer_amiral,
-        "player_officer_engineer" : player_officer_engineer,
-        "player_officer_geologist" : player_officer_geologist,
-        "player_officer_technocrate" : player_officer_technocrate};
+        "playerclass_miner": playerclass_miner,
+        "playerclass_warrior": playerclass_warrior,
+        "player_officer_commander": player_officer_commander,
+        "player_officer_amiral": player_officer_amiral,
+        "player_officer_engineer": player_officer_engineer,
+        "player_officer_geologist": player_officer_geologist,
+        "player_officer_technocrate": player_officer_technocrate
+    };
 }
 
 function getUniverseDetails() {
@@ -152,15 +154,17 @@ function getUniverseDetails() {
         'uni_donut_g=' + uni_donut_g + ',' +
         'uni_donut_s=' + uni_donut_s);
 
-    return {"uni_version" : uni_version,
-        "uni_url" : uni_url,
-        "uni_lang" : uni_lang,
-        "uni_name" : uni_name,
-        "uni_time" : uni_time,
-        "uni_speed" : uni_speed,
-        "uni_speed_fleet_peaceful" : uni_speed_fleet_peaceful,
-        "uni_speed_fleet_war" : uni_speed_fleet_war,
-        "uni_speed_fleet_holding" : uni_speed_fleet_holding,
-        "uni_donut_g" : uni_donut_g,
-        "uni_donut_s" : uni_donut_s};
+    return {
+        "uni_version": uni_version,
+        "uni_url": uni_url,
+        "uni_lang": uni_lang,
+        "uni_name": uni_name,
+        "uni_time": uni_time,
+        "uni_speed": uni_speed,
+        "uni_speed_fleet_peaceful": uni_speed_fleet_peaceful,
+        "uni_speed_fleet_war": uni_speed_fleet_war,
+        "uni_speed_fleet_holding": uni_speed_fleet_holding,
+        "uni_donut_g": uni_donut_g,
+        "uni_donut_s": uni_donut_s
+    };
 }

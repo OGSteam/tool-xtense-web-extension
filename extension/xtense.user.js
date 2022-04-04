@@ -45,7 +45,7 @@ const prefix_GMData = langUnivers + numUnivers + '.';
 
 //Conversion Format adresse OGSPY
 const res = storageGetValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
-storageSetValue('server.url.plugin',res);
+storageSetValue('server.url.plugin', res);
 
 /******************************* Main ***********************************/
 setlogLevel(); // Default Info
