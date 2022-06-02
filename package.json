@@ -47,6 +47,6 @@
   "dependencies": {
     "jquery": "^3.6.0",
     "loglevel": "^1.8.0",
-    "npm": "^8.3.0"
+    "npm": "^8.11.0"
   }
 }
