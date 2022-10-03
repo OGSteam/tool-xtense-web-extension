@@ -32,21 +32,20 @@
   },
   "homepage": "https://github.com/OGSteam/tool-xtense-web-extension#readme",
   "devDependencies": {
-    "chrome-webstore-upload-cli": "^1.2.0",
     "cross-var": "^1.1.0",
-    "del": "^6.0.0",
-    "dot-json": "^1.2.1",
-    "eslint": "^8.6.0",
+    "del": "^7.0.0",
+    "dot-json": "^1.2.2",
+    "eslint": "^8.24.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^5.1.0",
-    "minimatch": "^3.0.4",
-    "read-pkg": "~5.2.0",
-    "web-ext": "^6.6.0"
+    "read-pkg": "~7.1.0",
+    "web-ext": "^7.2.0"
   },
   "dependencies": {
-    "jquery": "^3.6.0",
+    "jquery": "^3.6.1",
     "loglevel": "^1.8.0",
-    "npm": "^8.3.0"
-  }
+    "npm": "^8.19.2"
+  },
+  "type": "module"
 }
