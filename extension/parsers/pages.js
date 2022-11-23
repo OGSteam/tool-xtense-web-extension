@@ -187,38 +187,43 @@ function parse_ally_inserted() {
     //log.info("last_action="+GM_getValue(prefix_GMData +'lastAction',''));
     if (storageGetValue('lastAction', '') !== 'ally_list') {
         setStatus(XLOG_NORMAL, xlang('ally_list_detected'));
-        let paths = XtenseXpaths.ally_members_list;
-        let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
-        let rowsData = [];
-        log.info(rows.snapshotLength + ' membres à envoyer !');
 
-        for (let i = 0; i < rows.snapshotLength; i++) {
-            let row = rows.snapshotItem(i);
-            let player = Xpath.getStringValue(document, paths.player, row).trim();
-            let points = Xpath.getStringValue(document, paths.points, row).trimInt();
-            let rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
-            let coords = Xpath.getStringValue(document, paths.coords, row).trim();
-            coords = coords.match(new RegExp(XtenseRegexps.coords))[0];
-            rowsData[i] = {
-                player: player,
-                points: points,
-                coords: coords,
-                rank: rank
-            };
-            log.info("Player: " + rowsData[i].player + " Points: " + rowsData[i].points + " Coords: " + rowsData[i].coords + " Rank: " + rowsData[i].rank);
-        }
-        if (rowsData.length > 0) {
-            let tag = Xpath.getStringValue(document, paths.tag);
-            XtenseRequest.set('type', 'ally_list');
-            XtenseRequest.set('gamedata', {
-                allyList: rowsData,
-                tag: tag
-            });
-            XtenseRequest.send();
-            storageSetValue('lastAction', 'ally_list');
-        }
-        get_ally_content(); // Pourquoi celui-ci est fait à l'envers par rapport aux autres ?
+        setTimeout(() => {
+
+          let paths = XtenseXpaths.ally_members_list;
+          let rows = Xpath.getOrderedSnapshotNodes(document, paths.rows);
+          let rowsData = [];
+          log.info(rows.snapshotLength + ' membres à envoyer !');
+
+          for (let i = 0; i < rows.snapshotLength; i++) {
+              let row = rows.snapshotItem(i);
+              let player = Xpath.getStringValue(document, paths.player, row).trim();
+              let points = Xpath.getStringValue(document, paths.points, row).trimInt();
+              let rank = Xpath.getStringValue(document, paths.rank, row).trimInt();
+              let coords = Xpath.getStringValue(document, paths.coords, row).trim();
+              coords = coords.match(new RegExp(XtenseRegexps.coords))[0];
+              rowsData[i] = {
+                  player: player,
+                  points: points,
+                  coords: coords,
+                  rank: rank
+              };
+              log.info("Player: " + rowsData[i].player + " Points: " + rowsData[i].points + " Coords: " + rowsData[i].coords + " Rank: " + rowsData[i].rank);
+          }
+          if (rowsData.length > 0) {
+              let tag = Xpath.getStringValue(document, paths.tag);
+              XtenseRequest.set('type', 'ally_list');
+              XtenseRequest.set('gamedata', {
+                  allyList: rowsData,
+                  tag: tag
+              });
+              XtenseRequest.send();
+              storageSetValue('lastAction', 'ally_list');
+          }
+          get_ally_content(); // Pourquoi celui-ci est fait à l'envers par rapport aux autres ?
+      }, 200);
     }
+
 }
 
 /* Fonction appelée lors d'évenement sur le chargement des classements */
@@ -269,22 +274,16 @@ function parse_ranking_inserted(event) {
             let points = Xpath.getStringValue(document, paths.points, row).trimInt();
             if (type[0] === 'player') {
 
+
+              let name = Xpath.getStringValue(document, paths.player.playername, row).trim();
+              let player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
+              if (player_id === '') {
+                  player_id = XtenseMetas.getPlayerId();
+              }
+
                 let ally = Xpath.getStringValue(document, paths.allytag, row).trim().replace(/\]|\[/g, '');
-                let ally_id = Xpath.getStringValue(document, paths.ally_id, row).trim();
+                let ally_id = Xpath.getStringValue(document, paths.ally_id, row).trimInt();
 
-                if (ally_id !== '' && !ally_id.match(/page\=alliance/)) {
-                    //Pas d'id sur le lien de sa propre alliance (dans les classements alliances)
-                    ally_id = ally_id.match(/allianceId\=(.*)/);
-                    ally_id = ally_id[1];
-                } else if (ally) {
-                    ally_id = XtenseMetas.getAllyId();
-                }
-
-                let name = Xpath.getStringValue(document, paths.player.playername, row).trim();
-                let player_id = Xpath.getStringValue(document, paths.player.player_id, row).trim();
-                if (player_id === '') {
-                    player_id = XtenseMetas.getPlayerId();
-                }
                 /*Nombre de vaisseaux*/
                 if (type[1] === 'fleet') {
                     let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();

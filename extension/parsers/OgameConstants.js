@@ -64,8 +64,8 @@ function initParsers() {
             player: 'td[1]/span',
             rank: 'td[4]/a',
             points: 'td[4]/@title',
-            coords: 'td[5]/span/a[2]',
-            tag: '//table[@class="members bborder"]/tbody/tr[2]/td[2]/span'
+            coords: 'td[5]/span/a',
+            tag: '//div[@id="allyData"]/div[@class="contentz"]/table/tbody/tr[2]/td[2]/span'
         },
         overview: {
             cases: './/*[@id=\'diameterContentField\']/span[2]/text()',

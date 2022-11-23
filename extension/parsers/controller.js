@@ -90,7 +90,7 @@ function get_content(type) {
             func = parse_defense;
             break;
         case 'alliance':
-            elementName = 'eins';
+            //elementName = 'alliance';
             func = parse_ally_inserted;
             break;
         case 'resourceSettings':
@@ -100,19 +100,21 @@ function get_content(type) {
 
     if (elementName != null) {
         let target = document.getElementById(elementName);
-        //console.log.info(document.body.serializeWithStyles());
-        let observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                //log.info('Mutation Observer : ' + mutation.addedNodes);
-                func();
-            });
-        });
-        // configuration of the observer:
-        let config = { attributes: true, childList: true, characterData: true };
-        observer.observe(target, config);
+        if(target !== null) {
+          let observer = new MutationObserver( mutations => {
+              mutations.forEach( mutation => {
+                  log.info('Mutation Observer : ' + mutation);
+                  func();
+              });
+          });
+          // configuration of the observer:
+          let config = { attributes: true, childList: true, characterData: true };
+          observer.observe(target, config);
+          log.info('Static Observer : ' + 'Running ' + type + ' on ' + elementName);
+      }else {
+        log.warn("Element not found for static observer");
+      }
     }
-
-    //log.info('Static Observer : ' + 'Running ' + type);
     func();
 }
 
@@ -157,7 +159,7 @@ function handle_current_page() {
     let regFleet1 = new RegExp(/component=(fleetdispatch)/);
     let regDefense = new RegExp(/component=(defenses)/);
     let regMessages = new RegExp(/page=(messages)/);
-    let regAlliance = new RegExp(/page=(alliance)/);
+    let regAlliance = new RegExp(/component=(alliance)/);
     let regStats = new RegExp(/page=(highscore)/);
     let regRessources = new RegExp(/page=(resourceSettings)/);
 

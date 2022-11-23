@@ -1,0 +1,33 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch WebExtension",
+        "type": "firefox",
+        "request": "launch",
+        "reAttach": true,
+        "addonPath": "${workspaceFolder}/extension",
+        "pathMappings": [
+          {
+            "url": "moz-extension://2ec818aa-f06c-4d88-b3eb-b2f7a86b5837",
+            "path": "${workspaceFolder}/extension"
+          }
+        ]
+      },
+      {
+        "name": "Attach WebExtension",
+        "type": "firefox",
+        "request": "attach",
+        "addonPath": "${workspaceFolder}/extension",
+        "pathMappings": [
+          {
+            "url": "moz-extension://2ec818aa-f06c-4d88-b3eb-b2f7a86b5837",
+            "path": "${workspaceFolder}/extension"
+          }
+        ]
+      }
+    ]
+}

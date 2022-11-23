@@ -12,7 +12,7 @@
 /* Fonction d'implementation des locales, lang */
 
 function Ximplements(object, implement) {
-    for (var i in implement) object[i] = implement[i];
+    for (let i in implement) object[i] = implement[i];
 }
 /* Fonction initialisation des locales des status (retours OGSPY) */
 

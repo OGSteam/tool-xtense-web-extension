@@ -482,8 +482,6 @@ function parse_rc(doc, script) {
         });
         XtenseRequest.send();
         log.info("Message " + 'Combat Report' + "sent");
-        storageSetValue('lastMsgsSize', messages.snapshotLength); //Pour detection nouveau message
-
     }
 }
 
