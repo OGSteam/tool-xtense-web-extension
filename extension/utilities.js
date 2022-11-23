@@ -68,6 +68,7 @@ function Xajax(obj) {
         dataType: 'text/plain; charset=UTF-8',
         crossDomain: true
     }, function (objResponse) {
+        //log.info(JSON.stringify(objResponse));
         handleResponse(objResponse.status, objResponse.responseText);
     });
 }

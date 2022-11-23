@@ -1,10 +1,13 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "version": "2.9.9",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
-  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'",
+    "sandbox": "..."
+    },
   "icons": {
     "128": "Xtense-128.png"
   },
@@ -48,10 +51,8 @@
     "images/icones/planet.png"
   ],
   "background": {
-    "scripts": [
-      "contribs/jquery.min.js",
-      "contribs/loglevel.min.js",
-      "background.js"
+    "service_worker": "background.js",
+    "type": "module" 
     ]
   },
   "permissions": [],
