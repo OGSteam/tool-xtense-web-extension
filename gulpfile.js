@@ -3,7 +3,7 @@ const { series, parallel, src, dest } = pkg;
 import rename from "gulp-rename";
 import zip from "gulp-zip";
 import { deleteAsync } from "del";
-import { readPackage } from "read-pkg";
+import { readPackageSync } from "read-pkg";
 
 // The `clean` function is not exported so it can be considered a private task.
 // It can still be used within the `series()` composition.
@@ -27,7 +27,7 @@ function build(cb) {
 }
 
 function copy_files_for_firefox() {
-  return src(["extension/**", "!extension/manifest.*", "!extension/manifest.*"]).pipe(dest("release/firefox"));
+  return src(["extension/**", "!extension/manifest.*", "!extension/background-service.js"]).pipe(dest("release/firefox"));
 }
 function copy_firefox_manifest() {
   return src("extension/manifest.firefox").pipe(rename("manifest.json")).pipe(dest("release/firefox"));
@@ -39,7 +39,7 @@ function copy_firefox_htmlfiles() {
 
 
 function copy_files_for_chrome() {
-  return src(["extension/**", "!extension/manifest.*"]).pipe(dest("release/chrome"));
+  return src(["extension/**", "!extension/manifest.*", "!extension/background.js"]).pipe(dest("release/chrome"));
 }
 function copy_chrome_manifest() {
   return src("extension/manifest.chrome").pipe(rename("manifest.json")).pipe(dest("release/chrome"));
@@ -50,7 +50,7 @@ function copy_chrome_htmlfiles() {
 
 
 function copy_files_for_edge() {
-  return src(["extension/**", "!extension/manifest.*"]).pipe(dest("release/edge"));
+  return src(["extension/**", "!extension/manifest.*", "!extension/background.js"]).pipe(dest("release/edge"));
 }
 function copy_edge_manifest() {
   return src("extension/manifest.chrome").pipe(rename("manifest.json")).pipe(dest("release/edge"));
@@ -63,21 +63,21 @@ function copy_edge_htmlfiles() {
 
 function package_for_chrome(cb) {
   src("release/chrome/**")
-    .pipe(zip("chrome-" + readPackage().version + ".zip"))
+    .pipe(zip("chrome-" +  readPackageSync().version + ".zip"))
     .pipe(dest("release"));
   cb();
 }
 
 function package_for_firefox(cb) {
   src("release/firefox/**")
-    .pipe(zip("firefox-" + readPackage().version + ".zip"))
+    .pipe(zip("firefox-" +  readPackageSync().version + ".zip"))
     .pipe(dest("release"));
   cb();
 }
 
 function package_for_edge(cb) {
   src("release/firefox/**")
-    .pipe(zip("edge-" + readPackage().version + ".zip"))
+    .pipe(zip("edge-" + readPackageSync().version + ".zip"))
     .pipe(dest("release"));
   cb();
 }

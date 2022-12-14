@@ -1,6 +1,6 @@
 {
   "name": "xtense-web-extension",
-  "version": "2.9.9",
+  "version": "2.9.10",
   "description": "Xtense collects Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome version $npm_package_version && cross-var dot-json extension/manifest.firefox version $npm_package_version",
     "pack:firefox": "gulp packfirefox",
     "pack:chrome": "gulp packchrome",
+    "pack:edge": "gulp packedge",
     "build": "gulp clean && gulp build",
     "release": "gulp default",
     "dev": "cd extension && web-ext run --verbose --firefox-preview --start-url www.ogame.fr",
@@ -35,17 +36,18 @@
     "cross-var": "^1.1.0",
     "del": "^7.0.0",
     "dot-json": "^1.2.2",
-    "eslint": "^8.28.0",
+    "eslint": "^8.29.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^5.1.0",
-    "read-pkg": "~7.1.0",
+    "read-pkg": "^7.1.0",
     "web-ext": "^7.4.0"
   },
   "dependencies": {
-    "jquery": "^3.6.1",
+    "jquery": "^3.6.2",
     "loglevel": "^1.8.1",
-    "npm": "^9.1.2"
+    "npm": "^9.2.0"
+
   },
   "type": "module"
 }
