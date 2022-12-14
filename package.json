@@ -11,7 +11,7 @@
     "pack:chrome": "gulp packchrome",
     "build": "gulp clean && gulp build",
     "release": "gulp default",
-    "dev": "cd extension && web-ext run --verbose --firefox=firefoxdeveloperedition --start-url www.ogame.fr",
+    "dev": "cd extension && web-ext run --verbose --firefox-preview --start-url www.ogame.fr",
     "lint": "cd extension && web-ext lint",
     "test": "echo 'no test'"
   },
@@ -40,7 +40,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^5.1.0",
     "read-pkg": "~7.1.0",
-    "web-ext": "^7.3.1"
+    "web-ext": "^7.4.0"
   },
   "dependencies": {
     "jquery": "^3.6.1",

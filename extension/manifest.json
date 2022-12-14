@@ -1,17 +1,14 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "version": "2.9.9",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
-
-  },
+  "content_security_policy": "script-src 'self'; object-src 'self'",
   "icons": {
     "128": "Xtense-128.png"
   },
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "ogspy.team@gmail.com",
       "strict_min_version": "57.0"
@@ -40,34 +37,32 @@
     }
   ],
   "web_accessible_resources": [
-    {
-      "resources": [
-        "images/about.png",
-        "images/conf.png",
-        "images/OGSteam.png",
-        "images/pages.png",
-        "images/server.png",
-        "images/xtense.png",
-        "images/icones/xtense.png",
-        "images/icones/xtense-send.png",
-        "images/icones/xtenseKo.png",
-        "images/icones/xtenseNo.png",
-        "images/icones/xtenseOk.png",
-        "images/icones/xtenseReady.png",
-        "images/icones/xtenseWarn.png",
-        "images/icones/infos.png",
-        "images/icones/planet.png"
-    ],
-    "matches" : ["https://*.ogame.gameforge.com/*"]
-    }
+    "images/about.png",
+    "images/conf.png",
+    "images/OGSteam.png",
+    "images/pages.png",
+    "images/server.png",
+    "images/xtense.png",
+    "images/icones/xtense.png",
+    "images/icones/xtense-send.png",
+    "images/icones/xtenseKo.png",
+    "images/icones/xtenseNo.png",
+    "images/icones/xtenseOk.png",
+    "images/icones/xtenseReady.png",
+    "images/icones/xtenseWarn.png",
+    "images/icones/infos.png",
+    "images/icones/planet.png"
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "scripts": [
+      "contribs/jquery.min.js",
+      "contribs/loglevel.min.js",
+      "background.js"
+    ]
   },
   "permissions": [],
   "short_name": "Xtense",
-  "action": {
+  "browser_action": {
     "default_title": "Xtense",
     "default_icon": "images/icones/xtense_default.png",
     "default_popup": "xtense.html"

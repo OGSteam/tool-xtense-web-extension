@@ -51,7 +51,7 @@
     "images/icones/planet.png"
   ],
   "background": {
-    "service_worker": "background.js",
+    "service_worker": "background-service.js",
     "type": "module" 
     ]
   },
