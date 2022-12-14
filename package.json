@@ -12,7 +12,7 @@
     "pack:edge": "gulp packedge",
     "build": "gulp clean && gulp build",
     "release": "gulp default",
-    "dev": "cd extension && web-ext run --verbose --firefox-preview --start-url www.ogame.fr",
+    "dev": "cd extension && web-ext run --start-url www.ogame.fr --keep-profile-changes --firefox-profile=../xtense-profile/. --profile-create-if-missing",
     "lint": "cd extension && web-ext lint",
     "test": "echo 'no test'"
   },
