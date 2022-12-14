@@ -377,7 +377,7 @@ function parse_detail_messages(messages) {
         combatreportId = Xpath.getStringValue(document, paths.combatreport, messageNode);
 
         // Si il s'agit d'un message detaille de Rapport de Combat
-        if (combatreportId != null && combatreportId !== '') {
+        if (combatreportId != null && combatreportId != '') {
             log.info("Traitement du rapport de combat (" + combatreportId + ")");
 
             let scriptNode = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.rc.script, null).snapshotItem(0);
@@ -425,7 +425,7 @@ function parse_detail_messages(messages) {
             let coords = m[1];
             let contentNode = Xpath.getSingleNode(document, paths.contents.expedition);
             let message = Xpath.getStringValue(document, paths.contents.expedition).trim();
-            data.type = get_tabid(document);
+            data.type = get_tabid();
             data.coords = coords;
             data.content = message;
 
@@ -473,7 +473,7 @@ function parse_rc(doc, script) {
             ogameAPILink = regexApi.exec(ogameAPITitle)[1];
         }
 
-        let type = get_tabid(doc);
+        let type = get_tabid();
 
         XtenseRequest.set('type', type);
         XtenseRequest.set('gamedata', {
