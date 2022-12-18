@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "gulp clean",
     "node-clean": "npm prune && npm install",
-    "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome version $npm_package_version && cross-var dot-json extension/manifest.firefox version $npm_package_version",
+    "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome.json version $npm_package_version && cross-var dot-json extension/manifest.firefox.json version $npm_package_version",
     "pack:firefox": "gulp packfirefox",
     "pack:chrome": "gulp packchrome",
     "pack:edge": "gulp packedge",
@@ -47,7 +47,6 @@
     "jquery": "^3.6.2",
     "loglevel": "^1.8.1",
     "npm": "^9.2.0"
-
   },
   "type": "module"
 }

@@ -30,7 +30,7 @@ function copy_files_for_firefox() {
   return src(["extension/**", "!extension/manifest.*", "!extension/background-service.js"]).pipe(dest("release/firefox"));
 }
 function copy_firefox_manifest() {
-  return src("extension/manifest.firefox").pipe(rename("manifest.json")).pipe(dest("release/firefox"));
+  return src("extension/manifest.firefox.json").pipe(rename("manifest.json")).pipe(dest("release/firefox"));
 }
 function copy_firefox_htmlfiles() {
   return src("extension/ui/firefox/xtense.html").pipe(dest("release/firefox"));
@@ -42,7 +42,7 @@ function copy_files_for_chrome() {
   return src(["extension/**", "!extension/manifest.*", "!extension/background.js"]).pipe(dest("release/chrome"));
 }
 function copy_chrome_manifest() {
-  return src("extension/manifest.chrome").pipe(rename("manifest.json")).pipe(dest("release/chrome"));
+  return src("extension/manifest.chrome.json").pipe(rename("manifest.json")).pipe(dest("release/chrome"));
 }
 function copy_chrome_htmlfiles() {
   return src("extension/ui/chrome/xtense.html").pipe(dest("release/chrome"));
@@ -53,7 +53,7 @@ function copy_files_for_edge() {
   return src(["extension/**", "!extension/manifest.*", "!extension/background.js"]).pipe(dest("release/edge"));
 }
 function copy_edge_manifest() {
-  return src("extension/manifest.chrome").pipe(rename("manifest.json")).pipe(dest("release/edge"));
+  return src("extension/manifest.chrome.json").pipe(rename("manifest.json")).pipe(dest("release/edge"));
 }
 function copy_edge_htmlfiles() {
   return src("extension/ui/edge/xtense.html").pipe(dest("release/edge"));
@@ -63,20 +63,20 @@ function copy_edge_htmlfiles() {
 
 function package_for_chrome(cb) {
   src("release/chrome/**")
-    .pipe(zip("chrome-" +  readPackageSync().version + ".zip"))
+    .pipe(zip("chrome-" + readPackageSync().version + ".zip"))
     .pipe(dest("release"));
   cb();
 }
 
 function package_for_firefox(cb) {
   src("release/firefox/**")
-    .pipe(zip("firefox-" +  readPackageSync().version + ".zip"))
+    .pipe(zip("firefox-" + readPackageSync().version + ".zip"))
     .pipe(dest("release"));
   cb();
 }
 
 function package_for_edge(cb) {
-  src("release/firefox/**")
+  src("release/edge/**")
     .pipe(zip("edge-" + readPackageSync().version + ".zip"))
     .pipe(dest("release"));
   cb();

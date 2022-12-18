@@ -8,10 +8,10 @@
   "icons": {
     "128": "Xtense-128.png"
   },
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "ogspy.team@gmail.com",
-      "strict_min_version": "102.6"
+      "strict_min_version": "57.0"
     }
   },
   "content_scripts": [
