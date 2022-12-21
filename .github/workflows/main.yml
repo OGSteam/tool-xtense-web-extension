@@ -24,8 +24,8 @@ jobs:
     - name: Build
       run: |
         npm install
-        npm build
-        npm version
+        npm run build
+        npm run version
         gulp
 
     - name: Create Draft Release
