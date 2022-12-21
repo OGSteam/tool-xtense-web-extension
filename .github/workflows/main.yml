@@ -19,7 +19,7 @@ jobs:
         node-version: 18.x
         
     - name: Package.json info
-      uses: rexdefuror/read-package-json@v1.3.37
+      uses: rexdefuror/read-package-json@v1.0.5
 
     - name: Build
       run: |
@@ -49,7 +49,7 @@ jobs:
         asset_content_type: application/zip
         
     - name: Publish Firefox Extension
-      uses: actions/upload-release-asset@vlatest
+      uses: actions/upload-release-asset@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -68,7 +68,7 @@ jobs:
         asset_name: edge-${{ env.PACKAGE_VERSION }}.zip
         asset_content_type: application/zip
 
-    - uses: eregon/publish-release@1.0.3
+    - uses: eregon/publish-release@v1.0.3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
