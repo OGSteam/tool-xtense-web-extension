@@ -1,4 +1,4 @@
-name: NodeJS with Gulp
+name: Release Extensions Packages
 
 on:
   push:
@@ -17,6 +17,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16.x
+        
+    - name: Package.json info
+      uses: rexdefuror/read-package-json@v1.0.5
 
     - name: Build
       run: |
@@ -24,3 +27,48 @@ jobs:
         npm version
         gulp
 
+    - name: Create Draft Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_name: Version ${{ env.PACKAGE_VERSION }}
+        draft: true
+        prerelease: false
+
+    - name: Publish Chrome Extension
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/chrome-${{ env.PACKAGE_VERSION }}.zip
+        asset_name: chrome-${{ env.PACKAGE_VERSION }}.zip
+        asset_content_type: application/zip
+        
+    - name: Publish Firefox Extension
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/firefox-${{ env.PACKAGE_VERSION }}.zip
+        asset_name: firefox-${{ env.PACKAGE_VERSION }}.zip
+        asset_content_type: application/zip
+        
+    - name: Publish Edge Extension
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/edge-${{ env.PACKAGE_VERSION }}.zip
+        asset_name: edge-${{ env.PACKAGE_VERSION }}.zip
+        asset_content_type: application/zip
+
+    - uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}
