@@ -13,13 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Use Node.js 16.x
+    - name: Use Node.js 18.x
       uses: actions/setup-node@v3
       with:
-        node-version: 16.x
+        node-version: 18.x
         
     - name: Package.json info
-      uses: rexdefuror/read-package-json@v1.0.5
+      uses: rexdefuror/read-package-json@v1.3.37
 
     - name: Build
       run: |
@@ -29,7 +29,7 @@ jobs:
 
     - name: Create Draft Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -39,7 +39,7 @@ jobs:
         prerelease: false
 
     - name: Publish Chrome Extension
-      uses: actions/upload-release-asset@v1.0.1
+      uses: actions/upload-release-asset@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -49,7 +49,7 @@ jobs:
         asset_content_type: application/zip
         
     - name: Publish Firefox Extension
-      uses: actions/upload-release-asset@v1.0.1
+      uses: actions/upload-release-asset@vlatest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -59,7 +59,7 @@ jobs:
         asset_content_type: application/zip
         
     - name: Publish Edge Extension
-      uses: actions/upload-release-asset@v1.0.1
+      uses: actions/upload-release-asset@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -68,7 +68,7 @@ jobs:
         asset_name: edge-${{ env.PACKAGE_VERSION }}.zip
         asset_content_type: application/zip
 
-    - uses: eregon/publish-release@v1
+    - uses: eregon/publish-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
