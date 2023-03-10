@@ -6,14 +6,14 @@
 /*eslint-env es6*/
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
-/*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_NORMAL,XLOG_SUCCESS,XLOG_COMMENT,XLOG_SEND*/
+/*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_SUCCESS*/
 
 /* Permet d'initialiser la communication avec OGSPY (serveur, BDD)*/
 
 function initOGSpyCommunication() {
     // Toutes les unites du jeu
     // id : nom du champ dans la bdd
-    XtenseDatabase = {
+    const XtenseDatabase = {
         "resources": {
             601: "metal",
             602: "cristal",
@@ -99,7 +99,7 @@ function initOGSpyCommunication() {
     //** Fonctions Xtense : Envoi de données à OGSpy **
     //*************************************************
 
-    XtenseRequest = {
+    let XtenseRequest = {
         loading: {},
         params: {},
         data: {},
@@ -297,7 +297,7 @@ function handleResponse(status, Response) {
 
         if (data.calls) {
             // Merge the both objects
-            //var calls = extra.calls = data.calls;
+            //let calls = extra.calls = data.calls;
             let calls = data.calls;
             calls.status = "success";
             if (calls.warning.length > 0) calls.status = "warning";

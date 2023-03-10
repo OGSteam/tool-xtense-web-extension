@@ -9,7 +9,7 @@
 
 function parse_galaxy_system_inserted(event) {
     log.debug('In parse_galaxy_system_inserted()');
-    //var doc = event.target.ownerDocument;
+    //let doc = event.target.ownerDocument;
     let paths = XtenseXpaths.galaxy;
     let loadingDiv = Xpath.getSingleNode(document, paths.loading_div);
     if (loadingDiv.style.display != "none") {
@@ -258,7 +258,7 @@ function parse_ranking_inserted(event) {
         type[0] = (type[0] === 'alliance') ? 'ally' : type[0];
         type[1] = (type[1] !== '') ? type[1] : 'points';
         let length = 0;
-        //var rows = Xpath.getOrderedSnapshotNodes(document,paths.rows,null);
+        //let rows = Xpath.getOrderedSnapshotNodes(document,paths.rows,null);
         let offset = 0;
         log.debug('time:' + time + ',type1:' + type[0] + ',type2:' + type[1] + ',type3: ' + type[2] + ',nombreLignes:' + rows.snapshotLength);
         //if(rows.snapshotLength > 0){ //Double sécurité

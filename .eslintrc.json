@@ -1,17 +1,26 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "webextensions": true
     },
-    "extends": "eslint:recommended",
+    "plugins": [
+        "jquery"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:jquery/deprecated",
+        "plugin:jquery/slim"
+    ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "chrome": true
     },
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "rules": {
-    }
+    }        
 }

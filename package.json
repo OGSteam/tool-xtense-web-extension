@@ -36,17 +36,18 @@
     "cross-var": "^1.1.0",
     "del": "^7.0.0",
     "dot-json": "^1.2.2",
-    "eslint": "^8.29.0",
+    "eslint": "^8.35.0",
+    "eslint-plugin-jquery": "^1.5.1",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^5.1.0",
     "read-pkg": "^7.1.0",
-    "web-ext": "^7.4.0"
+    "web-ext": "^7.5.0"
   },
   "dependencies": {
-    "jquery": "^3.6.2",
+    "jquery": "^3.6.3",
     "loglevel": "^1.8.1",
-    "npm": "^9.2.0"
+    "npm": "^9.6.0"
   },
   "type": "module"
 }
