@@ -99,7 +99,7 @@ function initOGSpyCommunication() {
     //** Fonctions Xtense : Envoi de données à OGSpy **
     //*************************************************
 
-    let XtenseRequest = {
+    XtenseRequest = {
         loading: {},
         params: {},
         data: {},

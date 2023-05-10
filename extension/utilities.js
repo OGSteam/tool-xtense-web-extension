@@ -28,50 +28,55 @@ function storageDeleteValue(value) {
 /* Fonctions sur strings */
 
 String.prototype.trimInt = function () {
-  let string = this.replace(/([^-\d])/g, '');
+  let string = this.replace(/([^-\d])/g, "");
   return string ? parseInt(string) : 0;
 };
 String.prototype.trimZeros = function () {
-  return this.replace(/^0+/g, '');
+  return this.replace(/^0+/g, "");
 };
 String.prototype.getInts = function (/*separator*/) {
-  let v = this.match(/[0-9][0-9.]*/g);
+  let v = this.match(/\d[0-9.]*/g);
   v.forEach(function (el, index, arr) {
-    arr[index] = parseInt(el.replace(/\./g, ''));
+    arr[index] = parseInt(el.replace(/\./g, ""));
   });
   return v;
 };
 //Affichage des Logs
 
 function setlogLevel() {
-
-  if (storageGetValue('debug.mode', 'false').toString() !== 'true') {
-    log.setLevel('info');
-
+  if (storageGetValue("debug.mode", "false").toString() !== "true") {
+    log.setLevel("info");
   } else {
-    log.setLevel('debug');
+    log.setLevel("debug");
   }
 }
 
 //Requete Ajax
 
 function Xajax(obj) {
+  let url_to = obj.url || "";
+  let post_data = obj.post || "";
 
-  let url_to = obj.url || '';
-  let post_data = obj.post || '';
-
-
-  (async () => {
-    const response = await chrome.runtime.sendMessage({
-      method: 'POST',
-      action: 'xhttp',
+  chrome.runtime.sendMessage(
+    {
+      method: "POST",
+      action: "xhttp",
       url: url_to,
       data: post_data,
-      dataType: 'text/plain; charset=UTF-8',
-      crossDomain: true
-    });
-    console.log("Mod ", response);
-  })();
+      dataType: "text/plain; charset=UTF-8",
+      crossDomain: true,
+    },
+    (response) => {
+      if (response && response.error) {
+        log.error(response.error);
+        handleResponse(500, response.error);
+      } else if (response && response.status === 200) {
+        handleResponse(200, response.text);
+      } else {
+        log.error('Unknown error:' + response);
+      }
+    }
+  );
 }
 
 // Récupère les messages de retours et locales
@@ -97,22 +102,16 @@ function XtenseParseDate(dateString, handler) {
   let m = dateString.match(new RegExp(handler.regexp));
   let time = new Date();
   if (m) {
-    if (handler.fields.year !== -1)
-      time.setYear(m[handler.fields.year]);
+    if (handler.fields.year !== -1) time.setYear(m[handler.fields.year]);
     if (handler.fields.month !== -1)
       time.setMonth(m[handler.fields.month] * 1 - 1);
-    if (handler.fields.day !== -1)
-      time.setDate(m[handler.fields.day]);
-    if (handler.fields.hour !== -1)
-      time.setHours(m[handler.fields.hour]);
-    if (handler.fields.min !== -1)
-      time.setMinutes(m[handler.fields.min]);
-    if (handler.fields.sec !== -1)
-      time.setSeconds(m[handler.fields.sec]);
+    if (handler.fields.day !== -1) time.setDate(m[handler.fields.day]);
+    if (handler.fields.hour !== -1) time.setHours(m[handler.fields.hour]);
+    if (handler.fields.min !== -1) time.setMinutes(m[handler.fields.min]);
+    if (handler.fields.sec !== -1) time.setSeconds(m[handler.fields.sec]);
   }
   time = Math.floor(time.getTime() / 1000);
   //division par 1000 pour un timestamp php
   return time;
 }
 /************************** Fin Utilities *******************************/
-
