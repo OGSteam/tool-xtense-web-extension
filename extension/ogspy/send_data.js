@@ -13,7 +13,7 @@
 function initOGSpyCommunication() {
     // Toutes les unites du jeu
     // id : nom du champ dans la bdd
-    const XtenseDatabase = {
+    XtenseDatabase = {
         "resources": {
             601: "metal",
             602: "cristal",

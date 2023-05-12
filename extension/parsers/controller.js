@@ -103,14 +103,14 @@ function get_content(type) {
         if(target !== null) {
           let observer = new MutationObserver( mutations => {
               mutations.forEach( mutation => {
-                  log.info('Mutation Observer : ' + mutation);
+                  //log.info('Mutation Observer : ' + mutation);
                   func();
               });
           });
           // configuration of the observer:
           let config = { attributes: true, childList: true, characterData: true };
           observer.observe(target, config);
-          log.info('Static Observer : ' + 'Running ' + type + ' on ' + elementName);
+          //log.info('Static Observer : ' + 'Running ' + type + ' on ' + elementName);
       }else {
         log.warn("Element not found for static observer");
       }
