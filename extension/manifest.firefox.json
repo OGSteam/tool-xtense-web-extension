@@ -13,7 +13,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "ogspy.team@gmail.com",
-      "strict_min_version": "57.0"
+      "strict_min_version": "109.0"
     }
   },
   "content_scripts": [
