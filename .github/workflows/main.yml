@@ -28,49 +28,12 @@ jobs:
         npm run version
         gulp
 
-    - name: Create Draft Release
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ env.PACKAGE_VERSION }}
-        release_name: Version ${{ env.PACKAGE_VERSION }}
+        name : Xtense ${{ env.PACKAGE_VERSION }}
         draft: true
-        prerelease: false
+        artifacts: "release/chrome-${{ env.PACKAGE_VERSION }}.zip,release/firefox-${{ env.PACKAGE_VERSION }}.zip,release/edge-${{ env.PACKAGE_VERSION }}.zip"
+        artifactContentType: zip
+        body : "To be Completed"
+        tag : ${{ env.PACKAGE_VERSION }}
 
-    - name: Publish Chrome Extension
-      uses: actions/upload-release-asset@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release/chrome-${{ env.PACKAGE_VERSION }}.zip
-        asset_name: chrome-${{ env.PACKAGE_VERSION }}.zip
-        asset_content_type: application/zip
-        
-    - name: Publish Firefox Extension
-      uses: actions/upload-release-asset@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release/firefox-${{ env.PACKAGE_VERSION }}.zip
-        asset_name: firefox-${{ env.PACKAGE_VERSION }}.zip
-        asset_content_type: application/zip
-        
-    - name: Publish Edge Extension
-      uses: actions/upload-release-asset@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release/edge-${{ env.PACKAGE_VERSION }}.zip
-        asset_name: edge-${{ env.PACKAGE_VERSION }}.zip
-        asset_content_type: application/zip
-
-    - uses: eregon/publish-release@v1.0.3
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        release_id: ${{ steps.create_release.outputs.id }}
