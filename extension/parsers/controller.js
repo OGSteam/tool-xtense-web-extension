@@ -148,8 +148,7 @@ function handle_page(page) {
 
 function handle_current_page() {
     // Expressions régulières des pages
-    let regGalaxy;
-    regGalaxy = new RegExp(/component=(galaxy)/);
+    let regGalaxy = new RegExp(/component=(galaxy)/);
     let regOverview = new RegExp(/component=(overview)/);
     let regOption = new RegExp(/(xtense=Options)/);
     let regResearch = new RegExp(/component=(research)/);
@@ -161,7 +160,7 @@ function handle_current_page() {
     let regMessages = new RegExp(/page=(messages)/);
     let regAlliance = new RegExp(/component=(alliance)/);
     let regStats = new RegExp(/page=(highscore)/);
-    let regRessources = new RegExp(/page=(resourceSettings)/);
+    let regRessources = new RegExp(/[page|component]=(resourceSettings)/ ,'i');
 
     if (regOption.test(url)) {
         displayOptions();
