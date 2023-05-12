@@ -27,7 +27,7 @@ function build(cb) {
 }
 
 function copy_files_for_firefox() {
-  return src(["extension/**", "!extension/manifest.*", "!extension/background-service.js"]).pipe(dest("release/firefox"));
+  return src(["extension/**", "!extension/manifest.*", "!extension/background.js"]).pipe(dest("release/firefox"));
 }
 function copy_firefox_manifest() {
   return src("extension/manifest.firefox.json").pipe(rename("manifest.json")).pipe(dest("release/firefox"));
