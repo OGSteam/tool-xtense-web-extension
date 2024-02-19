@@ -312,6 +312,7 @@ function parse_ranking_inserted(event) {
                 let members = Xpath.getStringValue(document, paths.ally.members, row).trimInt();
                 let moy = Xpath.getStringValue(document, paths.ally.points_moy, row).replace('|.', '').trimInt();
                 let rank_ally_allytag = Xpath.getStringValue(document, paths.ally.allytag, row).trim().replace(/\]|\[/g, '');
+                let rank_ally_name = Xpath.getStringValue(document, paths.ally.allyname, row).trim().replace(/\]|\[/g, '');
                 let rank_ally_url = Xpath.getStringValue(document, paths.ally.ally_id, row).trim();
                 let rank_ally_allyid = -1;
                 if (rank_ally_url !== 'undefined') {
@@ -323,11 +324,12 @@ function parse_ranking_inserted(event) {
                         rank_ally_allyid = XtenseMetas.getAllyId();
                     }
                 }
-                log.debug('position ' + n + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',members:' + members + ',points:' + points + ',mean:' + moy);
-                data_row = {
+                log.debug('position ' + n + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',allyname:' + rank_ally_name + ',members:' + members + ',points:' + points + ',mean:' + moy);
+                 data_row = {
                     rank: n,
                     ally_id: rank_ally_allyid,
                     ally_tag: rank_ally_allytag,
+                    ally: rank_ally_name,
                     members: members,
                     points: points,
                     mean: moy

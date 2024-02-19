@@ -187,6 +187,7 @@ function initParsers() {
             position: "td[contains(@class,'position')]/text()",
             points: "td[contains(@class,'score')]/text()",
             allytag: "td[@class='name']/span[@class='ally-tag']/a/text()",
+            allyname:  "td[@class='name']/div[@class='ally-name']/span/text()",
             ally_id: "td[@class='name']/span[@class='ally-tag']/a/@href",
             player: {
                 playername: "td[@class='name']//a[contains(@href,'galaxy') and contains(@href,'system')]/span/text()",
@@ -198,6 +199,7 @@ function initParsers() {
                 members: "td[contains(@class,'member_count')]/text()",
                 points_moy: "td[contains(@class,'score')]/div/text()",
                 allytag: "td[@class='name']/div[@class='ally-tag']/a/text()",
+                allyname:  "td[@class='name']/div[@class='ally-name']/span/text()", 
                 ally_id: "td[@class='name']/div[@class='ally-tag']/a/@href"
             }
         },
