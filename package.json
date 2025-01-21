@@ -40,7 +40,7 @@
     "eslint-plugin-jquery": "^1.5.1",
     "gulp": "^5.0.0",
     "gulp-rename": "^2.0.0",
-    "gulp-zip": "^5.1.0",
+    "gulp-zip": "^6.0.0",
     "read-pkg": "^7.1.0",
     "web-ext": "^8.3.0"
   },
