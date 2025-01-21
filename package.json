@@ -34,7 +34,7 @@
   "homepage": "https://github.com/OGSteam/tool-xtense-web-extension#readme",
   "devDependencies": {
     "cross-var": "^1.1.0",
-    "del": "^7.0.0",
+    "del": "^8.0.0",
     "dot-json": "^1.3.0",
     "eslint": "^8.40.0",
     "eslint-plugin-jquery": "^1.5.1",
