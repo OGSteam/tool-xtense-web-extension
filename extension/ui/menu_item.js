@@ -11,27 +11,27 @@ function setStatus(type, message) {
   if (icone != null) {
     switch (type) {
       case XLOG_SUCCESS:
-        img_url = "images/icones/xtenseOk.png";
+        img_url = "assets/icones/xtenseOk.png";
         log.info(message);
         break;
       case XLOG_NORMAL:
-        img_url = "images/icones/xtenseNo.png";
+        img_url = "assets/icones/xtenseNo.png";
         log.info(message);
         break;
       case XLOG_WARNING:
-        img_url = "images/icones/xtenseWarn.png";
+        img_url = "assets/icones/xtenseWarn.png";
         log.warn(message);
         break;
       case XLOG_ERROR:
-        img_url = "images/icones/xtenseKo.png";
+        img_url = "assets/icones/xtenseKo.png";
         log.error(message);
         break;
       case XLOG_SEND:
-        img_url = "images/icones/xtense-send.png";
+        img_url = "assets/icones/xtense-send.png";
         log.info(message);
         break;
       default:
-        img_url = "images/icones/xtenseNo.png";
+        img_url = "assets/icones/xtenseNo.png";
     }
     icone.title = message;
     icone.src = chrome.runtime.getURL(img_url);
@@ -53,65 +53,36 @@ function setStatus(type, message) {
 function displayXtense() {
   // Ajout du Menu Options (Barre latérale de Ogame)
   //Lien vers OGSpy
-  let ogspy_link = storageGetValue(
-    "server.url.plugin",
-    "https://forum.ogsteam.eu"
-  );
-  let aff_ogspy = " ";
-
-  // Page classique
-  if ($("#playerName")) {
-    let icone = chrome.runtime.getURL("images/icones/xtense.png");
-    let icone_planet = chrome.runtime.getURL("images/icones/planet.png");
-
-    let aAttrs = "";
-    if (storageGetValue("manual.send", "false").toString() === "true") {
-      aAttrs = 'onClick="window.location.reload()" target="_self"';
-    } else {
-      aAttrs = 'href="' + ogspy_link + '" target="blank_" ';
-    }
-
-    let aff_option = $(
-      "<li id='optionXtense'>" +
-        "<span class='menu_icon'>" +
-        "<a " +
-        aAttrs +
-        "><img id='xtense.icone' class='mouseSwitch' src='" +
-        icone +
-        "' height='27' width='27' /></a></span>" +
-        "<a class='menubutton' href='" +
-        url +
-        "&xtense=Options' accesskey='' target='_self'><span class='textlabel'>Xtense</span></a>" +
-        "</li>"
-    );
-
-    if (storageGetValue("ogspy.link", "true").toString() === "true") {
-      aff_ogspy = create_menu_button(
-        "optionOGSpy",
-        icone_planet,
-        ogspy_link,
-        "OGSpy"
-      );
-    }
-
-    if ($("#optionXtense").length) {
-      $("#menuTableTools")[0].removeChild($("#optionXtense")[0]);
-    }
-    if ($("#optionOGSpy").length) {
-      $("#menuTableTools")[0].removeChild($("#optionOGSpy")[0]);
-    }
-
-    $("#menuTableTools").append(aff_option);
-    $("#optionXtense").after(aff_ogspy);
-
-    if (storageGetValue("ogspy.link", "true").toString() === "true") {
-      $("#optionOGSpy").after(aff_ogspy);
-    } else {
-      $("#optionXtense").after(aff_ogspy);
-    }
-  } else {
+  const ogspy_link = storageGetValue("server.url.plugin", "https://forum.ogsteam.eu");
+  const playerName = $("#playerName");
+  if (!playerName.length) {
     log.info("Problem to display Menu entry point");
+    return;
   }
+    const icone = chrome.runtime.getURL("assets/icones/xtense.png");
+    const icone_planet = chrome.runtime.getURL("assets/icones/planet.png");
+    const aAttrs = storageGetValue("manual.send", "false").toString() === "true"
+      ? 'onClick="window.location.reload()" target="_self"'
+      : `href="${ogspy_link}" target="blank_"`;
+
+    const aff_option = $(`
+    <li id='optionXtense'>
+      <span class='menu_icon'>
+        <a ${aAttrs}><img id='xtense.icone' class='mouseSwitch' src='${icone}' height='27' width='27' /></a>
+      </span>
+      <a class='menubutton' href='${url}&xtense=Options' accesskey='' target='_self'>
+        <span class='textlabel'>Xtense</span>
+      </a>
+    </li>
+  `);
+
+  const aff_ogspy = storageGetValue("ogspy.link", "true").toString() === "true"
+    ? create_menu_button("optionOGSpy", icone_planet, ogspy_link, "OGSpy")
+    : " ";
+
+  $("#optionXtense, #optionOGSpy").remove();
+  $("#menuTableTools").append(aff_option).append(aff_ogspy);
+
 }
 
 function displayOptions() {
@@ -219,7 +190,7 @@ function displayOptions() {
   // Serveur Univers
   options +=
     '<img src="' +
-    chrome.runtime.getURL("images/xtense.png") +
+    chrome.runtime.getURL("assets/images/xtense.png") +
     '" alt="' +
     chrome.i18n.getMessage("XtenseOptions") +
     '"/>';
@@ -230,22 +201,22 @@ function displayOptions() {
     "<tbody>" +
     "<tr>" +
     '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("images/server.png") +
+    chrome.runtime.getURL("assets/images/server.png") +
     '"/><b>' +
     chrome.i18n.getMessage("XtenseOptions_serveur") +
     "</b></a></span></td>" +
     '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("images/pages.png") +
+    chrome.runtime.getURL("assets/images/pages.png") +
     '"/><b>' +
     chrome.i18n.getMessage("XtenseOptions_pages") +
     "</b></a></span></td>" +
     '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("images/conf.png") +
+    chrome.runtime.getURL("assets/images/conf.png") +
     '"/><b>' +
     chrome.i18n.getMessage("XtenseOptions_settings") +
     "</b></a></span></td>" +
     '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("images/about.png") +
+    chrome.runtime.getURL("assets/images/about.png") +
     '"/><b>' +
     chrome.i18n.getMessage("XtenseOptions_about") +
     "</b></a></span></td>" +
@@ -335,7 +306,7 @@ function displayOptions() {
   options += "<tr>";
   options +=
     '<td colspan="2"><img src="' +
-    chrome.runtime.getURL("images/icones/infos.png") +
+    chrome.runtime.getURL("assets/icones/infos.png") +
     '"/>' +
     chrome.i18n.getMessage("XtenseServer_Example") +
     "</td>";

@@ -20,10 +20,13 @@ const XLOG_WARNING = 1,
     XLOG_SUCCESS = 4,
     XLOG_COMMENT = 5,
     XLOG_SEND = 6;
+
 // Navigateurs
-let isFirefox = (window.navigator.userAgent.indexOf('Firefox') > -1);
-let isChrome = (window.navigator.userAgent.indexOf('Chrome') > -1);
-let isOpera = (window.navigator.userAgent.indexOf('Opera') > -1);
+const userAgent = window.navigator.userAgent;
+let isFirefox = userAgent.includes('Firefox');
+let isChrome = userAgent.includes('Chrome');
+let isOpera = userAgent.includes('Opera');
+
 if (isFirefox) {
     TYPE += 'FF';
 } else if (isChrome) {

@@ -1,0 +1,176 @@
+/**
+ * Xtense Web Extension Styles
+ * Main stylesheet for the Xtense UI components
+ */
+
+/* Base styles */
+.xtense-panel {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  width: 300px;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e6edf3;
+}
+
+.xtense-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #30363d;
+}
+
+.xtense-panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.xtense-close-button {
+  background: none;
+  border: none;
+  color: #8b949e;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.xtense-close-button:hover {
+  color: #e6edf3;
+}
+
+.xtense-panel-content {
+  padding: 16px;
+}
+
+/* Buttons */
+.xtense-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.xtense-button {
+  background-color: #238636;
+  color: #ffffff;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.xtense-button:hover {
+  background-color: #2ea043;
+}
+
+.xtense-button:active {
+  background-color: #238636;
+}
+
+/* Status styles */
+.xtense-status-container {
+  background-color: #161b22;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.xtense-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xtense-status-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.xtense-status-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Status types */
+.xtense-normal {
+  color: #8b949e;
+}
+
+.xtense-success {
+  color: #3fb950;
+}
+
+.xtense-warning {
+  color: #f0883e;
+}
+
+.xtense-error {
+  color: #f85149;
+}
+
+.xtense-comment {
+  color: #58a6ff;
+}
+
+.xtense-send {
+  color: #d2a8ff;
+}
+
+/* Menu item */
+.xtense-icon {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+/* Tooltips */
+.xtense-has-tooltip {
+  position: relative;
+}
+
+.xtense-tooltip {
+  position: absolute;
+  display: none;
+  background-color: #0d1117;
+  color: #e6edf3;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10000;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  border: 1px solid #30363d;
+}
+
+.xtense-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #30363d transparent transparent transparent;
+}
+
+.xtense-tooltip-bottom::before {
+  top: auto;
+  bottom: 100%;
+  border-color: transparent transparent #30363d transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .xtense-panel {
+    width: 250px;
+    right: 10px;
+  }
+}

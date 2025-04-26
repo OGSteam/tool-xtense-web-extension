@@ -57,26 +57,52 @@ function Xajax(obj) {
   let url_to = obj.url || "";
   let post_data = obj.post || "";
 
-  chrome.runtime.sendMessage(
-    {
-      method: "POST",
-      action: "xhttp",
-      url: url_to,
-      data: post_data,
-      dataType: "text/plain; charset=UTF-8",
-      crossDomain: true,
-    },
-    (response) => {
-      if (response && response.error) {
-        log.error(response.error);
-        handleResponse(500, response.error);
-      } else if (response && response.status === 200) {
-        handleResponse(200, response.text);
-      } else {
-        log.error('Unknown error:' + response);
+  return new Promise((resolve) => {
+    const messageId = Date.now();
+    console.log(`[${messageId}] Sending request to: ${url_to}`);
+
+    chrome.runtime.sendMessage(
+      {
+        method: "POST",
+        action: "xhttp",
+        url: url_to,
+        data: post_data,
+        dataType: "text/plain; charset=UTF-8",
+        crossDomain: true,
+        messageId: messageId
+      },
+      function(response) {
+        console.log(`[${messageId}] Response received:`, response);
+
+        if (chrome.runtime.lastError) {
+          const errorMsg = chrome.runtime.lastError.message;
+          console.error(`[${messageId}] Runtime error:`, errorMsg);
+          handleResponse(500, errorMsg);
+          resolve(null);
+          return;
+        }
+
+        if (!response) {
+          console.error(`[${messageId}] No response received from background worker`);
+          handleResponse(500, "No response from background service");
+          resolve(null);
+          return;
+        }
+
+        if (response.error) {
+          console.error(`[${messageId}] Request error:`, response.error);
+          handleResponse(500, response.error);
+        } else if (response.status === 200) {
+          console.log(`[${messageId}] Request successful`);
+          handleResponse(200, response.text);
+        } else {
+          console.error(`[${messageId}] Unknown response format:`, response);
+          handleResponse(500, "Unknown response format");
+        }
+        resolve(response);
       }
-    }
-  );
+    );
+  });
 }
 
 // Récupère les messages de retours et locales

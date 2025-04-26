@@ -20,72 +20,34 @@ function update_loglevel() {
   return src(['node_modules/loglevel/dist/loglevel.min.js']).pipe(dest('extension/contribs'));
 }
 
-function build(cb) {
-  update_jquery();
-  update_loglevel();
-  cb();
+const build = series(update_jquery, update_loglevel);
+
+function copy_files_for_browser(browser, manifest) {
+  return parallel(
+    () => src(["extension/**", "!extension/manifest.*"]).pipe(dest(`release/${browser}`)),
+    () => src(manifest).pipe(rename('manifest.json')).pipe(dest(`release/${browser}`))
+  );
 }
 
-function copy_files_for_firefox() {
-  return src(["extension/**", "!extension/manifest.*"]).pipe(dest('release/firefox'));
-}
-function copy_firefox_manifest() {
-  return src('extension/manifest.firefox.json').pipe(rename('manifest.json')).pipe(dest('release/firefox'));
-}
-function copy_firefox_htmlfiles() {
-  return src('extension/ui/firefox/xtense.html').pipe(dest('release/firefox'));
-}
-
-function copy_files_for_chrome() {
-  return src(["extension/**", "!extension/manifest.*"]).pipe(dest('release/chrome'));
-}
-function copy_chrome_manifest() {
-  return src('extension/manifest.chrome.json').pipe(rename('manifest.json')).pipe(dest('release/chrome'));
-}
-function copy_chrome_htmlfiles() {
-  return src('extension/ui/chrome/xtense.html').pipe(dest('release/chrome'));
-}
+export const copy_files_for_chrome = copy_files_for_browser('chrome', 'extension/manifest.chrome.json');
+export const copy_files_for_firefox = copy_files_for_browser('firefox', 'extension/manifest.firefox.json');
+export const copy_files_for_edge = copy_files_for_browser('edge', 'extension/manifest.chrome.json');
 
 
-function copy_files_for_edge() {
-  return src(["extension/**", "!extension/manifest.*"]).pipe(dest('release/edge'));
-}
-function copy_edge_manifest() {
-  return src('extension/manifest.chrome.json').pipe(rename('manifest.json')).pipe(dest('release/edge'));
-}
-function copy_edge_htmlfiles() {
-  return src('extension/ui/edge/xtense.html').pipe(dest('release/edge'));
-}
-
-
-
-function package_for_chrome(cb) {
-  src("release/chrome/**")
-    .pipe(zip('chrome-' + readPackageSync().version + '.zip'))
+function package_for_browser(browser, cb) {
+  src(`release/${browser}/**`)
+    .pipe(zip(`${browser}-` + readPackageSync().version + '.zip'))
     .pipe(dest('release'));
   cb();
 }
 
-function package_for_firefox(cb) {
-  src("release/firefox/**")
-    .pipe(zip('firefox-' + readPackageSync().version + '.zip'))
-    .pipe(dest('release'));
-  cb();
-}
+export const package_for_chrome = (cb) => package_for_browser('chrome', cb);
+export const package_for_firefox = (cb) => package_for_browser('firefox', cb);
+export const package_for_edge = (cb) => package_for_browser('edge', cb);
 
-function package_for_edge(cb) {
-  src("release/edge/**")
-    .pipe(zip('edge-' + readPackageSync().version + '.zip'))
-    .pipe(dest('release'));
-  cb();
-}
+export const packchrome = series(copy_files_for_chrome, (cb) => package_for_browser('chrome', cb));
+export const packfirefox = series(copy_files_for_firefox, (cb) => package_for_browser('firefox', cb));
+export const packedge = series(copy_files_for_edge, (cb) => package_for_browser('edge', cb));
 
-const _clean = clean;
-export { _clean as clean };
-const _build = build;
-export { _build as build };
-export const packchrome = series(parallel(copy_files_for_chrome, copy_chrome_manifest, copy_chrome_htmlfiles), package_for_chrome);
-export const packfirefox = series(parallel(copy_files_for_firefox, copy_firefox_manifest, copy_firefox_htmlfiles), package_for_firefox);
-export const packedge = series(parallel(copy_files_for_edge, copy_edge_manifest, copy_edge_htmlfiles), package_for_edge);
-const _default = series(clean, build, parallel(packchrome,packfirefox,packedge));
-export { _default as default };
+
+const _default = series(clean, build, parallel(packchrome, packfirefox, packedge));export { _default as default };
