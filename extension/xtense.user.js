@@ -2,7 +2,6 @@
 //    Main Extension file
 //
 
-/*eslint no-undef: "error"*/
 /*eslint-env browser*/
 /*global log,initOGSpyCommunication,setlogLevel*/
 
@@ -15,11 +14,11 @@ const XtenseLocales = {};
 
 //Variables globales pour les status - Type d'erreur
 const XLOG_WARNING = 1,
-    XLOG_ERROR = 2,
-    XLOG_NORMAL = 3,
-    XLOG_SUCCESS = 4,
-    XLOG_COMMENT = 5,
-    XLOG_SEND = 6;
+  XLOG_ERROR = 2,
+  XLOG_NORMAL = 3,
+  XLOG_SUCCESS = 4,
+  XLOG_COMMENT = 5,
+  XLOG_SEND = 6;
 
 // Navigateurs
 const userAgent = window.navigator.userAgent;
@@ -28,11 +27,11 @@ let isChrome = userAgent.includes('Chrome');
 let isOpera = userAgent.includes('Opera');
 
 if (isFirefox) {
-    TYPE += 'FF';
+  TYPE += 'FF';
 } else if (isChrome) {
-    TYPE += 'GC';
+  TYPE += 'GC';
 } else if (isOpera) {
-    TYPE += 'OP';
+  TYPE += 'OP';
 }
 
 // Init

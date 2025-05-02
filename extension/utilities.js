@@ -3,6 +3,7 @@
  */
 /*eslint no-undef: "error"*/
 /*eslint-env browser*/
+
 /*global log,prefix_GMData*/
 
 /*********************** Compatibilité Chrome ***************************/
@@ -41,6 +42,7 @@ String.prototype.getInts = function (/*separator*/) {
   });
   return v;
 };
+
 //Affichage des Logs
 
 function setlogLevel() {
@@ -71,7 +73,7 @@ function Xajax(obj) {
         crossDomain: true,
         messageId: messageId
       },
-      function(response) {
+      function (response) {
         console.log(`[${messageId}] Response received:`, response);
 
         if (chrome.runtime.lastError) {
@@ -122,6 +124,7 @@ function xlang(name) {
 function glang(id) {
   return XtenseLocales[XtenseMetas.getLanguage()][id];
 }
+
 // Permet de récuper le time d'une date
 
 function XtenseParseDate(dateString, handler) {
@@ -140,4 +143,5 @@ function XtenseParseDate(dateString, handler) {
   //division par 1000 pour un timestamp php
   return time;
 }
+
 /************************** Fin Utilities *******************************/

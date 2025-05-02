@@ -1,9 +1,10 @@
 import pkg from 'gulp';
-const { series, parallel, src, dest } = pkg;
+
+const {series, parallel, src, dest} = pkg;
 import rename from "gulp-rename";
 import zip from "gulp-zip";
-import { deleteAsync } from "del";
-import { readPackageSync } from "read-pkg";
+import {deleteAsync} from "del";
+import {readPackageSync} from "read-pkg";
 
 // The `clean` function is not exported so it can be considered a private task.
 // It can still be used within the `series()` composition.
@@ -24,10 +25,17 @@ const build = series(update_jquery, update_loglevel);
 
 function copy_files_for_browser(browser, manifest) {
   return parallel(
-    () => src(["extension/**", "!extension/manifest.*"]).pipe(dest(`release/${browser}`)),
+    // Pour les fichiers non-image
+    () => src(["extension/**", "!extension/manifest.*", "!extension/**/*.{png,jpg,jpeg,gif,svg,ico}"])
+      .pipe(dest(`release/${browser}`)),
+    // Pour les images et autres fichiers binaires - Encoding = false pour ne pas corrompre les fichiers
+    () => src(["extension/**/*.{png,jpg,jpeg,gif,svg,ico}"], {encoding: false})
+      .pipe(dest(`release/${browser}`)),
+    // Pour le manifest
     () => src(manifest).pipe(rename('manifest.json')).pipe(dest(`release/${browser}`))
   );
 }
+
 
 export const copy_files_for_chrome = copy_files_for_browser('chrome', 'extension/manifest.chrome.json');
 export const copy_files_for_firefox = copy_files_for_browser('firefox', 'extension/manifest.firefox.json');
@@ -50,4 +58,5 @@ export const packfirefox = series(copy_files_for_firefox, (cb) => package_for_br
 export const packedge = series(copy_files_for_edge, (cb) => package_for_browser('edge', cb));
 
 
-const _default = series(clean, build, parallel(packchrome, packfirefox, packedge));export { _default as default };
+const _default = series(clean, build, parallel(packchrome, packfirefox, packedge));
+export {_default as default};
