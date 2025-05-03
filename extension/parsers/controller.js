@@ -1,7 +1,11 @@
 /**
- * Created by Anthony on 13/12/2015.
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
  */
-
 /*eslint-env browser*/
 /*global displayOptions,log,url, parse_ally_inserted, parse_messages, storageGetValue, storageSetValue, setStatus, displayXtense, xlang, XLOG_NORMAL, XLOG_SEND, save_my_planets_coords */
 /*global parse_galaxy_system_inserted, parse_ranking_inserted, parse_overview, parse_researchs, parse_buildings, parse_station, parse_shipyard, parse_fleet, parse_defense, parse_ressource_settings */
@@ -24,39 +28,57 @@ function get_ally_content() {
 /* Fonction ajoutant lancant le parsing de la vue classement quand celle-ci est chargée */
 
 function get_message_content() {
-  //Sur navigation onglets
-  //$('#buttonz').click(function(){ parse_messages(); }); //Spy reports list
-
-  //Sur affichage Message long
+  // Récupérer l'élément contenant les messages
   let target = document.getElementById('messages');
+
+  // Vérifier si l'élément existe
+  if (!target) {
+    log.error('Élément avec ID "messages" introuvable');
+    return;
+  }
+
+  // Créer l'observateur de mutations
   let observer = new MutationObserver(function (mutations) {
     mutations.forEach((mutation) => {
-      if (mutation.addedNodes.length === 0)
+      // Ignorer les mutations sans nouveaux nœuds
+      if (mutation.addedNodes.length === 0) {
         return;
-      let node = mutation.addedNodes[0];
-      switch (node.id) {
-        case 'fleetsgenericpage':
-        case 'communicationmessagespage':
-        case 'defaultmessagespage':
-          break;
-        default:
-          if (node.className !== 'pagination')
-            return;
       }
 
-      log.debug('Mutation Message');
-      parse_messages();
+      let node = mutation.addedNodes[0];
+
+      // Vérifier si le nœud ajouté correspond à l'un des cas qui nous intéressent
+      if (node.id === 'fleetsgenericpage' ||
+        node.id === 'communicationmessagespage' ||
+        node.id === 'defaultmessagespage' ||
+        node.className === 'pagination') {
+
+        log.debug('Mutation Message détectée');
+        parse_messages();
+      }
     });
   });
+
+  // Configuration de l'observateur
   let config = {attributes: false, childList: true, characterData: false, subtree: true};
+
+  // Stocker l'observateur dans une variable globale pour pouvoir le déconnecter plus tard si nécessaire
+  window.messageObserver = observer;
+
+  // Activer l'observateur
   observer.observe(target, config);
-  parse_messages(); // Première Page
+
+  // Analyser la première page au chargement
+  parse_messages();
 }
+
 
 /************************ Declenchement des Parsings sur Remplissage Ajax ************************/
 function get_content(type) {
   let elementName;
   let func;
+  let observerAttached = false;  // Flag pour savoir si un observateur a été attaché
+
   switch (type) {
     case 'system': // Fonction lancant le parsing de la vue galaxie quand celle-ci est chargée
       elementName = 'galaxyLoading';
@@ -97,25 +119,56 @@ function get_content(type) {
       break;
   }
 
+  // Vérifier si l'élément existe et configurer l'observateur si c'est le cas
   if (elementName != null) {
     let target = document.getElementById(elementName);
     if (target !== null) {
+      observerAttached = true;  // Marquer qu'un observateur a été attaché
+
+      // Créer un observateur de mutations
       let observer = new MutationObserver(mutations => {
         mutations.forEach((mutation) => {
           log.debug('Mutation Observer : ' + mutation);
-          func();
+
+          // Pour les cas comme 'stats' qui peuvent causer des doubles déclenchements
+          if (type === 'stats' || type === 'system' || type === 'overview' || type === 'alliance') {
+            // Exécuter la fonction mais ne pas la réexécuter en fin de fonction
+            func();
+            observerAttached = true;  // S'assurer que nous n'appelons pas func() à la fin
+          } else {
+            func();
+          }
         });
       });
-      // configuration of the observer:
+
+      // Configuration de l'observateur
       let config = {attributes: true, childList: true, characterData: true};
       observer.observe(target, config);
-      //log.info('Static Observer : ' + 'Running ' + type + ' on ' + elementName);
+
+      // Déconnecter l'ancien observateur s'il existe
+      if (!window.xtenseObservers) window.xtenseObservers = {};
+      if (window.xtenseObservers[type]) {
+        window.xtenseObservers[type].disconnect();
+      }
+      window.xtenseObservers[type] = observer;
     } else {
       log.warn("Element not found for static observer");
     }
   }
+
+  // Si un observateur a été configuré pour les types spécifiques qui causent des doubles déclenchements,
+  // ne pas exécuter func() une deuxième fois
+  if (observerAttached && (type === 'system' || type === 'alliance')) {
+    return;  // Ne pas exécuter func() à la fin
+  }
+
+  // Pour tous les autres cas, ou si aucun observateur n'a pu être configuré
   func();
 }
+
+
+
+
 
 /* Fonction d'envoi manuel */
 function manual_send() {

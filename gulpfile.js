@@ -5,6 +5,8 @@ import rename from "gulp-rename";
 import zip from "gulp-zip";
 import {deleteAsync} from "del";
 import {readPackageSync} from "read-pkg";
+import through from "through2";
+import fs from "fs";
 
 // The `clean` function is not exported so it can be considered a private task.
 // It can still be used within the `series()` composition.
@@ -58,5 +60,51 @@ export const packfirefox = series(copy_files_for_firefox, (cb) => package_for_br
 export const packedge = series(copy_files_for_edge, (cb) => package_for_browser('edge', cb));
 
 
-const _default = series(clean, build, parallel(packchrome, packfirefox, packedge));
+// Fonction pour mettre à jour les en-têtes des fichiers avec la version du package.json
+function updateHeaders() {
+  const packageData = readPackageSync();
+  const version = packageData.version;
+  const currentYear = new Date().getFullYear();
+
+  // Création du modèle d'en-tête
+  const headerTemplate =
+`/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   ${currentYear} OGSteam
+ * @license     GNU GPL v2
+ * @version     ${version}
+ */
+`;
+
+  // Fonction pour remplacer l'en-tête dans un fichier
+  function replaceHeader(content) {
+    // Recherche et remplacement de l'en-tête existant
+    const headerRegex = /\/\*\*[\s\S]*?\*\/\s*/;
+    if (headerRegex.test(content)) {
+      return content.replace(headerRegex, headerTemplate);
+    } else {
+      return headerTemplate + content;
+    }
+  }
+
+  // Traitement de tous les fichiers JS dans le projet
+  return src(['extension/**/*.js', '!extension/contribs/**/*.js'])
+    .pipe(through.obj(function(file, enc, cb) {
+      if (file.isBuffer()) {
+        const content = file.contents.toString();
+        file.contents = Buffer.from(replaceHeader(content));
+      }
+      cb(null, file);
+    }))
+    .pipe(dest(function(file) {
+      return file.base;
+    }));
+}
+
+export const headers = updateHeaders;
+
+// Ajouter la tâche updateHeaders dans le processus de build
+const _default = series(clean, build, updateHeaders, parallel(packchrome, packfirefox, packedge));
 export {_default as default};

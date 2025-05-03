@@ -49,7 +49,14 @@ const prefix_GMData = langUnivers + numUnivers + '.';
 const res = storageGetValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
 storageSetValue('server.url.plugin', res);
 
-/******************************* Main ***********************************/
+/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
+ */
 setlogLevel(); // Default Info
 log.info("Welcome to Xtense WE Version : " + VERSION);
 log.info("Universe : " + numUnivers + "-" + langUnivers);

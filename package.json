@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "gulp clean",
     "node-clean": "npm prune && npm install",
-    "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome.json version $npm_package_version && cross-var dot-json extension/manifest.firefox.json version $npm_package_version",
+    "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome.json version $npm_package_version && cross-var dot-json extension/manifest.firefox.json version $npm_package_version && npm run update-headers",
+    "update-headers": "gulp headers",
     "release": "gulp default",
     "dev": "cd extension && web-ext run --start-url www.ogame.fr --keep-profile-changes --firefox-profile=../xtense-profile/. --profile-create-if-missing",
     "lint": "cd extension && web-ext lint",
@@ -39,7 +40,8 @@
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^6.1.0",
     "read-pkg": "^9.0.1",
-    "web-ext": "^8.6.0"
+    "web-ext": "^8.6.0",
+    "through2": "^4.0.2"
   },
   "dependencies": {
     "jquery": "^3.7",

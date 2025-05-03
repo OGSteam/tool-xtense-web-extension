@@ -1,7 +1,13 @@
-/*eslint-env es6*/
-/*eslint no-undef: "error"*/
+/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
+ */
 /*eslint-env browser*/
-/*global log*/
+/*global log, XtenseMetas, Xpath, XtenseXpaths*/
 
 /* Recuperation des données de la planète */
 
@@ -81,6 +87,7 @@ function getPlanetData() {
 
   return {
     planet_name: XtenseMetas.getPlanetName(),
+    planet_id: XtenseMetas.getPlanetId(),
     coords: XtenseMetas.getPlanetCoords(),
     planet_type: planet_type
   };

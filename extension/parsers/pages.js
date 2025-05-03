@@ -1,8 +1,14 @@
 /*eslint-env browser*/
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 
-/************************ PARSING DES PAGES  ***************************/
-
+/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
+ */
 /* Fonction appelée lors d'évenement sur le chargement du contenu galaxie */
 
 function parse_galaxy_system_inserted(event) {
@@ -81,8 +87,6 @@ function parse_galaxy_system_inserted(event) {
           for (let j = 0; j < statusNodes.snapshotLength; j++) {
             status += statusNodes.snapshotItem(j).textContent.trim();
           }
-        } else {
-          status = '';
         }
         //let banned = Xpath.getStringValue(document, paths.status_baned, row).trim();
         //status = banned + status;
@@ -98,7 +102,7 @@ function parse_galaxy_system_inserted(event) {
         }
         let allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
         let debris = [];
-        for (let j = 0; j < 2; j++) {
+        for (let j = 0; j < 3; j++) {
           debris[XtenseDatabase.debris[701 + j]] = 0;
         }
         let debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
@@ -130,11 +134,11 @@ function parse_galaxy_system_inserted(event) {
           status: status,
           ally_id: allyid,
           ally_tag: allytag,
-          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]]},
+          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]], deuterium: debris[XtenseDatabase.debris[703]]},
           activity: activity,
           activityMoon: activityMoon
         };
-        log.debug('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase.resources[601]] + '/' + debris[XtenseDatabase.resources[602]] + '),activity:' + activity + ',activity_moon:' + activityMoon);
+        log.debug('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase.resources[601]] + '/' + debris[XtenseDatabase.resources[602]] + '/' + debris[XtenseDatabase.resources[603]]+ '),activity:' + activity + ',activity_moon:' + activityMoon);
       }
 
       /* Traitement Spécifique Profondeur de l'espace */
@@ -338,7 +342,8 @@ function parse_ranking_inserted(event) {
       rowsData.push(data_row);
       length++;
     }
-
+log.info('r:' + type[0] + ':' + type[1] + ':' + offset);
+log.info(storageGetValue('lastAction', ''));
     if (storageGetValue('lastAction', '') !== 'r:' + type[0] + ':' + type[1] + ':' + offset) { //TODO Eviter de parser les classements pour rien...
       //setStatus(XLOG_NORMAL, Xl('ranking_detected'));
       storageSetValue('lastAction', 'r:' + type[0] + ':' + type[1] + ':' + offset);
@@ -385,11 +390,15 @@ function parse_overview() {
       XtenseRequest.set('type', 'overview');
       XtenseRequest.set('gamedata', {
         planetName: planetData.planet_name,
+        planetId: planetData.planet_id,
         coords: planetData.coords,
         planetType: planetData.planet_type,
         fields: cases,
         temperature_min: temperature_min,
         temperature_max: temperature_max,
+
+
+
         ressources: resources,
         playerdetails: playerdetails,
         unidetails: unidetails,

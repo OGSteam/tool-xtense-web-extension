@@ -1,11 +1,15 @@
 /**
- * Created by Itori on 31/08/2016.
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
  */
-/*eslint-env es6*/
-/*eslint no-undef: "error"*/
+
 /*eslint-env browser*/
 
-/*global log*/
+/*global log, Xpath, XtenseXpaths, setStatus, XLOG_NORMAL, xlang, glang, storageGetValue, storageSetValue, XtenseRegexps, XtenseParseDate, XtenseRequest */
 
 function get_tabid() {
   let current_tab = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.tab);
@@ -118,7 +122,7 @@ function parse_short_messages(messagesCourt, messages) {
           }
         }
         //Données de la planètre origine
-        fromdetails = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_from));
+        let fromdetails = msgInnerHTML.match(new RegExp(XtenseRegexps.messages.ennemy_spy_from));
         if (fromdetails) {
           data.from = fromdetails[1] + ':' + fromdetails[2] + ':' + fromdetails[3];
           data.fromMoon = 0;
@@ -226,7 +230,6 @@ function parse_detail_messages(messages) {
 
   let data = {};
   let from = Xpath.getSingleNode(document, paths.from, messageNode).textContent.trim();
-  let to = Xpath.getStringValue(document, paths.to, messageNode).trim();
   let subject = Xpath.getStringValue(document, paths.subject, messageNode).trim();
   let date = Xpath.getStringValue(document, paths.date, messageNode).trim();
 
@@ -235,12 +238,15 @@ function parse_detail_messages(messages) {
 
   // Messages de joueurs
   if (storageGetValue("handle.msg.msg").toString() === 'true') {
+    let userName;
+    let coords;
+
     if (Xpath.getOrderedSnapshotNodes(document, paths.reply, messageNode).snapshotLength > 0) { // si bouton "repondre", c'est un mp
       log.info("Message privé détecté");
       let m = from.match(new RegExp(XtenseRegexps.userNameAndCoords));
       if (m) {
-        let userName = m[1];
-        let coords = m[2];
+        userName = m[1];
+        coords = m[2];
       }
       let message = Xpath.getOrderedSnapshotNodes(document, paths.contents.msg, messageNode).snapshotItem(0).textContent.trim();
 
@@ -256,7 +262,7 @@ function parse_detail_messages(messages) {
       log.info("Message Privé envoyé");
 
     } else {
-      //log.info('The message is not a private message');
+      log.debug('The message is not a private message');
     }
   }
 
@@ -279,7 +285,7 @@ function parse_detail_messages(messages) {
       XtenseRequest.send();
       log.info("Message Alliance envoyé");
     } else {
-      //log.info('The message is not an ally message');
+      log.debug('The message is not an ally message');
     }
   }
 
@@ -319,16 +325,14 @@ function parse_detail_messages(messages) {
       let regexApi = new RegExp(XtenseRegexps.ogameapi);
       data.ogapilnk = regexApi.exec(ogameAPITitle)[1];
 
-
       data.content = parse_spy_report(content);
-
 
       XtenseRequest.set('gamedata', data);
       XtenseRequest.set('type', 'messages');
       XtenseRequest.send();
 
     } else {
-      //log.info('The message is not a spy report');
+      log.debug('The message is not a spy report');
     }
   }
 
@@ -396,7 +400,6 @@ function parse_detail_messages(messages) {
       if (m) {
         log.info("Message Recyclage détecté");
         let coords = m[1];
-        let contentNode = Xpath.getSingleNode(document, paths.contents.rc_cdr);
         let message = Xpath.getStringValue(document, paths.contents.rc_cdr).trim();
         let nums = message.getInts();
         data.type = 'rc_cdr';
@@ -424,7 +427,6 @@ function parse_detail_messages(messages) {
     if (m2 != null && m != null) {
       log.info("Message Expédition détecté");
       let coords = m[1];
-      let contentNode = Xpath.getSingleNode(document, paths.contents.expedition);
       let message = Xpath.getStringValue(document, paths.contents.expedition).trim();
       data.type = get_tabid();
       data.coords = coords;

@@ -1,8 +1,11 @@
 /**
- * @author OGSteam
- * @license GNU/GPL
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
  */
-
 /*eslint-env browser*/
 /*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_SUCCESS, XtenseDatabase, xlang, Xajax, setStatus, VERSION, TYPE, PLUGIN_REQUIRED, urlUnivers */
 
@@ -13,7 +16,7 @@ function initOGSpyCommunication() {
   // id : nom du champ dans la bdd
   XtenseDatabase = {
     "resources": {601: "metal", 602: "cristal", 603: "deuterium", 604: "energie"},
-    "debris": {701: 'metal', 702: 'cristal'},
+    "debris": {701: 'metal', 702: 'cristal',703: 'deuterium'},
     "buildings": {
       1: "M",
       2: "C",
