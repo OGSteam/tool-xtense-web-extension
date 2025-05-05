@@ -30,7 +30,7 @@ function copy_files_for_browser(browser, manifest) {
     () => src(["extension/**", "!extension/manifest.*", "!extension/**/*.{png,jpg,jpeg,gif,svg,ico}"])
       .pipe(dest(`release/${browser}`)),
     // Pour les images et autres fichiers binaires - Encoding = false pour ne pas corrompre les fichiers
-    () => src(["extension/**/*.{png,jpg,jpeg,gif,svg,ico}"])
+    () => src(["extension/**/*.{png,jpg,jpeg,gif,svg,ico}"],  {encoding: false})
       .pipe(dest(`release/${browser}`)),
     // Pour le manifest
     () => src(manifest).pipe(rename('manifest.json')).pipe(dest(`release/${browser}`))
