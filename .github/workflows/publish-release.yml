@@ -58,11 +58,11 @@ jobs:
           channel: listed
 
       - name: Publish to Microsoft Edge Add-ons
-        uses: wdzeng/edge-addon@v1
+        uses: PlasmoHQ/bpp@v3
         with:
+          keys: ${{ secrets.EDGE_API_KEY }}
           product-id: ${{ secrets.EDGE_PRODUCT_ID }}
-          zip-path: release/edge-${{ env.PACKAGE_VERSION }}.zip
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
-          client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
-          access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
-          publish: true
+          zip-path: release/edge-${{ env.PACKAGE_VERSION }}.zip
+          notes: "Nouvelle version ${{ env.PACKAGE_VERSION }}"
+
