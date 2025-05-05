@@ -51,6 +51,10 @@ Il existe 5 niveaux de Logs:
 * log.warn(msg) : Pour alerter l'utilisateur d'un Problème
 * log.error(msg) : : Pour alerter l'utilisateur d'une Erreur
 
+## Outils
+
+[XPath Help](https://devhints.io/xpath)
+
 ## Contact
 
 * [Forum](https://forum.ogsteam.eu)

@@ -10,3 +10,5 @@ node_modules
 release/
 extension/contribs/jquery.min.js
 extension/contribs/loglevel.min.js
+
+xtense-profile

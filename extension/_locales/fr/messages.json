@@ -63,10 +63,10 @@
         "message": "Bâtiments",
         "description": "Intitulé Envoi des données Bâtiments"
     },
-  "XtenseSend_resourceSettings": {
-    "message": "Productions",
-    "description": "Intitulé Envoi des données Bâtiments"
-  },
+    "XtenseSend_resourceSettings": {
+        "message": "Productions",
+        "description": "Intitulé Envoi des données Bâtiments"
+    },
     "XtenseSend_station": {
         "message": "Installations",
         "description": "Intitulé Envoi des données Installations"
@@ -144,16 +144,16 @@
         "description": "Activation des traces de debug"
     },
     "XtenseOptionsPage_report": {
-      "message": "Rapports",
-      "description": "Titre section Rapport"
+        "message": "Rapports",
+        "description": "Titre section Rapport"
     },
     "XtenseOptionsPage_lastreportType": {
-      "message": "Dernier type de message envoyé à OGSpy",
-      "description": "last type of message sent"
+        "message": "Dernier type de message envoyé à OGSpy",
+        "description": "last type of message sent"
     },
     "XtenseOptionsPage_lastreport": {
-      "message": "Dernier message envoyé à OGSpy",
-      "description": "last message sent"
+        "message": "Dernier message envoyé à OGSpy",
+        "description": "last message sent"
     },
     "XtenseOptionsPage_ogspylink": {
         "message": "Afficher un lien vers votre serveur OGSpy",
@@ -232,9 +232,9 @@
         "description": "-Used-"
     },
     "XtenseMsg_resources_detected": {
-    "message": "Page Paramétrage de la production détectée",
-    "description": "-Used-"
-  },
+        "message": "Page Paramétrage de la production détectée",
+        "description": "-Used-"
+    },
     "XtenseMsg_installations_detected": {
         "message": "Page Installations détectée",
         "description": "-Used-"
@@ -363,10 +363,10 @@
         "message": "Votre compte est inactif",
         "description": "-Used-"
     },
-  "XtenseMsg_error_internal": {
-    "message": "Erreur interne lors de l'envoi du message. Veuillez contacter l'OGSteam",
-    "description": "-Used-"
-  },
+    "XtenseMsg_error_internal": {
+        "message": "Erreur interne lors de l'envoi du message. Veuillez contacter l'OGSteam",
+        "description": "-Used-"
+    },
     "XtenseMsg_error_home_full": {
         "message": "Votre espace personnel est plein, merci de supprimer la planète qui a été détruite ou renommée sur OGSpy",
         "description": "-Used-"
