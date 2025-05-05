@@ -58,9 +58,17 @@ jobs:
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
 
+
+      - name: Publish to Firefox Add-ons
+        continue-on-error: true
+        uses: PlasmoHQ/bpp@v3
+        with:
+          keys: '{"firefox":{"extId":"${{ secrets.FIREFOX_ADDON_UUID }}","apiKey":"${{ secrets.FIREFOX_API_KEY }}","apiSecret":"${{ secrets.FIREFOX_API_SECRET }}"}}'
+          firefox-file: release/firefox-${{ env.PACKAGE_VERSION }}.zip
+
       - name: Publish to Microsoft Edge Add-ons
         uses: PlasmoHQ/bpp@v3
         with:
           keys: '{"edge":{"apiKey":"${{ secrets.EDGE_API_KEY }}","clientId":"${{ secrets.EDGE_CLIENT_ID }}","productId":"${{ secrets.EDGE_PRODUCT_ID }}"}}'
-          source-zip: release/edge-${{ env.PACKAGE_VERSION }}.zip
+          edge-file: release/edge-${{ env.PACKAGE_VERSION }}.zip
           edge-notes: "Nouvelle version ${{ env.PACKAGE_VERSION }}"
