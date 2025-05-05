@@ -37,27 +37,12 @@ jobs:
           body: "Release officielle ${{ env.PACKAGE_VERSION }}"
           tag: "${{ env.PACKAGE_VERSION }}"
 
-      - name: Publish to Chrome Web Store
+      - name: Publish to Chrome Store
         continue-on-error: true
-        uses: mnao305/chrome-extension-upload@v5.0.0
+        uses: PlasmoHQ/bpp@v3
         with:
-          file-path: release/chrome-${{ env.PACKAGE_VERSION }}.zip
-          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          publish: true
-
-      - name: Publish to Firefox Add-ons
-        continue-on-error: true
-        uses: trmcnvn/firefox-addon@v1
-        with:
-          uuid: ${{ secrets.FIREFOX_ADDON_UUID }}
-          xpi: release/firefox-${{ env.PACKAGE_VERSION }}.zip
-          manifest: ./manifest.json
-          api-key: ${{ secrets.FIREFOX_API_KEY }}
-          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
-
+          keys: '{"chrome":{"clientId":"${{ secrets.CHROME_CLIENT_ID }}","clientSecret":"${{ secrets.CHROME_CLIENT_SECRET }}","refreshToken":"${{ secrets.CHROME_REFRESH_TOKEN }}","extId":"${{ secrets.CHROME_EXTENSION_ID }}"}}'
+          chrome-file: release/chrome-${{ env.PACKAGE_VERSION }}.zip
 
       - name: Publish to Firefox Add-ons
         continue-on-error: true

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "version": "3.0.0",
-  "name": "__MSG_appName__",
+  "name": "Xtense WE",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
   "privacy_policy": "https://wiki.ogsteam.eu/doku.php?id=ogspy:regles_de_confidentialite_xtense",

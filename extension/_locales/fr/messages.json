@@ -442,9 +442,5 @@
     "XtenseMsg_page_fleet": {
         "message": "Flotte",
         "description": "-Used-"
-    },
-    "appName": {
-        "message": "Xtense GM",
-        "description": "The title of the application, displayed in the web store."
     }
 }
