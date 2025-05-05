@@ -74,21 +74,6 @@ export const copy_files_for_chrome = copy_files_for_browser('chrome', 'extension
 export const copy_files_for_firefox = copy_files_for_browser('firefox', 'extension/manifest.firefox.json');
 export const copy_files_for_edge = copy_files_for_browser('edge', 'extension/manifest.chrome.json');
 
-function package_for_browser(browser, cb) {
-  src(`release/${browser}/**`)
-    .pipe(zip(`${browser}-` + readPackageSync().version + '.zip'))
-    .pipe(dest('release'));
-  cb();
-}
-
-export const package_for_chrome = (cb) => package_for_browser('chrome', cb);
-export const package_for_firefox = (cb) => package_for_browser('firefox', cb);
-export const package_for_edge = (cb) => package_for_browser('edge', cb);
-
-export const packchrome = series(copy_files_for_chrome, (cb) => package_for_browser('chrome', cb));
-export const packfirefox = series(copy_files_for_firefox, (cb) => package_for_browser('firefox', cb));
-export const packedge = series(copy_files_for_edge, (cb) => package_for_browser('edge', cb));
-
 
 // Fonction pour mettre à jour les en-têtes des fichiers avec la version du package.json
 function updateHeaders() {
@@ -136,5 +121,5 @@ function updateHeaders() {
 export const headers = updateHeaders;
 
 // Ajouter la tâche updateHeaders dans le processus de build
-const _default = series(clean, build, updateHeaders, parallel(packchrome, packfirefox, packedge));
+const _default = series(clean, build, updateHeaders, parallel(copy_files_for_chrome, copy_files_for_firefox, copy_files_for_edge));
 export {_default as default};

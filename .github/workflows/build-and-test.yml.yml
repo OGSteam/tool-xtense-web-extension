@@ -28,6 +28,13 @@ jobs:
           npm run update-headers
           gulp
 
+      - name: Create zip archives
+        run: |
+        # Créer les archives zip pour chaque navigateur
+          cd release/chrome && zip -r ../chrome-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
+          cd release/firefox && zip -r ../firefox-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
+          cd release/edge && zip -r ../edge-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
+
       - name: Create Draft GitHub Release
         uses: ncipollo/release-action@v1.16.0
         with:
@@ -39,12 +46,10 @@ jobs:
           body: "Version de test - Ne pas publier"
           tag: "dev-${{ env.PACKAGE_VERSION }}"
 
-      - name: Publish to Chrome Web Store
-        uses: mnao305/chrome-extension-upload@v5.0.0
+
+      - name: Publish to Chrome Store
+        continue-on-error: true
+        uses: PlasmoHQ/bpp@v3
         with:
-          file-path: release/chrome-${{ env.PACKAGE_VERSION }}.zip
-          extension-id: ${{ secrets.TEST_CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          publish: false
+          keys: '{"chrome":{"clientId":"${{ secrets.CHROME_CLIENT_ID }}","clientSecret":"${{ secrets.CHROME_CLIENT_SECRET }}","refreshToken":"${{ secrets.CHROME_REFRESH_TOKEN }}","extId":"${{ secrets.TEST_CHROME_EXTENSION_ID }}"}}'
+          chrome-file: release/chrome-${{ env.PACKAGE_VERSION }}.zip
