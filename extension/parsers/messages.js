@@ -6,7 +6,6 @@
  * @license     GNU GPL v2
  * @version     3.0.0
  */
-
 /*eslint-env browser*/
 
 /*global log, Xpath, XtenseXpaths, setStatus, XLOG_NORMAL, xlang, glang, storageGetValue, storageSetValue, XtenseRegexps, XtenseParseDate, XtenseRequest */

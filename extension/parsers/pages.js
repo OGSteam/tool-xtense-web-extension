@@ -1,6 +1,3 @@
-/*eslint-env browser*/
-/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
-
 /**
  * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
  *
@@ -9,11 +6,16 @@
  * @license     GNU GPL v2
  * @version     3.0.0
  */
+
+/*eslint-env browser*/
+/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
+/*global parse_galaxy_system_inserted */
+
+
 /* Fonction appelée lors d'évenement sur le chargement du contenu galaxie */
 
-function parse_galaxy_system_inserted(event) {
+function parse_galaxy_system_inserted() {
   log.debug('In parse_galaxy_system_inserted()');
-  //let doc = event.target.ownerDocument;
   let paths = XtenseXpaths.galaxy;
   let loadingDiv = Xpath.getSingleNode(document, paths.loading_div);
   if (loadingDiv.style.display != "none") {
@@ -270,9 +272,15 @@ function parse_ranking_inserted(event) {
     for (let i = 0; i < rows.snapshotLength; i++) {
       let row = rows.snapshotItem(i);
       let data_row; //Initialize Row Data
-      let n = Xpath.getStringValue(document, paths.position, row).trimInt();
+      let rank = Xpath.getStringValue(document, paths.position, row).trimInt();
+      // Si Medaille affichée, chercher dans la classe
+      if (!rank) {
+        rank = Xpath.getStringValue(document, paths.position_withmedal, row).trimInt();
+      }
+
+
       if (i === 1) {
-        offset = Math.floor(n / 100) * 100 + 1;
+        offset = Math.floor(rank / 100) * 100 + 1;
         //parce que le nouveau classement ne commence pas toujours pile a la centaine et OGSpy toujours a 101,201...
       }
       let points = Xpath.getStringValue(document, paths.points, row).trimInt();
@@ -281,7 +289,7 @@ function parse_ranking_inserted(event) {
 
         let name = Xpath.getStringValue(document, paths.player.playername, row).trim();
         let player_id = Xpath.getStringValue(document, paths.player.player_id, row).trimInt();
-        if (player_id === '') {
+        if (player_id === 0) {
           player_id = XtenseMetas.getPlayerId();
         }
 
@@ -291,9 +299,9 @@ function parse_ranking_inserted(event) {
         /*Nombre de vaisseaux*/
         if (type[1] === 'fleet') {
           let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
-          log.debug('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
+          log.debug('row ' + rank + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
           data_row = {
-            rank: n,
+            rank: rank,
             player_id: player_id,
             player_name: name,
             ally_id: ally_id,
@@ -302,9 +310,9 @@ function parse_ranking_inserted(event) {
             nb_spacecraft: NbVaisseaux
           };
         } else {
-          log.debug('row ' + n + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points);
+          log.debug('row ' + rank + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points);
           data_row = {
-            rank: n,
+            rank: rank,
             player_id: player_id,
             player_name: name,
             ally_id: ally_id,
@@ -328,9 +336,9 @@ function parse_ranking_inserted(event) {
             rank_ally_allyid = XtenseMetas.getAllyId();
           }
         }
-        log.debug('position ' + n + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',allyname:' + rank_ally_name + ',members:' + members + ',points:' + points + ',mean:' + moy);
+        log.debug('position ' + rank + ' > allyid:' + rank_ally_allyid + ',allytag:' + rank_ally_allytag + ',allyname:' + rank_ally_name + ',members:' + members + ',points:' + points + ',mean:' + moy);
         data_row = {
-          rank: n,
+          rank: rank,
           ally_id: rank_ally_allyid,
           ally_tag: rank_ally_allytag,
           ally: rank_ally_name,

@@ -239,6 +239,7 @@ function initParsers() {
 
       rows: "id('ranks')/tbody/tr",
       position: "td[contains(@class,'position')]/text()",
+      position_withmedal: "td[contains(@class,'position')]/div/@class",
       points: "td[contains(@class,'score')]/text()",
       allytag: "td[@class='name']//span[@class='ally-tag']/a/text()",
       allyname: "td[@class='name']/div[@class='ally-name']/span/text()",
