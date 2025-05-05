@@ -1,23 +1,72 @@
 /**
- * Created by Anthony on 14/05/2016.
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
  */
-/*eslint no-undef: "error"*/
 /*eslint-env browser*/
+
 /*global log,prefix_GMData*/
 
 /*********************** Compatibilité Chrome ***************************/
 
 function storageGetValue(key, defaultVal) {
-  let retValue = localStorage.getItem(prefix_GMData + key);
-  if (!retValue) {
+  try {
+    // Vérifier si la clé existe réellement dans localStorage
+    if (!localStorage.hasOwnProperty(prefix_GMData + key)) {
+      return defaultVal;
+    }
+
+    // Récupérer la valeur stockée
+    let retValue = localStorage.getItem(prefix_GMData + key);
+
+    // Tenter de détecter et convertir le type de données
+    if (retValue === 'true') return true;
+    if (retValue === 'false') return false;
+    if (retValue === 'null') return null;
+    if (retValue === 'undefined') return undefined;
+
+    // Essayer de parser en JSON si c'est un objet ou un tableau
+    if (retValue && (retValue.startsWith('{') || retValue.startsWith('['))) {
+      try {
+        return JSON.parse(retValue);
+      } catch (e) {
+        // Si échec de parsing, retourner la chaîne brute
+      }
+    }
+
+    // Essayer de convertir en nombre si c'est numérique
+    if (!isNaN(retValue) && retValue.trim() !== '') {
+      // Convertir en nombre seulement si c'est réellement un nombre
+      const num = Number(retValue);
+      if (Number.isFinite(num)) return num;
+    }
+
+    // Sinon, retourner la chaîne telle quelle
+    return retValue;
+  } catch (e) {
+    log.error('Erreur lors de la récupération de la valeur:', e.message);
     return defaultVal;
   }
-  return retValue;
 }
 
+
 function storageSetValue(key, value) {
-  localStorage.setItem(prefix_GMData + key, value);
+  try {
+    // Conversion explicite selon le type de données
+    let valueToStore = typeof value === 'object' ?
+      JSON.stringify(value) : String(value);
+
+    localStorage.setItem(prefix_GMData + key, valueToStore);
+    return true;
+  } catch (e) {
+    log.error('Erreur lors du stockage de la valeur:', e.message);
+    return false;
+  }
 }
+
 
 function storageDeleteValue(value) {
   localStorage.removeItem(value);
@@ -41,6 +90,7 @@ String.prototype.getInts = function (/*separator*/) {
   });
   return v;
 };
+
 //Affichage des Logs
 
 function setlogLevel() {
@@ -71,7 +121,7 @@ function Xajax(obj) {
         crossDomain: true,
         messageId: messageId
       },
-      function(response) {
+      function (response) {
         console.log(`[${messageId}] Response received:`, response);
 
         if (chrome.runtime.lastError) {
@@ -122,6 +172,7 @@ function xlang(name) {
 function glang(id) {
   return XtenseLocales[XtenseMetas.getLanguage()][id];
 }
+
 // Permet de récuper le time d'une date
 
 function XtenseParseDate(dateString, handler) {
@@ -140,4 +191,5 @@ function XtenseParseDate(dateString, handler) {
   //division par 1000 pour un timestamp php
   return time;
 }
+
 /************************** Fin Utilities *******************************/

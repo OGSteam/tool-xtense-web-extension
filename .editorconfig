@@ -1,19 +1,22 @@
-# editorconfig.org
+# EditorConfig aide à maintenir des styles de codage cohérents entre différents éditeurs
+# https://editorconfig.org
 
 root = true
 
+# Configuration globale pour tous les fichiers
 [*]
 end_of_line = lf
 charset = utf-8
 insert_final_newline = true
-
-[{*.js,*.json}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
-insert_final_newline = true
 
+# Fichiers de code source
+[*.{js,json}]
+# Utilise les valeurs globales
+
+# Fichiers markdown
 [*.md]
 trim_trailing_whitespace = false
-indent_style = space
-indent_size = 2
+# Utilise les valeurs globales d'indentation

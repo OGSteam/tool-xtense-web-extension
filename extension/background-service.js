@@ -1,8 +1,13 @@
-
+/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
+ */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-
   if (message.action === "toolbar_icon") {
-    // read `newIconPath` from request and read `tab.id` from sender
     chrome.action.setIcon({
       path: message.newIconPath,
       tabId: sender.tab.id
@@ -11,17 +16,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       title: message.newTooltip,
       tabId: sender.tab.id
     });
-    return true;
+    sendResponse({success: true});
+    return false;
   }
-  if (message.action === "xhttp") {
 
-    console.log("Service Worker - Send HTTP Request");
+  if (message.action === "xhttp") {
+    console.log("Service Worker - Send HTTP Request", message.messageId || "unknown");
 
     // Indicate we want to use sendResponse asynchronously
     const keepAlive = true;
 
     // Use a variable to keep reference to the fetch promise
-    const fetchPromise = fetch(message.url, {
+    fetch(message.url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -33,7 +39,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       body: message.data
     })
       .then(response => {
-        console.log('Response status code:', response.status);
+        console.log(`[${message.messageId}] Response status code:`, response.status);
         // Store the status code so we can use it in the next then block
         return {
           status: response.status,
@@ -43,7 +49,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       .then(result => {
         // Wait for the text promise to resolve
         return result.textPromise.then(text => {
-          console.log('Response Data:', text);
+          console.log(`[${message.messageId}] Response Data:`, text.substring(0, 100) + (text.length > 100 ? '...' : ''));
           // Send both the actual status code and text
           sendResponse({
             status: result.status,
@@ -52,12 +58,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
       })
       .catch(error => {
-        console.error('Fetch error:', error.message);
+        console.error(`[${message.messageId}] Fetch error:`, error.message);
         sendResponse({
           status: 408, // Error status code
           error: error.message
         });
       });
+
     // This keeps the message channel open
     return keepAlive;
   }

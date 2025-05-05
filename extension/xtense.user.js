@@ -2,7 +2,6 @@
 //    Main Extension file
 //
 
-/*eslint no-undef: "error"*/
 /*eslint-env browser*/
 /*global log,initOGSpyCommunication,setlogLevel*/
 
@@ -15,11 +14,11 @@ const XtenseLocales = {};
 
 //Variables globales pour les status - Type d'erreur
 const XLOG_WARNING = 1,
-    XLOG_ERROR = 2,
-    XLOG_NORMAL = 3,
-    XLOG_SUCCESS = 4,
-    XLOG_COMMENT = 5,
-    XLOG_SEND = 6;
+  XLOG_ERROR = 2,
+  XLOG_NORMAL = 3,
+  XLOG_SUCCESS = 4,
+  XLOG_COMMENT = 5,
+  XLOG_SEND = 6;
 
 // Navigateurs
 const userAgent = window.navigator.userAgent;
@@ -28,11 +27,11 @@ let isChrome = userAgent.includes('Chrome');
 let isOpera = userAgent.includes('Opera');
 
 if (isFirefox) {
-    TYPE += 'FF';
+  TYPE += 'FF';
 } else if (isChrome) {
-    TYPE += 'GC';
+  TYPE += 'GC';
 } else if (isOpera) {
-    TYPE += 'OP';
+  TYPE += 'OP';
 }
 
 // Init
@@ -50,7 +49,14 @@ const prefix_GMData = langUnivers + numUnivers + '.';
 const res = storageGetValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
 storageSetValue('server.url.plugin', res);
 
-/******************************* Main ***********************************/
+/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
+ */
 setlogLevel(); // Default Info
 log.info("Welcome to Xtense WE Version : " + VERSION);
 log.info("Universe : " + numUnivers + "-" + langUnivers);

@@ -1,0 +1,68 @@
+name: Publish Extensions
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Package.json info
+        uses: rexdefuror/read-package-json@v1.0.5
+
+      - name: Build
+        run: |
+          npm install
+          npm run version
+          npm run update-headers
+          gulp
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: ncipollo/release-action@v1.16.0
+        with:
+          name: Xtense ${{ env.PACKAGE_VERSION }}
+          draft: false
+          artifacts: "release/chrome-${{ env.PACKAGE_VERSION }}.zip,release/firefox-${{ env.PACKAGE_VERSION }}.zip,release/edge-${{ env.PACKAGE_VERSION }}.zip"
+          artifactContentType: zip
+          body: "Release officielle ${{ env.PACKAGE_VERSION }}"
+          tag: "${{ env.PACKAGE_VERSION }}"
+
+      - name: Publish to Chrome Web Store
+        uses: mnao305/chrome-extension-upload@v4.0.1
+        with:
+          file-path: release/chrome-${{ env.PACKAGE_VERSION }}.zip
+          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publish: true
+
+      - name: Publish to Firefox Add-ons
+        uses: trmcnvn/firefox-addon@v1
+        with:
+          uuid: ${{ secrets.FIREFOX_ADDON_UUID }}
+          xpi: release/firefox-${{ env.PACKAGE_VERSION }}.zip
+          manifest: ./manifest.json
+          api-key: ${{ secrets.FIREFOX_API_KEY }}
+          api-secret: ${{ secrets.FIREFOX_API_SECRET }}
+          channel: listed
+
+      - name: Publish to Microsoft Edge Add-ons
+        uses: PlasmoHQ/bpp@v3
+        with:
+          keys: ${{ secrets.EDGE_API_KEY }}
+          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
+          zip-path: release/edge-${{ env.PACKAGE_VERSION }}.zip
+          notes: "Nouvelle version ${{ env.PACKAGE_VERSION }}"
+

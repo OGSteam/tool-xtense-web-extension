@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "version": "2.9.10",
+  "version": "3.0.0",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
+  "privacy_policy": "https://wiki.ogsteam.eu/doku.php?id=ogspy:regles_de_confidentialite_xtense",
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },

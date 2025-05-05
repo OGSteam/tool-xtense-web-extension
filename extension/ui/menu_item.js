@@ -1,5 +1,10 @@
 /**
- * Created by Anthony on 12/12/2015.
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2025 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.0.0
  */
 /*global XLOG_SUCCESS,XLOG_NORMAL,XLOG_WARNING,XLOG_ERROR,XLOG_SEND,VERSION,$,log,Xpath  */
 
@@ -44,6 +49,7 @@ function setStatus(type, message) {
     log.error("Error: Cannot set icon " + message);
   }
 }
+
 //Fin Gestion de l'icone
 
 // Affiche les Options Xtense
@@ -59,13 +65,12 @@ function displayXtense() {
     log.info("Problem to display Menu entry point");
     return;
   }
-    const icone = chrome.runtime.getURL("assets/icones/xtense.png");
-    const icone_planet = chrome.runtime.getURL("assets/icones/planet.png");
-    const aAttrs = storageGetValue("manual.send", "false").toString() === "true"
-      ? 'onClick="window.location.reload()" target="_self"'
-      : `href="${ogspy_link}" target="blank_"`;
+  const icone = chrome.runtime.getURL("assets/icones/xtense.png");
+  const icone_planet = chrome.runtime.getURL("assets/icones/planet.png");
+  const aAttrs = storageGetValue("manual.send", "false").toString() === "true" ? 'onClick="window.location.reload()" target="_self"'
+    : `href="${ogspy_link}" target="blank_"`;
 
-    const aff_option = $(`
+  const aff_option = $(`
     <li id='optionXtense'>
       <span class='menu_icon'>
         <a ${aAttrs}><img id='xtense.icone' class='mouseSwitch' src='${icone}' height='27' width='27' /></a>
@@ -76,8 +81,7 @@ function displayXtense() {
     </li>
   `);
 
-  const aff_ogspy = storageGetValue("ogspy.link", "true").toString() === "true"
-    ? create_menu_button("optionOGSpy", icone_planet, ogspy_link, "OGSpy")
+  const aff_ogspy = storageGetValue("ogspy.link", "true").toString() === "true" ? create_menu_button("optionOGSpy", icone_planet, ogspy_link, "OGSpy")
     : " ";
 
   $("#optionXtense, #optionOGSpy").remove();
@@ -649,8 +653,8 @@ function displayOptions() {
   if (einhalt.length === 0) einhalt = $("#inhalt");
   let escriptopt = $(
     "<div id='xtenseScriptOpt' style='float: left;position: relative;width: 670px;border: 0' >" +
-      options +
-      "</div>"
+    options +
+    "</div>"
   );
 
   einhalt.hide(); //On masque le jeu pour afficher le menu
@@ -703,10 +707,10 @@ function displayOptions() {
         let checkbox = checkboxOptions.snapshotItem(j);
         log.trace(
           "GM_setValue(prefix_GMData +" +
-            checkbox.id +
-            " , " +
-            checkbox.checked +
-            ");"
+          checkbox.id +
+          " , " +
+          checkbox.checked +
+          ");"
         );
         storageSetValue(checkbox.id, checkbox.checked);
       }
@@ -760,18 +764,18 @@ function displayOption(id) {
 function create_menu_button(item_id, icon, link, name) {
   let button = $(
     "<li id='" +
-      item_id +
-      "'>" +
-      "<span class='menu_icon'>" +
-      "<img class='mouseSwitch' src='" +
-      icon +
-      "' height='27' width='27'></span>" +
-      "<a class='menubutton' href='" +
-      link +
-      "' accesskey='' target='blank_'><span class='textlabel'>" +
-      name +
-      "</span></a>" +
-      "</li>"
+    item_id +
+    "'>" +
+    "<span class='menu_icon'>" +
+    "<img class='mouseSwitch' src='" +
+    icon +
+    "' height='27' width='27'></span>" +
+    "<a class='menubutton' href='" +
+    link +
+    "' accesskey='' target='blank_'><span class='textlabel'>" +
+    name +
+    "</span></a>" +
+    "</li>"
   );
   return button;
 }
