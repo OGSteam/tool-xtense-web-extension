@@ -1,6 +1,6 @@
 {
   "name": "xtense-web-extension",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Xtense collects Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
