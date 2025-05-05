@@ -39,7 +39,7 @@ jobs:
 
       - name: Publish to Chrome Web Store
         continue-on-error: true
-        uses: mnao305/chrome-extension-upload@v4.0.1
+        uses: mnao305/chrome-extension-upload@v5.0.0
         with:
           file-path: release/chrome-${{ env.PACKAGE_VERSION }}.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
