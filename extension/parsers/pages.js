@@ -4,9 +4,8 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.0
+ * @version     3.0.2
  */
-
 /*eslint-env browser*/
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 /*global parse_galaxy_system_inserted */
@@ -469,6 +468,7 @@ function parse_buildings() {
   }
   XtenseRequest.set('gamedata', {
     planetName: planetData.planet_name,
+    planetId: planetData.planet_id,
     coords: planetData.coords,
     planetType: planetData.planet_type,
     buildings: send
@@ -514,6 +514,7 @@ function parse_ressource_settings() {
     XtenseRequest.set('type', 'resourceSettings');
     XtenseRequest.set('gamedata', {
       planetName: planetData.planet_name,
+      planetId: planetData.planet_id,
       coords: planetData.coords,
       planetType: planetData.planet_type,
       resourceSettings: send
@@ -564,6 +565,7 @@ function parse_station() {
   XtenseRequest.set('type', 'buildings');
   XtenseRequest.set('gamedata', {
     planetName: planetData.planet_name,
+    planetId: planetData.planet_id,
     coords: planetData.coords,
     planetType: planetData.planet_type,
     buildings: send
@@ -610,6 +612,7 @@ function parse_researchs() {
   XtenseRequest.set('type', 'researchs');
   XtenseRequest.set('gamedata', {
     planetName: planetData.planet_name,
+    planetId: planetData.planet_id,
     coords: planetData.coords,
     planetType: planetData.planet_type,
     researchs: researchs
@@ -656,6 +659,7 @@ function parse_shipyard() {
   XtenseRequest.set('type', 'fleet');
   XtenseRequest.set('gamedata', {
     planetName: planetData.planet_name,
+    planetId: planetData.planet_id,
     coords: planetData.coords,
     planetType: planetData.planet_type,
     fleet: send
@@ -701,6 +705,7 @@ function parse_fleet() {
   XtenseRequest.set('type', 'fleet');
   XtenseRequest.set('gamedata', {
     planetName: planetData.planet_name,
+    planetId: planetData.planet_id,
     coords: planetData.coords,
     planetType: planetData.planet_type,
     fleet: playerfleet
@@ -741,6 +746,7 @@ function parse_defense() {
   XtenseRequest.set('type', 'defense');
   XtenseRequest.set('gamedata', {
     planetName: planetData.planet_name,
+    planetId: planetData.planet_id,
     coords: planetData.coords,
     planetType: planetData.planet_type,
     defense: defs

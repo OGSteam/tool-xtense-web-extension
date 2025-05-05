@@ -6,7 +6,6 @@ import zip from "gulp-zip";
 import {deleteAsync} from "del";
 import {readPackageSync} from "read-pkg";
 import through from "through2";
-import fs from "fs";
 
 // The `clean` function is not exported so it can be considered a private task.
 // It can still be used within the `series()` composition.
@@ -31,7 +30,7 @@ function copy_files_for_browser(browser, manifest) {
     () => src(["extension/**", "!extension/manifest.*", "!extension/**/*.{png,jpg,jpeg,gif,svg,ico}"])
       .pipe(dest(`release/${browser}`)),
     // Pour les images et autres fichiers binaires - Encoding = false pour ne pas corrompre les fichiers
-    () => src(["extension/**/*.{png,jpg,jpeg,gif,svg,ico}"], {encoding: false})
+    () => src(["extension/**/*.{png,jpg,jpeg,gif,svg,ico}"])
       .pipe(dest(`release/${browser}`)),
     // Pour le manifest
     () => src(manifest).pipe(rename('manifest.json')).pipe(dest(`release/${browser}`))

@@ -4,5 +4,5 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.0
+ * @version     3.0.2
  */
