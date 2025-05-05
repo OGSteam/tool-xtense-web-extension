@@ -38,6 +38,7 @@ jobs:
           tag: "${{ env.PACKAGE_VERSION }}"
 
       - name: Publish to Chrome Web Store
+        continue-on-error: true
         uses: mnao305/chrome-extension-upload@v4.0.1
         with:
           file-path: release/chrome-${{ env.PACKAGE_VERSION }}.zip
@@ -48,6 +49,7 @@ jobs:
           publish: true
 
       - name: Publish to Firefox Add-ons
+        continue-on-error: true
         uses: trmcnvn/firefox-addon@v1
         with:
           uuid: ${{ secrets.FIREFOX_ADDON_UUID }}
