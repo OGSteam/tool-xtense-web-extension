@@ -57,14 +57,10 @@ jobs:
           manifest: ./manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
-          channel: listed
 
       - name: Publish to Microsoft Edge Add-ons
         uses: PlasmoHQ/bpp@v3
         with:
-          keys: ${{ secrets.EDGE_API_KEY }}
-          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
-          client-id: ${{ secrets.EDGE_CLIENT_ID }}
-          zip-path: release/edge-${{ env.PACKAGE_VERSION }}.zip
-          notes: "Nouvelle version ${{ env.PACKAGE_VERSION }}"
-
+          keys: '{"edge":{"apiKey":"${{ secrets.EDGE_API_KEY }}","clientId":"${{ secrets.EDGE_CLIENT_ID }}","productId":"${{ secrets.EDGE_PRODUCT_ID }}"}}'
+          source-zip: release/edge-${{ env.PACKAGE_VERSION }}.zip
+          edge-notes: "Nouvelle version ${{ env.PACKAGE_VERSION }}"
