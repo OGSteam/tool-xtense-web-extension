@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.0
+ * @version     3.0.7
  */
 /*eslint-env browser*/
 /*global displayOptions,log,url, parse_ally_inserted, parse_messages, storageGetValue, storageSetValue, setStatus, displayXtense, xlang, XLOG_NORMAL, XLOG_SEND, save_my_planets_coords */
@@ -29,11 +29,11 @@ function get_ally_content() {
 
 function get_message_content() {
   // Récupérer l'élément contenant les messages
-  let target = document.getElementById('messages');
+  let target = document.getElementById('messagecontainercomponent');
 
   // Vérifier si l'élément existe
   if (!target) {
-    log.error('Élément avec ID "messages" introuvable');
+    log.error('Élément avec ID "messagecontainercomponent" introuvable');
     return;
   }
 
@@ -209,10 +209,10 @@ function handle_current_page() {
   let regShipyard = new RegExp(/component=(shipyard)/);
   let regFleet1 = new RegExp(/component=(fleetdispatch)/);
   let regDefense = new RegExp(/component=(defenses)/);
-  let regMessages = new RegExp(/page=(messages)/);
+  let regMessages = new RegExp(/component=(messages)/);
   let regAlliance = new RegExp(/component=(alliance)/);
   let regStats = new RegExp(/page=(highscore)/);
-  let regRessources = new RegExp(/[page|component]=(resourceSettings)/, 'i');
+  let regRessources = new RegExp(/component=(resourceSettings)/, 'i');
 
   if (regOption.test(url)) {
     displayOptions();

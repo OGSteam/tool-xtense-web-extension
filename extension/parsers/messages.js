@@ -4,13 +4,14 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.0
+ * @version     3.0.7
  */
 /*eslint-env browser*/
 
 /*global log, Xpath, XtenseXpaths, setStatus, XLOG_NORMAL, xlang, glang, storageGetValue, storageSetValue, XtenseRegexps, XtenseParseDate, XtenseRequest */
 
 function get_tabid() {
+  console.log("get_tabid called");
   let current_tab = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.tab);
   let tab_id = current_tab.snapshotItem(0).value;
   let type;
@@ -40,6 +41,7 @@ function get_tabid() {
       break;
   }
 
+  log.info("Tab ID: " + tab_id + " - Type: " + type);
   return type;
 }
 
@@ -70,31 +72,31 @@ function parse_short_messages(messagesCourt, messages) {
 
   // Pas de messages à traiter
   if (messagesCourt.snapshotLength === 0) {
-    log.debug('Pas de messages à traiter');
+    log.debug('parse_short_messages - Pas de messages à traiter');
     return;
   }
   // Si le nombre de messages présent est le même que lors du dernier traitement
   // On considère qu'il n'y a pas de nouveaux messages
   if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize) {
-    log.debug('Pas de nouveaux messages');
+    log.debug('parse_short_messages - Pas de nouveaux messages');
     return;
   }
 
-  storageSetValue("last_shortmessage", messagesCourt.snapshotLength);
+  //storageSetValue("last_shortmessage", messagesCourt.snapshotLength);
 
   let locales = glang('messages');
   let tab_type = get_tabid();
+  log.info("Traitement des messages court");
 
   // Parcours de la liste de messages court
   // TODO : Ne pas re-parcourir les messages court deja parse
   for (let cptShtMsg = 0; cptShtMsg < messagesCourt.snapshotLength; cptShtMsg++) {
     let shortMessageNode = messagesCourt.snapshotItem(cptShtMsg);
     let msgContent = shortMessageNode.textContent.trim();
+
     // Recupere l'id du message court
     let idmsg = shortMessageNode.attributes['data-msg-id'].value;
     log.debug("ID Message court : " + idmsg);
-    /*Récupération API */
-    //*[@id="messages"]/div[9]/div[3]/div/input
 
     // Espionnage ennemi
     if ((storageGetValue("handle.msg.ennemy.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
@@ -192,6 +194,71 @@ function parse_short_messages(messagesCourt, messages) {
       }
     } // Espionnages
     else if ((storageGetValue("handle.msg.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords))) {
+      log.info("Message court Espionnage détecté");
+
+      let planetName = '';
+      let m = msgContent.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords));
+      if (m) {
+        let fullplanetName = m[1].match(/Planète (.*)/);
+        planetName = fullplanetName ? fullplanetName[1] : m[1];
+        log.debug("Planet Name: " + planetName);
+        // Utilise planetName ici
+      }
+
+      log.debug(shortMessageNode);
+
+      let proba = Xpath.getStringValue(document, './/div[contains(@class,"msgFilteredHeaderCell_counterEspionageChance")]/text()', shortMessageNode);
+      let activity = Xpath.getStringValue(document, './/div[contains(@class,"msgFilteredHeaderCell_activity")]/text()', shortMessageNode);
+
+      let rawDataElement = shortMessageNode.querySelector('.rawMessageData');
+
+      let rawData = {
+        type: 'spy',
+        proba: proba.trimInt().toString(),
+        activity:  activity.trimInt().toString(),
+        date: rawDataElement.getAttribute('data-raw-timestamp'),
+        player: {
+          name: rawDataElement.getAttribute('data-raw-playername'),
+          status: rawDataElement.getAttribute('data-raw-status'),
+          /*ranking: {
+            total: rawDataElement.getAttribute('data-raw-highscoretotal'),
+            economy: rawDataElement.getAttribute('data-raw-highscoreeconomy'),
+            military: rawDataElement.getAttribute('data-raw-highscoremilitary'),
+            research: rawDataElement.getAttribute('data-raw-highscoreresearch'),
+            lifeForms: rawDataElement.getAttribute('data-raw-highscorelifeforms'),
+          },*/
+          class: {
+            character: parseJSONAttribute(rawDataElement,'data-raw-characterclass'),
+            alliance: parseJSONAttribute(rawDataElement,'data-raw-allianceclass'),
+          },
+        },
+        planet: {
+          name: planetName.trimInt().toString(),
+          coordinates: rawDataElement.getAttribute('data-raw-coordinates'),
+          type: rawDataElement.getAttribute('data-raw-targetplanettype'),
+          id: rawDataElement.getAttribute('data-raw-targetplanetid'),
+        },
+        resources: {
+          metal: rawDataElement.getAttribute('data-raw-metal'),
+          crystal: rawDataElement.getAttribute('data-raw-crystal'),
+          deuterium: rawDataElement.getAttribute('data-raw-deuterium'),
+          loot: rawDataElement.getAttribute('data-raw-loot'),
+        },
+        buildings: parseJSONAttribute(rawDataElement,'data-raw-buildings', {}),
+        lfBuildings: parseJSONAttribute(rawDataElement,'data-raw-lfbuildings', {}),
+        research: parseJSONAttribute(rawDataElement,'data-raw-research', {}),
+        lfResearch: parseJSONAttribute(rawDataElement, 'data-raw-lfresearch', {}),
+        fleet: parseJSONAttribute(rawDataElement, 'data-raw-fleet', {}),
+        defense: parseJSONAttribute(rawDataElement,'data-raw-defense', {}),
+      };
+
+
+
+      console.log(rawData);
+
+      XtenseRequest.set('gamedata', rawData);
+      XtenseRequest.set('type', 'messages');
+      XtenseRequest.send();
       // Ogame API
       /*let ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, shortMessageNode).snapshotItem(0).value;
       let regexApi = new RegExp(XtenseRegexps.ogameapi);
@@ -201,7 +268,12 @@ function parse_short_messages(messagesCourt, messages) {
     // TODO : Cas de perte de contact avec la flotte attaquante
   }
 
-  storageSetValue('lastShtMsgsSize', messagesCourt.snapshotLength); //Pour detection nouveau message
+  //storageSetValue('lastShtMsgsSize', messagesCourt.snapshotLength); //Pour detection nouveau message
+}
+
+function parseJSONAttribute(rawDataElement, attributeName, defaultValue = null) {
+  const attribute = rawDataElement.getAttribute(attributeName);
+  return attribute ? JSON.parse(attribute.replace(/&quot;/g, '"')) : defaultValue;
 }
 
 /**
@@ -220,8 +292,8 @@ function parse_detail_messages(messages) {
   let messageId = Xpath.getStringValue(document, paths.messageid, messageNode);
   log.debug("Message Long messageid : " + messageId);
 
-  if (storageGetValue("lastAction", '').toString() === "message:" + messageId)
-    return false;
+  /* if (storageGetValue("lastAction", '').toString() === "message:" + messageId)
+     return false;*/
 
   log.info("Traitement du message Long");
   storageSetValue('lastAction', "message:" + messageId);
@@ -285,53 +357,6 @@ function parse_detail_messages(messages) {
       log.info("Message Alliance envoyé");
     } else {
       log.debug('The message is not an ally message');
-    }
-  }
-
-
-  // Espionnages perso
-  if (storageGetValue("handle.msg.spy").toString() === 'true') {
-    let m = subject.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords));
-    if (m) {
-      log.info("Message espionnage détecté");
-
-      let contentNode = Xpath.getSingleNode(document, paths.contents.spy);
-      let content = contentNode.innerHTML;
-      data.type = 'spy';
-      data.planetName = m[1].trim();
-      data.coords = m[2];
-
-      // contre Espionnage
-      m = content.match(new RegExp(locales['unespionage prob'] + XtenseRegexps.probability));
-      if (m)
-        data.proba = m[1];
-      else data.proba = 0;
-
-      // Activite
-      data.activity = 0;
-      m = content.match(new RegExp(locales.activity));
-      if (m)
-        data.activity = m[1];
-
-      // Lune ?
-      let attackRef = Xpath.getStringValue(document, paths.spy.moon);
-      data.isMoon = attackRef.indexOf('type=3') > -1;
-      // Player Name
-      data.playerName = Xpath.getSingleNode(document, paths.spy.playername).textContent.trim();
-
-      // Ogame API
-      let ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi).snapshotItem(0).value;
-      let regexApi = new RegExp(XtenseRegexps.ogameapi);
-      data.ogapilnk = regexApi.exec(ogameAPITitle)[1];
-
-      data.content = parse_spy_report(content);
-
-      XtenseRequest.set('gamedata', data);
-      XtenseRequest.set('type', 'messages');
-      XtenseRequest.send();
-
-    } else {
-      log.debug('The message is not a spy report');
     }
   }
 
@@ -485,85 +510,4 @@ function parse_rc(doc, script) {
     XtenseRequest.send();
     log.info("Message " + 'Combat Report' + "sent");
   }
-}
-
-
-/* Fonction de parsing d'un RE */
-
-function parse_spy_report(RE) {
-  setStatus(XLOG_NORMAL, xlang('re_detected'));
-  let paths = XtenseXpaths.messages.spy;
-  let spyStrings = glang('spy reports');
-  let locales = glang('messages');
-  let infosNode; // Default value ?
-
-  let infos = Xpath.getOrderedSnapshotNodes(document, paths.list_infos, null);
-  if (infos.snapshotLength > 0) {
-    infosNode = infos.snapshotItem(0);
-  }
-
-  let data = {};
-  let typs = [];
-  let res = [];
-
-  let types = Xpath.getOrderedSnapshotNodes(document, paths.materialfleetdefbuildings);
-  // i est le groupe
-  for (let i in spyStrings.units) {
-    //k est la ressource ?
-    for (let k = 0; k < types.snapshotLength; k++) {
-      if (types.snapshotItem(k).textContent.trim().match(new RegExp(spyStrings.groups[i], 'gi'))) {
-        log.info("Groupe Trouvé = " + types.snapshotItem(k).textContent.trim());
-        if (k++ < types.snapshotLength) {
-          for (let z = k; z < types.snapshotLength; z++) {
-            let finish = false;
-            for (let units in spyStrings.units) {
-              if (types.snapshotItem(z).textContent.trim().match(new RegExp(spyStrings.groups[units], 'gi'))) {
-                finish = true;
-                k = z - 1;
-                break;
-              }
-            }
-            if (finish) {
-              //alert("Groupe FINISH");
-              break;
-            }
-
-            if (types.snapshotItem(z).title != null && types.snapshotItem(z).title.trim() !== '') {
-              for (let j in spyStrings.units[i]) {
-                if (types.snapshotItem(z).innerHTML.match(new RegExp(spyStrings.units[i][j], 'gi'))) {
-                  data[j] = types.snapshotItem(z).title.trim().replace(/\./g, '');
-                  log.debug("R=" + j + " = " + data[j]);
-                }
-              }
-            } else {
-              for (let j in spyStrings.units[i]) {
-                let m = getElementInSpyReport(types.snapshotItem(z).textContent.trim(), spyStrings.units[i][j]);
-
-                if (m > -1) {
-                  data[j] = m;
-                  log.debug("BT=" + j + " = " + data[j]);
-                }
-              }
-            }
-          }
-        } else {
-          break;
-        }
-      }
-    }
-  }
-  return data;
-}
-
-/* Fonction de récupération de données dans un RE */
-
-function getElementInSpyReport(RE, elem) {
-  let num = -1;
-  let reg = new RegExp(elem + '\\D+(\\d[\\d.]*)'); // (\D+)(.\d*(\,|\.)\d*\w{1})
-  //recupere le nombre le plus proche apres le texte
-  let m = reg.exec(RE);
-  if (m)
-    num = m[1].trimInt();
-  if (num !== -1) log.debug(elem + " : " + num);
-  return num;
 }
