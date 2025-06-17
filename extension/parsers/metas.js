@@ -86,10 +86,10 @@ function getPlanetData() {
   //log.info("planet_name: "+XtenseMetas.getPlanetName()+", coords : "+XtenseMetas.getPlanetCoords()+", planet_type : "+planet_type);
 
   return {
-    planet_name: XtenseMetas.getPlanetName(),
-    planet_id: XtenseMetas.getPlanetId(),
+    id: XtenseMetas.getPlanetId(),
+    name: XtenseMetas.getPlanetName(),
     coords: XtenseMetas.getPlanetCoords(),
-    planet_type: planet_type
+    type: planet_type
   };
 }
 
