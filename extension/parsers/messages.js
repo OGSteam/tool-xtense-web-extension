@@ -233,7 +233,7 @@ function parse_short_messages(messagesCourt, messages) {
           },
         },
         planet: {
-          name: planetName.trimInt().toString(),
+          name: planetName.toString(),
           coordinates: rawDataElement.getAttribute('data-raw-coordinates'),
           type: rawDataElement.getAttribute('data-raw-targetplanettype'),
           id: rawDataElement.getAttribute('data-raw-targetplanetid'),
