@@ -58,7 +58,12 @@
   ],
   "background": {
     "service_worker": "background-service.js",
-    "type": "module"
+    "type": "module",
+    "scripts": [
+      "contribs/jquery.min.js",
+      "contribs/loglevel.min.js",
+      "background-service.js"
+    ]
   },
   "permissions": [],
   "short_name": "Xtense",
