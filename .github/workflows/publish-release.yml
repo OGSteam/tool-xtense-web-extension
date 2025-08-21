@@ -25,6 +25,13 @@ jobs:
           npm run version
           npm run release
 
+      - name: Create zip archives
+        run: |
+          # Créer les archives zip pour chaque navigateur
+          cd release/chrome && zip -r ../chrome-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
+          cd release/firefox && zip -r ../firefox-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
+          cd release/edge && zip -r ../edge-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
+
       - name: Create GitHub Release
         id: create_release
         uses: ncipollo/release-action@v1.18.0
