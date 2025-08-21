@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "3.0.0",
+  "version": "3.1.1",
   "name": "Xtense WE",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -58,7 +58,12 @@
   ],
   "background": {
     "service_worker": "background-service.js",
-    "type": "module"
+    "type": "module",
+    "scripts": [
+      "contribs/jquery.min.js",
+      "contribs/loglevel.min.js",
+      "background-service.js"
+    ]
   },
   "permissions": [],
   "short_name": "Xtense",

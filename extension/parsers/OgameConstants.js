@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.0
+ * @version     3.1.1
  */
 /*eslint-env browser*/
 /*global log*/
@@ -167,7 +167,7 @@ function initParsers() {
     },
 
     messages: {
-      shortmessages: '//div[contains(@id,"ui-id")][@aria-hidden="false"]/div/ul[contains(@class,"tab_inner")]/li[contains(@class, "msg ")]',
+      shortmessages: '//div[@id="messagewrapper"]/div[contains(@class,"messagesHolder")]/div[contains(@class,"msg")]',
       showmessage: '//div[contains(@class,"detail_msg")]',
       combatreport: '//@data-combatreportid',
       messageid: "@data-msg-id",
@@ -197,7 +197,7 @@ function initParsers() {
         moon: '//div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a[2]/@href',
         actions_links: '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a'
       },
-      tab: '//div[@aria-hidden="false"]//ul[contains(@class,"subtabs")]/li[@aria-selected ="true"]/@data-tabid',
+      tab: '//div[@id="messagewrapper"]/div[contains(@class,"tabsWrapper")]/div[contains(@class,"innerTabItem active")]/@data-subtab-id',
       ogameapi: './/span[contains(@class, "icon_apikey")]/@title'
     },
 

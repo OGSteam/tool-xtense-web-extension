@@ -14,7 +14,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
 
       - name: Package.json info
         uses: rexdefuror/read-package-json@v1.0.5
@@ -23,8 +23,7 @@ jobs:
         run: |
           npm install
           npm run version
-          npm run update-headers
-          gulp
+          npm run release
 
       - name: Create GitHub Release
         id: create_release

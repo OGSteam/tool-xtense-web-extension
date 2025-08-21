@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.0
+ * @version     3.1.1
  */
 /*eslint-env browser*/
 /*global log, XtenseMetas, Xpath, XtenseXpaths*/
@@ -86,10 +86,10 @@ function getPlanetData() {
   //log.info("planet_name: "+XtenseMetas.getPlanetName()+", coords : "+XtenseMetas.getPlanetCoords()+", planet_type : "+planet_type);
 
   return {
-    planet_name: XtenseMetas.getPlanetName(),
-    planet_id: XtenseMetas.getPlanetId(),
+    id: XtenseMetas.getPlanetId(),
+    name: XtenseMetas.getPlanetName(),
     coords: XtenseMetas.getPlanetCoords(),
-    planet_type: planet_type
+    type: planet_type
   };
 }
 
