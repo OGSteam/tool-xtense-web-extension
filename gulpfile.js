@@ -123,3 +123,4 @@ export const headers = updateHeaders;
 // Ajouter la tâche updateHeaders dans le processus de build
 const _default = series(clean, build, updateHeaders, parallel(copy_files_for_chrome, copy_files_for_firefox, copy_files_for_edge));
 export {_default as default};
+export {build};

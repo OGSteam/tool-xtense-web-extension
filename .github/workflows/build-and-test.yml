@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5.0.0
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 22.x
 
       - name: Package.json info
         uses: rexdefuror/read-package-json@v1.0.5
@@ -25,8 +25,7 @@ jobs:
         run: |
           npm install
           npm run version
-          npm run update-headers
-          gulp
+          npm run release
 
       - name: Create zip archives
         run: |
@@ -36,7 +35,7 @@ jobs:
           cd release/edge && zip -r ../edge-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
 
       - name: Create Draft GitHub Release
-        uses: ncipollo/release-action@v1.16.0
+        uses: ncipollo/release-action@v1.18.0
         with:
           name: Xtense ${{ env.PACKAGE_VERSION }}
           draft: true

@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.2
+ * @version     3.1.1
  */
 /*eslint-env browser*/
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
@@ -396,10 +396,7 @@ function parse_overview() {
 
       XtenseRequest.set('type', 'overview');
       XtenseRequest.set('gamedata', {
-        planetName: planetData.planet_name,
-        planetId: planetData.planet_id,
-        coords: planetData.coords,
-        planetType: planetData.planet_type,
+        planet: planetData,
         fields: cases,
         temperature_min: temperature_min,
         temperature_max: temperature_max,
@@ -467,10 +464,7 @@ function parse_buildings() {
     };
   }
   XtenseRequest.set('gamedata', {
-    planetName: planetData.planet_name,
-    planetId: planetData.planet_id,
-    coords: planetData.coords,
-    planetType: planetData.planet_type,
+    planet: planetData,
     buildings: send
   });
   XtenseRequest.set('type', 'buildings');
@@ -513,10 +507,7 @@ function parse_ressource_settings() {
 
     XtenseRequest.set('type', 'resourceSettings');
     XtenseRequest.set('gamedata', {
-      planetName: planetData.planet_name,
-      planetId: planetData.planet_id,
-      coords: planetData.coords,
-      planetType: planetData.planet_type,
+      planet: planetData,
       resourceSettings: send
     });
     XtenseRequest.send();
@@ -564,10 +555,7 @@ function parse_station() {
   }
   XtenseRequest.set('type', 'buildings');
   XtenseRequest.set('gamedata', {
-    planetName: planetData.planet_name,
-    planetId: planetData.planet_id,
-    coords: planetData.coords,
-    planetType: planetData.planet_type,
+    planet: planetData,
     buildings: send
   });
   XtenseRequest.send();
@@ -611,10 +599,7 @@ function parse_researchs() {
 
   XtenseRequest.set('type', 'researchs');
   XtenseRequest.set('gamedata', {
-    planetName: planetData.planet_name,
-    planetId: planetData.planet_id,
-    coords: planetData.coords,
-    planetType: planetData.planet_type,
+    planet: planetData,
     researchs: researchs
   });
   XtenseRequest.send();
@@ -658,10 +643,7 @@ function parse_shipyard() {
   };
   XtenseRequest.set('type', 'fleet');
   XtenseRequest.set('gamedata', {
-    planetName: planetData.planet_name,
-    planetId: planetData.planet_id,
-    coords: planetData.coords,
-    planetType: planetData.planet_type,
+    planet: planetData,
     fleet: send
   });
   XtenseRequest.send();
@@ -704,10 +686,7 @@ function parse_fleet() {
   };
   XtenseRequest.set('type', 'fleet');
   XtenseRequest.set('gamedata', {
-    planetName: planetData.planet_name,
-    planetId: planetData.planet_id,
-    coords: planetData.coords,
-    planetType: planetData.planet_type,
+    planet: planetData,
     fleet: playerfleet
   });
   XtenseRequest.send();
@@ -745,10 +724,7 @@ function parse_defense() {
   };
   XtenseRequest.set('type', 'defense');
   XtenseRequest.set('gamedata', {
-    planetName: planetData.planet_name,
-    planetId: planetData.planet_id,
-    coords: planetData.coords,
-    planetType: planetData.planet_type,
+    planet: planetData,
     defense: defs
   });
 
