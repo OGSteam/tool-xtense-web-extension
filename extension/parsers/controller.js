@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.7
+ * @version     3.1.1
  */
 /*eslint-env browser*/
 /*global displayOptions,log,url, parse_ally_inserted, parse_messages, storageGetValue, storageSetValue, setStatus, displayXtense, xlang, XLOG_NORMAL, XLOG_SEND, save_my_planets_coords */

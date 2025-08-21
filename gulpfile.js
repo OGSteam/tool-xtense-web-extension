@@ -108,3 +108,4 @@ export const headers = updateHeaders;
 // Ajouter la tâche updateHeaders dans le processus de build
 const _default = series(clean, build, updateHeaders, parallel(packchrome, packfirefox, packedge));
 export {_default as default};
+export {build};

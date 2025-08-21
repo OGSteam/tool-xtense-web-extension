@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.0.7
+ * @version     3.1.1
  */
 /*global XLOG_SUCCESS,XLOG_NORMAL,XLOG_WARNING,XLOG_ERROR,XLOG_SEND,VERSION,$,log,Xpath  */
 
