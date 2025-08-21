@@ -28,7 +28,7 @@ jobs:
           npm run release
 
       - name: Create Draft GitHub Release
-        uses: ncipollo/release-action@v1.16.0
+        uses: ncipollo/release-action@v1.18.0
         with:
           name: Xtense ${{ env.PACKAGE_VERSION }}
           draft: true

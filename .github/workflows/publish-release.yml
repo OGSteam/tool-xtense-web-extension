@@ -27,7 +27,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_release
-        uses: ncipollo/release-action@v1.16.0
+        uses: ncipollo/release-action@v1.18.0
         with:
           name: Xtense ${{ env.PACKAGE_VERSION }}
           draft: false
