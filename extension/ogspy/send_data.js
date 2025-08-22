@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.1.1
+ * @version     3.1.2
  */
 /*eslint-env browser*/
 /*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_SUCCESS, XtenseDatabase, xlang, Xajax, setStatus, VERSION, TYPE, PLUGIN_REQUIRED, urlUnivers */

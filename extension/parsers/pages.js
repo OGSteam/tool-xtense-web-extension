@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.1.1
+ * @version     3.1.2
  */
 /*eslint-env browser*/
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
