@@ -7,9 +7,7 @@ import {readPackageSync} from "read-pkg";
 import through from "through2";
 import fs from 'fs';
 import path from 'path';
-import glob from 'glob';
-
-
+import { glob } from 'glob';
 
 // The `clean` function is not exported so it can be considered a private task.
 // It can still be used within the `series()` composition.
