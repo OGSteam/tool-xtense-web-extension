@@ -185,10 +185,11 @@ function initOGSpyCommunication() {
     set: function (name, value) {
       if (typeof name === 'string') {
         this.data[name] = value;
-      } else if (Array.isArray(this.data[name])) {
-        this.data[name].push(JSON.stringify(value));
+      } else if (typeof name === 'object' && name !== null) {
+        // Si name est un objet, on merge ses propriétés dans this.data
+        Object.assign(this.data, name);
       } else {
-        log.warn(`Invalid data type for ${name} in XtenseRequest.set`);
+        log.warn(`Invalid data type for ${name} in XtenseRequest.set - expected string or object`);
       }
     }
   };
