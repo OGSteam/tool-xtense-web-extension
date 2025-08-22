@@ -2,13 +2,12 @@ import pkg from 'gulp';
 
 const {series, parallel, src, dest} = pkg;
 import rename from "gulp-rename";
-import zip from "gulp-zip";
 import {deleteAsync} from "del";
 import {readPackageSync} from "read-pkg";
 import through from "through2";
 import fs from 'fs';
 import path from 'path';
-import { glob } from 'glob';
+import glob from 'glob';
 
 
 
