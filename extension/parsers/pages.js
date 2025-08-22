@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.1.1
+ * @version     3.1.2
  */
 /*eslint-env browser*/
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
@@ -384,7 +384,7 @@ function parse_overview() {
   if ((temperatures != null) && (temperatures !== '') && (temperatures.indexOf('_') === -1)) {
     setStatus(XLOG_NORMAL, xlang('overview_detected'));
     let planetData = getPlanetData();
-    if (storageGetValue('lastAction', '') !== 'planet_name:' + planetData.planet_name) {
+    if (storageGetValue('lastAction', '') !== 'planet_name:' + planetData.name) {
       let cases = Xpath.getStringValue(document, XtenseXpaths.overview.cases).trimInt();
       let temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
       let temperature_min = temperatures.match(/(-?\d+)/)[1];
@@ -400,16 +400,13 @@ function parse_overview() {
         fields: cases,
         temperature_min: temperature_min,
         temperature_max: temperature_max,
-
-
-
         ressources: resources,
         playerdetails: playerdetails,
         unidetails: unidetails,
         boosters: planetBoostersAndExtensions
       });
       XtenseRequest.send();
-      storageSetValue('lastAction', 'planet_name:' + planetData.planet_name);
+      storageSetValue('lastAction', 'planet_name:' + planetData.name);
     }
   } else {
     log.trace('Temperature Content is not there! Retrying...');

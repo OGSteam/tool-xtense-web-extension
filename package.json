@@ -1,13 +1,12 @@
 {
   "name": "xtense-web-extension",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Xtense collects Game Data for OGSpy",
   "main": "extension/xtense.user.js",
   "scripts": {
     "clean": "gulp clean",
     "node-clean": "npm prune && npm install",
-    "version": "cross-var dot-json extension/manifest.json version $npm_package_version && cross-var dot-json extension/manifest.chrome.json version $npm_package_version && cross-var dot-json extension/manifest.firefox.json version $npm_package_version && npm run update-headers",
-    "update-headers": "gulp headers",
+    "version": "cross-var \"dot-json extension/manifest.json version $npm_package_version\" && cross-var \"dot-json extension/manifest.chrome.json version $npm_package_version\" && cross-var \"dot-json extension/manifest.firefox.json version $npm_package_version\" && npm run update-headers",    "update-headers": "gulp headers",
     "release": "gulp default",
     "dev-firefox": "cd extension && web-ext run --start-url www.ogame.fr --keep-profile-changes --firefox-profile=../xtense-profile/. --profile-create-if-missing",
     "lint": "cd extension && web-ext lint",
@@ -36,9 +35,9 @@
     "node": ">=22.0.0"
   },
   "devDependencies": {
+    "cross-var": "^1.1.0",
     "del": "^8.0.0",
     "dot-json": "^1.3.0",
-    "cross-var": "^1.1.0",
     "eslint": "^9.29.0",
     "eslint-plugin-jquery": "^1.5.1",
     "gulp": "^5.0.1",
@@ -49,6 +48,7 @@
     "web-ext": "^8.9.0"
   },
   "dependencies": {
+    "glob": "^11.0.3",
     "jquery": "^3.7.1",
     "loglevel": "^1.9.2"
   },
