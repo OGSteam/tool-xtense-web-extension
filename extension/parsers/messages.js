@@ -6,9 +6,7 @@
  * @license     GNU GPL v2
  * @version     3.1.2
  */
-/*eslint-env browser*/
-
-/*global log, Xpath, XtenseXpaths, setStatus, XLOG_NORMAL, xlang, glang, storageGetValue, storageSetValue, XtenseRegexps, XtenseParseDate, XtenseRequest */
+/* exported parse_messages, get_tabid, parse_rc */
 
 function get_tabid() {
   console.log("get_tabid called");
@@ -49,7 +47,6 @@ function get_tabid() {
 /* Page Messages */
 
 function parse_messages() {
-  setStatus(XLOG_NORMAL, xlang('messages_detected'));
   let paths = XtenseXpaths.messages;
   let messages = Xpath.getOrderedSnapshotNodes(document, paths.showmessage, null);
   let messagesCourt = Xpath.getOrderedSnapshotNodes(document, paths.shortmessages, null);
@@ -57,12 +54,25 @@ function parse_messages() {
   log.debug('Nombre Messages courts: ' + messagesCourt.snapshotLength);
   log.debug('Nombre Messages classiques: ' + messages.snapshotLength);
 
-  // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
-  parse_short_messages(messagesCourt, messages);
+  // Vérifier s'il y a des messages à traiter
+  if (messagesCourt.snapshotLength === 0 && messages.snapshotLength === 0) {
+    log.debug('parse_messages - Aucun message détecté, arrêt du traitement');
+    setStatus(XLOG_NORMAL, xlang('no_messages'));
+    return;
+  }
 
-  log.info("Traitement d'un message detaille");
+  setStatus(XLOG_NORMAL, xlang('messages_detected'));
+
+  // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
+  if (messagesCourt.snapshotLength > 0) {
+    parse_short_messages(messagesCourt, messages);
+  }
+
   // Traitement d'un message detaille (declenche lorsque l'on affiche le detail d'un message ou lorsque l'on change de page de msg detaille)
-  parse_detail_messages(messages);
+  if (messages.snapshotLength > 0) {
+    log.info("Traitement d'un message detaille");
+    parse_detail_messages(messages);
+  }
 }
 
 function parse_short_messages(messagesCourt, messages) {
@@ -82,8 +92,6 @@ function parse_short_messages(messagesCourt, messages) {
     return;
   }
 
-  //storageSetValue("last_shortmessage", messagesCourt.snapshotLength);
-
   let locales = glang('messages');
   let tab_type = get_tabid();
   log.info("Traitement des messages court");
@@ -97,6 +105,32 @@ function parse_short_messages(messagesCourt, messages) {
     // Recupere l'id du message court
     let idmsg = shortMessageNode.attributes['data-msg-id'].value;
     log.debug("ID Message court : " + idmsg);
+
+    // Vérifier si ce message a déjà été traité - correction du bug de type
+    let lastProcessedIdsString = storageGetValue("lastProcessedMessageIds", "[]");
+    let lastProcessedIds;
+
+    try {
+      // S'assurer que c'est bien un tableau
+      if (typeof lastProcessedIdsString === 'string') {
+        lastProcessedIds = JSON.parse(lastProcessedIdsString);
+      } else {
+        lastProcessedIds = lastProcessedIdsString;
+      }
+
+      // Vérifier que c'est bien un tableau
+      if (!Array.isArray(lastProcessedIds)) {
+        lastProcessedIds = [];
+      }
+    } catch (error) {
+      log.debug("Erreur lors du parsing des IDs traités, réinitialisation:", error);
+      lastProcessedIds = [];
+    }
+
+    if (lastProcessedIds.includes(idmsg)) {
+      log.debug("Message " + idmsg + " déjà traité, passage au suivant");
+      continue;
+    }
 
     // Espionnage ennemi
     if ((storageGetValue("handle.msg.ennemy.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
@@ -265,15 +299,43 @@ function parse_short_messages(messagesCourt, messages) {
       let ogameAPILink = regexApi.exec(ogameAPITitle)[1];*/
     }
 
+    // Marquer ce message comme traité
+    lastProcessedIds.push(idmsg);
+    // Garder seulement les 100 derniers IDs pour éviter une croissance infinie
+    if (lastProcessedIds.length > 100) {
+      lastProcessedIds = lastProcessedIds.slice(-100);
+    }
+    storageSetValue("lastProcessedMessageIds", JSON.stringify(lastProcessedIds));
+
     // TODO : Cas de perte de contact avec la flotte attaquante
   }
 
-  //storageSetValue('lastShtMsgsSize', messagesCourt.snapshotLength); //Pour detection nouveau message
+  // Sauvegarder les tailles pour éviter le retraitement
+  storageSetValue('lastShtMsgsSize', messagesCourt.snapshotLength);
+  storageSetValue('lastMsgsSize', messages.snapshotLength);
 }
 
 function parseJSONAttribute(rawDataElement, attributeName, defaultValue = null) {
   const attribute = rawDataElement.getAttribute(attributeName);
-  return attribute ? JSON.parse(attribute.replace(/&quot;/g, '"')) : defaultValue;
+
+  // Vérifier si l'attribut existe et n'est pas vide
+  if (!attribute) {
+    return defaultValue;
+  }
+
+  // Vérifier si c'est juste un tiret (valeur par défaut d'OGame pour "pas de données")
+  if (attribute === '-' || attribute.trim() === '') {
+    return defaultValue;
+  }
+
+  try {
+    // Remplacer les entités HTML et parser le JSON
+    return JSON.parse(attribute.replace(/&quot;/g, '"'));
+  } catch (error) {
+    // Si le parsing JSON échoue, logger l'erreur et retourner la valeur par défaut
+    log.debug(`Erreur lors du parsing JSON de l'attribut ${attributeName}: ${error.message}, valeur: "${attribute}"`);
+    return defaultValue;
+  }
 }
 
 /**

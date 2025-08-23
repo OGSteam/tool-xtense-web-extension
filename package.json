@@ -10,6 +10,8 @@
     "release": "gulp default",
     "dev-firefox": "cd extension && web-ext run --start-url www.ogame.fr --keep-profile-changes --firefox-profile=../xtense-profile/. --profile-create-if-missing",
     "lint": "cd extension && web-ext lint",
+    "lint:js": "eslint extension/**/*.js",
+    "lint:all": "npm run lint:js && npm run lint",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "npm run build && npm run lint",
     "build": "gulp build",
