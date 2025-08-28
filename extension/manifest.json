@@ -27,6 +27,7 @@
         "contribs/loglevel.min.js",
         "parsers/OgameLocales.js",
         "parsers/OgameConstants.js",
+        "parsers/message-debug.js",
         "parsers/controller.js",
         "parsers/messages.js",
         "parsers/metas.js",
