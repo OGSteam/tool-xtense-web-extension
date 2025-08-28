@@ -37,30 +37,102 @@ function get_message_content() {
     return;
   }
 
+  // Variable pour éviter les appels multiples rapprochés
+  let parseTimeout = null;
+  let lastParseTime = 0;
+  const PARSE_COOLDOWN = 2000; // 2 secondes minimum entre les parsing
+
+  function debouncedParseMessages() {
+    const now = Date.now();
+
+    // Vérifier si assez de temps s'est écoulé depuis le dernier parsing
+    if (now - lastParseTime < PARSE_COOLDOWN) {
+      log.debug('Parsing en cooldown, ignoré');
+      return;
+    }
+
+    // Annuler le timeout précédent s'il existe
+    if (parseTimeout) {
+      clearTimeout(parseTimeout);
+    }
+
+    // Programmer le parsing avec un délai
+    parseTimeout = setTimeout(() => {
+      lastParseTime = Date.now();
+      log.info('Déclenchement du parsing des messages (debounced)');
+      parse_messages();
+      parseTimeout = null;
+    }, 300);
+  }
+
   // Créer l'observateur de mutations
   let observer = new MutationObserver(function (mutations) {
+    let shouldParse = false;
+
     mutations.forEach((mutation) => {
-      // Ignorer les mutations sans nouveaux nœuds
-      if (mutation.addedNodes.length === 0) {
-        return;
+      // Log pour débugger les mutations détectées (seulement si pas déjà en cours)
+      if (!parseTimeout) {
+        log.debug('Mutation détectée:', mutation.type, mutation.target.tagName || 'Unknown');
       }
 
-      let node = mutation.addedNodes[0];
+      // Vérification des nœuds ajoutés
+      if (mutation.addedNodes.length > 0) {
+        for (let i = 0; i < mutation.addedNodes.length; i++) {
+          let node = mutation.addedNodes[i];
 
-      // Vérifier si le nœud ajouté correspond à l'un des cas qui nous intéressent
-      if (node.id === 'fleetsgenericpage' ||
-        node.id === 'communicationmessagespage' ||
-        node.id === 'defaultmessagespage' ||
-        node.className === 'pagination') {
+          // Vérifier si c'est un élément HTML (pas juste du texte)
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            // Conditions plus larges pour détecter les messages
+            if (node.id && (
+                node.id.includes('message') ||
+                node.id.includes('fleet') ||
+                node.id.includes('communication') ||
+                node.id.includes('default')
+              )) {
+              shouldParse = true;
+              log.debug('Mutation Message détectée via ID:', node.id);
+              break;
+            }
 
-        log.debug('Mutation Message détectée');
-        parse_messages();
+            // Vérifier les classes
+            if (node.className && (
+                node.className.includes('message') ||
+                node.className.includes('pagination') ||
+                node.className.includes('msg')
+              )) {
+              shouldParse = true;
+              log.debug('Mutation Message détectée via classe:', node.className);
+              break;
+            }
+
+            // Vérifier si c'est un conteneur de messages par le contenu
+            if (node.querySelector && (
+                node.querySelector('[data-msg-id]') ||
+                node.querySelector('.msg') ||
+                node.querySelector('.message')
+              )) {
+              shouldParse = true;
+              log.debug('Mutation Message détectée via contenu');
+              break;
+            }
+          }
+        }
       }
     });
+
+    // Si on a détecté un changement pertinent, utiliser le debounced parsing
+    if (shouldParse) {
+      debouncedParseMessages();
+    }
   });
 
-  // Configuration de l'observateur
-  let config = {attributes: false, childList: true, characterData: false, subtree: true};
+  // Configuration de l'observateur - plus sensible
+  let config = {
+    attributes: false, // Désactiver les attributs pour réduire le bruit
+    childList: true,
+    characterData: false,
+    subtree: true
+  };
 
   // Stocker l'observateur dans une variable globale pour pouvoir le déconnecter plus tard si nécessaire
   window.messageObserver = observer;
@@ -68,8 +140,34 @@ function get_message_content() {
   // Activer l'observateur
   observer.observe(target, config);
 
-  // Analyser la première page au chargement
-  parse_messages();
+  // Analyser la première page au chargement SEULEMENT si des messages sont déjà présents
+  setTimeout(() => {
+    // Vérifications plus larges pour détecter les messages existants
+    let existingMessages = document.querySelector('#communicationmessagespage, #defaultmessagespage, [data-msg-id], .msg, .message');
+    if (existingMessages) {
+      log.debug('Messages déjà présents au chargement, lancement du parsing');
+      lastParseTime = Date.now();
+      parse_messages();
+    } else {
+      log.debug('Aucun message présent au chargement, attente des mutations DOM');
+
+      // Vérification périodique au cas où les mutations ne se déclenchent pas
+      let checkCount = 0;
+      let checkInterval = setInterval(() => {
+        checkCount++;
+        let messages = document.querySelector('[data-msg-id], .msg, .message');
+        if (messages) {
+          log.info('Messages détectés par vérification périodique, lancement du parsing');
+          clearInterval(checkInterval);
+          lastParseTime = Date.now();
+          parse_messages();
+        } else if (checkCount >= 10) { // Arrêter après 10 tentatives
+          clearInterval(checkInterval);
+          log.debug('Arrêt de la vérification périodique des messages');
+        }
+      }, 1000);
+    }
+  }, 200);
 }
 
 
@@ -254,4 +352,3 @@ function handle_current_page() {
     setStatus(XLOG_NORMAL, xlang("unknow_page"));
   }
 }
-

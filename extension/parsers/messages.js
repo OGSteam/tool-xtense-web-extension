@@ -6,9 +6,7 @@
  * @license     GNU GPL v2
  * @version     3.1.2
  */
-/*eslint-env browser*/
-
-/*global log, Xpath, XtenseXpaths, setStatus, XLOG_NORMAL, xlang, glang, storageGetValue, storageSetValue, XtenseRegexps, XtenseParseDate, XtenseRequest */
+/* exported parse_messages, get_tabid, parse_rc */
 
 function get_tabid() {
   console.log("get_tabid called");
@@ -45,24 +43,40 @@ function get_tabid() {
   return type;
 }
 
-
 /* Page Messages */
 
 function parse_messages() {
-  setStatus(XLOG_NORMAL, xlang('messages_detected'));
   let paths = XtenseXpaths.messages;
   let messages = Xpath.getOrderedSnapshotNodes(document, paths.showmessage, null);
   let messagesCourt = Xpath.getOrderedSnapshotNodes(document, paths.shortmessages, null);
 
+  // Debug XPath si mode debug activé
+  if (typeof debugXPathResults === 'function') {
+    debugXPathResults(paths, messages, messagesCourt);
+  }
+
   log.debug('Nombre Messages courts: ' + messagesCourt.snapshotLength);
   log.debug('Nombre Messages classiques: ' + messages.snapshotLength);
 
-  // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
-  parse_short_messages(messagesCourt, messages);
+  // Vérifier s'il y a des messages à traiter
+  if (messagesCourt.snapshotLength === 0 && messages.snapshotLength === 0) {
+    log.debug('parse_messages - Aucun message détecté, arrêt du traitement');
+    setStatus(XLOG_NORMAL, xlang('no_messages'));
+    return;
+  }
 
-  log.info("Traitement d'un message detaille");
+  setStatus(XLOG_NORMAL, xlang('messages_detected'));
+
+  // Traitement des listes de messages court (déclenche lorsque le nombre de messages détecté change)
+  if (messagesCourt.snapshotLength > 0) {
+    parse_short_messages(messagesCourt, messages);
+  }
+
   // Traitement d'un message detaille (declenche lorsque l'on affiche le detail d'un message ou lorsque l'on change de page de msg detaille)
-  parse_detail_messages(messages);
+  if (messages.snapshotLength > 0) {
+    log.info("Traitement d'un message detaille");
+    parse_detail_messages(messages);
+  }
 }
 
 function parse_short_messages(messagesCourt, messages) {
@@ -75,21 +89,27 @@ function parse_short_messages(messagesCourt, messages) {
     log.debug('parse_short_messages - Pas de messages à traiter');
     return;
   }
-  // Si le nombre de messages présent est le même que lors du dernier traitement
-  // On considère qu'il n'y a pas de nouveaux messages
-  if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize) {
-    log.debug('parse_short_messages - Pas de nouveaux messages');
-    return;
-  }
 
-  //storageSetValue("last_shortmessage", messagesCourt.snapshotLength);
+  // En mode debug, forcer le traitement de tous les messages
+  if (typeof DEBUG_MESSAGES === 'undefined' || !DEBUG_MESSAGES) {
+    // Si le nombre de messages présent est le même que lors du dernier traitement
+    // On considère qu'il n'y a pas de nouveaux messages
+    if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize) {
+      log.debug('parse_short_messages - Pas de nouveaux messages');
+      return;
+    }
+  }
 
   let locales = glang('messages');
   let tab_type = get_tabid();
   log.info("Traitement des messages court");
 
+  // Debug du début du traitement si disponible
+  if (typeof debugStartShortMessages === 'function') {
+    debugStartShortMessages(messagesCourt.snapshotLength, locales, tab_type);
+  }
+
   // Parcours de la liste de messages court
-  // TODO : Ne pas re-parcourir les messages court deja parse
   for (let cptShtMsg = 0; cptShtMsg < messagesCourt.snapshotLength; cptShtMsg++) {
     let shortMessageNode = messagesCourt.snapshotItem(cptShtMsg);
     let msgContent = shortMessageNode.textContent.trim();
@@ -98,10 +118,47 @@ function parse_short_messages(messagesCourt, messages) {
     let idmsg = shortMessageNode.attributes['data-msg-id'].value;
     log.debug("ID Message court : " + idmsg);
 
+    // Analyser la structure du message en mode debug
+    if (typeof analyzeMessageStructure === 'function') {
+      analyzeMessageStructure(shortMessageNode, cptShtMsg);
+    }
+
+    // Vérifier si ce message a déjà été traité - correction du bug de type
+    let lastProcessedIdsString = storageGetValue("lastProcessedMessageIds", "[]");
+    let lastProcessedIds;
+
+    try {
+      // S'assurer que c'est bien un tableau
+      if (typeof lastProcessedIdsString === 'string') {
+        lastProcessedIds = JSON.parse(lastProcessedIdsString);
+      } else {
+        lastProcessedIds = lastProcessedIdsString;
+      }
+
+      // Vérifier que c'est bien un tableau
+      if (!Array.isArray(lastProcessedIds)) {
+        lastProcessedIds = [];
+      }
+    } catch (error) {
+      log.debug("Erreur lors du parsing des IDs traités, réinitialisation:", error);
+      lastProcessedIds = [];
+    }
+
+    if ((typeof DEBUG_MESSAGES === 'undefined' || !DEBUG_MESSAGES) && lastProcessedIds.includes(idmsg)) {
+      log.debug("Message " + idmsg + " déjà traité, passage au suivant");
+      continue;
+    }
+
+    // Debug du parsing de message
+    if (typeof debugParseMessage === 'function') {
+      debugParseMessage(shortMessageNode, msgContent, idmsg, locales);
+    }
+
     // Espionnage ennemi
     if ((storageGetValue("handle.msg.ennemy.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionnage action']))) {
-
-      log.info("Message court Espionnage Ennemi détecté");
+      if (typeof debugMessageType === 'function') {
+        debugMessageType("espionnage ennemi", idmsg);
+      }
       let ToInfo = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy_to));
       let proba = msgContent.match(new RegExp(XtenseRegexps.messages.ennemy_spy_proba));
 
@@ -142,8 +199,10 @@ function parse_short_messages(messagesCourt, messages) {
     }
 
     // Recyclage
-    else if ((storageGetValue("handle.msg.rc.cdr").toString() === 'true') && msgContent.match(new RegExp(locales.fleet)) && msgContent.match(new RegExp(locales.harvesting))) { //OK
-      log.info("Message court Recyclage détecté");
+    else if ((storageGetValue("handle.msg.rc.cdr").toString() === 'true') && msgContent.match(new RegExp(locales.fleet)) && msgContent.match(new RegExp(locales.harvesting))) {
+      if (typeof debugMessageType === 'function') {
+        debugMessageType("recyclage", idmsg);
+      }
       let m = msgContent.match(new RegExp(XtenseRegexps.coords));
       if (m) {
         let data = {};
@@ -173,8 +232,9 @@ function parse_short_messages(messagesCourt, messages) {
     }
     // Expeditions
     else if ((storageGetValue("handle.msg.expeditions").toString() === 'true') && msgContent.match(new RegExp(locales.expeditionResult + XtenseRegexps.planetCoords))) {
-
-      log.info("Message court Expédition détecté");
+      if (typeof debugMessageType === 'function') {
+        debugMessageType("expédition", idmsg);
+      }
       let m = msgContent.match(new RegExp(locales.expeditionResult + XtenseRegexps.planetCoords));
       let content = Xpath.getOrderedSnapshotNodes(document, paths.shortmsgcontent, shortMessageNode);
 
@@ -194,6 +254,9 @@ function parse_short_messages(messagesCourt, messages) {
       }
     } // Espionnages
     else if ((storageGetValue("handle.msg.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords))) {
+      if (typeof debugMessageType === 'function') {
+        debugMessageType("espionnage", idmsg);
+      }
       log.info("Message court Espionnage détecté");
 
       let planetName = '';
@@ -264,16 +327,92 @@ function parse_short_messages(messagesCourt, messages) {
       let regexApi = new RegExp(XtenseRegexps.ogameapi);
       let ogameAPILink = regexApi.exec(ogameAPITitle)[1];*/
     }
+    else if ((storageGetValue("handle.msg.rc").toString() === 'true') && msgContent.match(new RegExp(locales['combat of']))) {
+      if (typeof debugMessageType === 'function') {
+        debugMessageType("combat", idmsg);
+      }
+      log.info("Message court RC détecté");
 
-    // TODO : Cas de perte de contact avec la flotte attaquante
+      let rawDataElement = shortMessageNode.querySelector('.rawMessageData');
+
+      if (rawDataElement) {
+        let combatData = {
+          messageType: rawDataElement.getAttribute('data-raw-messagetype'),
+          timestamp: rawDataElement.getAttribute('data-raw-timestamp'),
+          date: rawDataElement.getAttribute('data-raw-date'),
+          ogapilnk: rawDataElement.getAttribute('data-raw-hashcode'),
+          coordinates: rawDataElement.getAttribute('data-raw-coords'),
+
+          // Données JSON brutes pour OGSpy (pas de traitement côté Xtense)
+          defenderSpaceObject: parseJSONAttribute(rawDataElement, 'data-raw-defenderspaceobject', {}),
+          fleets: parseJSONAttribute(rawDataElement, 'data-raw-fleets', []),
+          combatRounds: parseJSONAttribute(rawDataElement, 'data-raw-combatrounds', []),
+          result: parseJSONAttribute(rawDataElement, 'data-raw-result', {}),
+
+          // Informations supplémentaires du message
+          messageId: idmsg,
+          parseDate: XtenseParseDate(msgContent, glang('dates').messages)
+        };
+
+        console.log("Combat Report Data:", combatData);
+
+        XtenseRequest.set('type', 'rc');
+        XtenseRequest.set('gamedata', combatData);
+        XtenseRequest.send();
+        log.info("Message court RC envoyé - Coords: " + combatData.coordinates);
+      } else {
+        log.warn("Élément rawMessageData non trouvé pour le RC " + idmsg);
+      }
+    } else {
+      if (typeof debugUnknownMessage === 'function') {
+        debugUnknownMessage(idmsg);
+      }
+    }
+
+    // En mode normal, marquer ce message comme traité
+    if (typeof DEBUG_MESSAGES === 'undefined' || !DEBUG_MESSAGES) {
+      lastProcessedIds.push(idmsg);
+      // Garder seulement les 100 derniers IDs pour éviter une croissance infinie
+      if (lastProcessedIds.length > 100) {
+        lastProcessedIds = lastProcessedIds.slice(-100);
+      }
+      storageSetValue("lastProcessedMessageIds", JSON.stringify(lastProcessedIds));
+    }
   }
 
-  //storageSetValue('lastShtMsgsSize', messagesCourt.snapshotLength); //Pour detection nouveau message
+  // En mode normal, sauvegarder les tailles pour éviter le retraitement
+  if (typeof DEBUG_MESSAGES === 'undefined' || !DEBUG_MESSAGES) {
+    storageSetValue('lastShtMsgsSize', messagesCourt.snapshotLength);
+    storageSetValue('lastMsgsSize', messages.snapshotLength);
+  }
+
+  // Debug de fin de traitement si disponible
+  if (typeof debugEndShortMessages === 'function') {
+    debugEndShortMessages();
+  }
 }
 
 function parseJSONAttribute(rawDataElement, attributeName, defaultValue = null) {
   const attribute = rawDataElement.getAttribute(attributeName);
-  return attribute ? JSON.parse(attribute.replace(/&quot;/g, '"')) : defaultValue;
+
+  // Vérifier si l'attribut existe et n'est pas vide
+  if (!attribute) {
+    return defaultValue;
+  }
+
+  // Vérifier si c'est juste un tiret (valeur par défaut d'OGame pour "pas de données")
+  if (attribute === '-' || attribute.trim() === '') {
+    return defaultValue;
+  }
+
+  try {
+    // Remplacer les entités HTML et parser le JSON
+    return JSON.parse(attribute.replace(/&quot;/g, '"'));
+  } catch (error) {
+    // Si le parsing JSON échoue, logger l'erreur et retourner la valeur par défaut
+    log.debug(`Erreur lors du parsing JSON de l'attribut ${attributeName}: ${error.message}, valeur: "${attribute}"`);
+    return defaultValue;
+  }
 }
 
 /**

@@ -61,6 +61,7 @@ setlogLevel(); // Default Info
 log.info("Welcome to Xtense WE Version : " + VERSION);
 log.info("Universe : " + numUnivers + "-" + langUnivers);
 log.info("Xtense WE requires Mod Xtense " + PLUGIN_REQUIRED);
+//enableMessageDebug();
 
 initOGSpyCommunication();
 initParsers();

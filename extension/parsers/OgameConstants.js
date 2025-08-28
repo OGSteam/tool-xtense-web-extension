@@ -353,5 +353,3 @@ function initParsers() {
   };
 
 }
-
-
