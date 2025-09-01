@@ -215,6 +215,15 @@ function get_content(type) {
     case 'resourceSettings':
       func = parse_ressource_settings;
       break;
+    case 'lfbuildings':
+      func = parse_lfBuildings;
+      break;
+    case 'lfresearch':
+      func = parse_lfResearch;
+      break;
+    default:
+      log.error("Unknown type for static observer");
+      return; // Sortir de la fonction si le type est inconnu
   }
 
   // Vérifier si l'élément existe et configurer l'observateur si c'est le cas
@@ -230,7 +239,7 @@ function get_content(type) {
 
           // Pour les cas comme 'stats' qui peuvent causer des doubles déclenchements
           if (type === 'stats' || type === 'system' || type === 'overview' || type === 'alliance') {
-            // Exécuter la fonction mais ne pas la réexécuter en fin de fonction
+            // Exécuter la fonction, mais ne pas la réexécuter en fin de fonction
             func();
             observerAttached = true;  // S'assurer que nous n'appelons pas func() à la fin
           } else {
@@ -311,6 +320,8 @@ function handle_current_page() {
   let regAlliance = new RegExp(/component=(alliance)/);
   let regStats = new RegExp(/page=(highscore)/);
   let regRessources = new RegExp(/component=(resourceSettings)/, 'i');
+  let regLfBuildings = new RegExp(/component=(lfbuildings)/);
+  let regLfResearch = new RegExp(/component=(lfresearch)/);
 
   if (regOption.test(url)) {
     displayOptions();
@@ -348,7 +359,11 @@ function handle_current_page() {
     handle_page("alliance");
   } else if (regStats.test(url)) {
     handle_page("stats");
+  } else if (regLfBuildings.test(url)) {
+    handle_page("lfbuildings");
+  } else if (regLfResearch.test(url)) {
+    handle_page("lfresearch");
   } else {
-    setStatus(XLOG_NORMAL, xlang("unknow_page"));
+      setStatus(XLOG_NORMAL, xlang("unknow_page"));
+    }
   }
-}

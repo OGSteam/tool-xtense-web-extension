@@ -131,6 +131,14 @@
         "message": "Livraisons de commerce",
         "description": "Intitulé Envoi des données commerce"
     },
+    "XtenseSend_lfBuildings": {
+        "message": "Formes de vie : Bâtiments",
+        "description": "Intitulé Envoi des données Formes de vie Bâtiments"
+    },
+    "XtenseSend_lfResearch": {
+      "message": "Formes de vie : Recherches",
+      "description": "Intitulé Envoi des données Formes de vie Recherches"
+    },
     "XtenseOptionsPage_title": {
         "message": "Options Diverses",
         "description": "Titre options diverses"
@@ -274,6 +282,14 @@
     "XtenseMsg_rc_detected": {
         "message": "Rapport de combat détecté",
         "description": "TODO"
+    },
+    "XtenseMsg_lfBuildings_detected": {
+        "message": "Formes de vie : Bâtiments détectés",
+        "description": "-Used-"
+    },
+    "XtenseMsg_lfresearch_detected": {
+      "message": "Formes de vie : Recherches détectées",
+      "description": "-Used-"
     },
     "XtenseMsg_ranking_player": {
         "message": "joueurs",
