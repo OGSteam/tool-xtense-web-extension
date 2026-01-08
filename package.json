@@ -47,7 +47,7 @@
     "gulp-zip": "^6.1.0",
     "read-pkg": "^9.0.1",
     "through2": "^4.0.2",
-    "web-ext": "^8.9.0"
+    "web-ext": "^9.0.0"
   },
   "dependencies": {
     "glob": "^11.0.3",
