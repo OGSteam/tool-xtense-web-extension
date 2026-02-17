@@ -45,7 +45,7 @@
     "gulp": "^5.0.1",
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^6.1.0",
-    "read-pkg": "^9.0.1",
+    "read-pkg": "^10.0.0",
     "through2": "^4.0.2",
     "web-ext": "^9.0.0"
   },
