@@ -103,7 +103,6 @@ function displayOptions() {
   let handle_defense = " ";
   let handle_alliance = " ";
   let handle_stats = " ";
-  // Variables recupération des messages
   let handle_msg_msg = " ";
   let handle_msg_ally = " ";
   let handle_msg_spy = " ";
@@ -112,12 +111,13 @@ function displayOptions() {
   let handle_msg_rc_cdr = " ";
   let handle_msg_expeditions = " ";
   let handle_msg_commerce = " ";
-  // Variables : Options
+  let handle_lfbuildings = " ";
+  let handle_lfresearch = " ";
   let opt_debug_mode = " ";
   let opt_backup_link = " ";
   let opt_ogspy_link = " ";
 
-  // Récupération des préférences  : Pages
+  // Récupération des préférences : Pages
 
   if (storageGetValue("handle.overview", "false").toString() === "true") {
     handle_overview += "checked";
@@ -125,9 +125,7 @@ function displayOptions() {
   if (storageGetValue("handle.buildings", "false").toString() === "true") {
     handle_buildings += "checked";
   }
-  if (
-    storageGetValue("handle.resourceSettings", "false").toString() === "true"
-  ) {
+  if (storageGetValue("handle.resourceSettings", "false").toString() === "true") {
     handle_resourceSettings += "checked";
   }
   if (storageGetValue("handle.station", "false").toString() === "true") {
@@ -170,14 +168,19 @@ function displayOptions() {
     handle_msg_rc_cdr += "checked";
   }
   if (
-    storageGetValue("handle.msg.expeditions", "false").toString() === "true"
-  ) {
+    storageGetValue("handle.msg.expeditions", "false").toString() === "true") {
     handle_msg_expeditions += "checked";
   }
   if (storageGetValue("handle.msg.commerce", "false").toString() === "true") {
     handle_msg_commerce += "checked";
   }
-  // Récupération des préférences  : Options
+  if (storageGetValue("handle.lfbuildings", "false").toString() === "true") {
+    handle_lfbuildings += "checked";
+  }
+  if (storageGetValue("handle.lfresearch", "false").toString() === "true") {
+    handle_lfresearch += "checked";
+  }
+  // Récupération des préférences: Options
 
   if (storageGetValue("debug.mode", "false").toString() === "true") {
     opt_debug_mode += " checked";
@@ -188,6 +191,39 @@ function displayOptions() {
   if (storageGetValue("ogspy.link", "false").toString() === "true") {
     opt_ogspy_link += " checked";
   }
+
+  // HTML Content
+
+  function createCheckboxRow(label, inputId, checked, style = '') {
+    const baseStyle = style ? `text-align:left;${style}` : '';
+    const styleAttr = style ? ` style="${baseStyle}"` : '';
+
+    return `
+    <td class="champ"><label class="styled textBeefy">${label}</label></td>
+    <td class="value"${styleAttr}><input class="speed" id="${inputId}" size="35" alt="24" type="checkbox" ${checked}/></td>
+  `;
+  }
+
+  // Helper function pour créer une cellule vide
+  function createEmptyCell() {
+    return '<td class="champ"></td><td class="value"></td>';
+  }
+
+  // Helper function pour créer une ligne d'espacement
+  function createSpacingRow(colspan = 6) {
+    return `<tr><td colspan="${colspan}">&nbsp;</td></tr>`;
+  }
+
+  // Helper function pour créer une ligne d'espacement simple (pour tableaux 2 colonnes)
+  function createSimpleSpacingRow() {
+    return '<tr><td>&#160;</td><td>&#160;</td></tr>';
+  }
+
+  // Helper function pour créer un titre de section
+  function createSectionTitle(message, colspan = 6) {
+    return `<tr><td colspan="${colspan}" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">${message}</td></tr>`;
+  }
+
 
   let options =
     '<div id="Xtense_Div" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;"><br><br>';
@@ -200,129 +236,134 @@ function displayOptions() {
     '"/>';
   options += "<br><br>";
   options +=
-    '<table style="width:675px;">' +
-    '<colgroup><col width="25%"/><col width="25%"/><col width="25%"/><col width="25%"/></colgroup>' +
-    "<tbody>" +
-    "<tr>" +
-    '<td align="center"><span id="menu_servers" style="font-size: 20px; color: white;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("assets/images/server.png") +
-    '"/><b>' +
-    chrome.i18n.getMessage("XtenseOptions_serveur") +
-    "</b></a></span></td>" +
-    '<td align="center"><span id="menu_pages"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("assets/images/pages.png") +
-    '"/><b>' +
-    chrome.i18n.getMessage("XtenseOptions_pages") +
-    "</b></a></span></td>" +
-    '<td align="center"><span id="menu_options" style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("assets/images/conf.png") +
-    '"/><b>' +
-    chrome.i18n.getMessage("XtenseOptions_settings") +
-    "</b></a></span></td>" +
-    '<td align="center"><span id="menu_about"   style="font-size: 20px; color: orange;"><a style="cursor:pointer;"><img src="' +
-    chrome.runtime.getURL("assets/images/about.png") +
-    '"/><b>' +
-    chrome.i18n.getMessage("XtenseOptions_about") +
-    "</b></a></span></td>" +
-    "</tr>" +
-    "</tbody>" +
-    "</table>";
+    `
+<table style="width:675px;">
+  <colgroup>
+    <col width="25%"/>
+    <col width="25%"/>
+    <col width="25%"/>
+    <col width="25%"/>
+  </colgroup>
+  <tbody>
+    <tr>
+      <td align="center">
+        <span id="menu_servers" style="font-size: 20px; color: white;">
+          <a style="cursor:pointer;">
+            <img src="${chrome.runtime.getURL("assets/images/server.png")}" />
+            <b>${chrome.i18n.getMessage("XtenseOptions_serveur")}</b>
+          </a>
+        </span>
+      </td>
+      <td align="center">
+        <span id="menu_pages" style="font-size: 20px; color: orange;">
+          <a style="cursor:pointer;">
+            <img src="${chrome.runtime.getURL("assets/images/pages.png")}" />
+            <b>${chrome.i18n.getMessage("XtenseOptions_pages")}</b>
+          </a>
+        </span>
+      </td>
+      <td align="center">
+        <span id="menu_options" style="font-size: 20px; color: orange;">
+          <a style="cursor:pointer;">
+            <img src="${chrome.runtime.getURL("assets/images/conf.png")}" />
+            <b>${chrome.i18n.getMessage("XtenseOptions_settings")}</b>
+          </a>
+        </span>
+      </td>
+      <td align="center">
+        <span id="menu_about" style="font-size: 20px; color: orange;">
+          <a style="cursor:pointer;">
+            <img src="${chrome.runtime.getURL("assets/images/about.png")}" />
+            <b>${chrome.i18n.getMessage("XtenseOptions_about")}</b>
+          </a>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
   options += '<div id="Xtense_serveurs">';
-  options +=
-    '<table id="Xtense_table_serveurs" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8; ">';
-  options += '<colgroup><col width="20%"/><col/></colgroup>';
-  options +=
-    '<thead><tr><th class="Xtense_th" colspan="2" style="font-size: 12px; text-align:center; font-weight: bold; color: #539fc8; line-height: 30px; height: 30px;"></th></tr></thead>';
-  options += "<tbody>";
-  options += "<tr>";
-  options +=
-    '<td class="champ" colspan="2"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_Title") +
-    " " +
-    numUnivers +
-    "</label></td>";
-  options += "</tr>";
-  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
-  options += "<tr>";
-  options +=
-    '<td class="champ" colspan="2"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_MainServer") +
-    "</label></td>";
-  options += "</tr>";
-  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
-  options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_URL") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="server.url.plugin" value="' +
-    storageGetValue("server.url.plugin", "https://VOTRESITE/VOTREOGSPY") +
-    '" size="64" alt="24" type="text"/></td>';
-  options += "</tr>";
-  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
-  options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_password") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="server.pwd" value="' +
-    storageGetValue("server.pwd", "mot de passe") +
-    '" size="64" alt="24" type="password"/></td>';
-  options += "</tr>";
-  options +=
-    '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
-  options += '<tr class="server_url_backup">';
-  options +=
-    '<td class="champ" colspan="2"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_BackupServer") +
-    "</label></td>";
-  options += "</tr>";
-  options +=
-    '<tr class="server_url_backup"><td >&#160;</td><td>&#160;</td></tr>';
-  options += '<tr class="server_url_backup">';
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_URL") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="server_backup.url.plugin" value="' +
-    storageGetValue(
-      "server_backup.url.plugin",
-      "https://VOTRESITE/VOTREOGSPY"
-    ) +
-    '" size="64" alt="24" type="text"/></td>';
-  options += "</tr>";
-  options +=
-    '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
-  options += '<tr class="server_url_backup">';
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseServer_password") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="server_backup.pwd" value="' +
-    storageGetValue("server_backup.pwd", "mot de passe") +
-    '" size="64" alt="24" type="password"/></td>';
-  options += "</tr>";
-  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
-  options += "<tr>";
-  options +=
-    '<td colspan="2"><img src="' +
-    chrome.runtime.getURL("assets/icones/infos.png") +
-    '"/>' +
-    chrome.i18n.getMessage("XtenseServer_Example") +
-    "</td>";
-  options += "</tr>";
-  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
-  options += "<tr>";
-  options +=
-    '<td colspan="2"><a href="https://wiki.ogsteam.eu" target="_blank" >' +
-    chrome.i18n.getMessage("XtenseServer_Example_2") +
-    "</a></td>";
-  options += "</tr>";
-  options += "</tbody></table>";
+  options += `
+  <table id="Xtense_table_serveurs" style="width:675px; color: orange; background-color: black; text-align: center; font-size: 12px; opacity : 0.8;">
+    <colgroup>
+      <col width="20%"/>
+      <col/>
+    </colgroup>
+    <thead>
+      <tr>
+        <th class="Xtense_th" colspan="2" style="font-size: 12px; text-align:center; font-weight: bold; color: #539fc8; line-height: 30px; height: 30px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="champ" colspan="2">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_Title")} ${numUnivers}</label>
+        </td>
+      </tr>
+      ${createSimpleSpacingRow()}
+      <tr>
+        <td class="champ" colspan="2">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_MainServer")}</label>
+        </td>
+      </tr>
+      ${createSimpleSpacingRow()}
+      <tr>
+        <td class="champ">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_URL")}</label>
+        </td>
+        <td class="value">
+          <input class="speed" id="server.url.plugin" value="${storageGetValue("server.url.plugin", "https://VOTRESITE/VOTREOGSPY")}" size="64" alt="24" type="text"/>
+        </td>
+      </tr>
+      ${createSimpleSpacingRow()}
+      <tr>
+        <td class="champ">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_password")}</label>
+        </td>
+        <td class="value">
+          <input class="speed" id="server.pwd" value="${storageGetValue("server.pwd", "mot de passe")}" size="64" alt="24" type="password"/>
+        </td>
+      </tr>
+      <tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>
+      <tr class="server_url_backup">
+        <td class="champ" colspan="2">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_BackupServer")}</label>
+        </td>
+      </tr>
+      <tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>
+      <tr class="server_url_backup">
+        <td class="champ">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_URL")}</label>
+        </td>
+        <td class="value">
+          <input class="speed" id="server_backup.url.plugin" value="${storageGetValue("server_backup.url.plugin", "https://VOTRESITE/VOTREOGSPY")}" size="64" alt="24" type="text"/>
+        </td>
+      </tr>
+      <tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>
+      <tr class="server_url_backup">
+        <td class="champ">
+          <label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_password")}</label>
+        </td>
+        <td class="value">
+          <input class="speed" id="server_backup.pwd" value="${storageGetValue("server_backup.pwd", "mot de passe")}" size="64" alt="24" type="password"/>
+        </td>
+      </tr>
+      ${createSpacingRow()}
+      <tr>
+        <td colspan="2">
+          <img src="${chrome.runtime.getURL("assets/icones/infos.png")}" />
+          ${chrome.i18n.getMessage("XtenseServer_Example")}
+        </td>
+      </tr>
+      ${createSimpleSpacingRow()}
+      <tr>
+        <td colspan="2">
+          <a href="https://wiki.ogsteam.eu" target="_blank">${chrome.i18n.getMessage("XtenseServer_Example_2")}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+`;
   options += "</div>";
   /*---------------------------- Pages -----------------------------------------------*/
   options += '<div id="Xtense_pages">';
@@ -333,100 +374,27 @@ function displayOptions() {
   options +=
     '<thead><tr><th class="Xtense_th" colspan="3" style="font-size: 12px; text-align:center; font-weight: bold; color: #539fc8; line-height: 30px; height: 30px;"></th></tr></thead>';
   options += "<tbody>";
+  options += createSectionTitle(chrome.i18n.getMessage("XtenseSend_title"), 6);
+  options += createSpacingRow();
   options += "<tr>";
-  options +=
-    '<td  style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' +
-    chrome.i18n.getMessage("XtenseSend_title") +
-    "</td>";
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_general"), "handle.overview", handle_overview);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_buildings"), "handle.buildings", handle_buildings);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_resourceSettings"), "handle.resourceSettings", handle_resourceSettings);
   options += "</tr>";
   options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_station"), "handle.station", handle_station);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_researchs"), "handle.researchs", handle_researchs);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_shipyard"), "handle.shipyard", handle_shipyard);
   options += "</tr>";
   options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_general") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.overview" size="35" alt="24" type="checkbox"' +
-    handle_overview +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_buildings") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.buildings" size="35" alt="24" type="checkbox"' +
-    handle_buildings +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_resourceSettings") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.resourceSettings" size="35" alt="24" type="checkbox"' +
-    handle_resourceSettings +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_station") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.station" size="35" alt="24" type="checkbox"' +
-    handle_station +
-    "/></td>";
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_defense"), "handle.defense", handle_defense);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_systems"), "handle.system", handle_system);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_allymembers"), "handle.alliance", handle_alliance);
   options += "</tr>";
   options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_researchs") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.researchs" size="35" alt="24" type="checkbox"' +
-    handle_researchs +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_shipyard") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.shipyard" size="35" alt="24" type="checkbox"' +
-    handle_shipyard +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_defense") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.defense" size="35" alt="24" type="checkbox"' +
-    handle_defense +
-    "/></td>";
-  options += "</tr>";
-  options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_systems") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.system" size="35" alt="24" type="checkbox"' +
-    handle_system +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_allymembers") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.alliance" size="35" alt="24" type="checkbox"' +
-    handle_alliance +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_rankings") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.stats" size="35" alt="24" type="checkbox"' +
-    handle_stats +
-    "/></td>";
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_rankings"), "handle.stats", handle_stats);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_lfBuildings"), "handle.lfbuildings", handle_lfbuildings);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_lfResearch"), "handle.lfresearch", handle_lfresearch);
   options += "</tr>";
   options += "<tr>";
   options += '<td colspan="6">&nbsp;</td>';
@@ -438,77 +406,18 @@ function displayOptions() {
     "</td>";
   options += "</tr>";
   options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_playermessages"), "handle.msg.msg", handle_msg_msg);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_allymessages"), "handle.msg.ally", handle_msg_ally);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_spymessages"), "handle.msg.spy", handle_msg_spy);
   options += "</tr>";
   options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_playermessages") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.msg" size="35" alt="24" type="checkbox"' +
-    handle_msg_msg +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_allymessages") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.ally" size="35" alt="24" type="checkbox"' +
-    handle_msg_ally +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_spymessages") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.spy" size="35" alt="24" type="checkbox"' +
-    handle_msg_spy +
-    "/></td>";
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_ennemyspymessages"), "handle.msg.ennemy.spy", handle_msg_ennemy_spy);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_combatmessages"), "handle.msg.rc", handle_msg_rc);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_debrismessages"), "handle.msg.rc.cdr", handle_msg_rc_cdr);
   options += "</tr>";
   options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_ennemyspymessages") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.ennemy.spy" size="35" alt="24" type="checkbox"' +
-    handle_msg_ennemy_spy +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_combatmessages") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.rc" size="35" alt="24" type="checkbox"' +
-    handle_msg_rc +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_debrismessages") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.rc.cdr" size="35" alt="24" type="checkbox"' +
-    handle_msg_rc_cdr +
-    "/></td>";
-  options += "</tr>";
-  options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_Expeditions") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.expeditions" size="35" alt="24" type="checkbox"' +
-    handle_msg_expeditions +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseSend_tradingmessage") +
-    "</label></td>";
-  options +=
-    '<td class="value"><input class="speed" id="handle.msg.commerce" size="35" alt="24" type="checkbox"' +
-    handle_msg_commerce +
-    "/></td>";
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_Expeditions"), "handle.msg.expeditions", handle_msg_expeditions);
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseSend_tradingmessage"), "handle.msg.commerce", handle_msg_commerce);
   options += '<td class="champ"></td>';
   options += '<td class="value"></td>';
   options += "</tr>";
@@ -523,71 +432,29 @@ function displayOptions() {
   options +=
     '<thead><tr><th class="Xtense_th" colspan="3" style="font-size: 12px; text-align:center; font-weight: bold; color: #539fc8; line-height: 30px; height: 30px;"></th></tr></thead>';
   options += "<tbody>";
+  options += createSpacingRow();
+  options += createSectionTitle(chrome.i18n.getMessage("XtenseOptionsPage_menu_settings"), 6);
+  options += createSpacingRow();
   options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
-  options += "<tr>";
-  options +=
-    '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' +
-    chrome.i18n.getMessage("XtenseOptionsPage_menu_settings") +
-    "</td>";
-  options += "</tr>";
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
-  options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseOptionsPage_ogspylink") +
-    "</label></td>";
-  options +=
-    '<td class="value" style="text-align:left;"><input class="speed" id="ogspy.link" size="35" alt="24" type="checkbox"' +
-    opt_ogspy_link +
-    "/></td>";
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
-  options += "<tr>";
-  options +=
-    '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' +
-    chrome.i18n.getMessage("XtenseOptionsPage_title") +
-    "</td>";
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseOptionsPage_ogspylink"), "ogspy.link", opt_ogspy_link, 'text-align:left;');
+  options += createEmptyCell();
+  options += createEmptyCell();
   options += "</tr>";
   options += "<tr>";
   options += '<td colspan="6">&nbsp;</td>';
   options += "</tr>";
   options += "<tr>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseOptionsPage_debugmode") +
-    "</label></td>";
-  options +=
-    '<td class="value" style="text-align:left;"><input class="speed" id="debug.mode" size="35" alt="24" type="checkbox"' +
-    opt_debug_mode +
-    "/></td>";
-  options +=
-    '<td class="champ"><label class="styled textBeefy">' +
-    chrome.i18n.getMessage("XtenseOptionsPage_backuplink") +
-    "</label></td>";
-  options +=
-    '<td class="value" style="text-align:left;"><input class="speed" id="backup.link" size="35" alt="24" type="checkbox"' +
-    opt_backup_link +
-    "/></td>";
-  options += '<td class="champ"></td>';
-  options += '<td class="value"></td>';
-  options += "</tr>";
+  options += createSectionTitle(chrome.i18n.getMessage("XtenseOptionsPage_title"), 6);
+  options += createSpacingRow();
   options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseOptionsPage_debugmode"), "debug.mode", opt_debug_mode, 'text-align:left;');
+  options += createCheckboxRow(chrome.i18n.getMessage("XtenseOptionsPage_backuplink"), "backup.link", opt_backup_link, 'text-align:left;');
+  options += createEmptyCell();
   options += "</tr>";
+  options += createSpacingRow();
+  options += createSectionTitle(chrome.i18n.getMessage("XtenseOptionsPage_report"), 6);
+  options += createSpacingRow();
   options += "<tr>";
-  options +=
-    '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;text-align:left;">' +
-    chrome.i18n.getMessage("XtenseOptionsPage_report") +
-    "</td>";
-  options += "</tr>";
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
   options +=
     '<td class="champ"><label class="styled textBeefy">' +
     chrome.i18n.getMessage("XtenseOptionsPage_lastreportType") +
@@ -597,9 +464,7 @@ function displayOptions() {
     storageGetValue("report.type", "none") +
     '" size="32" alt="24" type="text"/></td>';
   options += "</tr>";
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
+  options += createSpacingRow();
   options += "<tr>";
   options +=
     '<td colspan="6"><textarea class="speed" rows="15" cols="100" readonly style="margin: 0; width: 425px; height: 200px;">' +
@@ -616,35 +481,29 @@ function displayOptions() {
   options +=
     '<thead><tr><th class="Xtense_th" colspan="2" style="font-size: 12px; text-align:center; font-weight: bold; color: #539fc8; line-height: 30px; height: 30px;"></th></tr></thead>';
   options += "<tbody>";
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
+  options += createSpacingRow(2);
   options += "<tr>";
   options +=
-    '<td colspan="6" style="color: white; font-size: 14px; font-weight: bold;">' +
+    '<td colspan="2" style="color: white; font-size: 14px; font-weight: bold;">' +
     chrome.i18n.getMessage("XtenseAbout_version") +
     " " +
     VERSION +
     ":</td>";
   options += "</tr>";
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
+  options += createSpacingRow(2);
   options +=
-    '<td class="champ"><label class="styled textBeefy">' +
+    '<tr><td class="champ"><label class="styled textBeefy">' +
     chrome.i18n.getMessage("XtenseAbout_authors") +
     "<br> " +
     chrome.i18n.getMessage("XtenseAbout_support") +
     ' <a href="https://forum.ogsteam.eu" target="_blank">l\'OGSteam</a><br>' +
     chrome.i18n.getMessage("XtenseAbout_issue") +
-    ': <a href="https://github.com/OGSteam/tool-xtense-web-extension/issues" target="_blank">Github</a></label></td>';
-  options += "<tr>";
-  options += '<td colspan="6">&nbsp;</td>';
-  options += "</tr>";
+    ': <a href="https://github.com/OGSteam/tool-xtense-web-extension/issues" target="_blank">Github</a></label></td></tr>';
+  options += createSpacingRow(2);
   options +=
-    '<td class="champ"><label class="styled textBeefy">' +
+    '<tr><td class="champ"><label class="styled textBeefy">' +
     chrome.i18n.getMessage("XtenseAbout_ogsteam") +
-    "</label></td>";
+    "</label></td></tr>";
   options += "</tbody></table>";
   options += "</div>";
   options += "<br><br></div>";
@@ -686,7 +545,6 @@ function displayOptions() {
       document,
       "//div[@id='Xtense_Div']//input[not(@type='checkbox')]"
     );
-    log.trace("inputOptions.snapshotLength=" + inputOptions.snapshotLength);
     if (inputOptions.snapshotLength > 0) {
       for (let i = 0; i < inputOptions.snapshotLength; i++) {
         let input = inputOptions.snapshotItem(i);
@@ -699,19 +557,9 @@ function displayOptions() {
       document,
       "//div[@id='Xtense_Div']//input[@type='checkbox']"
     );
-    log.trace(
-      "checkboxOptions.snapshotLength=" + checkboxOptions.snapshotLength
-    );
     if (checkboxOptions.snapshotLength > 0) {
       for (let j = 0; j < checkboxOptions.snapshotLength; j++) {
         let checkbox = checkboxOptions.snapshotItem(j);
-        log.trace(
-          "GM_setValue(prefix_GMData +" +
-          checkbox.id +
-          " , " +
-          checkbox.checked +
-          ");"
-        );
         storageSetValue(checkbox.id, checkbox.checked);
       }
     }
@@ -721,43 +569,18 @@ function displayOptions() {
 }
 
 function displayOption(id) {
-  $(id).show(); //On affiche le bloc courant
+  const sections = ["#Xtense_serveurs", "#Xtense_pages", "#Xtense_options", "#Xtense_about"];
+  const menuItems = ["#menu_servers", "#menu_pages", "#menu_options", "#menu_about"];
+
+  sections.forEach(section => $(section).hide());
+  menuItems.forEach(menu => $(menu).css("color", "orange"));
+
+  $(id).show();
+  $(`#menu_${id.split("_")[1]}`).css("color", "white");
 
   if (id === "#Xtense_serveurs") {
-    $("#Xtense_pages").hide();
-    $("#Xtense_options").hide();
-    $("#Xtense_about").hide();
-    $("#menu_servers").css("color", "white");
-    $("#menu_pages").css("color", "orange");
-    $("#menu_options").css("color", "orange");
-    $("#menu_about").css("color", "orange");
-    if (storageGetValue("backup.link", "false").toString() === "true")
-      $(".server_url_backup").show();
-    else $(".server_url_backup").hide();
-  } else if (id === "#Xtense_pages") {
-    $("#Xtense_serveurs").hide();
-    $("#Xtense_options").hide();
-    $("#Xtense_about").hide();
-    $("#menu_servers").css("color", "orange");
-    $("#menu_pages").css("color", "white");
-    $("#menu_options").css("color", "orange");
-    $("#menu_about").css("color", "orange");
-  } else if (id === "#Xtense_options") {
-    $("#Xtense_serveurs").hide();
-    $("#Xtense_pages").hide();
-    $("#Xtense_about").hide();
-    $("#menu_servers").css("color", "orange");
-    $("#menu_pages").css("color", "orange");
-    $("#menu_options").css("color", "white");
-    $("#menu_about").css("color", "orange");
-  } else if (id === "#Xtense_about") {
-    $("#Xtense_serveurs").hide();
-    $("#Xtense_pages").hide();
-    $("#Xtense_options").hide();
-    $("#menu_servers").css("color", "orange");
-    $("#menu_pages").css("color", "orange");
-    $("#menu_options").css("color", "orange");
-    $("#menu_about").css("color", "white");
+    const backupVisible = storageGetValue("backup.link", "false").toString() === "true";
+    $(".server_url_backup").toggle(backupVisible);
   }
 }
 

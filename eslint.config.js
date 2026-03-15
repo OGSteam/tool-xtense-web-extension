@@ -72,6 +72,8 @@ export default [
         parse_shipyard: "readonly",
         parse_fleet: "readonly",
         parse_defense: "readonly",
+        parse_lfBuildings: "readonly",
+        parse_lfResearch: "readonly",
         save_my_planets_coords: "readonly",
         get_ally_content: "readonly",
         setlogLevel: "readonly",
