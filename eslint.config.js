@@ -4,12 +4,13 @@ export default [
       ecmaVersion: 2021,
       sourceType: "module",
       globals: {
-        // Environnement browser
+        // Browser environment
         window: "readonly",
         document: "readonly",
         console: "readonly",
         location: "readonly",
         localStorage: "readonly",
+        sessionStorage: "readonly",
         fetch: "readonly",
         setTimeout: "readonly",
         setInterval: "readonly",
@@ -17,24 +18,73 @@ export default [
         clearTimeout: "readonly",
         URL: "readonly",
         URLSearchParams: "readonly",
+        Node: "readonly",
 
-        // APIs DOM
+        // DOM APIs
         XPathResult: "readonly",
         MutationObserver: "readonly",
+        Event: "readonly",
 
-        // APIs Web Extensions
+        // Web Extensions APIs
         chrome: "readonly",
         browser: "readonly",
+        GM_getValue: "readonly",
+        GM_setValue: "readonly",
+        GM_deleteValue: "readonly",
+        GM_listValues: "readonly",
+        GM_addStyle: "readonly",
+        GM_getResourceText: "readonly",
+        GM_getResourceURL: "readonly",
+        GM_xmlhttpRequest: "readonly",
+        GM_registerMenuCommand: "readonly",
+        GM_notification: "readonly",
+        GM_openInTab: "readonly",
+        GM_setClipboard: "readonly",
+        GM_info: "readonly",
 
-        // Globales spécifiques à votre extension
+        // Extension-specific globals
         log: "readonly",
         Xpath: "readonly",
         XtenseXpaths: "readonly",
         setStatus: "readonly",
+        url: "readonly",
+        
+        // Logging levels
         XLOG_NORMAL: "readonly",
         XLOG_WARNING: "readonly",
         XLOG_ERROR: "readonly",
         XLOG_SUCCESS: "readonly",
+        XLOG_COMMENT: "readonly",
+        XLOG_SEND: "readonly",
+        
+        // Debug flags
+        DEBUG_MESSAGES: "readonly",
+        
+        // Xtense specific
+        XtenseDatabase: "readonly",
+        initOGSpyCommunication: "readonly",
+        handleResponse: "readonly",
+        debugXPathResults: "readonly",
+        debugStartShortMessages: "readonly",
+        debugEndShortMessages: "readonly",
+        debugMessageType: "readonly",
+        debugUnknownMessage: "readonly",
+        analyzeMessageStructure: "readonly",
+        debugParseMessage: "readonly",
+        
+        // DOM manipulation
+        $: "readonly",
+        jQuery: "readonly",
+        
+        // Ogame specific
+        Ogame: "readonly",
+        OgameAPI: "readonly",
+        
+        // Utility functions
+        xlang: "readonly",
+        glang: "readonly",
+        Xajax: "readonly",
+        XtenseParseDate: "readonly",
         XLOG_COMMENT: "readonly",
         XLOG_SEND: "readonly",
         xlang: "readonly",
