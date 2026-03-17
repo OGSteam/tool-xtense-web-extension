@@ -11,4 +11,4 @@ release/
 extension/contribs/jquery.min.js
 extension/contribs/loglevel.min.js
 
-xtense-profile
+xtense-profile-*
