@@ -92,11 +92,30 @@ function parse_short_messages(messagesCourt, messages) {
 
   // En mode debug, forcer le traitement de tous les messages
   if (typeof DEBUG_MESSAGES === 'undefined' || !DEBUG_MESSAGES) {
-    // Si le nombre de messages présent est le même que lors du dernier traitement
-    // On considère qu'il n'y a pas de nouveaux messages
+    // Si le nombre de messages présent est le même que lors du dernier traitement,
+    // vérifier quand même si tous les IDs visibles ont déjà été traités.
+    // Un nouveau rapport peut arriver sans changer le nombre total (ex: pagination fixe à 25).
     if (messagesCourt.snapshotLength === lastShtMsgsSize && messages.snapshotLength === lastMsgsSize) {
-      log.debug('parse_short_messages - Pas de nouveaux messages');
-      return;
+      let lastProcessedIdsCheck = [];
+      try {
+        const stored = storageGetValue("lastProcessedMessageIds", "[]");
+        lastProcessedIdsCheck = Array.isArray(stored) ? stored : JSON.parse(stored);
+      } catch (_) { lastProcessedIdsCheck = []; }
+
+      let hasNewId = false;
+      for (let i = 0; i < messagesCourt.snapshotLength; i++) {
+        const node = messagesCourt.snapshotItem(i);
+        const id = node.attributes['data-msg-id'] && node.attributes['data-msg-id'].value;
+        if (id && !lastProcessedIdsCheck.includes(id)) {
+          hasNewId = true;
+          break;
+        }
+      }
+      if (!hasNewId) {
+        log.debug('parse_short_messages - Pas de nouveaux messages (IDs déjà traités)');
+        return;
+      }
+      log.debug('parse_short_messages - Nouveau(x) ID(s) détecté(s) malgré taille identique');
     }
   }
 

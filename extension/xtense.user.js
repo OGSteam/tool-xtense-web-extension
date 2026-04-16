@@ -61,11 +61,15 @@ setlogLevel(); // Default Info
 log.info("Welcome to Xtense WE Version : " + VERSION);
 log.info("Universe : " + numUnivers + "-" + langUnivers);
 log.info("Xtense WE requires Mod Xtense " + PLUGIN_REQUIRED);
-//enableMessageDebug();
 
 initOGSpyCommunication();
 initParsers();
 initLocales();
+
+// Activer le debug messages si l'option est cochée dans le menu
+if (storageGetValue("debug.messages", "false").toString() === "true") {
+  enableMessageDebug();
+}
 displayXtense();
 setStatus(XLOG_NORMAL, xlang('Xtense_activated'));
 handle_current_page();

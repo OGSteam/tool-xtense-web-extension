@@ -4,7 +4,6 @@
   "name": "Xtense WE",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
-  "privacy_policy": "https://wiki.ogsteam.eu/doku.php?id=ogspy:regles_de_confidentialite_xtense",
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
@@ -65,7 +64,17 @@
       "background-service.js"
     ]
   },
-  "permissions": [],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
   "short_name": "Xtense",
   "action": {
     "default_title": "Xtense",

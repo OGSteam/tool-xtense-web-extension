@@ -103,6 +103,16 @@ function setlogLevel() {
 
 //Requete Ajax
 
+const _xajaxPending = {};
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.action === "xhttp_response" && _xajaxPending[msg.messageId]) {
+    _xajaxPending[msg.messageId](msg);
+    delete _xajaxPending[msg.messageId];
+  }
+  return false;
+});
+
 function Xajax(obj) {
   let url_to = obj.url || "";
   let post_data = obj.post || "";
@@ -111,47 +121,38 @@ function Xajax(obj) {
     const messageId = Date.now();
     console.log(`[${messageId}] Sending request to: ${url_to}`);
 
-    chrome.runtime.sendMessage(
-      {
-        method: "POST",
-        action: "xhttp",
-        url: url_to,
-        data: post_data,
-        dataType: "text/plain; charset=UTF-8",
-        crossDomain: true,
-        messageId: messageId
-      },
-      function (response) {
-        console.log(`[${messageId}] Response received:`, response);
+    _xajaxPending[messageId] = (response) => {
+      console.log(`[${messageId}] Response received:`, response);
 
-        if (chrome.runtime.lastError) {
-          const errorMsg = chrome.runtime.lastError.message;
-          console.error(`[${messageId}] Runtime error:`, errorMsg);
-          handleResponse(500, errorMsg);
-          resolve(null);
-          return;
-        }
-
-        if (!response) {
-          console.error(`[${messageId}] No response received from background worker`);
-          handleResponse(500, "No response from background service");
-          resolve(null);
-          return;
-        }
-
-        if (response.error) {
-          console.error(`[${messageId}] Request error:`, response.error);
-          handleResponse(500, response.error);
-        } else if (response.status === 200) {
-          console.log(`[${messageId}] Request successful`);
-          handleResponse(200, response.text);
-        } else {
-          console.error(`[${messageId}] Unknown response format:`, response);
-          handleResponse(500, "Unknown response format");
-        }
-        resolve(response);
+      if (!response) {
+        console.error(`[${messageId}] No response received from background worker`);
+        handleResponse(500, "No response from background service");
+        resolve(null);
+        return;
       }
-    );
+
+      if (response.error) {
+        console.error(`[${messageId}] Request error:`, response.error);
+        handleResponse(500, response.error);
+      } else if (response.status === 200) {
+        console.log(`[${messageId}] Request successful`);
+        handleResponse(200, response.text);
+      } else {
+        console.error(`[${messageId}] Unknown response format:`, response);
+        handleResponse(500, "Unknown response format");
+      }
+      resolve(response);
+    };
+
+    chrome.runtime.sendMessage({
+      method: "POST",
+      action: "xhttp",
+      url: url_to,
+      data: post_data,
+      dataType: "text/plain; charset=UTF-8",
+      crossDomain: true,
+      messageId: messageId
+    });
   });
 }
 
@@ -192,4 +193,40 @@ function XtenseParseDate(dateString, handler) {
   return time;
 }
 
+/**
+ * Validates and normalizes an OGSpy server URL.
+ * Normalizes the URL (adds https://, strips trailing slashes),
+ * then checks protocol, embedded credentials, and disallowed fragments/queries.
+ *
+ * @param {string} url - Raw URL from user input
+ * @returns {{valid: boolean, normalized: string, error: string}}
+ */
+function validateServerUrl(url) {
+  const PLACEHOLDER = "https://VOTRESITE/VOTREOGSPY";
+  if (!url || url.trim() === "" || url.trim() === PLACEHOLDER) {
+    return { valid: false, normalized: "", error: "server_url_empty" };
+  }
+  let normalized = url.trim().replace(/\/+$/, "");
+  if (!normalized.startsWith("http://") && !normalized.startsWith("https://")) {
+    normalized = "https://" + normalized;
+  }
+  let parsed;
+  try {
+    parsed = new URL(normalized);
+  } catch (e) {
+    return { valid: false, normalized: "", error: "server_url_invalid" };
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    return { valid: false, normalized: "", error: "server_url_protocol" };
+  }
+  if (parsed.username || parsed.password) {
+    return { valid: false, normalized: "", error: "server_url_credentials" };
+  }
+  if (parsed.search || parsed.hash) {
+    return { valid: false, normalized: "", error: "server_url_format" };
+  }
+  return { valid: true, normalized: normalized, error: "" };
+}
+
 /************************** Fin Utilities *******************************/
+

@@ -114,6 +114,7 @@ function displayOptions() {
   let handle_msg_commerce = " ";
   // Variables : Options
   let opt_debug_mode = " ";
+  let opt_debug_messages = " ";
   let opt_backup_link = " ";
   let opt_ogspy_link = " ";
 
@@ -181,6 +182,9 @@ function displayOptions() {
 
   if (storageGetValue("debug.mode", "false").toString() === "true") {
     opt_debug_mode += " checked";
+  }
+  if (storageGetValue("debug.messages", "false").toString() === "true") {
+    opt_debug_messages += " checked";
   }
   if (storageGetValue("backup.link", "false").toString() === "true") {
     opt_backup_link += " checked";
@@ -260,6 +264,8 @@ function displayOptions() {
     storageGetValue("server.url.plugin", "https://VOTRESITE/VOTREOGSPY") +
     '" size="64" alt="24" type="text"/></td>';
   options += "</tr>";
+  options += '<tr><td></td><td><span id="server.url.plugin.error" style="color:#ff6666;font-size:11px;display:none;"></span></td></tr>';
+  options += '<tr><td></td><td><button id="btn_test_primary" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:3px 10px;font-size:11px;border-radius:3px;">Test</button> <span id="server.test.primary.result" style="font-size:11px;"></span></td></tr>';
   options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
   options += "<tr>";
   options +=
@@ -294,6 +300,8 @@ function displayOptions() {
     ) +
     '" size="64" alt="24" type="text"/></td>';
   options += "</tr>";
+  options += '<tr class="server_url_backup"><td></td><td><span id="server_backup.url.plugin.error" style="color:#ff6666;font-size:11px;display:none;"></span></td></tr>';
+  options += '<tr class="server_url_backup"><td></td><td><button id="btn_test_backup" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:3px 10px;font-size:11px;border-radius:3px;">Test</button> <span id="server.test.backup.result" style="font-size:11px;"></span></td></tr>';
   options +=
     '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
   options += '<tr class="server_url_backup">';
@@ -573,8 +581,14 @@ function displayOptions() {
     '<td class="value" style="text-align:left;"><input class="speed" id="backup.link" size="35" alt="24" type="checkbox"' +
     opt_backup_link +
     "/></td>";
-  options += '<td class="champ"></td>';
-  options += '<td class="value"></td>';
+  options +=
+    '<td class="champ"><label class="styled textBeefy">' +
+    (chrome.i18n.getMessage("XtenseOptionsPage_debugmessages") || "Debug messages") +
+    "</label></td>";
+  options +=
+    '<td class="value" style="text-align:left;"><input class="speed" id="debug.messages" size="35" alt="24" type="checkbox"' +
+    opt_debug_messages +
+    "/></td>";
   options += "</tr>";
   options += "<tr>";
   options += '<td colspan="6">&nbsp;</td>';
@@ -663,9 +677,77 @@ function displayOptions() {
   einhalt.parent().after(escriptopt);
   displayOption("#Xtense_serveurs"); // Mise en place initiale du menu
 
+  // Live URL validation — shows inline error when the user types an invalid URL
+  function validateUrlLive(inputId, errorSpanId) {
+    const el = document.getElementById(inputId);
+    const val = el ? el.value : "";
+    const $err = $("#" + CSS.escape(errorSpanId));
+    if (val.trim() !== "" && val.trim() !== "https://VOTRESITE/VOTREOGSPY") {
+      const result = validateServerUrl(val);
+      if (!result.valid) {
+        $err.text("URL invalide").show();
+        return;
+      }
+    }
+    $err.hide();
+  }
+
+  // Test Connection — sends a lightweight probe to the given server URL
+  function testServerConnection(inputId, resultSpanId) {
+    const el = document.getElementById(inputId);
+    const val = el ? el.value : "";
+    const validation = validateServerUrl(val);
+    const $result = $("#" + CSS.escape(resultSpanId));
+    if (!validation.valid) {
+      $result.css("color", "#ff6666").text("⚠ URL invalide");
+      return;
+    }
+    $result.css("color", "orange").text("⏳ Test...");
+    const msgId = Date.now();
+    const storageKey = inputId === "server.url.plugin" ? "serverUrl" : "serverBackupUrl";
+    // Sync the current URL to chrome.storage.local so the background allowlist check passes
+    chrome.storage.local.set({ [storageKey]: validation.normalized }, () => {
+      const timeout = setTimeout(() => {
+        delete _xajaxPending[msgId];
+        $result.css("color", "#ff6666").text("❌ Délai dépassé");
+      }, 10000);
+      _xajaxPending[msgId] = (response) => {
+        clearTimeout(timeout);
+        if (response && (response.status === 200 || response.status === 403 || response.status === 400)) {
+          $result.css("color", "#66ff66").text("✅ Accessible");
+        } else {
+          const code = response ? response.status : "?";
+          $result.css("color", "#ff6666").text("❌ Erreur " + code);
+        }
+      };
+      chrome.runtime.sendMessage({
+        method: "POST",
+        action: "xhttp",
+        url: validation.normalized + "/mod/xtense/xtense.php",
+        data: JSON.stringify({ toolbar_version: "test", type: "ping" }),
+        dataType: "text/plain; charset=UTF-8",
+        messageId: msgId
+      });
+    });
+  }
+
+  $("#server\\.url\\.plugin").on("input", function () {
+    validateUrlLive("server.url.plugin", "server.url.plugin.error");
+  });
+  $("#server_backup\\.url\\.plugin").on("input", function () {
+    validateUrlLive("server_backup.url.plugin", "server_backup.url.plugin.error");
+  });
+  $("#btn_test_primary").on("click", function () {
+    testServerConnection("server.url.plugin", "server.test.primary.result");
+  });
+  $("#btn_test_backup").on("click", function () {
+    testServerConnection("server_backup.url.plugin", "server.test.backup.result");
+  });
+
   $("#menu_servers").on("click", function () {
     displayOption("#Xtense_serveurs");
   });
+
   $("#menu_pages").on("click", function () {
     displayOption("#Xtense_pages");
   });
@@ -715,6 +797,14 @@ function displayOptions() {
         storageSetValue(checkbox.id, checkbox.checked);
       }
     }
+    // Sync server URLs to chrome.storage.local so the background service worker
+    // can use them for origin allowlist checks, and the popup for permission grants
+    const _syncUrls = {};
+    const _primaryUrl = storageGetValue("server.url.plugin", "");
+    const _backupUrl = storageGetValue("server_backup.url.plugin", "");
+    if (_primaryUrl && _primaryUrl !== "https://VOTRESITE/VOTREOGSPY") _syncUrls.serverUrl = _primaryUrl;
+    if (_backupUrl && _backupUrl !== "https://VOTRESITE/VOTREOGSPY") _syncUrls.serverBackupUrl = _backupUrl;
+    if (Object.keys(_syncUrls).length > 0) chrome.storage.local.set(_syncUrls);
   }
 
   setInterval(enregistreOptionsXtense, 200);
