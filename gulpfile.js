@@ -58,7 +58,7 @@ function copyBinaryFiles(source, destination) {
 function copy_files_for_browser(browser, manifest) {
   return parallel(
     // Pour les fichiers non-image
-    () => src(["extension/**", "!extension/manifest.*", "!extension/**/*.{png,jpg,jpeg,gif,svg,ico}", "!extension/ui/**", "!extension/xtense.html"])
+    () => src(["extension/**", "!extension/manifest.*", "!extension/**/*.{png,jpg,jpeg,gif,svg,ico}", "!extension/ui/chrome/**", "!extension/ui/firefox/**", "!extension/ui/edge/**", "!extension/xtense.html"])
       .pipe(dest(`release/${browser}`)),
     // Copie directe des fichiers binaires
     copyBinaryFiles("extension/**/*.{png,jpg,jpeg,gif,svg,ico}", `release/${browser}`),

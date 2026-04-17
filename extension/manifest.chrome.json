@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "3.2.0",
+  "version": "3.2.1",
   "name": "Xtense WE",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
