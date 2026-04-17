@@ -53,9 +53,9 @@ storageSetValue('server.url.plugin', res);
  * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
  *
  * @author      OGSteam
- * @copyright   2026 OGSteam
+ * @copyright   2025 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.0
+ * @version     3.1.2
  */
 setlogLevel(); // Default Info
 log.info("Welcome to Xtense WE Version : " + VERSION);

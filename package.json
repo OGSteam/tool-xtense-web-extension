@@ -9,7 +9,6 @@
     "version": "cross-var \"dot-json extension/manifest.json version $npm_package_version\" && cross-var \"dot-json extension/manifest.chrome.json version $npm_package_version\" && cross-var \"dot-json extension/manifest.firefox.json version $npm_package_version\" && npm run update-headers",
     "update-headers": "gulp headers",
     "release": "gulp default",
-    "dev-firefox": "node project/dev-firefox.mjs",
     "lint": "cd extension && web-ext lint",
     "lint:js": "eslint extension/**/*.js",
     "lint:all": "npm run lint:js && npm run lint",

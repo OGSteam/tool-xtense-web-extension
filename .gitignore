@@ -12,3 +12,7 @@ extension/contribs/jquery.min.js
 extension/contribs/loglevel.min.js
 
 xtense-profile*
+
+# OAuth credentials - ne jamais commiter
+key.json
+
