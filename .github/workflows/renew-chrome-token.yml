@@ -78,7 +78,7 @@ jobs:
           echo "refresh_token=$REFRESH_TOKEN" >> $GITHUB_OUTPUT
 
       - name: Update CHROME_REFRESH_TOKEN secret
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GH_PAT_SECRETS }}
           script: |
