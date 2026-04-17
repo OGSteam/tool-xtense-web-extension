@@ -119,26 +119,26 @@ function Xajax(obj) {
 
   return new Promise((resolve) => {
     const messageId = Date.now();
-    console.log(`[${messageId}] Sending request to: ${url_to}`);
+    log.debug(`[${messageId}] Sending request to: ${url_to}`);
 
     _xajaxPending[messageId] = (response) => {
-      console.log(`[${messageId}] Response received:`, response);
+      log.debug(`[${messageId}] Response received:`, response);
 
       if (!response) {
-        console.error(`[${messageId}] No response received from background worker`);
+        log.error(`[${messageId}] No response received from background worker`);
         handleResponse(500, "No response from background service");
         resolve(null);
         return;
       }
 
       if (response.error) {
-        console.error(`[${messageId}] Request error:`, response.error);
+        log.error(`[${messageId}] Request error:`, response.error);
         handleResponse(500, response.error);
       } else if (response.status === 200) {
-        console.log(`[${messageId}] Request successful`);
+        log.debug(`[${messageId}] Request successful`);
         handleResponse(200, response.text);
       } else {
-        console.error(`[${messageId}] Unknown response format:`, response);
+        log.error(`[${messageId}] Unknown response format:`, response);
         handleResponse(500, "Unknown response format");
       }
       resolve(response);
