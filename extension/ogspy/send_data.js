@@ -131,8 +131,16 @@ function initOGSpyCommunication() {
 
         storageSetValue("server.name", "OGSpy");
 
-        log.info(`Send Page Type ${this.data.type}`);
-        log.debug(`Sending Data ${JSON.stringify(this.data)} to ${serverUrl}/mod/xtense/xtense.php from ${urlUnivers}`);
+        log.info(`[OGSpy] ► Send type="${this.data.type}" → ${serverUrl}/mod/xtense/xtense.php`);
+        log.debug("[OGSpy] gamedata:", this.data.gamedata);
+        log.debug("[OGSpy] postData:", {
+          toolbar_version: postData.toolbar_version,
+          toolbar_type:    postData.toolbar_type,
+          univers:         postData.univers,
+          type:            postData.type,
+          password:        postData.password ? "***" : "(empty)",
+          data:            this.data.gamedata   // objet natif, pas stringifié
+        });
 
         // Primary server request
         new Xajax({
@@ -160,7 +168,8 @@ function initOGSpyCommunication() {
               data: JSON.stringify(this.data)
             };
 
-            log.debug(`Sending backup to ${backupUrl}/mod/xtense/xtense.php from ${urlUnivers}`);
+            log.info(`[OGSpy Backup] ► Send type="${this.data.type}" → ${backupUrl}/mod/xtense/xtense.php`);
+            log.debug("[OGSpy Backup] gamedata:", this.data.gamedata);
             new Xajax({
               url: `${backupUrl}/mod/xtense/xtense.php`,
               post: JSON.stringify(backupPostData),

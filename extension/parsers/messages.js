@@ -211,8 +211,9 @@ function parse_short_messages(messagesCourt, messages) {
         data.date = XtenseParseDate(msgContent, glang('dates').messages);
         XtenseRequest.set('gamedata', data);
         XtenseRequest.set('type', 'messages');
+        log.info(`[msg #${idmsg}] ennemy_spy: ${data.from} → ${data.to} (proba: ${data.proba})`);
+        log.debug(`[msg #${idmsg}] ennemy_spy data:`, data);
         XtenseRequest.send();
-        log.info("Short Message Ennemy spy report sent from " + data.from + " to " + data.to);
         //}
       }
     }
@@ -245,8 +246,9 @@ function parse_short_messages(messagesCourt, messages) {
 
         XtenseRequest.set('gamedata', data);
         XtenseRequest.set('type', 'messages');
+        log.info(`[msg #${idmsg}] rc_cdr: ${data.coords}`);
+        log.debug(`[msg #${idmsg}] rc_cdr data:`, data);
         XtenseRequest.send();
-        log.info("Message court Recyclage envoyé");
       }
     }
     // Expeditions
@@ -268,8 +270,9 @@ function parse_short_messages(messagesCourt, messages) {
 
         XtenseRequest.set('gamedata', data);
         XtenseRequest.set('type', 'messages');
+        log.info(`[msg #${idmsg}] expedition (${data.type}): ${data.coords}`);
+        log.debug(`[msg #${idmsg}] expedition data:`, data);
         XtenseRequest.send();
-        log.info("Message court Expédition envoyé");
       }
     } // Espionnages
     else if ((storageGetValue("handle.msg.spy").toString() === 'true') && msgContent.match(new RegExp(locales['espionage of'] + XtenseRegexps.planetNameAndCoords))) {
@@ -283,11 +286,7 @@ function parse_short_messages(messagesCourt, messages) {
       if (m) {
         let fullplanetName = m[1].match(/Planète (.*)/);
         planetName = fullplanetName ? fullplanetName[1] : m[1];
-        log.debug("Planet Name: " + planetName);
-        // Utilise planetName ici
       }
-
-      log.debug(shortMessageNode);
 
       let proba = Xpath.getStringValue(document, './/div[contains(@class,"msgFilteredHeaderCell_counterEspionageChance")]/text()', shortMessageNode);
       let activity = Xpath.getStringValue(document, './/div[contains(@class,"msgFilteredHeaderCell_activity")]/text()', shortMessageNode);
@@ -302,13 +301,6 @@ function parse_short_messages(messagesCourt, messages) {
         player: {
           name: rawDataElement.getAttribute('data-raw-playername'),
           status: rawDataElement.getAttribute('data-raw-status'),
-          /*ranking: {
-            total: rawDataElement.getAttribute('data-raw-highscoretotal'),
-            economy: rawDataElement.getAttribute('data-raw-highscoreeconomy'),
-            military: rawDataElement.getAttribute('data-raw-highscoremilitary'),
-            research: rawDataElement.getAttribute('data-raw-highscoreresearch'),
-            lifeForms: rawDataElement.getAttribute('data-raw-highscorelifeforms'),
-          },*/
           class: {
             character: parseJSONAttribute(rawDataElement,'data-raw-characterclass'),
             alliance: parseJSONAttribute(rawDataElement,'data-raw-allianceclass'),
@@ -334,12 +326,10 @@ function parse_short_messages(messagesCourt, messages) {
         defense: parseJSONAttribute(rawDataElement,'data-raw-defense', {}),
       };
 
-
-
-      console.log(rawData);
-
       XtenseRequest.set('gamedata', rawData);
       XtenseRequest.set('type', 'messages');
+      log.info(`[msg #${idmsg}] spy: ${rawData.player.name} @ ${rawData.planet.coordinates} (proba: ${rawData.proba}%, activité: ${rawData.activity})`);
+      log.debug(`[msg #${idmsg}] spy data:`, rawData);
       XtenseRequest.send();
       // Ogame API
       /*let ogameAPITitle = Xpath.getOrderedSnapshotNodes(document, XtenseXpaths.messages.ogameapi, shortMessageNode).snapshotItem(0).value;
@@ -373,12 +363,11 @@ function parse_short_messages(messagesCourt, messages) {
           parseDate: XtenseParseDate(msgContent, glang('dates').messages)
         };
 
-        console.log("Combat Report Data:", combatData);
-
         XtenseRequest.set('type', 'rc');
         XtenseRequest.set('gamedata', combatData);
+        log.info(`[msg #${idmsg}] rc: coords=${combatData.coordinates} type=${combatData.messageType}`);
+        log.debug(`[msg #${idmsg}] rc data:`, combatData);
         XtenseRequest.send();
-        log.info("Message court RC envoyé - Coords: " + combatData.coordinates);
       } else {
         log.warn("Élément rawMessageData non trouvé pour le RC " + idmsg);
       }
