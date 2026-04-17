@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.0
+ * @version     3.2.2
  */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "toolbar_icon") {

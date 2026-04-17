@@ -1,4 +1,8 @@
-{
+﻿{
+    "XtenseServer_TestConnection": {
+        "message": "Probar conexión",
+        "description": "Label for the test connection button"
+    },
     "appDesc": {
         "message": "Este módulo utilizado por OGSpy recupera los datos de su modo de juego favorito.",
         "description": "Description de l'application"

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "3.2.1",
+  "version": "3.2.2",
   "name": "Xtense WE",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -15,7 +15,9 @@
       "id": "ogspy.team@gmail.com",
       "strict_min_version": "128.0",
       "data_collection_permissions": {
-        "required": ["none"],
+        "required": [
+          "none"
+        ],
         "optional": []
       }
     }

@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.0
+ * @version     3.2.2
  */
 /*global XLOG_SUCCESS,XLOG_NORMAL,XLOG_WARNING,XLOG_ERROR,XLOG_SEND,VERSION,$,log,Xpath  */
 
@@ -265,7 +265,6 @@ function displayOptions() {
     '" size="64" alt="24" type="text"/></td>';
   options += "</tr>";
   options += '<tr><td></td><td><span id="server.url.plugin.error" style="color:#ff6666;font-size:11px;display:none;"></span></td></tr>';
-  options += '<tr><td></td><td><button id="btn_test_primary" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:3px 10px;font-size:11px;border-radius:3px;">Test</button> <span id="server.test.primary.result" style="font-size:11px;"></span></td></tr>';
   options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
   options += "<tr>";
   options +=
@@ -277,8 +276,9 @@ function displayOptions() {
     storageGetValue("server.pwd", "mot de passe") +
     '" size="64" alt="24" type="password"/></td>';
   options += "</tr>";
-  options +=
-    '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
+  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
+  options += '<tr><td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_TestConnection") + '</label></td><td class="value" style="text-align:left;"><button id="btn_test_primary" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;border-radius:3px;display:inline-block;position:static;float:none;">🔌 ' + chrome.i18n.getMessage("XtenseServer_TestConnection") + '</button> <span id="server.test.primary.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span></td></tr>';
+  options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
   options += '<tr class="server_url_backup">';
   options +=
     '<td class="champ" colspan="2"><label class="styled textBeefy">' +
@@ -301,7 +301,6 @@ function displayOptions() {
     '" size="64" alt="24" type="text"/></td>';
   options += "</tr>";
   options += '<tr class="server_url_backup"><td></td><td><span id="server_backup.url.plugin.error" style="color:#ff6666;font-size:11px;display:none;"></span></td></tr>';
-  options += '<tr class="server_url_backup"><td></td><td><button id="btn_test_backup" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:3px 10px;font-size:11px;border-radius:3px;">Test</button> <span id="server.test.backup.result" style="font-size:11px;"></span></td></tr>';
   options +=
     '<tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>';
   options += '<tr class="server_url_backup">';
@@ -314,6 +313,7 @@ function displayOptions() {
     storageGetValue("server_backup.pwd", "mot de passe") +
     '" size="64" alt="24" type="password"/></td>';
   options += "</tr>";
+  options += '<tr class="server_url_backup"><td class="champ"><label class="styled textBeefy">' + chrome.i18n.getMessage("XtenseServer_TestConnection") + '</label></td><td class="value" style="text-align:left;"><button id="btn_test_backup" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;border-radius:3px;display:inline-block;position:static;float:none;">🔌 ' + chrome.i18n.getMessage("XtenseServer_TestConnection") + '</button> <span id="server.test.backup.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span></td></tr>';
   options += "<tr><td>&#160;</td><td>&#160;</td></tr>";
   options += "<tr>";
   options +=

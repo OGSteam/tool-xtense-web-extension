@@ -1,4 +1,8 @@
 {
+    "XtenseServer_TestConnection": {
+        "message": "Test connection",
+        "description": "Label for the test connection button"
+    },
     "appDesc": {
         "message": "This module used by OGSpy allow us to grab the data from our favorite game.",
         "description": "Description de l'application"
