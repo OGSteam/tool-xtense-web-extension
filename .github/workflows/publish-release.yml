@@ -54,16 +54,19 @@ jobs:
                 "clientId": "${{ secrets.CHROME_CLIENT_ID }}",
                 "clientSecret": "${{ secrets.CHROME_CLIENT_SECRET }}",
                 "refreshToken": "${{ secrets.CHROME_REFRESH_TOKEN }}",
-                "extId": "${{ secrets.CHROME_EXTENSION_ID }}"
+                "extId": "${{ secrets.CHROME_EXTENSION_ID }}",
+                "zip": "release/chrome-${{ env.PACKAGE_VERSION }}.zip"
               },
               "firefox": {
                 "extId": "${{ secrets.FIREFOX_ADDON_UUID }}",
                 "apiKey": "${{ secrets.FIREFOX_API_KEY }}",
-                "apiSecret": "${{ secrets.FIREFOX_API_SECRET }}"
+                "apiSecret": "${{ secrets.FIREFOX_API_SECRET }}",
+                "zip": "release/firefox-${{ env.PACKAGE_VERSION }}.zip"
               },
               "edge": {
                 "clientId": "${{ secrets.EDGE_CLIENT_ID }}",
                 "apiKey": "${{ secrets.EDGE_API_KEY }}",
-                "productId": "${{ secrets.EDGE_PRODUCT_ID }}"
+                "productId": "${{ secrets.EDGE_PRODUCT_ID }}",
+                "zip": "release/edge-${{ env.PACKAGE_VERSION }}.zip"
               }
             }
