@@ -7,17 +7,19 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v6.0.2
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6.3.0
         with:
-          node-version: 22.x
+          node-version: 24.x
 
       - name: Package.json info
-        uses: rexdefuror/read-package-json@v1.0.5
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Build
         run: |
@@ -34,7 +36,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_release
-        uses: ncipollo/release-action@v1.18.0
+        uses: ncipollo/release-action@v1.21.0
         with:
           name: Xtense ${{ env.PACKAGE_VERSION }}
           draft: false
@@ -43,23 +45,25 @@ jobs:
           body: "Release officielle ${{ env.PACKAGE_VERSION }}"
           tag: "${{ env.PACKAGE_VERSION }}"
 
-      - name: Publish to Chrome Store
-        continue-on-error: true
+      - name: Publish Extensions
         uses: PlasmoHQ/bpp@v3
         with:
-          keys: '{"chrome":{"clientId":"${{ secrets.CHROME_CLIENT_ID }}","clientSecret":"${{ secrets.CHROME_CLIENT_SECRET }}","refreshToken":"${{ secrets.CHROME_REFRESH_TOKEN }}","extId":"${{ secrets.CHROME_EXTENSION_ID }}"}}'
-          chrome-file: release/chrome-${{ env.PACKAGE_VERSION }}.zip
-
-      - name: Publish to Firefox Add-ons
-        continue-on-error: true
-        uses: PlasmoHQ/bpp@v3
-        with:
-          keys: '{"firefox":{"extId":"${{ secrets.FIREFOX_ADDON_UUID }}","apiKey":"${{ secrets.FIREFOX_API_KEY }}","apiSecret":"${{ secrets.FIREFOX_API_SECRET }}"}}'
-          firefox-file: release/firefox-${{ env.PACKAGE_VERSION }}.zip
-
-      - name: Publish to Microsoft Edge Add-ons
-        uses: PlasmoHQ/bpp@v3
-        with:
-          keys: '{"edge":{"apiKey":"${{ secrets.EDGE_API_KEY }}","clientId":"${{ secrets.EDGE_CLIENT_ID }}","productId":"${{ secrets.EDGE_PRODUCT_ID }}"}}'
-          edge-file: release/edge-${{ env.PACKAGE_VERSION }}.zip
-          edge-notes: "Nouvelle version ${{ env.PACKAGE_VERSION }}"
+          keys: >-
+            {
+              "chrome": {
+                "clientId": "${{ secrets.CHROME_CLIENT_ID }}",
+                "clientSecret": "${{ secrets.CHROME_CLIENT_SECRET }}",
+                "refreshToken": "${{ secrets.CHROME_REFRESH_TOKEN }}",
+                "extId": "${{ secrets.CHROME_EXTENSION_ID }}"
+              },
+              "firefox": {
+                "extId": "${{ secrets.FIREFOX_ADDON_UUID }}",
+                "apiKey": "${{ secrets.FIREFOX_API_KEY }}",
+                "apiSecret": "${{ secrets.FIREFOX_API_SECRET }}"
+              },
+              "edge": {
+                "clientId": "${{ secrets.EDGE_CLIENT_ID }}",
+                "apiKey": "${{ secrets.EDGE_API_KEY }}",
+                "productId": "${{ secrets.EDGE_PRODUCT_ID }}"
+              }
+            }

@@ -55,6 +55,10 @@
         "message": "Aiuto",
         "description": "Intitulé pour le mot de passe d'utilisateur OGSpy"
     },
+    "XtenseServer_SaveGrant": {
+        "message": "Salva e autorizza l'accesso",
+        "description": "Pulsante per salvare l'URL del server e concedere i permessi"
+    },
     "XtenseSend_title": {
         "message": "Invia dati:",
         "description": "Titre Send Data"
@@ -138,6 +142,10 @@
     "XtenseOptionsPage_debugmode": {
         "message": "Modalità debug",
         "description": "Activation des traces de debug"
+    },
+    "XtenseOptionsPage_debugmessages": {
+        "message": "Debug messaggi",
+        "description": "Attiva la modalità debug dei messaggi (rielabora e reinvia tutti i messaggi)"
     },
     "XtenseOptionsPage_backuplink": {
         "message": "Utilizzare un secondo server OGSpy",

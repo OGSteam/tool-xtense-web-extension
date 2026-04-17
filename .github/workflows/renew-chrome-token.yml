@@ -1,0 +1,123 @@
+name: Renew Chrome OAuth Token
+
+on:
+  # Vérification automatique 2x/mois (1er et 15 de chaque mois)
+  schedule:
+    - cron: '0 8 1,15 * *'
+  workflow_dispatch:
+    inputs:
+      auth_code:
+        description: "Code d'autorisation Google OAuth (laisser vide pour vérification seulement)"
+        required: false
+        type: string
+
+# URL à visiter pour générer un auth_code:
+# https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&client_id=CLIENT_ID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&access_type=offline&prompt=consent
+# Remplacez CLIENT_ID par la valeur du secret CHROME_CLIENT_ID
+
+jobs:
+  check-token:
+    runs-on: ubuntu-latest
+    outputs:
+      token_valid: ${{ steps.check.outputs.valid }}
+    steps:
+      - name: Check current refresh token validity
+        id: check
+        run: |
+          RESPONSE=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "client_id=${{ secrets.CHROME_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.CHROME_CLIENT_SECRET }}" \
+            -d "refresh_token=${{ secrets.CHROME_REFRESH_TOKEN }}" \
+            -d "grant_type=refresh_token")
+
+          if echo "$RESPONSE" | grep -q '"access_token"'; then
+            echo "✅ Token valide"
+            echo "valid=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Token invalide ou expiré: $RESPONSE"
+            echo "valid=false" >> $GITHUB_OUTPUT
+          fi
+
+  renew-token:
+    runs-on: ubuntu-latest
+    needs: check-token
+    if: ${{ github.event.inputs.auth_code != '' }}
+    steps:
+      - uses: actions/checkout@v6.0.2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version: 24.x
+
+      - name: Exchange auth code for refresh token
+        id: exchange
+        run: |
+          RESPONSE=$(curl -s -X POST https://oauth2.googleapis.com/token \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "client_id=${{ secrets.CHROME_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.CHROME_CLIENT_SECRET }}" \
+            -d "code=${{ github.event.inputs.auth_code }}" \
+            -d "grant_type=authorization_code" \
+            -d "redirect_uri=urn:ietf:wg:oauth:2.0:oob")
+
+          REFRESH_TOKEN=$(echo "$RESPONSE" | node -e "
+            let d=''; process.stdin.on('data',c=>d+=c).on('end',()=>{
+              const j=JSON.parse(d);
+              if(!j.refresh_token) { console.error('ERROR: '+JSON.stringify(j)); process.exit(1); }
+              console.log(j.refresh_token);
+            });" 2>&1)
+
+          if [ $? -ne 0 ]; then
+            echo "❌ Échec de l'échange: $REFRESH_TOKEN"
+            exit 1
+          fi
+
+          echo "✅ Refresh token obtenu"
+          echo "refresh_token=$REFRESH_TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Update CHROME_REFRESH_TOKEN secret
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GH_PAT_SECRETS }}
+          script: |
+            const sodium = require('libsodium-wrappers');
+            await sodium.ready;
+
+            const refreshToken = '${{ steps.exchange.outputs.refresh_token }}';
+
+            const { data: pubKey } = await github.rest.actions.getRepoPublicKey({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            const keyBytes = Buffer.from(pubKey.key, 'base64');
+            const secretBytes = Buffer.from(refreshToken, 'utf8');
+            const encryptedBytes = sodium.crypto_box_seal(secretBytes, keyBytes);
+            const encryptedValue = Buffer.from(encryptedBytes).toString('base64');
+
+            await github.rest.actions.createOrUpdateRepoSecret({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              secret_name: 'CHROME_REFRESH_TOKEN',
+              encrypted_value: encryptedValue,
+              key_id: pubKey.key_id,
+            });
+
+            core.notice('✅ Secret CHROME_REFRESH_TOKEN mis à jour avec succès!');
+
+  notify-expired:
+    runs-on: ubuntu-latest
+    needs: check-token
+    if: ${{ needs.check-token.outputs.token_valid == 'false' && github.event.inputs.auth_code == '' }}
+    steps:
+      - name: Notify token expired
+        run: |
+          echo "::error::⚠️ Le refresh token Chrome est expiré ou invalide !"
+          echo "::error::Générez un nouveau token en suivant ces étapes :"
+          echo "::error::1. Ouvrez cette URL dans votre navigateur (remplacez CLIENT_ID par CHROME_CLIENT_ID) :"
+          echo "::error::   https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&client_id=CLIENT_ID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&access_type=offline&prompt=consent"
+          echo "::error::2. Allez sur GitHub Actions → 'Renew Chrome OAuth Token' → 'Run workflow'"
+          echo "::error::3. Collez le code dans le champ auth_code"
+          exit 1

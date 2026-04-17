@@ -103,13 +103,15 @@ function initOGSpyCommunication() {
     send: async function () {
       try {
         //Check if server has been properly configured before sending data
-        const serverUrl = storageGetValue("server.url.plugin", "");
-        if (serverUrl === "https://VOTRESITE/VOTREOGSPY") {
-          log.info("Server 1 is not configured");
+        const serverUrlRaw = storageGetValue("server.url.plugin", "");
+        const serverValidation = validateServerUrl(serverUrlRaw);
+        if (!serverValidation.valid) {
+          log.info("Server 1 is not configured or URL is invalid: " + serverValidation.error);
           const message = xlang("unknown_server");
           setStatus(XLOG_WARNING, "[OGSpy] " + message);
           return;
         }
+        const serverUrl = serverValidation.normalized;
 
         if (!this.data.type) {
           const message = xlang("error_internal");
@@ -129,8 +131,16 @@ function initOGSpyCommunication() {
 
         storageSetValue("server.name", "OGSpy");
 
-        log.info(`Send Page Type ${this.data.type}`);
-        log.debug(`Sending Data ${JSON.stringify(this.data)} to ${serverUrl}/mod/xtense/xtense.php from ${urlUnivers}`);
+        log.info(`[OGSpy] ► Send type="${this.data.type}" → ${serverUrl}/mod/xtense/xtense.php`);
+        log.debug("[OGSpy] gamedata:", this.data.gamedata);
+        log.debug("[OGSpy] postData:", {
+          toolbar_version: postData.toolbar_version,
+          toolbar_type:    postData.toolbar_type,
+          univers:         postData.univers,
+          type:            postData.type,
+          password:        postData.password ? "***" : "(empty)",
+          data:            this.data.gamedata   // objet natif, pas stringifié
+        });
 
         // Primary server request
         new Xajax({
@@ -143,11 +153,13 @@ function initOGSpyCommunication() {
         // Handle backup server if enabled
         if (storageGetValue("backup.link", "false").toString() === "true") {
           try {
-            const backupUrl = storageGetValue("server_backup.url.plugin", "");
-            if (!backupUrl) {
-              log.warn("Backup server URL not configured");
+            const backupUrlRaw = storageGetValue("server_backup.url.plugin", "");
+            const backupValidation = validateServerUrl(backupUrlRaw);
+            if (!backupValidation.valid) {
+              log.warn("Backup server URL not valid: " + backupValidation.error);
               return;
             }
+            const backupUrl = backupValidation.normalized;
 
             storageSetValue("server.name", "OGSpy Backup");
             const backupPostData = {
@@ -156,7 +168,8 @@ function initOGSpyCommunication() {
               data: JSON.stringify(this.data)
             };
 
-            log.debug(`Sending backup to ${backupUrl}/mod/xtense/xtense.php from ${urlUnivers}`);
+            log.info(`[OGSpy Backup] ► Send type="${this.data.type}" → ${backupUrl}/mod/xtense/xtense.php`);
+            log.debug("[OGSpy Backup] gamedata:", this.data.gamedata);
             new Xajax({
               url: `${backupUrl}/mod/xtense/xtense.php`,
               post: JSON.stringify(backupPostData),
@@ -238,8 +251,15 @@ function handleResponse(status, Response) {
 
     // Parse JSON response
     let data = {};
-    if (Response.match(/^\{.*\}$/g)) {
-      try {
+    let parsed = false;
+    try {
+      data = JSON.parse(Response);
+      parsed = true;
+    } catch (jsonError) {
+      log.error(`JSON parse error: ${jsonError.message}`);
+      setStatus(XLOG_ERROR, `[${message_start}] ${xlang("error_json_parse")}`);
+    }
+    if (parsed) {
         data = JSON.parse(Response);
         let message = '';
         let code = data.type;
@@ -329,14 +349,6 @@ function handleResponse(status, Response) {
         }
 
         setStatus(type, `[${message_start}] ${message}`);
-
-      } catch (jsonError) {
-        log.error(`JSON parse error: ${jsonError.message}`);
-        setStatus(XLOG_ERROR, `[${message_start}] ${xlang("error_json_parse")}`);
-      }
-    } else {
-      log.warn(`Unexpected response format: ${Response.substring(0, 100)}`);
-      setStatus(XLOG_WARNING, `[${message_start}] ${xlang("error_response_format")}`);
     }
   } catch (error) {
     log.error(`Error in handleResponse: ${error.message}`);

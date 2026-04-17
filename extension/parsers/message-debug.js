@@ -18,6 +18,7 @@ let DEBUG_MESSAGES = false;
 function enableMessageDebug() {
   DEBUG_MESSAGES = true;
   log.info("Mode debug des messages activé");
+  storageSetValue("debug.messages", "true");
   // Forcer le retraitement des messages en réinitialisant les tailles
   storageSetValue("lastShtMsgsSize", 0);
   storageSetValue("lastMsgsSize", 0);
@@ -30,6 +31,7 @@ function enableMessageDebug() {
 function disableMessageDebug() {
   DEBUG_MESSAGES = false;
   log.info("Mode debug des messages désactivé");
+  storageSetValue("debug.messages", "false");
 }
 
 /**
