@@ -2,9 +2,9 @@
  * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
  *
  * @author      OGSteam
- * @copyright   2025 OGSteam
+ * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.1.2
+ * @version     3.2.0
  */
 /*eslint-env es6*/
 /*eslint no-undef: "error"*/

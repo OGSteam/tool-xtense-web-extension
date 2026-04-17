@@ -1,12 +1,10 @@
 /**
- * Xtense - Extension popup permission manager
- *
- * Checks whether the broad server-access permission has been granted
- * and shows a one-click button to request it when needed.
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
  *
  * @author      OGSteam
- * @copyright   2025 OGSteam
+ * @copyright   2026 OGSteam
  * @license     GNU GPL v2
+ * @version     3.2.0
  */
 document.addEventListener("DOMContentLoaded", () => {
   const grantBtn = document.getElementById("btn_grant_permission");

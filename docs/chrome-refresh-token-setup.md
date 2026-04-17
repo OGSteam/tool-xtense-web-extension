@@ -26,9 +26,28 @@ Avant de commencer, vous devez avoir :
 5. Cliquez sur "Create"
 6. **Notez votre Client ID et Client Secret** - vous en aurez besoin
 
-## Étape 2 : Méthode Google OAuth Playground (Recommandée)
+## Étape 2 : Valider l'application OAuth (Publishing status → Production)
 
-### 2.1 Configuration initiale
+> ⚠️ **Obligatoire** : En mode "Testing", les refresh tokens expirent après **7 jours**. Il faut passer l'application en **"In production"** pour obtenir des tokens valables jusqu'à 6 mois.
+
+### 2.1 Publier l'application OAuth
+1. Allez sur https://console.cloud.google.com/
+2. Sélectionnez votre projet
+3. Menu gauche → **"APIs & Services"** → **"OAuth consent screen"**
+4. Dans la section **"Publishing status"**, cliquez sur **"PUBLISH APP"**
+5. Confirmez avec **"CONFIRM"** dans la boîte de dialogue
+6. Le statut passe à ✅ **"In production"**
+
+> 📝 **Note** : Google peut afficher un avertissement de vérification pour les scopes restreints. Pour un usage développeur interne (Chrome Web Store API), la vérification n'est pas nécessaire — la publication suffit.
+
+### 2.2 Régénérer le refresh token après publication
+Après la publication, **tout token existant généré en mode Testing doit être regénéré**. Suivez l'Étape 3 ci-dessous pour obtenir un nouveau refresh token valable jusqu'à 6 mois.
+
+---
+
+## Étape 3 : Méthode Google OAuth Playground (Recommandée)
+
+### 3.1 Configuration initiale
 1. Allez sur https://developers.google.com/oauthplayground/
 2. Cliquez sur l'icône ⚙️ (Settings) en haut à droite
 3. Cochez "Use your own OAuth credentials"
@@ -37,38 +56,38 @@ Avant de commencer, vous devez avoir :
    - **OAuth Client secret** : `[VOTRE_CLIENT_SECRET]`
 5. Cliquez sur "Close"
 
-### 2.2 Configuration du scope
+### 3.2 Configuration du scope
 1. Dans la section "Step 1 Select & authorize APIs"
 2. Faites défiler vers le bas et trouvez le champ "Input your own scopes"
 3. Saisissez exactement : `https://www.googleapis.com/auth/chromewebstore`
 4. Cliquez sur "Authorize APIs"
 
-### 2.3 Autorisation
+### 3.3 Autorisation
 1. Une nouvelle fenêtre s'ouvre pour l'autorisation Google
 2. **Connectez-vous avec le compte Google associé à votre Chrome Web Store**
 3. Autorisez l'accès en cliquant sur "Allow"
 4. Vous serez redirigé vers OAuth Playground
 
-### 2.4 Obtention du refresh token
+### 3.4 Obtention du refresh token
 1. Dans "Step 2 Exchange authorization code for tokens"
 2. Cliquez sur "Exchange authorization code for tokens"
 3. Le refresh token apparaît dans la réponse JSON
 4. **Copiez la valeur du `refresh_token`** (commence généralement par `1//`)
 
-## Étape 3 : Méthode alternative avec cURL/Postman
+## Étape 4 : Méthode alternative avec cURL/Postman
 
-### 3.1 URL d'autorisation
+### 4.1 URL d'autorisation
 Remplacez `VOTRE_CLIENT_ID` par votre vrai Client ID et visitez cette URL :
 
 ```
 https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&client_id=VOTRE_CLIENT_ID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&access_type=offline&prompt=consent
 ```
 
-### 3.2 Obtenir le code d'autorisation
+### 4.2 Obtenir le code d'autorisation
 1. Connectez-vous et autorisez l'application
 2. Copiez le code d'autorisation affiché sur la page
 
-### 3.3 Échanger le code contre un refresh token
+### 4.3 Échanger le code contre un refresh token
 Utilisez cURL ou Postman pour faire cette requête :
 
 ```bash
@@ -81,14 +100,14 @@ curl -X POST https://oauth2.googleapis.com/token \
   -d "redirect_uri=urn:ietf:wg:oauth:2.0:oob"
 ```
 
-## Étape 4 : Configuration des GitHub Secrets
+## Étape 5 : Configuration des GitHub Secrets
 
-### 4.1 Obtenir l'Extension ID
+### 5.1 Obtenir l'Extension ID
 1. Allez sur https://chrome.google.com/webstore/devconsole
 2. Cliquez sur votre extension
 3. L'Extension ID est affiché dans l'URL ou dans les détails de l'extension
 
-### 4.2 Ajouter les secrets dans GitHub
+### 5.2 Ajouter les secrets dans GitHub
 1. Allez dans votre repository GitHub
 2. Cliquez sur "Settings" > "Secrets and variables" > "Actions"
 3. Cliquez sur "New repository secret" pour chaque secret :
@@ -99,9 +118,9 @@ curl -X POST https://oauth2.googleapis.com/token \
 - **CHROME_REFRESH_TOKEN** : Le refresh token obtenu précédemment
 - **CHROME_EXTENSION_ID** : L'ID de votre extension Chrome
 
-## Étape 5 : Test de configuration
+## Étape 6 : Test de configuration
 
-### 5.1 Vérifier le workflow
+### 6.1 Vérifier le workflow
 Votre workflow GitHub utilise déjà la bonne configuration :
 
 ```yaml
@@ -112,7 +131,7 @@ Votre workflow GitHub utilise déjà la bonne configuration :
     chrome-file: release/chrome-${{ env.PACKAGE_VERSION }}.zip
 ```
 
-### 5.2 Test manuel (optionnel)
+### 6.2 Test manuel (optionnel)
 Vous pouvez tester votre refresh token avec cette requête :
 
 ```bash
@@ -182,4 +201,4 @@ curl -X POST https://oauth2.googleapis.com/token \
 ---
 
 *Document créé le 23 août 2025 pour le projet Xtense Web Extension*
-*Dernière mise à jour : Clarification sur la durée de validité des tokens*
+*Dernière mise à jour : Ajout de l'étape de validation OAuth (passage en Production)*
