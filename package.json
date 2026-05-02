@@ -48,7 +48,7 @@
     "read-pkg": "^10.1.0",
     "through2": "^4.0.2",
     "web-ext": "^10.1.0",
-    "npm-check-updates": "^21.0.2"
+    "npm-check-updates": "^22.0.0"
   },
   "dependencies": {
     "glob": "^13.0.6",
