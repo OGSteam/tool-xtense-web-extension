@@ -746,18 +746,18 @@ function parse_lfBuildings() {
 
   let planetData = getPlanetData();
   let items = {
-    '11101': tabLevel[0],
-    '11102': tabLevel[1],
-    '11103': tabLevel[2],
-    '11104': tabLevel[3],
-    '11105': tabLevel[4],
-    '11106': tabLevel[5],
-    '11107': tabLevel[6],
-    '11108': tabLevel[7],
-    '11109': tabLevel[8],
-    '11110': tabLevel[9],
-    '11111': tabLevel[10],
-    '11112': tabLevel[11]
+    '11101': tabLevel[0] ?? 0,
+    '11102': tabLevel[1] ?? 0,
+    '11103': tabLevel[2] ?? 0,
+    '11104': tabLevel[3] ?? 0,
+    '11105': tabLevel[4] ?? 0,
+    '11106': tabLevel[5] ?? 0,
+    '11107': tabLevel[6] ?? 0,
+    '11108': tabLevel[7] ?? 0,
+    '11109': tabLevel[8] ?? 0,
+    '11110': tabLevel[9] ?? 0,
+    '11111': tabLevel[10] ?? 0,
+    '11112': tabLevel[11] ?? 0
   };
 
   XtenseRequest.set('type', 'lf_buildings');
@@ -810,8 +810,8 @@ function parse_lfResearch() {
     lfResearch: items
   });
 
-  XtenseRequest.send().catch(() => {});
-}
+    XtenseRequest.send();
+  }
 
 
 /*********************** Utilities Ogame ********************************/
