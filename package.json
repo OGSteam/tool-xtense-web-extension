@@ -47,7 +47,7 @@
     "gulp-zip": "^6.1.0",
     "read-pkg": "^10.1.0",
     "through2": "^5.0.0",
-    "web-ext": "^10.2.0",
+    "web-ext": "^10.5.0",
     "npm-check-updates": "^22.0.0"
   },
   "dependencies": {
