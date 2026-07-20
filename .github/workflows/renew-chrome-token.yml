@@ -44,7 +44,7 @@ jobs:
     needs: check-token
     if: ${{ github.event.inputs.auth_code != '' }}
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.1
 
       - name: Use Node.js
         uses: actions/setup-node@v6.4.0
