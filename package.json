@@ -51,7 +51,7 @@
     "npm-check-updates": "^22.0.0"
   },
   "dependencies": {
-    "glob": "^13.0.6",
+    "glob": "^14.0.0",
     "jquery": "^4.0.0",
     "loglevel": "^1.9.2"
   },
