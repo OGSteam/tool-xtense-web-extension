@@ -63,6 +63,8 @@
 
 ## Étape 5 : Générer le refresh token via le workflow GitHub
 
+> ⚠️ Le flux OOB décrit ci-dessous est obsolète et bloqué par Google pour les applications en production. Pour générer un nouveau token, suivre le [guide officiel OAuth Playground](https://developer.chrome.com/docs/webstore/using-api#obtain-access-and-refresh-tokens).
+
 > Prérequis : créer un **GitHub PAT** avec le scope `repo` et l'ajouter comme secret **`GH_PAT_SECRETS`** dans le repo.
 
 1. Construisez l'URL d'autorisation en remplaçant `CLIENT_ID` par votre `CHROME_CLIENT_ID` :
@@ -86,7 +88,15 @@
 | `CHROME_CLIENT_SECRET` | Client Secret OAuth |
 | `CHROME_REFRESH_TOKEN` | Mis à jour automatiquement par le workflow |
 | `CHROME_EXTENSION_ID` | ID de l'extension (depuis https://chrome.google.com/webstore/devconsole) |
+| `TEST_CHROME_EXTENSION_ID` | ID de l'extension de test |
+| `CHROME_PUBLISHER_ID` | ID de l'éditeur, dans Publisher → Settings du tableau de bord développeur |
 | `GH_PAT_SECRETS` | GitHub PAT avec scope `repo` |
+
+---
+
+### Tester l'accès à l'API V2 sans publication
+
+Dans **Actions → Renew Chrome OAuth Token → Run workflow**, sélectionner la branche qui contient le test et activer `test_api_v2`, en laissant `auth_code` vide. Le test vérifie l'archive et l'accès à l'extension de test sans envoyer ni publier de paquet.
 
 ---
 
