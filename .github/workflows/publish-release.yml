@@ -45,18 +45,22 @@ jobs:
           body: "Release officielle ${{ env.PACKAGE_VERSION }}"
           tag: "${{ env.PACKAGE_VERSION }}"
 
-      - name: Publish Extensions
+      - name: Publish to Chrome Store
+        uses: hamzahamidi/publish-to-chrome-web-store@c8919147f8de0d6f1129bec36345e4a9aa638af9 # v1
+        with:
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
+          item-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          zip: release/chrome-${{ env.PACKAGE_VERSION }}.zip
+          publish: true
+
+      - name: Publish Firefox and Edge Extensions
         uses: PlasmoHQ/bpp@v3
         with:
           keys: >-
             {
-              "chrome": {
-                "clientId": "${{ secrets.CHROME_CLIENT_ID }}",
-                "clientSecret": "${{ secrets.CHROME_CLIENT_SECRET }}",
-                "refreshToken": "${{ secrets.CHROME_REFRESH_TOKEN }}",
-                "extId": "${{ secrets.CHROME_EXTENSION_ID }}",
-                "zip": "release/chrome-${{ env.PACKAGE_VERSION }}.zip"
-              },
               "firefox": {
                 "extId": "${{ secrets.FIREFOX_ADDON_UUID }}",
                 "apiKey": "${{ secrets.FIREFOX_API_KEY }}",

@@ -94,30 +94,24 @@
 
 ---
 
-### Tester l'accès à l'API V2 sans publication
-
-Dans **Actions → Renew Chrome OAuth Token → Run workflow**, sélectionner la branche qui contient le test et activer `test_api_v2`, en laissant `auth_code` vide. Le test vérifie l'archive et l'accès à l'extension de test sans envoyer ni publier de paquet.
-
----
-
 ## Étape 7 : Vérifier le workflow de publication
 
-Le workflow `publish-release.yml` assemble les credentials à la volée :
+Le workflow `publish-release.yml` publie sur Chrome avec l'API V2 :
 
 ```yaml
-- name: Publish Extensions
-  uses: PlasmoHQ/bpp@v3
+- name: Publish to Chrome Store
+  uses: hamzahamidi/publish-to-chrome-web-store@c8919147f8de0d6f1129bec36345e4a9aa638af9 # v1
   with:
-    keys: >-
-      {
-        "chrome": {
-          "clientId": "${{ secrets.CHROME_CLIENT_ID }}",
-          "clientSecret": "${{ secrets.CHROME_CLIENT_SECRET }}",
-          "refreshToken": "${{ secrets.CHROME_REFRESH_TOKEN }}",
-          "extId": "${{ secrets.CHROME_EXTENSION_ID }}"
-        }
-      }
+    client-id: ${{ secrets.CHROME_CLIENT_ID }}
+    client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+    refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+    publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
+    item-id: ${{ secrets.CHROME_EXTENSION_ID }}
+    zip: release/chrome-${{ env.PACKAGE_VERSION }}.zip
+    publish: true
 ```
+
+Le workflow `build-and-test.yml` utilise la même action avec `TEST_CHROME_EXTENSION_ID` pour la bêta. Firefox et Edge restent publiés avec `PlasmoHQ/bpp`.
 
 ### Test manuel du refresh token
 ```bash
@@ -136,7 +130,7 @@ curl -X POST https://oauth2.googleapis.com/token \
 | Erreur | Cause | Solution |
 |---|---|---|
 | `401 Unauthorized` | Refresh token expiré ou invalide | Relancer le workflow **"Renew Chrome OAuth Token"** |
-| `400 Bad Request` | Token généré en mode Testing | Vérifier que l'app est bien **"In production"** (Étape 3) |
+| `400 Bad Request` | Requête ou configuration refusée par Google | Consulter le détail de l'erreur dans le journal ; le code HTTP seul ne permet pas d'identifier la cause |
 | `Invalid scope` | Mauvais scope OAuth | Vérifier que l'API Chrome Web Store est activée (Étape 1) |
 | `Invalid client` | Client ID/Secret incorrects | Recréer un client OAuth (Étape 4) |
 
