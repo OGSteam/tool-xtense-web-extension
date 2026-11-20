@@ -167,7 +167,7 @@ function initParsers() {
     },
 
     messages: {
-      shortmessages: '//div[@id="messagewrapper"]/div[contains(@class,"messagesHolder")]/div[contains(@class,"msg")]',
+      shortmessages: '//div[@id="messagewrapper" or @id="messages"]/div[contains(@class,"messagesHolder")]/div[contains(@class,"msg")]',
       showmessage: '//div[contains(@class,"detail_msg")]',
       combatreport: '//@data-combatreportid',
       messageid: "@data-msg-id",
@@ -197,7 +197,7 @@ function initParsers() {
         moon: '//div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a[2]/@href',
         actions_links: '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a'
       },
-      tab: '//div[@id="messagewrapper"]/div[contains(@class,"tabsWrapper")]/div[contains(@class,"innerTabItem active")]/@data-subtab-id',
+      tab: '//div[@id="messagewrapper" or @id="messages"]/div[contains(@class,"tabsWrapper")]/div[contains(@class,"innerTabItem active")]/@data-subtab-id',
       ogameapi: './/span[contains(@class, "icon_apikey")]/@title'
     },
 
@@ -247,7 +247,8 @@ function initParsers() {
       player: {
         playername: "td[@class='name']//a[contains(@href,'galaxy') and contains(@href,'system')]/span/text()",
         player_id: "td[@class='sendmsg']/div/div/@id",
-        spacecraft: "td[contains(@class,'score')]/@title"
+        spacecraft: "td[contains(@class,'score')]/@data-tooltip-title",
+        spacecraft_legacy: "td[contains(@class,'score')]/@title"
       },
 
       ally: {

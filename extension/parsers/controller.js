@@ -29,11 +29,11 @@ function get_ally_content() {
 
 function get_message_content() {
   // Récupérer l'élément contenant les messages
-  let target = document.getElementById('messagecontainercomponent');
+  let target = document.getElementById('messagescomponent') || document.getElementById('messagecontainercomponent');
 
   // Vérifier si l'élément existe
   if (!target) {
-    log.error('Élément avec ID "messagecontainercomponent" introuvable');
+    log.error('Conteneur de messages introuvable');
     return;
   }
 
@@ -45,24 +45,19 @@ function get_message_content() {
   function debouncedParseMessages() {
     const now = Date.now();
 
-    // Vérifier si assez de temps s'est écoulé depuis le dernier parsing
-    if (now - lastParseTime < PARSE_COOLDOWN) {
-      log.debug('Parsing en cooldown, ignoré');
-      return;
-    }
-
     // Annuler le timeout précédent s'il existe
     if (parseTimeout) {
       clearTimeout(parseTimeout);
     }
 
     // Programmer le parsing avec un délai
+    const delay = Math.max(300, PARSE_COOLDOWN - (now - lastParseTime));
     parseTimeout = setTimeout(() => {
       lastParseTime = Date.now();
       log.info('Déclenchement du parsing des messages (debounced)');
       parse_messages();
       parseTimeout = null;
-    }, 300);
+    }, delay);
   }
 
   // Créer l'observateur de mutations
@@ -318,7 +313,7 @@ function handle_current_page() {
   let regDefense = new RegExp(/component=(defenses)/);
   let regMessages = new RegExp(/component=(messages)/);
   let regAlliance = new RegExp(/component=(alliance)/);
-  let regStats = new RegExp(/page=(highscore)/);
+  let regStats = new RegExp(/[?&]component=highscore(?:&|$)/);
   let regRessources = new RegExp(/component=(resourceSettings)/, 'i');
   let regLfBuildings = new RegExp(/component=(lfbuildings)/);
   let regLfResearch = new RegExp(/component=(lfresearch)/);
@@ -349,6 +344,7 @@ function handle_current_page() {
       storageGetValue('handle.msg.ally', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.spy', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.ennemy.spy', 'false').toString() === 'true' ||
+      storageGetValue('handle.msg.rc', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.rc.cdr', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.expeditions', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.commerce', 'false').toString() === 'true'

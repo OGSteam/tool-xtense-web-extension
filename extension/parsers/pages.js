@@ -46,7 +46,7 @@ function parse_galaxy_system_inserted() {
       for (let i = 0; i < rows.snapshotLength; i++) {
         let row = rows.snapshotItem(i);
         let name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
-        let name_l = Xpath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
+        let name_l = Xpath.getStringValue(document, paths.planetname_l, row).trim().replace(/\($/, '');
         let name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
         let player = Xpath.getStringValue(document, paths.playername, row).trim();
         let player2 = Xpath.getStringValue(document, paths.playername2, row).trim();
@@ -297,7 +297,9 @@ function parse_ranking_inserted(event) {
 
         /*Nombre de vaisseaux*/
         if (type[1] === 'fleet') {
-          let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
+          let spacecraft = Xpath.getStringValue(document, paths.player.spacecraft, row) ||
+            Xpath.getStringValue(document, paths.player.spacecraft_legacy, row);
+          let NbVaisseaux = spacecraft.trimInt();
           log.debug('row ' + rank + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
           data_row = {
             rank: rank,

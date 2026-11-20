@@ -14,11 +14,11 @@
     "lint:ext": "cd extension && web-ext lint",
     "lint:js": "eslint --ext .js extension/",
     "lint:fix": "eslint --ext .js extension/ --fix",
-    "dev-firefox-beta": "cd extension && web-ext run --start-url https://lobby-pioneers.ogame.gameforge.com/ --keep-profile-changes --firefox-profile=../xtense-profile-beta/. --profile-create-if-missing",
+    "dev-firefox-beta": "cd extension && web-ext run --start-url https://lobby.ogame.gameforge.com/ --keep-profile-changes --firefox-profile=../xtense-profile-beta/. --profile-create-if-missing",
     "dev-chrome-beta": "cd extension && web-ext run --target=chromium --start-url https://lobby-pioneers.ogame.gameforge.com/ --keep-profile-changes --chromium-profile=../xtense-profile-chrome-beta/. --profile-create-if-missing",
     "dev-edge-beta": "cd extension && web-ext run --target=chromium --chromium-binary=\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --start-url https://lobby-pioneers.ogame.gameforge.com/ --keep-profile-changes --chromium-profile=../xtense-profile-edge-beta/. --profile-create-if-missing",
     "lint:all": "npm run lint:js && npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.test.js",
     "prepare": "npm run build && npm run lint",
     "build": "gulp build",
     "audit": "npm audit --production"
@@ -53,11 +53,12 @@
     "gulp": "^5.0.1",
     "gulp-rename": "^2.1.0",
     "gulp-zip": "^6.1.0",
+    "jsdom": "^26.1.0",
+    "npm-check-updates": "^21.0.2",
     "prettier": "^3.2.5",
     "read-pkg": "^10.1.0",
     "through2": "^4.0.2",
-    "web-ext": "^10.1.0",
-    "npm-check-updates": "^21.0.2"
+    "web-ext": "^10.1.0"
   },
   "dependencies": {
     "glob": "^13.0.6",
