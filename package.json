@@ -45,7 +45,7 @@
   "devDependencies": {
     "del": "^8.0.1",
     "eslint": "^10.2.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-jquery": "^1.5.1",
     "eslint-plugin-prettier": "^5.1.3",
     "gulp": "^5.0.1",
