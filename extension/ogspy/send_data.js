@@ -6,7 +6,6 @@
  * @license     GNU GPL v2
  * @version     3.2.0
  */
-/*eslint-env browser*/
 /*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_SUCCESS, XtenseDatabase, xlang, Xajax, setStatus, VERSION, TYPE, PLUGIN_REQUIRED, urlUnivers */
 
 /* Permet d'initialiser la communication avec OGSPY (serveur, BDD)*/

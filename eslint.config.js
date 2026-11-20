@@ -19,6 +19,7 @@ export default [
         URL: "readonly",
         URLSearchParams: "readonly",
         Node: "readonly",
+        CSS: "readonly",
 
         // DOM APIs
         XPathResult: "readonly",
@@ -71,6 +72,7 @@ export default [
         debugUnknownMessage: "readonly",
         analyzeMessageStructure: "readonly",
         debugParseMessage: "readonly",
+        enableMessageDebug: "readonly",
         
         // DOM manipulation
         $: "readonly",
@@ -92,6 +94,8 @@ export default [
         storageGetValue: "readonly",
         storageSetValue: "readonly",
         storageDeleteValue: "readonly",
+        validateServerUrl: "readonly",
+        _xajaxPending: "readonly",
         XtenseRegexps: "readonly",
         XtenseParseDate: "readonly",
         XtenseRequest: "readonly",

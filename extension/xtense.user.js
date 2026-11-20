@@ -2,7 +2,6 @@
 //    Main Extension file
 //
 
-/*eslint-env browser*/
 /*global log,initOGSpyCommunication,setlogLevel*/
 
 // Variables Xtense
