@@ -57,7 +57,7 @@ test('parses research levels in display order without including target levels', 
   window.close();
 });
 
-test('parses planet facilities in display order', () => {
+test('parses planet facilities in display order when the scanner is present', () => {
   const technologies = [14, 21, 31, 34, 44, 15, 33, 36, 45];
   const {window, data, planet, getSends} = setup(technologies);
   window.parse_station();
@@ -70,6 +70,39 @@ test('parses planet facilities in display order', () => {
       UdR: '0', CSp: '1', Lab: '2', DdR: '3',
       Silo: '4', UdN: '5', Ter: '6', Dock: '7'
     }
+  });
+  window.close();
+});
+
+test('parses planet facilities when the scanner is absent', () => {
+  const technologies = [14, 21, 31, 34, 44, 15, 33, 36];
+  const {window, data, planet, getSends} = setup(technologies);
+  window.parse_station();
+
+  assert.equal(getSends(), 1);
+  assert.equal(data.type, 'buildings');
+  assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
+    planet,
+    buildings: {
+      UdR: '0', CSp: '1', Lab: '2', DdR: '3',
+      Silo: '4', UdN: '5', Ter: '6', Dock: '7'
+    }
+  });
+  window.close();
+});
+
+test('parses moon facilities without changing their mapping', () => {
+  const technologies = [14, 21, 41, 42, 43];
+  const {window, data, planet, getSends} = setup(technologies);
+  planet.type = '1';
+  window.XtenseMetas.getPlanetType = () => 'moon';
+  window.parse_station();
+
+  assert.equal(getSends(), 1);
+  assert.equal(data.type, 'buildings');
+  assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
+    planet,
+    buildings: {UdR: '0', CSp: '1', BaLu: '2', Pha: '3', PoSa: '4'}
   });
   window.close();
 });
