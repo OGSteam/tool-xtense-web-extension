@@ -6,7 +6,7 @@
  * @license     GNU GPL v2
  * @version     3.4.0
  */
-/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
+/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, XLOG_WARNING, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 /*global parse_galaxy_system_inserted */
 
 
@@ -730,90 +730,68 @@ function parse_defense() {
   XtenseRequest.send();
 }
 
-function parse_lfBuildings() {
+function getLifeformLevels() {
+  const paths = XtenseXpaths.lifeform;
+  const technologies = Xpath.getOrderedSnapshotNodes(document, paths.technologies);
+  const items = {};
+  if (technologies.snapshotLength === 0) {
+    log.warn('No lifeform technology slots found');
+    setStatus(XLOG_WARNING, xlang('error_internal'));
+    return null;
+  }
 
-  setStatus(XLOG_NORMAL, xlang('lfBuildings_detected'));
-  let paths = XtenseXpaths.levels;
+  for (let i = 0; i < technologies.snapshotLength; i++) {
+    const technology = technologies.snapshotItem(i);
+    const id = (technology.getAttribute('data-technology') || '').trim();
+    const levelNode = Xpath.getSingleNode(document, paths.level, technology);
+    if (!id && !levelNode) continue;
 
-  let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-  let tabLevel = [];
-  if (levels.snapshotLength > 0) {
-    for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
-      let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
-      if (level !== '') {
-        tabLevel.push(level);
-      }
+    const level = levelNode ? levelNode.nodeValue.trim().replace(/\./g, '') : '';
+    if (!/^[1-9]\d*$/.test(id) || !/^\d+$/.test(level) || Object.hasOwn(items, id)) {
+      log.warn('Invalid lifeform technology or level at slot ' + (i + 1));
+      setStatus(XLOG_WARNING, xlang('error_internal'));
+      return null;
     }
+    items[id] = level;
+  }
+  return items;
+}
+
+function parse_lfBuildings() {
+  setStatus(XLOG_NORMAL, xlang('lfBuildings_detected'));
+  let lfBuildings = getLifeformLevels();
+  if (!lfBuildings) return;
+  if (Object.keys(lfBuildings).length === 0) {
+    log.info('No lifeform buildings available to send');
+    return;
   }
 
   let planetData = getPlanetData();
-  let items = {
-    '11101': tabLevel[0] ?? 0,
-    '11102': tabLevel[1] ?? 0,
-    '11103': tabLevel[2] ?? 0,
-    '11104': tabLevel[3] ?? 0,
-    '11105': tabLevel[4] ?? 0,
-    '11106': tabLevel[5] ?? 0,
-    '11107': tabLevel[6] ?? 0,
-    '11108': tabLevel[7] ?? 0,
-    '11109': tabLevel[8] ?? 0,
-    '11110': tabLevel[9] ?? 0,
-    '11111': tabLevel[10] ?? 0,
-    '11112': tabLevel[11] ?? 0
-  };
-
   XtenseRequest.set('type', 'lf_buildings');
   XtenseRequest.set('gamedata', {
     planet: planetData,
-    lfBuildings: items
+    lfBuildings: lfBuildings
   });
-
   XtenseRequest.send();
 }
 
 function parse_lfResearch() {
-
   setStatus(XLOG_NORMAL, xlang('lfresearch_detected'));
-  let paths = XtenseXpaths.levels;
-
-  let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
-  let tabLevel = [];
-  if (levels.snapshotLength > 0) {
-    for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
-      let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
-      if (level !== '') {
-        tabLevel.push(level);
-      }
-    }
+  let lfResearch = getLifeformLevels();
+  if (!lfResearch) return;
+  if (Object.keys(lfResearch).length === 0) {
+    log.info('No lifeform research selected to send');
+    return;
   }
 
   let planetData = getPlanetData();
-  let items = {
-    '11201': tabLevel[0] ?? 0,
-    '11202': tabLevel[1] ?? 0,
-    '11203': tabLevel[2] ?? 0,
-    '11204': tabLevel[3] ?? 0,
-    '11205': tabLevel[4] ?? 0,
-    '11206': tabLevel[5] ?? 0,
-    '11207': tabLevel[6] ?? 0,
-    '11208': tabLevel[7] ?? 0,
-    '11209': tabLevel[8] ?? 0,
-    '11210': tabLevel[9] ?? 0,
-    '11211': tabLevel[10] ?? 0,
-    '11212': tabLevel[11] ?? 0,
-    '11213': tabLevel[12] ?? 0,
-    '11214': tabLevel[13] ?? 0,
-    '11215': tabLevel[14] ?? 0
-  };
-
   XtenseRequest.set('type', 'lf_research');
   XtenseRequest.set('gamedata', {
     planet: planetData,
-    lfResearch: items
+    lfResearch: lfResearch
   });
-
-    XtenseRequest.send();
-  }
+  XtenseRequest.send();
+}
 
 
 /*********************** Utilities Ogame ********************************/

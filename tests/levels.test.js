@@ -109,3 +109,89 @@ test('parses defense amounts in display order', () => {
   });
   window.close();
 });
+
+function setupLifeforms(slots) {
+  const fixture = setup([]);
+  fixture.window.document.body.innerHTML = `
+    <span class="level" data-value="999"></span>
+    <div id="technologies"><ul class="icons">
+      ${slots.map(slot => `
+        <li class="technology" data-technology="${slot.id}">
+          <span class="icon">
+            ${slot.level === undefined ? '' : `<span class="level" data-value="${slot.level}"></span>`}
+            <span class="targetlevel" data-value="99"></span>
+          </span>
+        </li>
+      `).join('')}
+    </ul></div>
+  `;
+  const warnings = [];
+  fixture.window.log = {info() {}, warn: message => warnings.push(message)};
+  fixture.window.XLOG_WARNING = 2;
+  return {...fixture, warnings};
+}
+
+test('parses actual building IDs for all lifeform species regardless of order', () => {
+  for (const prefix of [111, 121, 131, 141]) {
+    const slots = Array.from({length: 12}, (_, i) => ({
+      id: `${prefix}${String(12 - i).padStart(2, '0')}`,
+      level: i === 0 ? '1.234' : String(i)
+    }));
+    const {window, data, planet, getSends} = setupLifeforms(slots);
+    window.parse_lfBuildings();
+    assert.equal(getSends(), 1);
+    assert.equal(data.type, 'lf_buildings');
+    assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
+      planet,
+      lfBuildings: Object.fromEntries(slots.map(({id, level}) => [id, level.replaceAll('.', '')]))
+    });
+    window.close();
+  }
+});
+
+test('parses all selected mixed-species research IDs, including the last three slots', () => {
+  const prefixes = [112, 122, 132, 142];
+  const slots = Array.from({length: 18}, (_, i) => ({
+    id: `${prefixes[i % prefixes.length]}${String(i + 1).padStart(2, '0')}`,
+    level: String(i)
+  }));
+  const {window, data, planet, getSends} = setupLifeforms(slots);
+  window.parse_lfResearch();
+  assert.equal(getSends(), 1);
+  assert.equal(data.type, 'lf_research');
+  assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
+    planet,
+    lfResearch: Object.fromEntries(slots.map(({id, level}) => [id, level]))
+  });
+  window.close();
+});
+
+test('skips locked research slots without inventing IDs or levels', () => {
+  const {window, data, getSends} = setupLifeforms([
+    {id: '', level: undefined}, {id: '12201', level: '4'}, {id: '', level: undefined}
+  ]);
+  window.parse_lfResearch();
+  assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata.lfResearch)), {'12201': '4'});
+  assert.equal(getSends(), 1);
+  window.close();
+
+  const locked = setupLifeforms(Array.from({length: 18}, () => ({id: ''})));
+  locked.window.parse_lfResearch();
+  assert.equal(locked.getSends(), 0);
+  locked.window.close();
+});
+
+test('does not send partial lifeform data when a technology or level is invalid', () => {
+  for (const slots of [
+    [{id: '11101', level: '2'}, {id: '11102'}],
+    [{id: '11101', level: '2'}, {id: '', level: '3'}],
+    [{id: '11101', level: '2'}, {id: '11101', level: '3'}],
+    []
+  ]) {
+    const {window, getSends, warnings} = setupLifeforms(slots);
+    window.parse_lfBuildings();
+    assert.equal(getSends(), 0);
+    assert.equal(warnings.length, 1);
+    window.close();
+  }
+});
