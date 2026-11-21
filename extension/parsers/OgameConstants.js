@@ -158,6 +158,7 @@ function initParsers() {
       system_input: '//input[@id="system_input"]',
       debris16_m: '//*[@id="galaxyRow16"]/div/div[1]/text()',
       debris16_c: '//*[@id="galaxyRow16"]/div/div[2]/text()',
+      debris16_d: '//*[@id="galaxyRow16"]/div/div[3]/text()',
     },
 
     levels: {

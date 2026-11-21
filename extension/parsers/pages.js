@@ -146,8 +146,9 @@ function parse_galaxy_system_inserted() {
       let debris = [];
       debris[XtenseDatabase.debris[701]] = Xpath.getStringValue(document, paths.debris16_m).trimInt();
       debris[XtenseDatabase.debris[702]] = Xpath.getStringValue(document, paths.debris16_c).trimInt();
+      debris[XtenseDatabase.debris[703]] = Xpath.getStringValue(document, paths.debris16_d).trimInt();
 
-      if (debris[XtenseDatabase.resources[601]] !== '' || debris[XtenseDatabase.resources[602]] !== '') {
+      if (debris[XtenseDatabase.debris[701]] || debris[XtenseDatabase.debris[702]] || debris[XtenseDatabase.debris[703]]) {
 
         let position = 16;
         rowsData[position] = {
@@ -160,7 +161,7 @@ function parse_galaxy_system_inserted() {
           status: '',
           ally_id: '',
           ally_tag: '',
-          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]]},
+          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]], deuterium: debris[XtenseDatabase.debris[703]]},
           activity: '',
           activityMoon: ''
         };

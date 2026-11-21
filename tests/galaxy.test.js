@@ -80,3 +80,16 @@ test('does not parse while the galaxy is loading', () => {
   assert.equal(sent.length, 0);
   window.close();
 });
+
+test('parses deuterium debris in deep space', async () => {
+  const {window, sent} = setup();
+  window.document.body.insertAdjacentHTML('beforeend', `
+    <div id="galaxyRow16"><div><div>0</div><div>0</div><div>30</div></div></div>
+  `);
+
+  window.parse_galaxy_system_inserted();
+  await Promise.resolve();
+
+  assert.deepEqual(sent[0].gamedata.rows[16].debris, {metal: 0, cristal: 0, deuterium: 30});
+  window.close();
+});
