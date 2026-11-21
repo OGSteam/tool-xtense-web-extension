@@ -41,14 +41,7 @@ const url = location.href;
 const urlUnivers = url.match(new RegExp('(.*)/game'))[1];
 const numUnivers = urlUnivers.match(new RegExp('\/s(.*)-[a-z]{2}.ogame'))[1];
 const langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
-async function startXtense() {
-  try {
-    await initializeSettingsStorage(langUnivers, numUnivers);
-  } catch (error) {
-    log.error("Impossible d'initialiser le stockage Xtense : " + error.message);
-    return;
-  }
-
+function startXtense() {
   // Conversion Format adresse OGSPY
   const serverUrl = String(storageGetValue('server.url.plugin', '') ?? '')
     .replace("/mod/xtense/xtense.php", "");
@@ -71,6 +64,8 @@ async function startXtense() {
   handle_current_page();
 }
 
-void startXtense();
+initializeSettingsStorage(langUnivers, numUnivers)
+  .then(startXtense)
+  .catch(error => log.error("Impossible d'initialiser le stockage Xtense : " + error.message));
 //exit !!
 /***************************** Fin Main *********************************/

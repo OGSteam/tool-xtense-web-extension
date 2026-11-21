@@ -6,6 +6,26 @@
  * @license     GNU GPL v2
  * @version     3.4.1
  */
+function getHostPattern(value) {
+  if (value === undefined || value === null || value === "") return null;
+  if (typeof value !== "string") throw new Error("URL du serveur OGSpy invalide");
+  const raw = value.trim();
+  if (!raw || raw === "https://VOTRESITE/VOTREOGSPY") return null;
+  const normalized = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
+  let url;
+  try {
+    url = new URL(normalized);
+  } catch (error) {
+    throw new Error("URL du serveur OGSpy invalide", {cause: error});
+  }
+  if (!["http:", "https:"].includes(url.protocol) || url.username || url.password ||
+      url.search || url.hash || url.hostname.includes("*") ||
+      (raw.includes("://") && !/^https?:\/\//.test(raw))) {
+    throw new Error("URL du serveur OGSpy invalide");
+  }
+  return `${url.protocol}//${url.hostname}/*`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const settingsPrefix = "xtense.settings.";
   const grantBtn = document.getElementById("btn_grant_permission");
@@ -24,26 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function reportError(message) {
     console.error(message, chrome.runtime.lastError?.message);
     showStatus("Impossible de vérifier les permissions du serveur OGSpy.", "red", false);
-  }
-
-  function getHostPattern(value) {
-    if (value === undefined || value === null || value === "") return null;
-    if (typeof value !== "string") throw new Error("URL du serveur OGSpy invalide");
-    const raw = value.trim();
-    if (!raw || raw === "https://VOTRESITE/VOTREOGSPY") return null;
-    const normalized = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
-    let url;
-    try {
-      url = new URL(normalized);
-    } catch (error) {
-      throw new Error("URL du serveur OGSpy invalide", {cause: error});
-    }
-    if (!["http:", "https:"].includes(url.protocol) || url.username || url.password ||
-        url.search || url.hash || url.hostname.includes("*") ||
-        (raw.includes("://") && !/^https?:\/\//.test(raw))) {
-      throw new Error("URL du serveur OGSpy invalide");
-    }
-    return `${url.protocol}//${url.hostname}/*`;
   }
 
   function getConfiguredUrls(stored) {

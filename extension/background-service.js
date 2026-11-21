@@ -31,7 +31,9 @@ function getConfiguredServerOrigins(stored) {
       try {
         const parsed = new URL(value);
         if (["http:", "https:"].includes(parsed.protocol)) origins.add(parsed.origin);
-      } catch (_) {}
+      } catch {
+        // Ignore invalid stored URLs; they must never become allowed origins.
+      }
     }
   }
   return origins;

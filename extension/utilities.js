@@ -58,7 +58,7 @@ function initializeSettingsStorage(language, universe) {
 }
 
 function storageGetValue(key, defaultVal) {
-  return Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key) ?
+  return Object.hasOwn(xtenseSettingsCache, key) ?
     xtenseSettingsCache[key] : defaultVal;
 }
 
@@ -67,13 +67,13 @@ function storageSetValue(key, value, callback) {
     log.error("Le stockage Xtense n'est pas initialisé.");
     return false;
   }
-  if (Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key) &&
+  if (Object.hasOwn(xtenseSettingsCache, key) &&
       Object.is(xtenseSettingsCache[key], value)) {
     if (callback) callback(true);
     return true;
   }
 
-  const hadPreviousValue = Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key);
+  const hadPreviousValue = Object.hasOwn(xtenseSettingsCache, key);
   const previousValue = xtenseSettingsCache[key];
   xtenseSettingsCache[key] = value;
   chrome.storage.local.set({[xtenseSettingsKeyPrefix + key]: value}, () => {
@@ -93,12 +93,12 @@ function storageSetValue(key, value, callback) {
 
 function storageDeleteValue(key) {
   if (!xtenseSettingsKeyPrefix) return false;
-  const hadPreviousValue = Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key);
+  const hadPreviousValue = Object.hasOwn(xtenseSettingsCache, key);
   const previousValue = xtenseSettingsCache[key];
   delete xtenseSettingsCache[key];
   chrome.storage.local.remove(xtenseSettingsKeyPrefix + key, () => {
     if (chrome.runtime.lastError) {
-      if (hadPreviousValue && !Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key)) {
+      if (hadPreviousValue && !Object.hasOwn(xtenseSettingsCache, key)) {
         xtenseSettingsCache[key] = previousValue;
       }
       log.error("Impossible de supprimer le paramètre Xtense : " + chrome.runtime.lastError.message);
