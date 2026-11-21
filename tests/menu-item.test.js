@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import test from 'node:test';
+import {jQueryFactory} from 'jquery/factory';
+import {JSDOM} from 'jsdom';
+
+const script = readFileSync(new URL('../extension/ui/menu_item.js', import.meta.url), 'utf8');
+
+test('connection buttons retain localized labels, placement and handlers', () => {
+  const dom = new JSDOM('<div><div id="middle"></div></div>', {runScripts: 'outside-only'});
+  const {window} = dom;
+  window.$ = jQueryFactory(window);
+  window.chrome = {
+    runtime: {getURL: path => path},
+    i18n: {getMessage: key => key === 'XtenseServer_TestConnection' ? 'Test connection' : key}
+  };
+  window.storageGetValue = (key, fallback) => key === 'backup.link' ? 'true' : fallback;
+  window.numUnivers = '1';
+  window.VERSION = '3.4.0';
+  window.CSS = {escape: value => value.replaceAll('.', '\\.')};
+  window.validateServerUrl = () => ({valid: false});
+  window.setInterval = () => 0;
+  window.eval(script);
+  window.displayOptions();
+
+  for (const [buttonId, passwordId, resultId] of [
+    ['btn_test_primary', 'server.pwd', 'server.test.primary.result'],
+    ['btn_test_backup', 'server_backup.pwd', 'server.test.backup.result']
+  ]) {
+    const button = window.document.getElementById(buttonId);
+    const password = window.document.getElementById(passwordId);
+    assert.match(button.textContent, /Test connection/);
+    assert.ok(password.compareDocumentPosition(button) & window.Node.DOCUMENT_POSITION_FOLLOWING);
+    button.click();
+    assert.match(window.document.getElementById(resultId).textContent, /URL invalide/);
+  }
+  assert.notEqual(window.document.getElementById('btn_test_backup').closest('tr').style.display, 'none');
+  window.close();
+});
+
+test('connection label is available in every bundled locale', () => {
+  for (const locale of ['en', 'en_US', 'es', 'fr', 'it', 'pt_BR']) {
+    const messages = JSON.parse(readFileSync(new URL(`../extension/_locales/${locale}/messages.json`, import.meta.url), 'utf8'));
+    assert.ok(messages.XtenseServer_TestConnection.message, locale);
+  }
+});

@@ -323,10 +323,6 @@ function displayOptions() {
         <td></td>
         <td><span id="server.url.plugin.error" style="color:#ff6666;font-size:11px;display:none;"></span></td>
       </tr>
-      <tr>
-        <td></td>
-        <td><button id="btn_test_primary" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:3px 10px;font-size:11px;border-radius:3px;">Test</button> <span id="server.test.primary.result" style="font-size:11px;"></span></td>
-      </tr>
       ${createSimpleSpacingRow()}
       <tr>
         <td class="champ">
@@ -335,6 +331,11 @@ function displayOptions() {
         <td class="value">
           <input class="speed" id="server.pwd" value="${storageGetValue("server.pwd", "mot de passe")}" size="64" alt="24" type="password"/>
         </td>
+      </tr>
+      ${createSimpleSpacingRow()}
+      <tr>
+        <td class="champ"><label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_TestConnection")}</label></td>
+        <td class="value" style="text-align:left;"><button id="btn_test_primary" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;border-radius:3px;display:inline-block;position:static;float:none;">🔌 ${chrome.i18n.getMessage("XtenseServer_TestConnection")}</button> <span id="server.test.primary.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span></td>
       </tr>
       <tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>
       <tr class="server_url_backup">
@@ -355,10 +356,6 @@ function displayOptions() {
         <td></td>
         <td><span id="server_backup.url.plugin.error" style="color:#ff6666;font-size:11px;display:none;"></span></td>
       </tr>
-      <tr class="server_url_backup">
-        <td></td>
-        <td><button id="btn_test_backup" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:3px 10px;font-size:11px;border-radius:3px;">Test</button> <span id="server.test.backup.result" style="font-size:11px;"></span></td>
-      </tr>
       <tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>
       <tr class="server_url_backup">
         <td class="champ">
@@ -367,6 +364,10 @@ function displayOptions() {
         <td class="value">
           <input class="speed" id="server_backup.pwd" value="${storageGetValue("server_backup.pwd", "mot de passe")}" size="64" alt="24" type="password"/>
         </td>
+      </tr>
+      <tr class="server_url_backup">
+        <td class="champ"><label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_TestConnection")}</label></td>
+        <td class="value" style="text-align:left;"><button id="btn_test_backup" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;border-radius:3px;display:inline-block;position:static;float:none;">🔌 ${chrome.i18n.getMessage("XtenseServer_TestConnection")}</button> <span id="server.test.backup.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span></td>
       </tr>
       ${createSpacingRow()}
       <tr>
