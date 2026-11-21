@@ -6,71 +6,108 @@
  * @license     GNU GPL v2
  * @version     3.4.1
  */
-/*global log,prefix_GMData*/
+/*global log*/
 
-/*********************** Compatibilité Chrome ***************************/
+/*********************** Stockage de l'extension ************************/
+
+const XTENSE_SETTINGS_PREFIX = "xtense.settings.";
+let xtenseSettingsKeyPrefix = "";
+let xtenseSettingsCache = {};
+
+/**
+ * Loads the current universe settings from extension-owned storage, then
+ * removes the obsolete settings for that universe from the OGame origin.
+ *
+ * @param {string} language Universe language
+ * @param {string|number} universe Universe number
+ * @returns {Promise<void>}
+ */
+function initializeSettingsStorage(language, universe) {
+  xtenseSettingsKeyPrefix = `${XTENSE_SETTINGS_PREFIX}${language}.${universe}.`;
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(null, stored => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+        return;
+      }
+
+      xtenseSettingsCache = {};
+      for (const [storageKey, value] of Object.entries(stored)) {
+        if (storageKey.startsWith(xtenseSettingsKeyPrefix)) {
+          xtenseSettingsCache[storageKey.slice(xtenseSettingsKeyPrefix.length)] = value;
+        }
+      }
+
+      chrome.storage.local.remove(["serverUrl", "serverBackupUrl"], () => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+          return;
+        }
+
+        const legacyPrefix = `${language}${universe}.`;
+        const legacyKeys = [];
+        for (let index = 0; index < localStorage.length; index++) {
+          const legacyKey = localStorage.key(index);
+          if (legacyKey?.startsWith(legacyPrefix)) legacyKeys.push(legacyKey);
+        }
+        for (const legacyKey of legacyKeys) localStorage.removeItem(legacyKey);
+        resolve();
+      });
+    });
+  });
+}
 
 function storageGetValue(key, defaultVal) {
-  try {
-    // Vérifier si la clé existe réellement dans localStorage
-    if (!localStorage.hasOwnProperty(prefix_GMData + key)) {
-      return defaultVal;
-    }
-
-    // Récupérer la valeur stockée
-    let retValue = localStorage.getItem(prefix_GMData + key);
-
-    // Tenter de détecter et convertir le type de données
-    if (retValue === 'true') return true;
-    if (retValue === 'false') return false;
-    if (retValue === 'null') return null;
-    if (retValue === 'undefined') return undefined;
-
-    // Essayer de parser en JSON si c'est un objet ou un tableau
-    if (retValue && (retValue.startsWith('{') || retValue.startsWith('['))) {
-      try {
-        return JSON.parse(retValue);
-      } catch (e) {
-        // Si échec de parsing, retourner la chaîne brute
-      }
-    }
-
-    // Essayer de convertir en nombre si c'est numérique
-    if (!isNaN(retValue) && retValue.trim() !== '') {
-      // Convertir en nombre seulement si c'est réellement un nombre
-      const num = Number(retValue);
-      if (Number.isFinite(num)) return num;
-    }
-
-    // Sinon, retourner la chaîne telle quelle
-    return retValue;
-  } catch (e) {
-    log.error('Erreur lors de la récupération de la valeur:', e.message);
-    return defaultVal;
-  }
+  return Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key) ?
+    xtenseSettingsCache[key] : defaultVal;
 }
 
-
-function storageSetValue(key, value) {
-  try {
-    // Conversion explicite selon le type de données
-    let valueToStore = typeof value === 'object' ?
-      JSON.stringify(value) : String(value);
-
-    localStorage.setItem(prefix_GMData + key, valueToStore);
-    return true;
-  } catch (e) {
-    log.error('Erreur lors du stockage de la valeur:', e.message);
+function storageSetValue(key, value, callback) {
+  if (!xtenseSettingsKeyPrefix) {
+    log.error("Le stockage Xtense n'est pas initialisé.");
     return false;
   }
+  if (Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key) &&
+      Object.is(xtenseSettingsCache[key], value)) {
+    if (callback) callback(true);
+    return true;
+  }
+
+  const hadPreviousValue = Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key);
+  const previousValue = xtenseSettingsCache[key];
+  xtenseSettingsCache[key] = value;
+  chrome.storage.local.set({[xtenseSettingsKeyPrefix + key]: value}, () => {
+    if (chrome.runtime.lastError) {
+      if (Object.is(xtenseSettingsCache[key], value)) {
+        if (hadPreviousValue) xtenseSettingsCache[key] = previousValue;
+        else delete xtenseSettingsCache[key];
+      }
+      log.error("Impossible d'enregistrer le paramètre Xtense : " + chrome.runtime.lastError.message);
+      if (callback) callback(false);
+    } else if (callback) {
+      callback(true);
+    }
+  });
+  return true;
 }
 
-
-function storageDeleteValue(value) {
-  localStorage.removeItem(value);
+function storageDeleteValue(key) {
+  if (!xtenseSettingsKeyPrefix) return false;
+  const hadPreviousValue = Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key);
+  const previousValue = xtenseSettingsCache[key];
+  delete xtenseSettingsCache[key];
+  chrome.storage.local.remove(xtenseSettingsKeyPrefix + key, () => {
+    if (chrome.runtime.lastError) {
+      if (hadPreviousValue && !Object.prototype.hasOwnProperty.call(xtenseSettingsCache, key)) {
+        xtenseSettingsCache[key] = previousValue;
+      }
+      log.error("Impossible de supprimer le paramètre Xtense : " + chrome.runtime.lastError.message);
+    }
+  });
+  return true;
 }
 
-/********************** Fin Compatibilité Chrome ************************/
+/********************* Fin stockage de l'extension **********************/
 /***************************** Utilities ********************************/
 /* Fonctions sur strings */
 

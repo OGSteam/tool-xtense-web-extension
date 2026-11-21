@@ -19,7 +19,8 @@ test('connection buttons retain localized labels, placement and handlers', () =>
   window.VERSION = '3.4.0';
   window.CSS = {escape: value => value.replaceAll('.', '\\.')};
   window.validateServerUrl = () => ({valid: false});
-  window.setInterval = () => 0;
+  const savedSettings = [];
+  window.storageSetValue = (key, value) => savedSettings.push([key, value]);
   window.eval(script);
   window.displayOptions();
 
@@ -29,11 +30,25 @@ test('connection buttons retain localized labels, placement and handlers', () =>
   ]) {
     const button = window.document.getElementById(buttonId);
     const password = window.document.getElementById(passwordId);
+    assert.equal(button.tagName, 'A');
+    assert.equal(button.getAttribute('role'), 'button');
+    assert.equal(button.closest('td').cellIndex, 1);
+    assert.equal(button.style.position, 'relative');
     assert.match(button.textContent, /Test connection/);
     assert.ok(password.compareDocumentPosition(button) & window.Node.DOCUMENT_POSITION_FOLLOWING);
     button.click();
     assert.match(window.document.getElementById(resultId).textContent, /URL invalide/);
   }
+  const serverUrl = window.document.getElementById('server.url.plugin');
+  serverUrl.value = 'https://ogspy.example';
+  serverUrl.dispatchEvent(new window.Event('input', {bubbles: true}));
+  const backupEnabled = window.document.getElementById('backup.link');
+  backupEnabled.checked = true;
+  backupEnabled.dispatchEvent(new window.Event('change', {bubbles: true}));
+  assert.deepEqual(savedSettings, [
+    ['server.url.plugin', 'https://ogspy.example'],
+    ['backup.link', true]
+  ]);
   assert.notEqual(window.document.getElementById('btn_test_backup').closest('tr').style.display, 'none');
   window.close();
 });

@@ -335,7 +335,10 @@ function displayOptions() {
       ${createSimpleSpacingRow()}
       <tr>
         <td class="champ"><label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_TestConnection")}</label></td>
-        <td class="value" style="text-align:left;"><button id="btn_test_primary" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;border-radius:3px;display:inline-block;position:static;float:none;">🔌 ${chrome.i18n.getMessage("XtenseServer_TestConnection")}</button> <span id="server.test.primary.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span></td>
+        <td class="value" style="text-align:left !important;vertical-align:middle;">
+          <a id="btn_test_primary" class="xtense-test-button" role="button" tabindex="0" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;line-height:16px;border-radius:3px;display:inline-flex !important;align-items:center;position:relative !important;inset:auto !important;float:none !important;width:auto !important;height:auto !important;text-decoration:none;box-sizing:border-box;">🔌 ${chrome.i18n.getMessage("XtenseServer_TestConnection")}</a>
+          <span id="server.test.primary.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span>
+        </td>
       </tr>
       <tr class="server_url_backup"><td>&#160;</td><td>&#160;</td></tr>
       <tr class="server_url_backup">
@@ -367,7 +370,10 @@ function displayOptions() {
       </tr>
       <tr class="server_url_backup">
         <td class="champ"><label class="styled textBeefy">${chrome.i18n.getMessage("XtenseServer_TestConnection")}</label></td>
-        <td class="value" style="text-align:left;"><button id="btn_test_backup" type="button" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;border-radius:3px;display:inline-block;position:static;float:none;">🔌 ${chrome.i18n.getMessage("XtenseServer_TestConnection")}</button> <span id="server.test.backup.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span></td>
+        <td class="value" style="text-align:left !important;vertical-align:middle;">
+          <a id="btn_test_backup" class="xtense-test-button" role="button" tabindex="0" style="cursor:pointer;background:#1a1a2e;color:orange;border:1px solid orange;padding:4px 14px;font-size:11px;line-height:16px;border-radius:3px;display:inline-flex !important;align-items:center;position:relative !important;inset:auto !important;float:none !important;width:auto !important;height:auto !important;text-decoration:none;box-sizing:border-box;">🔌 ${chrome.i18n.getMessage("XtenseServer_TestConnection")}</a>
+          <span id="server.test.backup.result" style="font-size:11px;vertical-align:middle;margin-left:6px;"></span>
+        </td>
       </tr>
       ${createSpacingRow()}
       <tr>
@@ -570,9 +576,11 @@ function displayOptions() {
     }
     $result.css("color", "orange").text("⏳ Test...");
     const msgId = Date.now();
-    const storageKey = inputId === "server.url.plugin" ? "serverUrl" : "serverBackupUrl";
-    // Sync the current URL to chrome.storage.local so the background allowlist check passes
-    chrome.storage.local.set({ [storageKey]: validation.normalized }, () => {
+    storageSetValue(inputId, validation.normalized, stored => {
+      if (!stored) {
+        $result.css("color", "#ff6666").text("❌ Erreur de stockage");
+        return;
+      }
       const timeout = setTimeout(() => {
         delete _xajaxPending[msgId];
         $result.css("color", "#ff6666").text("❌ Délai dépassé");
@@ -609,6 +617,12 @@ function displayOptions() {
   $("#btn_test_backup").on("click", function () {
     testServerConnection("server_backup.url.plugin", "server.test.backup.result");
   });
+  $(".xtense-test-button").on("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      this.click();
+    }
+  });
 
   $("#menu_servers").on("click", function () {
     displayOption("#Xtense_serveurs");
@@ -628,41 +642,12 @@ function displayOptions() {
     log.info("Erreur Affichage menu");
   }
 
-  function enregistreOptionsXtense() {
-    // Sauvegarde des inputs
-    let inputOptions = Xpath.getOrderedSnapshotNodes(
-      document,
-      "//div[@id='Xtense_Div']//input[not(@type='checkbox')]"
-    );
-    if (inputOptions.snapshotLength > 0) {
-      for (let i = 0; i < inputOptions.snapshotLength; i++) {
-        let input = inputOptions.snapshotItem(i);
-        storageSetValue(input.id, input.value);
-      }
-    }
-    // Sauvegarde des checkbox
-
-    let checkboxOptions = Xpath.getOrderedSnapshotNodes(
-      document,
-      "//div[@id='Xtense_Div']//input[@type='checkbox']"
-    );
-    if (checkboxOptions.snapshotLength > 0) {
-      for (let j = 0; j < checkboxOptions.snapshotLength; j++) {
-        let checkbox = checkboxOptions.snapshotItem(j);
-        storageSetValue(checkbox.id, checkbox.checked);
-      }
-    }
-    // Sync server URLs to chrome.storage.local so the background service worker
-    // can use them for origin allowlist checks, and the popup for permission grants
-    const _syncUrls = {};
-    const _primaryUrl = storageGetValue("server.url.plugin", "");
-    const _backupUrl = storageGetValue("server_backup.url.plugin", "");
-    if (_primaryUrl && _primaryUrl !== "https://VOTRESITE/VOTREOGSPY") _syncUrls.serverUrl = _primaryUrl;
-    if (_backupUrl && _backupUrl !== "https://VOTRESITE/VOTREOGSPY") _syncUrls.serverBackupUrl = _backupUrl;
-    if (Object.keys(_syncUrls).length > 0) chrome.storage.local.set(_syncUrls);
-  }
-
-  setInterval(enregistreOptionsXtense, 200);
+  $("#Xtense_Div input:not([type='checkbox'])").on("input change", function () {
+    storageSetValue(this.id, this.value);
+  });
+  $("#Xtense_Div input[type='checkbox']").on("change", function () {
+    storageSetValue(this.id, this.checked);
+  });
 }
 
 function displayOption(id) {
