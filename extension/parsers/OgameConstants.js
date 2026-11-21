@@ -165,6 +165,10 @@ function initParsers() {
       level: '//span[((contains(@class,"level") or contains(@class,"amount")) and not (contains(@class,"targetlevel")) and not (contains(@class,"targetamount")))]/@data-value',
       levelbonus: '//span[((contains(@class,"level") or contains(@class,"amount")) and not (contains(@class,"targetlevel")) and not (contains(@class,"targetamount")))]/@data-bonus'
     },
+    lifeform: {
+      technologies: '//*[@id="technologies"]//li[contains(concat(" ", normalize-space(@class), " "), " technology ")]',
+      level: './/span[contains(concat(" ", normalize-space(@class), " "), " level ")]/@data-value'
+    },
 
     messages: {
       shortmessages: '//div[@id="messagewrapper" or @id="messages"]/div[contains(@class,"messagesHolder")]/div[contains(@class,"msg")]',
