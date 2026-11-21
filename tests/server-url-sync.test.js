@@ -1,9 +1,17 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
+import {Script} from 'node:vm';
 import {JSDOM} from 'jsdom';
 
-const script = readFileSync(new URL('../extension/utilities.js', import.meta.url), 'utf8');
+const scriptUrl = new URL('../extension/utilities.js', import.meta.url);
+const scriptPath = fileURLToPath(scriptUrl);
+const script = readFileSync(scriptUrl, 'utf8');
+
+function runScript(dom) {
+  new Script(script, {filename: scriptPath}).runInContext(dom.getInternalVMContext());
+}
 
 test('loads universe settings from extension storage and deletes legacy settings', async () => {
   const dom = new JSDOM('', {runScripts: 'outside-only', url: 'https://s123-fr.ogame.gameforge.com/game/'});
@@ -25,7 +33,7 @@ test('loads universe settings from extension storage and deletes legacy settings
       remove: (key, callback) => { removals.push(Array.isArray(key) ? [...key] : key); callback(); }
     }}
   };
-  window.eval(script);
+  runScript(dom);
   await window.initializeSettingsStorage('fr', '123');
 
   assert.equal(window.storageGetValue('server.url.plugin', ''), 'https://ogspy.example/path');
@@ -53,7 +61,7 @@ test('does not delete legacy settings when extension storage cannot be loaded', 
     runtime: {onMessage: {addListener() {}}, lastError: {message: 'storage failure'}},
     storage: {local: {get: (_keys, callback) => callback({})}}
   };
-  window.eval(script);
+  runScript(dom);
   await assert.rejects(window.initializeSettingsStorage('fr', '123'), /storage failure/);
   assert.equal(window.localStorage.getItem('fr123.server.pwd'), 'keep-on-failure');
   window.close();
@@ -72,7 +80,7 @@ test('rolls back failed writes so the setting can be retried', async () => {
       set: (_value, callback) => { attempts++; callback(); }
     }}
   };
-  window.eval(script);
+  runScript(dom);
   await window.initializeSettingsStorage('fr', '123');
 
   window.chrome.runtime.lastError = {message: 'write failure'};

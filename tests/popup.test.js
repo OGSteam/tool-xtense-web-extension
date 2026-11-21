@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
+import {Script} from 'node:vm';
 import {JSDOM} from 'jsdom';
 
-const script = readFileSync(new URL('../extension/ui/popup.js', import.meta.url), 'utf8');
+const scriptUrl = new URL('../extension/ui/popup.js', import.meta.url);
+const scriptPath = fileURLToPath(scriptUrl);
+const script = readFileSync(scriptUrl, 'utf8');
 
 function setup(stored, granted = false) {
   const dom = new JSDOM('<p id="permission_status"></p><button id="btn_grant_permission"></button>', {runScripts: 'outside-only'});
@@ -22,7 +26,7 @@ function setup(stored, granted = false) {
       request: (permissions, callback) => { requests.push([...permissions.origins]); callback(granted); }
     }
   };
-  window.eval(script);
+  new Script(script, {filename: scriptPath}).runInContext(dom.getInternalVMContext());
   window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
   return {
     window, checks, requests,

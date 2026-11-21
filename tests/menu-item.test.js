@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
+import {Script} from 'node:vm';
 import {jQueryFactory} from 'jquery/factory';
 import {JSDOM} from 'jsdom';
 
-const script = readFileSync(new URL('../extension/ui/menu_item.js', import.meta.url), 'utf8');
+const scriptUrl = new URL('../extension/ui/menu_item.js', import.meta.url);
+const scriptPath = fileURLToPath(scriptUrl);
+const script = readFileSync(scriptUrl, 'utf8');
 
 test('connection buttons retain localized labels, placement and handlers', () => {
   const dom = new JSDOM('<div><div id="middle"></div></div>', {runScripts: 'outside-only'});
@@ -21,7 +25,7 @@ test('connection buttons retain localized labels, placement and handlers', () =>
   window.validateServerUrl = () => ({valid: false});
   const savedSettings = [];
   window.storageSetValue = (key, value) => savedSettings.push([key, value]);
-  window.eval(script);
+  new Script(script, {filename: scriptPath}).runInContext(dom.getInternalVMContext());
   window.displayOptions();
 
   for (const [buttonId, passwordId, resultId] of [

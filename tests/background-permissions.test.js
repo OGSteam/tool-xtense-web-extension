@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
+import {Script} from 'node:vm';
 import {JSDOM} from 'jsdom';
 
-const script = readFileSync(new URL('../extension/background-service.js', import.meta.url), 'utf8');
+const scriptUrl = new URL('../extension/background-service.js', import.meta.url);
+const scriptPath = fileURLToPath(scriptUrl);
+const script = readFileSync(scriptUrl, 'utf8');
 
 function setup(stored, permissionGranted = true) {
   const dom = new JSDOM('', {runScripts: 'outside-only'});
@@ -30,7 +34,7 @@ function setup(stored, permissionGranted = true) {
     requests.push({url, options});
     return {status: 200, text: async () => '{"status":1}'};
   };
-  window.eval(script);
+  new Script(script, {filename: scriptPath}).runInContext(dom.getInternalVMContext());
   return {window, replies, requests, listener};
 }
 
