@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.4.0
+ * @version     3.4.1
  */
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, XLOG_WARNING, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 /*global parse_galaxy_system_inserted */

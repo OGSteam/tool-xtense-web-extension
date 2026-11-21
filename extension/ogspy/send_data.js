@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.4.0
+ * @version     3.4.1
  */
 /*global log,storageSetValue,storageGetValue, XLOG_WARNING,XLOG_ERROR,XLOG_SUCCESS, XtenseDatabase, xlang, Xajax, setStatus, VERSION, TYPE, PLUGIN_REQUIRED, urlUnivers */
 

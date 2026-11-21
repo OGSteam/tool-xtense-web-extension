@@ -54,7 +54,7 @@ storageSetValue('server.url.plugin', res);
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.4.0
+ * @version     3.4.1
  */
 setlogLevel(); // Default Info
 log.info("Welcome to Xtense WE Version : " + VERSION);
