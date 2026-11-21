@@ -64,8 +64,9 @@ function startXtense() {
   handle_current_page();
 }
 
+// Manifest-loaded content scripts are classic scripts, so top-level await is unavailable.
 initializeSettingsStorage(langUnivers, numUnivers)
-  .then(startXtense)
+  .then(startXtense) // NOSONAR -- converting this file to ESM would break manifest loading.
   .catch(error => log.error("Impossible d'initialiser le stockage Xtense : " + error.message));
 //exit !!
 /***************************** Fin Main *********************************/

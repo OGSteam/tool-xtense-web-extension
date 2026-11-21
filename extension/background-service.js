@@ -8,32 +8,43 @@
  */
 const XTENSE_SETTINGS_PREFIX = "xtense.settings.";
 
-function getConfiguredServerOrigins(stored) {
+function getProfileSetting(storageKey) {
+  if (!storageKey.startsWith(XTENSE_SETTINGS_PREFIX)) return null;
+  const relativeKey = storageKey.slice(XTENSE_SETTINGS_PREFIX.length);
+  const separator = relativeKey.indexOf(".", relativeKey.indexOf(".") + 1);
+  if (separator === -1) return null;
+  return {
+    profileId: relativeKey.slice(0, separator),
+    settingName: relativeKey.slice(separator + 1)
+  };
+}
+
+function getStoredProfiles(stored) {
   const profiles = new Map();
   for (const [key, value] of Object.entries(stored)) {
-    if (!key.startsWith(XTENSE_SETTINGS_PREFIX)) continue;
-    const relativeKey = key.slice(XTENSE_SETTINGS_PREFIX.length);
-    const separator = relativeKey.indexOf(".", relativeKey.indexOf(".") + 1);
-    if (separator === -1) continue;
-    const profileId = relativeKey.slice(0, separator);
-    const settingName = relativeKey.slice(separator + 1);
-    if (!profiles.has(profileId)) profiles.set(profileId, {});
-    profiles.get(profileId)[settingName] = value;
+    const setting = getProfileSetting(key);
+    if (!setting) continue;
+    if (!profiles.has(setting.profileId)) profiles.set(setting.profileId, {});
+    profiles.get(setting.profileId)[setting.settingName] = value;
   }
+  return profiles.values();
+}
 
+function addServerOrigin(origins, value) {
+  try {
+    const parsed = new URL(value);
+    if (["http:", "https:"].includes(parsed.protocol)) origins.add(parsed.origin);
+  } catch {
+    // Ignore invalid stored URLs; they must never become allowed origins.
+  }
+}
+
+function getConfiguredServerOrigins(stored) {
   const origins = new Set();
-  for (const profile of profiles.values()) {
-    const urls = [profile["server.url.plugin"]];
+  for (const profile of getStoredProfiles(stored)) {
+    addServerOrigin(origins, profile["server.url.plugin"]);
     if (String(profile["backup.link"]) === "true") {
-      urls.push(profile["server_backup.url.plugin"]);
-    }
-    for (const value of urls) {
-      try {
-        const parsed = new URL(value);
-        if (["http:", "https:"].includes(parsed.protocol)) origins.add(parsed.origin);
-      } catch {
-        // Ignore invalid stored URLs; they must never become allowed origins.
-      }
+      addServerOrigin(origins, profile["server_backup.url.plugin"]);
     }
   }
   return origins;
