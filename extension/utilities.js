@@ -20,39 +20,38 @@ let xtenseSettingsCache = {};
  *
  * @param {string} language Universe language
  * @param {string|number} universe Universe number
- * @returns {Promise<void>}
+ * @param {Function} onReady Called after settings have loaded
+ * @param {Function} onError Called when extension storage cannot be accessed
  */
-function initializeSettingsStorage(language, universe) {
+function initializeSettingsStorage(language, universe, onReady, onError) {
   xtenseSettingsKeyPrefix = `${XTENSE_SETTINGS_PREFIX}${language}.${universe}.`;
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get(null, stored => {
+  chrome.storage.local.get(null, stored => {
+    if (chrome.runtime.lastError) {
+      onError(new Error(chrome.runtime.lastError.message));
+      return;
+    }
+
+    xtenseSettingsCache = {};
+    for (const [storageKey, value] of Object.entries(stored)) {
+      if (storageKey.startsWith(xtenseSettingsKeyPrefix)) {
+        xtenseSettingsCache[storageKey.slice(xtenseSettingsKeyPrefix.length)] = value;
+      }
+    }
+
+    chrome.storage.local.remove(["serverUrl", "serverBackupUrl"], () => {
       if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
+        onError(new Error(chrome.runtime.lastError.message));
         return;
       }
 
-      xtenseSettingsCache = {};
-      for (const [storageKey, value] of Object.entries(stored)) {
-        if (storageKey.startsWith(xtenseSettingsKeyPrefix)) {
-          xtenseSettingsCache[storageKey.slice(xtenseSettingsKeyPrefix.length)] = value;
-        }
+      const legacyPrefix = `${language}${universe}.`;
+      const legacyKeys = [];
+      for (let index = 0; index < localStorage.length; index++) {
+        const legacyKey = localStorage.key(index);
+        if (legacyKey?.startsWith(legacyPrefix)) legacyKeys.push(legacyKey);
       }
-
-      chrome.storage.local.remove(["serverUrl", "serverBackupUrl"], () => {
-        if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
-          return;
-        }
-
-        const legacyPrefix = `${language}${universe}.`;
-        const legacyKeys = [];
-        for (let index = 0; index < localStorage.length; index++) {
-          const legacyKey = localStorage.key(index);
-          if (legacyKey?.startsWith(legacyPrefix)) legacyKeys.push(legacyKey);
-        }
-        for (const legacyKey of legacyKeys) localStorage.removeItem(legacyKey);
-        resolve();
-      });
+      for (const legacyKey of legacyKeys) localStorage.removeItem(legacyKey);
+      onReady();
     });
   });
 }

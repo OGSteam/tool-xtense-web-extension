@@ -25,9 +25,9 @@ function setup(initializeSettingsStorage) {
     info: message => calls.push(['log.info', message]),
     error: message => calls.push(['log.error', message])
   };
-  window.initializeSettingsStorage = (language, universe) => {
+  window.initializeSettingsStorage = (language, universe, onReady, onError) => {
     calls.push(['initializeSettingsStorage', language, universe]);
-    return initializeSettingsStorage(language, universe);
+    initializeSettingsStorage(language, universe, onReady, onError);
   };
   window.storageGetValue = (key, fallback) => settings.has(key) ? settings.get(key) : fallback;
   window.storageSetValue = (key, value) => { settings.set(key, value); };
@@ -44,7 +44,7 @@ function setup(initializeSettingsStorage) {
 }
 
 test('starts Xtense after extension settings have loaded', async () => {
-  const context = setup(() => Promise.resolve());
+  const context = setup((_language, _universe, onReady) => onReady());
   await new Promise(resolve => context.window.setTimeout(resolve, 0));
 
   assert.equal(context.settings.get('server.url.plugin'), 'https://ogspy.example');
@@ -54,7 +54,8 @@ test('starts Xtense after extension settings have loaded', async () => {
 });
 
 test('does not start parsers when extension settings cannot be loaded', async () => {
-  const context = setup(() => Promise.reject(new Error('storage unavailable')));
+  const context = setup((_language, _universe, _onReady, onError) =>
+    onError(new Error('storage unavailable')));
   await new Promise(resolve => context.window.setTimeout(resolve, 0));
 
   assert.ok(context.calls.some(([name, message]) =>

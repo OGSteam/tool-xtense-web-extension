@@ -13,6 +13,12 @@ function runScript(dom) {
   new Script(script, {filename: scriptPath}).runInContext(dom.getInternalVMContext());
 }
 
+function initialize(window, language, universe) {
+  return new Promise((resolve, reject) => {
+    window.initializeSettingsStorage(language, universe, resolve, reject);
+  });
+}
+
 test('loads universe settings from extension storage and deletes legacy settings', async () => {
   const dom = new JSDOM('', {runScripts: 'outside-only', url: 'https://s123-fr.ogame.gameforge.com/game/'});
   const {window} = dom;
@@ -34,7 +40,7 @@ test('loads universe settings from extension storage and deletes legacy settings
     }}
   };
   runScript(dom);
-  await window.initializeSettingsStorage('fr', '123');
+  await initialize(window, 'fr', '123');
 
   assert.equal(window.storageGetValue('server.url.plugin', ''), 'https://ogspy.example/path');
   assert.equal(window.storageGetValue('backup.link', true), false);
@@ -62,7 +68,7 @@ test('does not delete legacy settings when extension storage cannot be loaded', 
     storage: {local: {get: (_keys, callback) => callback({})}}
   };
   runScript(dom);
-  await assert.rejects(window.initializeSettingsStorage('fr', '123'), /storage failure/);
+  await assert.rejects(initialize(window, 'fr', '123'), /storage failure/);
   assert.equal(window.localStorage.getItem('fr123.server.pwd'), 'keep-on-failure');
   window.close();
 });
@@ -81,7 +87,7 @@ test('rolls back failed writes so the setting can be retried', async () => {
     }}
   };
   runScript(dom);
-  await window.initializeSettingsStorage('fr', '123');
+  await initialize(window, 'fr', '123');
 
   window.chrome.runtime.lastError = {message: 'write failure'};
   window.storageSetValue('server.pwd', 'secret');
