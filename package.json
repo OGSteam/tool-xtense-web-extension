@@ -43,7 +43,7 @@
     "node": ">=22.0.0"
   },
   "devDependencies": {
-    "del": "^8.0.1",
+    "del": "^9.0.0",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-jquery": "^1.5.1",
