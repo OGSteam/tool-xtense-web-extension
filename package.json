@@ -6,13 +6,19 @@
   "scripts": {
     "clean": "gulp clean",
     "node-clean": "npm prune && npm install",
-    "version": "cross-var \"dot-json extension/manifest.json version $npm_package_version\" && cross-var \"dot-json extension/manifest.chrome.json version $npm_package_version\" && cross-var \"dot-json extension/manifest.firefox.json version $npm_package_version\" && npm run update-headers",
+    "version": "node project/update-manifests.mjs && npm run update-headers",
     "update-headers": "gulp headers",
     "release": "gulp default",
-    "lint": "cd extension && web-ext lint",
-    "lint:js": "eslint extension/**/*.js",
+    "dev-firefox": "cd extension && web-ext run --start-url www.ogame.fr --keep-profile-changes --firefox-profile=../xtense-profile/. --profile-create-if-missing",
+    "lint": "npm run lint:js && npm run lint:ext",
+    "lint:ext": "cd extension && web-ext lint",
+    "lint:js": "eslint --ext .js extension/",
+    "lint:fix": "eslint --ext .js extension/ --fix",
+    "dev-firefox-beta": "cd extension && web-ext run --start-url https://lobby.ogame.gameforge.com/ --keep-profile-changes --firefox-profile=../xtense-profile-beta/. --profile-create-if-missing",
+    "dev-chrome-beta": "cd extension && web-ext run --target=chromium --start-url https://lobby-pioneers.ogame.gameforge.com/ --keep-profile-changes --chromium-profile=../xtense-profile-chrome-beta/. --profile-create-if-missing",
+    "dev-edge-beta": "cd extension && web-ext run --target=chromium --chromium-binary=\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --start-url https://lobby-pioneers.ogame.gameforge.com/ --keep-profile-changes --chromium-profile=../xtense-profile-edge-beta/. --profile-create-if-missing",
     "lint:all": "npm run lint:js && npm run lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.test.js",
     "prepare": "npm run build && npm run lint",
     "build": "gulp build",
     "audit": "npm audit --production"
@@ -37,21 +43,23 @@
     "node": ">=22.0.0"
   },
   "devDependencies": {
-    "cross-var": "^1.1.0",
-    "del": "^8.0.1",
-    "dot-json": "^1.3.0",
+    "del": "^9.0.0",
     "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-jquery": "^1.5.1",
+    "eslint-plugin-prettier": "^5.1.3",
     "gulp": "^5.0.1",
     "gulp-rename": "^2.1.0",
     "gulp-zip": "^6.1.0",
+    "jsdom": "^31.0.0",
+    "npm-check-updates": "^23.0.0",
+    "prettier": "^3.2.5",
     "read-pkg": "^10.1.0",
     "through2": "^5.0.0",
-    "web-ext": "^10.2.0",
-    "npm-check-updates": "^22.0.0"
+    "web-ext": "^10.8.0"
   },
   "dependencies": {
-    "glob": "^13.0.6",
+    "glob": "^14.0.6",
     "jquery": "^4.0.0",
     "loglevel": "^1.9.2"
   },

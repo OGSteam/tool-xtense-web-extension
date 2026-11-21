@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.1
 
       - name: Use Node.js
-        uses: actions/setup-node@v6.4.0
+        uses: actions/setup-node@v7.1.0
         with:
-          node-version: 24.x
+          node-version: 26.x
 
       - name: Package.json info
         uses: rexdefuror/read-package-json@v1.0.5
@@ -45,9 +45,13 @@ jobs:
           tag: "dev-${{ env.PACKAGE_VERSION }}"
 
 
-      - name: Publish to Chrome Store
-        continue-on-error: true
-        uses: PlasmoHQ/bpp@v3
+      - name: Publish beta to Chrome Store
+        uses: hamzahamidi/publish-to-chrome-web-store@c8919147f8de0d6f1129bec36345e4a9aa638af9 # v1
         with:
-          keys: '{"chrome":{"clientId":"${{ secrets.CHROME_CLIENT_ID }}","clientSecret":"${{ secrets.CHROME_CLIENT_SECRET }}","refreshToken":"${{ secrets.CHROME_REFRESH_TOKEN }}","extId":"${{ secrets.TEST_CHROME_EXTENSION_ID }}"}}'
-          chrome-file: release/chrome-${{ env.PACKAGE_VERSION }}.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
+          item-id: ${{ secrets.TEST_CHROME_EXTENSION_ID }}
+          zip: release/chrome-${{ env.PACKAGE_VERSION }}.zip
+          publish: true

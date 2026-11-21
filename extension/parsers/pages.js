@@ -6,7 +6,6 @@
  * @license     GNU GPL v2
  * @version     3.2.0
  */
-/*eslint-env browser*/
 /*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 /*global parse_galaxy_system_inserted */
 
@@ -46,7 +45,7 @@ function parse_galaxy_system_inserted() {
       for (let i = 0; i < rows.snapshotLength; i++) {
         let row = rows.snapshotItem(i);
         let name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
-        let name_l = Xpath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
+        let name_l = Xpath.getStringValue(document, paths.planetname_l, row).trim().replace(/\($/, '');
         let name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
         let player = Xpath.getStringValue(document, paths.playername, row).trim();
         let player2 = Xpath.getStringValue(document, paths.playername2, row).trim();
@@ -147,8 +146,9 @@ function parse_galaxy_system_inserted() {
       let debris = [];
       debris[XtenseDatabase.debris[701]] = Xpath.getStringValue(document, paths.debris16_m).trimInt();
       debris[XtenseDatabase.debris[702]] = Xpath.getStringValue(document, paths.debris16_c).trimInt();
+      debris[XtenseDatabase.debris[703]] = Xpath.getStringValue(document, paths.debris16_d).trimInt();
 
-      if (debris[XtenseDatabase.resources[601]] !== '' || debris[XtenseDatabase.resources[602]] !== '') {
+      if (debris[XtenseDatabase.debris[701]] || debris[XtenseDatabase.debris[702]] || debris[XtenseDatabase.debris[703]]) {
 
         let position = 16;
         rowsData[position] = {
@@ -161,7 +161,7 @@ function parse_galaxy_system_inserted() {
           status: '',
           ally_id: '',
           ally_tag: '',
-          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]]},
+          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]], deuterium: debris[XtenseDatabase.debris[703]]},
           activity: '',
           activityMoon: ''
         };
@@ -297,7 +297,9 @@ function parse_ranking_inserted(event) {
 
         /*Nombre de vaisseaux*/
         if (type[1] === 'fleet') {
-          let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
+          let spacecraft = Xpath.getStringValue(document, paths.player.spacecraft, row) ||
+            Xpath.getStringValue(document, paths.player.spacecraft_legacy, row);
+          let NbVaisseaux = spacecraft.trimInt();
           log.debug('row ' + rank + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
           data_row = {
             rank: rank,
@@ -727,6 +729,91 @@ function parse_defense() {
 
   XtenseRequest.send();
 }
+
+function parse_lfBuildings() {
+
+  setStatus(XLOG_NORMAL, xlang('lfBuildings_detected'));
+  let paths = XtenseXpaths.levels;
+
+  let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+  let tabLevel = [];
+  if (levels.snapshotLength > 0) {
+    for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+      let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+      if (level !== '') {
+        tabLevel.push(level);
+      }
+    }
+  }
+
+  let planetData = getPlanetData();
+  let items = {
+    '11101': tabLevel[0] ?? 0,
+    '11102': tabLevel[1] ?? 0,
+    '11103': tabLevel[2] ?? 0,
+    '11104': tabLevel[3] ?? 0,
+    '11105': tabLevel[4] ?? 0,
+    '11106': tabLevel[5] ?? 0,
+    '11107': tabLevel[6] ?? 0,
+    '11108': tabLevel[7] ?? 0,
+    '11109': tabLevel[8] ?? 0,
+    '11110': tabLevel[9] ?? 0,
+    '11111': tabLevel[10] ?? 0,
+    '11112': tabLevel[11] ?? 0
+  };
+
+  XtenseRequest.set('type', 'lf_buildings');
+  XtenseRequest.set('gamedata', {
+    planet: planetData,
+    lfBuildings: items
+  });
+
+  XtenseRequest.send();
+}
+
+function parse_lfResearch() {
+
+  setStatus(XLOG_NORMAL, xlang('lfresearch_detected'));
+  let paths = XtenseXpaths.levels;
+
+  let levels = Xpath.getOrderedSnapshotNodes(document, paths.level, null);
+  let tabLevel = [];
+  if (levels.snapshotLength > 0) {
+    for (let lvl = 0; lvl < levels.snapshotLength; lvl++) {
+      let level = levels.snapshotItem(lvl).nodeValue.trim().replace(/\./g, '');
+      if (level !== '') {
+        tabLevel.push(level);
+      }
+    }
+  }
+
+  let planetData = getPlanetData();
+  let items = {
+    '11201': tabLevel[0] ?? 0,
+    '11202': tabLevel[1] ?? 0,
+    '11203': tabLevel[2] ?? 0,
+    '11204': tabLevel[3] ?? 0,
+    '11205': tabLevel[4] ?? 0,
+    '11206': tabLevel[5] ?? 0,
+    '11207': tabLevel[6] ?? 0,
+    '11208': tabLevel[7] ?? 0,
+    '11209': tabLevel[8] ?? 0,
+    '11210': tabLevel[9] ?? 0,
+    '11211': tabLevel[10] ?? 0,
+    '11212': tabLevel[11] ?? 0,
+    '11213': tabLevel[12] ?? 0,
+    '11214': tabLevel[13] ?? 0,
+    '11215': tabLevel[14] ?? 0
+  };
+
+  XtenseRequest.set('type', 'lf_research');
+  XtenseRequest.set('gamedata', {
+    planet: planetData,
+    lfResearch: items
+  });
+
+    XtenseRequest.send();
+  }
 
 
 /*********************** Utilities Ogame ********************************/

@@ -33,6 +33,7 @@ Premier lancement : Lancer la commande ``npm install``
 * ``npm run release`` : Contruit les packages zip de l'extension à destination des stores Chrome et Mozilla
 * ``npm run dev`` : lance le navigateur Web avec l'extension chargée en vue des tests
 * ``npm run lint`` : Passe le script de certification Mozilla et remonte les problèmes détectés
+* ``npm test`` : Exécute les tests locaux sans connexion à OGame
 
 ## Branches de travail
 
