@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.0
+ * @version     3.4.0
  */
 /*global displayOptions,log,url, parse_ally_inserted, parse_messages, storageGetValue, storageSetValue, setStatus, displayXtense, xlang, XLOG_NORMAL, XLOG_SEND, save_my_planets_coords */
 /*global parse_galaxy_system_inserted, parse_ranking_inserted, parse_overview, parse_researchs, parse_buildings, parse_station, parse_shipyard, parse_fleet, parse_defense, parse_ressource_settings */
