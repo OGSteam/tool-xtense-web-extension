@@ -71,6 +71,6 @@ async function startXtense() {
   handle_current_page();
 }
 
-startXtense();
+void startXtense();
 //exit !!
 /***************************** Fin Main *********************************/
