@@ -2,7 +2,7 @@
 //    Main Extension file
 //
 
-/*global log,initOGSpyCommunication,setlogLevel*/
+/*global log,initOGSpyCommunication,setlogLevel,initializeSettingsStorage*/
 
 // Variables Xtense
 const VERSION = chrome.runtime.getManifest().version;
@@ -41,37 +41,34 @@ const url = location.href;
 const urlUnivers = url.match(new RegExp('(.*)/game'))[1];
 const numUnivers = urlUnivers.match(new RegExp('\/s(.*)-[a-z]{2}.ogame'))[1];
 const langUnivers = urlUnivers.match(new RegExp('-(.*).ogame'))[1];
-const prefix_GMData = langUnivers + numUnivers + '.';
+function startXtense() {
+  // Conversion Format adresse OGSPY
+  const serverUrl = String(storageGetValue('server.url.plugin', '') ?? '')
+    .replace("/mod/xtense/xtense.php", "");
+  storageSetValue('server.url.plugin', serverUrl);
 
+  setlogLevel(); // Default Info
+  log.info("Welcome to Xtense WE Version : " + VERSION);
+  log.info("Universe : " + numUnivers + "-" + langUnivers);
+  log.info("Xtense WE requires Mod Xtense " + PLUGIN_REQUIRED);
 
-//Conversion Format adresse OGSPY
-const res = storageGetValue('server.url.plugin', '').replace("/mod/xtense/xtense.php", "");
-storageSetValue('server.url.plugin', res);
+  initOGSpyCommunication();
+  initParsers();
+  initLocales();
 
-/**
- * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
- *
- * @author      OGSteam
- * @copyright   2026 OGSteam
- * @license     GNU GPL v2
- * @version     3.4.1
- */
-setlogLevel(); // Default Info
-log.info("Welcome to Xtense WE Version : " + VERSION);
-log.info("Universe : " + numUnivers + "-" + langUnivers);
-log.info("Xtense WE requires Mod Xtense " + PLUGIN_REQUIRED);
-//enableMessageDebug();
-
-initOGSpyCommunication();
-initParsers();
-initLocales();
-
-// Activer le debug messages si l'option est cochée dans le menu
-if (storageGetValue("debug.messages", "false").toString() === "true") {
-  enableMessageDebug();
+  if (storageGetValue("debug.messages", "false").toString() === "true") {
+    enableMessageDebug();
+  }
+  displayXtense();
+  setStatus(XLOG_NORMAL, xlang('Xtense_activated'));
+  handle_current_page();
 }
-displayXtense();
-setStatus(XLOG_NORMAL, xlang('Xtense_activated'));
-handle_current_page();
+
+initializeSettingsStorage(
+  langUnivers,
+  numUnivers,
+  startXtense,
+  error => log.error("Impossible d'initialiser le stockage Xtense : " + error.message)
+);
 //exit !!
 /***************************** Fin Main *********************************/
