@@ -4,9 +4,8 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.2
+ * @version     3.4.1
  */
-/*eslint-env browser*/
 /*global log, XtenseMetas, Xpath, XtenseXpaths*/
 
 /* Recuperation des données de la planète */

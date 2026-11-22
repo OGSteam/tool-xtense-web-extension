@@ -4,10 +4,9 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.2
+ * @version     3.4.1
  */
-/*eslint-env browser*/
-/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
+/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, XLOG_WARNING, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 /*global parse_galaxy_system_inserted */
 
 
@@ -46,7 +45,7 @@ function parse_galaxy_system_inserted() {
       for (let i = 0; i < rows.snapshotLength; i++) {
         let row = rows.snapshotItem(i);
         let name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
-        let name_l = Xpath.getStringValue(document, paths.planetname_1, row).trim().replace(/\($/, '');
+        let name_l = Xpath.getStringValue(document, paths.planetname_l, row).trim().replace(/\($/, '');
         let name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
         let player = Xpath.getStringValue(document, paths.playername, row).trim();
         let player2 = Xpath.getStringValue(document, paths.playername2, row).trim();
@@ -147,8 +146,9 @@ function parse_galaxy_system_inserted() {
       let debris = [];
       debris[XtenseDatabase.debris[701]] = Xpath.getStringValue(document, paths.debris16_m).trimInt();
       debris[XtenseDatabase.debris[702]] = Xpath.getStringValue(document, paths.debris16_c).trimInt();
+      debris[XtenseDatabase.debris[703]] = Xpath.getStringValue(document, paths.debris16_d).trimInt();
 
-      if (debris[XtenseDatabase.resources[601]] !== '' || debris[XtenseDatabase.resources[602]] !== '') {
+      if (debris[XtenseDatabase.debris[701]] || debris[XtenseDatabase.debris[702]] || debris[XtenseDatabase.debris[703]]) {
 
         let position = 16;
         rowsData[position] = {
@@ -161,7 +161,7 @@ function parse_galaxy_system_inserted() {
           status: '',
           ally_id: '',
           ally_tag: '',
-          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]]},
+          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]], deuterium: debris[XtenseDatabase.debris[703]]},
           activity: '',
           activityMoon: ''
         };
@@ -297,7 +297,9 @@ function parse_ranking_inserted(event) {
 
         /*Nombre de vaisseaux*/
         if (type[1] === 'fleet') {
-          let NbVaisseaux = Xpath.getStringValue(document, paths.player.spacecraft, row).trimInt();
+          let spacecraft = Xpath.getStringValue(document, paths.player.spacecraft, row) ||
+            Xpath.getStringValue(document, paths.player.spacecraft_legacy, row);
+          let NbVaisseaux = spacecraft.trimInt();
           log.debug('row ' + rank + ' > player_id:' + player_id + ',player_name:' + name + ',ally_id:' + ally_id + ',ally_tag:' + ally + ',points:' + points + ',NbVaisseaux:' + NbVaisseaux);
           data_row = {
             rank: rank,
@@ -725,6 +727,69 @@ function parse_defense() {
     defense: defs
   });
 
+  XtenseRequest.send();
+}
+
+function getLifeformLevels() {
+  const paths = XtenseXpaths.lifeform;
+  const technologies = Xpath.getOrderedSnapshotNodes(document, paths.technologies);
+  const items = {};
+  if (technologies.snapshotLength === 0) {
+    log.warn('No lifeform technology slots found');
+    setStatus(XLOG_WARNING, xlang('error_internal'));
+    return null;
+  }
+
+  for (let i = 0; i < technologies.snapshotLength; i++) {
+    const technology = technologies.snapshotItem(i);
+    const id = (technology.getAttribute('data-technology') || '').trim();
+    const levelNode = Xpath.getSingleNode(document, paths.level, technology);
+    if (!id && !levelNode) continue;
+
+    const level = levelNode ? levelNode.nodeValue.trim().replace(/\./g, '') : '';
+    if (!/^[1-9]\d*$/.test(id) || !/^\d+$/.test(level) || Object.hasOwn(items, id)) {
+      log.warn('Invalid lifeform technology or level at slot ' + (i + 1));
+      setStatus(XLOG_WARNING, xlang('error_internal'));
+      return null;
+    }
+    items[id] = level;
+  }
+  return items;
+}
+
+function parse_lfBuildings() {
+  setStatus(XLOG_NORMAL, xlang('lfBuildings_detected'));
+  let lfBuildings = getLifeformLevels();
+  if (!lfBuildings) return;
+  if (Object.keys(lfBuildings).length === 0) {
+    log.info('No lifeform buildings available to send');
+    return;
+  }
+
+  let planetData = getPlanetData();
+  XtenseRequest.set('type', 'lf_buildings');
+  XtenseRequest.set('gamedata', {
+    planet: planetData,
+    lfBuildings: lfBuildings
+  });
+  XtenseRequest.send();
+}
+
+function parse_lfResearch() {
+  setStatus(XLOG_NORMAL, xlang('lfresearch_detected'));
+  let lfResearch = getLifeformLevels();
+  if (!lfResearch) return;
+  if (Object.keys(lfResearch).length === 0) {
+    log.info('No lifeform research selected to send');
+    return;
+  }
+
+  let planetData = getPlanetData();
+  XtenseRequest.set('type', 'lf_research');
+  XtenseRequest.set('gamedata', {
+    planet: planetData,
+    lfResearch: lfResearch
+  });
   XtenseRequest.send();
 }
 

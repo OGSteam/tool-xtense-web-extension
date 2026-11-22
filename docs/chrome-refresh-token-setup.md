@@ -63,6 +63,8 @@
 
 ## Étape 5 : Générer le refresh token via le workflow GitHub
 
+> ⚠️ Le flux OOB décrit ci-dessous est obsolète et bloqué par Google pour les applications en production. Pour générer un nouveau token, suivre le [guide officiel OAuth Playground](https://developer.chrome.com/docs/webstore/using-api#obtain-access-and-refresh-tokens).
+
 > Prérequis : créer un **GitHub PAT** avec le scope `repo` et l'ajouter comme secret **`GH_PAT_SECRETS`** dans le repo.
 
 1. Construisez l'URL d'autorisation en remplaçant `CLIENT_ID` par votre `CHROME_CLIENT_ID` :
@@ -86,28 +88,30 @@
 | `CHROME_CLIENT_SECRET` | Client Secret OAuth |
 | `CHROME_REFRESH_TOKEN` | Mis à jour automatiquement par le workflow |
 | `CHROME_EXTENSION_ID` | ID de l'extension (depuis https://chrome.google.com/webstore/devconsole) |
+| `TEST_CHROME_EXTENSION_ID` | ID de l'extension de test |
+| `CHROME_PUBLISHER_ID` | ID de l'éditeur, dans Publisher → Settings du tableau de bord développeur |
 | `GH_PAT_SECRETS` | GitHub PAT avec scope `repo` |
 
 ---
 
 ## Étape 7 : Vérifier le workflow de publication
 
-Le workflow `publish-release.yml` assemble les credentials à la volée :
+Le workflow `publish-release.yml` publie sur Chrome avec l'API V2 :
 
 ```yaml
-- name: Publish Extensions
-  uses: PlasmoHQ/bpp@v3
+- name: Publish to Chrome Store
+  uses: hamzahamidi/publish-to-chrome-web-store@c8919147f8de0d6f1129bec36345e4a9aa638af9 # v1
   with:
-    keys: >-
-      {
-        "chrome": {
-          "clientId": "${{ secrets.CHROME_CLIENT_ID }}",
-          "clientSecret": "${{ secrets.CHROME_CLIENT_SECRET }}",
-          "refreshToken": "${{ secrets.CHROME_REFRESH_TOKEN }}",
-          "extId": "${{ secrets.CHROME_EXTENSION_ID }}"
-        }
-      }
+    client-id: ${{ secrets.CHROME_CLIENT_ID }}
+    client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+    refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+    publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
+    item-id: ${{ secrets.CHROME_EXTENSION_ID }}
+    zip: release/chrome-${{ env.PACKAGE_VERSION }}.zip
+    publish: true
 ```
+
+Le workflow `build-and-test.yml` utilise la même action avec `TEST_CHROME_EXTENSION_ID` pour la bêta. Firefox et Edge restent publiés avec `PlasmoHQ/bpp`.
 
 ### Test manuel du refresh token
 ```bash
@@ -126,7 +130,7 @@ curl -X POST https://oauth2.googleapis.com/token \
 | Erreur | Cause | Solution |
 |---|---|---|
 | `401 Unauthorized` | Refresh token expiré ou invalide | Relancer le workflow **"Renew Chrome OAuth Token"** |
-| `400 Bad Request` | Token généré en mode Testing | Vérifier que l'app est bien **"In production"** (Étape 3) |
+| `400 Bad Request` | Requête ou configuration refusée par Google | Consulter le détail de l'erreur dans le journal ; le code HTTP seul ne permet pas d'identifier la cause |
 | `Invalid scope` | Mauvais scope OAuth | Vérifier que l'API Chrome Web Store est activée (Étape 1) |
 | `Invalid client` | Client ID/Secret incorrects | Recréer un client OAuth (Étape 4) |
 

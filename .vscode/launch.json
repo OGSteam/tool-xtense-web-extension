@@ -6,6 +6,7 @@
         "type": "firefox",
         "request": "launch",
         "reAttach": true,
+        "url": "https://s285-fr.ogame.gameforge.com/game/index.php?page=ingame&component=overview",
         "addonPath": "${workspaceFolder}/extension",
         "pathMappings": [
           {
@@ -21,7 +22,7 @@
         "addonPath": "${workspaceFolder}/extension",
         "pathMappings": [
           {
-            "url": "moz-extension://2ec818aa-f06c-4d88-b3eb-b2f7a86b5837",
+            "url": "moz-extension://4bd10861-d8e0-4b2e-a56f-b13da6ea3a67",
             "path": "${workspaceFolder}/extension"
           }
         ]

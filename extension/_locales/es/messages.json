@@ -1,4 +1,4 @@
-﻿{
+{
     "XtenseServer_TestConnection": {
         "message": "Probar conexión",
         "description": "Label for the test connection button"

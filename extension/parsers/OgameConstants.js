@@ -4,9 +4,8 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.2
+ * @version     3.4.1
  */
-/*eslint-env browser*/
 /*global log*/
 
 /**************** PARSERS & Communication OGSPY *************************/
@@ -159,15 +158,20 @@ function initParsers() {
       system_input: '//input[@id="system_input"]',
       debris16_m: '//*[@id="galaxyRow16"]/div/div[1]/text()',
       debris16_c: '//*[@id="galaxyRow16"]/div/div[2]/text()',
+      debris16_d: '//*[@id="galaxyRow16"]/div/div[3]/text()',
     },
 
     levels: {
       level: '//span[((contains(@class,"level") or contains(@class,"amount")) and not (contains(@class,"targetlevel")) and not (contains(@class,"targetamount")))]/@data-value',
       levelbonus: '//span[((contains(@class,"level") or contains(@class,"amount")) and not (contains(@class,"targetlevel")) and not (contains(@class,"targetamount")))]/@data-bonus'
     },
+    lifeform: {
+      technologies: '//*[@id="technologies"]//li[contains(concat(" ", normalize-space(@class), " "), " technology ")]',
+      level: './/span[contains(concat(" ", normalize-space(@class), " "), " level ")]/@data-value'
+    },
 
     messages: {
-      shortmessages: '//div[@id="messagewrapper"]/div[contains(@class,"messagesHolder")]/div[contains(@class,"msg")]',
+      shortmessages: '//div[@id="messagewrapper" or @id="messages"]/div[contains(@class,"messagesHolder")]/div[contains(@class,"msg")]',
       showmessage: '//div[contains(@class,"detail_msg")]',
       combatreport: '//@data-combatreportid',
       messageid: "@data-msg-id",
@@ -197,7 +201,7 @@ function initParsers() {
         moon: '//div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a[2]/@href',
         actions_links: '//div[contains(@class,"detail_msg")]/div[contains(@class,"detail_msg_head")]/div[contains(@class,"msg_actions")]/a'
       },
-      tab: '//div[@id="messagewrapper"]/div[contains(@class,"tabsWrapper")]/div[contains(@class,"innerTabItem active")]/@data-subtab-id',
+      tab: '//div[@id="messagewrapper" or @id="messages"]/div[contains(@class,"tabsWrapper")]/div[contains(@class,"innerTabItem active")]/@data-subtab-id',
       ogameapi: './/span[contains(@class, "icon_apikey")]/@title'
     },
 
@@ -247,7 +251,8 @@ function initParsers() {
       player: {
         playername: "td[@class='name']//a[contains(@href,'galaxy') and contains(@href,'system')]/span/text()",
         player_id: "td[@class='sendmsg']/div/div/@id",
-        spacecraft: "td[contains(@class,'score')]/@title"
+        spacecraft: "td[contains(@class,'score')]/@data-tooltip-title",
+        spacecraft_legacy: "td[contains(@class,'score')]/@title"
       },
 
       ally: {

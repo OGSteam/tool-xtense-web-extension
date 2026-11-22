@@ -25,12 +25,12 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.1
 
       - name: Use Node.js
-        uses: actions/setup-node@v6.3.0
+        uses: actions/setup-node@v7.1.0
         with:
-          node-version: 24.x
+          node-version: 26.x
 
       - name: Get version
         id: version
@@ -59,7 +59,7 @@ jobs:
           tag: "${{ steps.version.outputs.version }}"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-zips
           path: |
@@ -75,24 +75,21 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: release-zips
           path: release/
 
       - name: Publish to Chrome Web Store
-        uses: PlasmoHQ/bpp@v3
+        uses: hamzahamidi/publish-to-chrome-web-store@c8919147f8de0d6f1129bec36345e4a9aa638af9 # v1
         with:
-          keys: >-
-            {
-              "chrome": {
-                "clientId": "${{ secrets.CHROME_CLIENT_ID }}",
-                "clientSecret": "${{ secrets.CHROME_CLIENT_SECRET }}",
-                "refreshToken": "${{ secrets.CHROME_REFRESH_TOKEN }}",
-                "extId": "${{ secrets.CHROME_EXTENSION_ID }}",
-                "zip": "release/chrome-${{ needs.build.outputs.version }}.zip"
-              }
-            }
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
+          item-id: ${{ secrets.CHROME_EXTENSION_ID }}
+          zip: release/chrome-${{ needs.build.outputs.version }}.zip
+          publish: true
 
   publish-firefox:
     runs-on: ubuntu-latest
@@ -101,7 +98,7 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: release-zips
           path: release/
@@ -126,7 +123,7 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: release-zips
           path: release/

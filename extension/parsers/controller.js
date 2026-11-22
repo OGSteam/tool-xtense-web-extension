@@ -4,9 +4,8 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.2
+ * @version     3.4.1
  */
-/*eslint-env browser*/
 /*global displayOptions,log,url, parse_ally_inserted, parse_messages, storageGetValue, storageSetValue, setStatus, displayXtense, xlang, XLOG_NORMAL, XLOG_SEND, save_my_planets_coords */
 /*global parse_galaxy_system_inserted, parse_ranking_inserted, parse_overview, parse_researchs, parse_buildings, parse_station, parse_shipyard, parse_fleet, parse_defense, parse_ressource_settings */
 
@@ -29,11 +28,11 @@ function get_ally_content() {
 
 function get_message_content() {
   // Récupérer l'élément contenant les messages
-  let target = document.getElementById('messagecontainercomponent');
+  let target = document.getElementById('messagescomponent') || document.getElementById('messagecontainercomponent');
 
   // Vérifier si l'élément existe
   if (!target) {
-    log.error('Élément avec ID "messagecontainercomponent" introuvable');
+    log.error('Conteneur de messages introuvable');
     return;
   }
 
@@ -45,24 +44,19 @@ function get_message_content() {
   function debouncedParseMessages() {
     const now = Date.now();
 
-    // Vérifier si assez de temps s'est écoulé depuis le dernier parsing
-    if (now - lastParseTime < PARSE_COOLDOWN) {
-      log.debug('Parsing en cooldown, ignoré');
-      return;
-    }
-
     // Annuler le timeout précédent s'il existe
     if (parseTimeout) {
       clearTimeout(parseTimeout);
     }
 
     // Programmer le parsing avec un délai
+    const delay = Math.max(300, PARSE_COOLDOWN - (now - lastParseTime));
     parseTimeout = setTimeout(() => {
       lastParseTime = Date.now();
       log.info('Déclenchement du parsing des messages (debounced)');
       parse_messages();
       parseTimeout = null;
-    }, 300);
+    }, delay);
   }
 
   // Créer l'observateur de mutations
@@ -215,6 +209,15 @@ function get_content(type) {
     case 'resourceSettings':
       func = parse_ressource_settings;
       break;
+    case 'lfbuildings':
+      func = parse_lfBuildings;
+      break;
+    case 'lfresearch':
+      func = parse_lfResearch;
+      break;
+    default:
+      log.error("Unknown type for static observer");
+      return; // Sortir de la fonction si le type est inconnu
   }
 
   // Vérifier si l'élément existe et configurer l'observateur si c'est le cas
@@ -230,7 +233,7 @@ function get_content(type) {
 
           // Pour les cas comme 'stats' qui peuvent causer des doubles déclenchements
           if (type === 'stats' || type === 'system' || type === 'overview' || type === 'alliance') {
-            // Exécuter la fonction mais ne pas la réexécuter en fin de fonction
+            // Exécuter la fonction, mais ne pas la réexécuter en fin de fonction
             func();
             observerAttached = true;  // S'assurer que nous n'appelons pas func() à la fin
           } else {
@@ -309,8 +312,10 @@ function handle_current_page() {
   let regDefense = new RegExp(/component=(defenses)/);
   let regMessages = new RegExp(/component=(messages)/);
   let regAlliance = new RegExp(/component=(alliance)/);
-  let regStats = new RegExp(/page=(highscore)/);
+  let regStats = new RegExp(/[?&]component=highscore(?:&|$)/);
   let regRessources = new RegExp(/component=(resourceSettings)/, 'i');
+  let regLfBuildings = new RegExp(/component=(lfbuildings)/);
+  let regLfResearch = new RegExp(/component=(lfresearch)/);
 
   if (regOption.test(url)) {
     displayOptions();
@@ -338,6 +343,7 @@ function handle_current_page() {
       storageGetValue('handle.msg.ally', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.spy', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.ennemy.spy', 'false').toString() === 'true' ||
+      storageGetValue('handle.msg.rc', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.rc.cdr', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.expeditions', 'false').toString() === 'true' ||
       storageGetValue('handle.msg.commerce', 'false').toString() === 'true'
@@ -348,7 +354,11 @@ function handle_current_page() {
     handle_page("alliance");
   } else if (regStats.test(url)) {
     handle_page("stats");
+  } else if (regLfBuildings.test(url)) {
+    handle_page("lfbuildings");
+  } else if (regLfResearch.test(url)) {
+    handle_page("lfresearch");
   } else {
-    setStatus(XLOG_NORMAL, xlang("unknow_page"));
+      setStatus(XLOG_NORMAL, xlang("unknow_page"));
+    }
   }
-}

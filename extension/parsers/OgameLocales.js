@@ -4,11 +4,9 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.2.2
+ * @version     3.4.1
  */
-/*eslint-env es6*/
 /*eslint no-undef: "error"*/
-/*eslint-env browser*/
 /*global log*/
 
 /************************ Locales & Lang ********************************/

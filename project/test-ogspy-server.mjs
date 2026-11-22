@@ -3,19 +3,20 @@
  * Simulates the exact HTTP request the extension makes via background-service.js / Xajax.
  *
  * Usage:
- *   node project/test-ogspy-server.mjs [serverUrl] [password]
+ *   node project/test-ogspy-server.mjs [password]
  *
  * Defaults:
- *   serverUrl = http://localhost:8080
  *   password  = (empty)
  *
  * Examples:
  *   node project/test-ogspy-server.mjs
- *   node project/test-ogspy-server.mjs http://localhost:8080 mypassword
+ *   node project/test-ogspy-server.mjs mypassword
  */
 
-const serverUrl = process.argv[2] ?? "http://localhost:8080";
-const password  = process.argv[3] ?? "";
+// This diagnostic intentionally targets only the local development server.
+// Do not make the destination configurable: this file sends a real POST request.
+const url = "http://localhost:8080/mod/xtense/xtense.php";
+const password = process.argv[2] ?? "";
 
 // Real payload mirroring what XtenseRequest.send() builds in send_data.js
 const gamedata = {
@@ -62,14 +63,14 @@ const payload = {
   data:            JSON.stringify(gamedata)
 };
 
-const url         = `${serverUrl}/mod/xtense/xtense.php`;
 const body        = JSON.stringify(payload);
 const contentType = "text/plain; charset=UTF-8"; // same as Xajax in utilities.js
+const loggedPayload = { ...payload, password: password ? "[REDACTED]" : "" };
 
 console.log("=== OGSpy Server Test ===");
 console.log(`Target URL : ${url}`);
 console.log(`Content-Type: ${contentType}`);
-console.log(`Payload    : ${body}\n`);
+console.log(`Payload    : ${JSON.stringify(loggedPayload)}\n`);
 
 // ── Request ────────────────────────────────────────────────────────────────────
 let response;
