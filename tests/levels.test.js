@@ -6,7 +6,10 @@ import {JSDOM} from 'jsdom';
 const scripts = [
   '../extension/parsers/OgameConstants.js',
   '../extension/parsers/pages.js'
-].map(path => readFileSync(new URL(path, import.meta.url), 'utf8'));
+].map(path => {
+  const url = new URL(path, import.meta.url);
+  return `${readFileSync(url, 'utf8')}\n//# sourceURL=${url.href}`;
+});
 
 function setup(technologies, values = technologies.map((_, index) => String(index))) {
   const dom = new JSDOM(`
