@@ -548,6 +548,9 @@ function parse_station() {
       'Ter': tabLevel[6],
       'Dock': tabLevel[7]
     };
+    if (tabLevel[8] !== undefined) {
+      send.Scanner = tabLevel[8];
+    }
   } else {
     send = {
       'UdR': tabLevel[0],

@@ -35,6 +35,18 @@ Premier lancement : Lancer la commande ``npm install``
 * ``npm run lint`` : Passe le script de certification Mozilla et remonte les problèmes détectés
 * ``npm test`` : Exécute les tests locaux sans connexion à OGame
 
+## Scanner d’anomalies
+
+L’extension transmet le niveau de la technologie OGame `45` dans le champ
+optionnel `Scanner` lorsqu’elle apparaît après le dock spatial sur la page des
+installations. Le champ est omis lorsqu’il n’est pas présent et le mapping des
+installations lunaires reste inchangé.
+
+Le [contrat des bâtiments du mod Xtense](https://github.com/OGSteam/mod-xtense/blob/8deecba1786526167c9d6a2458a54f98f39e7ec3/includes/config.php)
+ne définit pas encore ce champ ; le serveur l’ignore donc jusqu’à sa prise en
+charge. Le mod doit ajouter `Scanner` à son contrat, et OGSpy doit prévoir son
+stockage et sa migration avant d’exploiter la valeur transmise.
+
 ## Branches de travail
 
 * master - Branche Principale, utilisée uniquement pour publier les versions finales de nos outils.
