@@ -30,24 +30,38 @@ function getStoredProfiles(stored) {
   return profiles.values();
 }
 
-function addServerOrigin(origins, value) {
+function getServerUrl(value) {
   try {
-    const parsed = new URL(value);
-    if (["http:", "https:"].includes(parsed.protocol)) origins.add(parsed.origin);
+    if (typeof value !== "string" || value.trim() === "") return null;
+    const raw = value.trim();
+    const parsed = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+    const isLoopback = ["localhost", "127.0.0.1"].includes(parsed.hostname);
+    if ((parsed.protocol !== "https:" && !(parsed.protocol === "http:" && isLoopback)) ||
+        parsed.username || parsed.password || parsed.search || parsed.hash) {
+      return null;
+    }
+    return parsed;
   } catch {
-    // Ignore invalid stored URLs; they must never become allowed origins.
+    return null;
   }
 }
 
-function getConfiguredServerOrigins(stored) {
-  const origins = new Set();
+function addServerEndpoint(endpoints, value) {
+  const parsed = getServerUrl(value);
+  if (!parsed) return;
+  parsed.pathname = `${parsed.pathname.replace(/\/+$/, "")}/mod/xtense/xtense.php`;
+  endpoints.add(parsed.href);
+}
+
+function getConfiguredServerEndpoints(stored) {
+  const endpoints = new Set();
   for (const profile of getStoredProfiles(stored)) {
-    addServerOrigin(origins, profile["server.url.plugin"]);
+    addServerEndpoint(endpoints, profile["server.url.plugin"]);
     if (String(profile["backup.link"]) === "true") {
-      addServerOrigin(origins, profile["server_backup.url.plugin"]);
+      addServerEndpoint(endpoints, profile["server_backup.url.plugin"]);
     }
   }
-  return origins;
+  return endpoints;
 }
 
 function getHostPattern(url) {
@@ -121,15 +135,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const targetUrl = new URL(message.url);
       const targetOrigin = targetUrl.origin;
       try {
-        const stored = await getStoredSettings();
-        const allowedOrigins = getConfiguredServerOrigins(stored);
-        if (!allowedOrigins.has(targetOrigin)) {
-          console.warn(`[${message.messageId}] Blocked: origin not in allowlist: ${targetOrigin}`);
-          replyToTab({ action: "xhttp_response", messageId: message.messageId, status: 403, error: "Origin not in allowlist" });
+        if (!getServerUrl(targetUrl.href)) {
+          console.warn(`[${message.messageId}] Blocked: insecure or invalid OGSpy URL`);
+          replyToTab({ action: "xhttp_response", messageId: message.messageId, status: 403, error: "Insecure or invalid OGSpy URL" });
           return;
         }
-        if (!targetUrl.pathname.endsWith("/mod/xtense/xtense.php")) {
-          console.warn(`[${message.messageId}] Blocked: invalid OGSpy endpoint`);
+        const stored = await getStoredSettings();
+        const allowedEndpoints = getConfiguredServerEndpoints(stored);
+        if (!allowedEndpoints.has(targetUrl.href)) {
+          console.warn(`[${message.messageId}] Blocked: endpoint not in allowlist`);
           replyToTab({ action: "xhttp_response", messageId: message.messageId, status: 403, error: "Invalid OGSpy endpoint" });
           return;
         }
@@ -144,17 +158,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return;
       }
 
-      // Permissions diagnostic — helps detect if the URL is blocked
-      if (chrome.permissions?.getAll) {
-        chrome.permissions.getAll(p => console.log(`[${message.messageId}] Granted origins:`, p.origins));
-      }
       try {
         const fetchPromise = fetch(message.url, {
           method: 'POST',
           mode: 'cors',
           cache: 'no-cache',
           headers: { 'Content-Type': message.dataType },
-          redirect: 'follow',
+          redirect: 'error',
           referrerPolicy: 'no-referrer',
           body: message.data
         });
@@ -164,7 +174,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const response = await Promise.race([fetchPromise, timeoutPromise]);
         console.log(`[${message.messageId}] Fetch completed, status: ${response.status}`);
         const text = await response.text();
-        console.log(`[${message.messageId}] Response body:`, text.substring(0, 100) + (text.length > 100 ? '...' : ''));
         replyToTab({ action: "xhttp_response", messageId: message.messageId, status: response.status, text });
       } catch (error) {
         console.error(`[${message.messageId}] Fetch error:`, error.message);

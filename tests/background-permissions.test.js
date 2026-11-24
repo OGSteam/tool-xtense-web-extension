@@ -21,8 +21,7 @@ function setup(stored, permissionGranted = true) {
     },
     action: {setIcon() {}, setTitle() {}},
     permissions: {
-      contains: (_permissions, callback) => callback(permissionGranted),
-      getAll: callback => callback({origins: []})
+      contains: (_permissions, callback) => callback(permissionGranted)
     },
     storage: {local: {get: (_keys, callback) => callback(stored)}},
     tabs: {sendMessage: (_tabId, payload, _options, callback) => {
@@ -56,6 +55,7 @@ test('allows the primary server from any stored universe profile', async () => {
   });
   await send(context, 'https://ogspy.example/base/mod/xtense/xtense.php');
   assert.equal(context.requests.length, 1);
+  assert.equal(context.requests[0].options.redirect, 'error');
   assert.equal(context.replies.at(-1).status, 200);
   context.window.close();
 });
@@ -88,4 +88,36 @@ test('blocks a configured server when browser host permission is missing', async
   assert.equal(context.requests.length, 0);
   assert.equal(context.replies.at(-1).error, 'Host permission not granted');
   context.window.close();
+});
+
+test('blocks a different endpoint on an allowed origin', async () => {
+  const context = setup({
+    'xtense.settings.fr.123.server.url.plugin': 'https://ogspy.example/base'
+  });
+  await send(context, 'https://ogspy.example/other/mod/xtense/xtense.php');
+  assert.equal(context.requests.length, 0);
+  assert.equal(context.replies.at(-1).error, 'Invalid OGSpy endpoint');
+  context.window.close();
+});
+
+test('blocks plaintext remote servers even when configured', async () => {
+  const context = setup({
+    'xtense.settings.fr.123.server.url.plugin': 'http://ogspy.example'
+  });
+  await send(context, 'http://ogspy.example/mod/xtense/xtense.php');
+  assert.equal(context.requests.length, 0);
+  assert.equal(context.replies.at(-1).error, 'Insecure or invalid OGSpy URL');
+  context.window.close();
+});
+
+test('allows plaintext loopback servers for local development', async () => {
+  for (const host of ['localhost', '127.0.0.1']) {
+    const context = setup({
+      'xtense.settings.fr.123.server.url.plugin': `http://${host}:8080/ogspy`
+    });
+    await send(context, `http://${host}:8080/ogspy/mod/xtense/xtense.php`);
+    assert.equal(context.requests.length, 1);
+    assert.equal(context.replies.at(-1).status, 200);
+    context.window.close();
+  }
 });

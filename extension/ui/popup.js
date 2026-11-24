@@ -18,7 +18,9 @@ function getHostPattern(value) {
   } catch (error) {
     throw new Error("URL du serveur OGSpy invalide", {cause: error});
   }
-  if (!["http:", "https:"].includes(url.protocol) || url.username || url.password ||
+  const isLoopback = ["localhost", "127.0.0.1"].includes(url.hostname);
+  if ((url.protocol !== "https:" && !(url.protocol === "http:" && isLoopback)) ||
+      url.username || url.password ||
       url.search || url.hash || url.hostname.includes("*") ||
       (raw.includes("://") && !/^https?:\/\//.test(raw))) {
     throw new Error("URL du serveur OGSpy invalide");

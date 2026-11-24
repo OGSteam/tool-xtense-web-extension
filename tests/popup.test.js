@@ -40,9 +40,9 @@ test('requests only the configured primary and backup hosts', () => {
   const popup = setup({
     'xtense.settings.fr.123.server.url.plugin': 'https://ogspy.example:8443/ogspy',
     'xtense.settings.fr.123.backup.link': true,
-    'xtense.settings.fr.123.server_backup.url.plugin': 'http://backup.example:8080/ogspy'
+    'xtense.settings.fr.123.server_backup.url.plugin': 'https://backup.example:8443/ogspy'
   });
-  assert.deepEqual(popup.checks[0], ['https://ogspy.example/*', 'http://backup.example/*']);
+  assert.deepEqual(popup.checks[0], ['https://ogspy.example/*', 'https://backup.example/*']);
   popup.button.click();
   assert.deepEqual(popup.requests[0], popup.checks[0]);
   assert.match(popup.status.textContent, /Permission refusée/);
@@ -73,6 +73,7 @@ test('does not request wildcard permissions for missing or invalid configuration
     {'xtense.settings.fr.123.server.url.plugin': 'https://VOTRESITE/VOTREOGSPY'},
     {'xtense.settings.fr.123.server.url.plugin': 'https://*/*'},
     {'xtense.settings.fr.123.server.url.plugin': 'ftp://example.com'},
+    {'xtense.settings.fr.123.server.url.plugin': 'http://ogspy.example'},
     {'xtense.settings.fr.123.server.url.plugin': 'https://user:password@example.com'}
   ]) {
     const popup = setup(stored);
@@ -100,5 +101,17 @@ test('permission controls are included in every packaged browser popup', () => {
     assert.match(html, /id="permission_status"/);
     assert.match(html, /id="btn_grant_permission"/);
     assert.match(html, /<script src="ui\/popup\.js"><\/script>/);
+  }
+});
+
+test('manifests require runtime grants for every OGSpy host', () => {
+  for (const name of ['manifest.json', 'manifest.chrome.json', 'manifest.firefox.json']) {
+    const manifest = JSON.parse(readFileSync(new URL(`../extension/${name}`, import.meta.url), 'utf8'));
+    assert.equal(Object.hasOwn(manifest, 'host_permissions'), false);
+    assert.deepEqual(manifest.optional_host_permissions, [
+      'https://*/*',
+      'http://localhost/*',
+      'http://127.0.0.1/*'
+    ]);
   }
 });

@@ -250,7 +250,8 @@ function validateServerUrl(url) {
   } catch (e) {
     return { valid: false, normalized: "", error: "server_url_invalid" };
   }
-  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+  const isLoopback = ["localhost", "127.0.0.1"].includes(parsed.hostname);
+  if (parsed.protocol !== "https:" && !(parsed.protocol === "http:" && isLoopback)) {
     return { valid: false, normalized: "", error: "server_url_protocol" };
   }
   if (parsed.username || parsed.password) {
