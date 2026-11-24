@@ -19,7 +19,7 @@ jobs:
           node-version: 26.x
 
       - name: Package.json info
-        uses: rexdefuror/read-package-json@v1.0.5
+        uses: rexdefuror/read-package-json@fe1c0720ff5f7af4a6b871ef986b93041bd02de3 # v1.0.5
 
       - name: Install dependencies
         run: npm ci --ignore-scripts
@@ -39,7 +39,7 @@ jobs:
           cd release/edge && zip -r ../edge-${{ env.PACKAGE_VERSION }}.zip . && cd ../..
 
       - name: Create Draft GitHub Release
-        uses: ncipollo/release-action@v1.21.0
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
           name: Xtense ${{ env.PACKAGE_VERSION }}
           draft: true

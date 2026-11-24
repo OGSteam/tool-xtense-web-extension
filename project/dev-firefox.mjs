@@ -7,26 +7,35 @@
  * fail when the path goes through a directory junction on Windows.
  * Using `realpathSync` gives the canonical path where writes succeed.
  */
-import { realpathSync } from 'node:fs';
-import { join, resolve } from 'node:path';
-import { spawn } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { realpathSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const projectRoot = realpathSync(resolve(__dirname, '..'));
-const profileDir = join(projectRoot, 'xtense-profile');
-const extensionDir = join(projectRoot, 'extension');
-
-const child = spawn(
-  'npx',
-  [
-    'web-ext', 'run',
-    '--start-url', 'www.ogame.fr',
-    '--keep-profile-changes',
-    `--firefox-profile=${profileDir}`,
-    '--profile-create-if-missing',
-  ],
-  { cwd: extensionDir, stdio: 'inherit', shell: true }
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
+const projectRoot = realpathSync(resolve(__dirname, ".."));
+const profileDir = join(projectRoot, "xtense-profile");
+const extensionDir = join(projectRoot, "extension");
+const webExtCli = join(
+  projectRoot,
+  "node_modules",
+  "web-ext",
+  "bin",
+  "web-ext.js",
 );
 
-child.on('exit', code => process.exit(code ?? 0));
+const child = spawn(
+  process.execPath,
+  [
+    webExtCli,
+    "run",
+    "--start-url",
+    "www.ogame.fr",
+    "--keep-profile-changes",
+    `--firefox-profile=${profileDir}`,
+    "--profile-create-if-missing",
+  ],
+  { cwd: extensionDir, stdio: "inherit" },
+);
+
+child.on("exit", (code) => process.exit(code ?? 0));

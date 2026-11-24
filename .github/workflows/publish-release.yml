@@ -38,7 +38,7 @@ jobs:
 
       - name: Build
         run: |
-          npm install
+          npm ci --ignore-scripts
           npm run version
           npm run release
 
@@ -49,7 +49,7 @@ jobs:
           cd release/edge    && zip -r ../edge-${{ steps.version.outputs.version }}.zip .    && cd ../..
 
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1.21.0
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
           name: Xtense ${{ steps.version.outputs.version }}
           draft: false
@@ -104,7 +104,7 @@ jobs:
           path: release/
 
       - name: Publish to Firefox Add-ons
-        uses: PlasmoHQ/bpp@v3
+        uses: PlasmoHQ/bpp@c15984c0a74f452851c605cab46f34d9fd6cb158 # v3
         with:
           keys: >-
             {
@@ -129,7 +129,7 @@ jobs:
           path: release/
 
       - name: Publish to Edge Add-ons
-        uses: PlasmoHQ/bpp@v3
+        uses: PlasmoHQ/bpp@c15984c0a74f452851c605cab46f34d9fd6cb158 # v3
         with:
           keys: >-
             {
