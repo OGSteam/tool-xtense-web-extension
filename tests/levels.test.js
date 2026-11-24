@@ -176,8 +176,10 @@ function setupLifeforms(slots) {
   return {...fixture, warnings};
 }
 
-test('parses actual building IDs for all lifeform species regardless of order', () => {
-  for (const prefix of [111, 121, 131, 141]) {
+test('parses actual building IDs and species regardless of order', () => {
+  for (const [prefix, species] of [
+    [111, 'HUMANS'], [121, 'ROCKTAL'], [131, 'MECHAS'], [141, 'KAELESH']
+  ]) {
     const slots = Array.from({length: 12}, (_, i) => ({
       id: `${prefix}${String(12 - i).padStart(2, '0')}`,
       level: i === 0 ? '1.234' : String(i)
@@ -188,10 +190,23 @@ test('parses actual building IDs for all lifeform species regardless of order', 
     assert.equal(data.type, 'lf_buildings');
     assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
       planet,
-      lfBuildings: Object.fromEntries(slots.map(({id, level}) => [id, level.replaceAll('.', '')]))
+      lfBuildings: Object.fromEntries(slots.map(({id, level}) => [id, level.replaceAll('.', '')])),
+      species
     });
     window.close();
   }
+});
+
+test('omits the species when lifeform building IDs are inconsistent', () => {
+  const {window, data, getSends} = setupLifeforms([
+    {id: '11101', level: '2'},
+    {id: '12101', level: '3'}
+  ]);
+
+  window.parse_lfBuildings();
+  assert.equal(getSends(), 1);
+  assert.equal(Object.hasOwn(data.gamedata, 'species'), false);
+  window.close();
 });
 
 test('parses all selected mixed-species research IDs, including the last three slots', () => {

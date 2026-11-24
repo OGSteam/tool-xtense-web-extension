@@ -757,6 +757,20 @@ function getLifeformLevels() {
   return items;
 }
 
+function getLifeformSpecies(lifeformBuildings) {
+  const speciesByTechnologyGroup = {
+    11: 'HUMANS',
+    12: 'ROCKTAL',
+    13: 'MECHAS',
+    14: 'KAELESH'
+  };
+  const species = new Set(Object.keys(lifeformBuildings)
+    .map(id => speciesByTechnologyGroup[Math.floor(Number(id) / 1000)])
+    .filter(Boolean));
+
+  return species.size === 1 ? [...species][0] : null;
+}
+
 function parse_lfBuildings() {
   setStatus(XLOG_NORMAL, xlang('lfBuildings_detected'));
   let lfBuildings = getLifeformLevels();
@@ -767,11 +781,16 @@ function parse_lfBuildings() {
   }
 
   let planetData = getPlanetData();
+  let species = getLifeformSpecies(lfBuildings);
   XtenseRequest.set('type', 'lf_buildings');
-  XtenseRequest.set('gamedata', {
+  let gamedata = {
     planet: planetData,
     lfBuildings: lfBuildings
-  });
+  };
+  if (species) {
+    gamedata.species = species;
+  }
+  XtenseRequest.set('gamedata', gamedata);
   XtenseRequest.send();
 }
 
