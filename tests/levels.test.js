@@ -54,6 +54,21 @@ function setupResources(resources) {
   return fixture;
 }
 
+function addOverview(fixture, speciesClass = '') {
+  fixture.window.document.body.insertAdjacentHTML('beforeend', `
+    <div id="diameterContentField"><span></span><span>188 / 200</span></div>
+    <div id="temperatureContentField">-20 °C à 10 °C</div>
+    ${speciesClass ? `<div id="lifeform"><div class="lifeform-item-icon ${speciesClass}"></div></div>` : ''}
+  `);
+  fixture.window.storageGetValue = () => '';
+  fixture.window.storageSetValue = () => {};
+  fixture.window.getPlayerDetails = () => ({});
+  fixture.window.getUniverseDetails = () => ({});
+  fixture.window.getPlanetBoostersAndExtensions = () => [];
+  fixture.window.log.trace = () => {};
+  return fixture;
+}
+
 test('parses population and food with the overview resources', () => {
   const {window} = setupResources({
     metal: '57.564', crystal: '21.979', deuterium: '20.918',
@@ -81,6 +96,33 @@ test('omits population and food when OGame does not expose them', () => {
     metal: 1, cristal: 2, deut: 3, antimater: 4, energy: 5
   });
   window.close();
+});
+
+test('sends the active lifeform species with the overview', () => {
+  for (const [speciesClass, species] of [
+    ['lifeform1', 'HUMANS'], ['lifeform2', 'ROCKTAL'],
+    ['lifeform3', 'MECHAS'], ['lifeform4', 'KAELESH']
+  ]) {
+    const fixture = addOverview(setupResources({
+      metal: '1', crystal: '2', deuterium: '3', darkmatter: '4', energy: '5'
+    }), speciesClass);
+
+    fixture.window.parse_overview();
+    assert.equal(fixture.getSends(), 1);
+    assert.equal(fixture.data.gamedata.species, species);
+    fixture.window.close();
+  }
+});
+
+test('omits the species from the overview when OGame does not expose it', () => {
+  const fixture = addOverview(setupResources({
+    metal: '1', crystal: '2', deuterium: '3', darkmatter: '4', energy: '5'
+  }));
+
+  fixture.window.parse_overview();
+  assert.equal(fixture.getSends(), 1);
+  assert.equal(Object.hasOwn(fixture.data.gamedata, 'species'), false);
+  fixture.window.close();
 });
 
 test('parses research levels in display order without including target levels', () => {

@@ -167,7 +167,8 @@ function initParsers() {
     },
     lifeform: {
       technologies: '//*[@id="technologies"]//li[contains(concat(" ", normalize-space(@class), " "), " technology ")]',
-      level: './/span[contains(concat(" ", normalize-space(@class), " "), " level ")]/@data-value'
+      level: './/span[contains(concat(" ", normalize-space(@class), " "), " level ")]/@data-value',
+      speciesClass: '//*[@id="lifeform"]//*[contains(concat(" ", normalize-space(@class), " "), " lifeform-item-icon ")]/@class'
     },
 
     messages: {

@@ -391,13 +391,14 @@ function parse_overview() {
       let temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
       let temperature_min = temperatures.match(/(-?\d+)/)[1];
       let resources = getResources();
+      let species = getLifeformSpecies();
       let playerdetails = getPlayerDetails();
       let unidetails = getUniverseDetails();
       // retreive boosters and extensions
       let planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
 
       XtenseRequest.set('type', 'overview');
-      XtenseRequest.set('gamedata', {
+      let gamedata = {
         planet: planetData,
         fields: cases,
         temperature_min: temperature_min,
@@ -406,7 +407,11 @@ function parse_overview() {
         playerdetails: playerdetails,
         unidetails: unidetails,
         boosters: planetBoostersAndExtensions
-      });
+      };
+      if (species) {
+        gamedata.species = species;
+      }
+      XtenseRequest.set('gamedata', gamedata);
       XtenseRequest.send();
       storageSetValue('lastAction', 'planet_name:' + planetData.name);
     }
@@ -757,12 +762,24 @@ function getLifeformLevels() {
   return items;
 }
 
-function getLifeformSpecies(lifeformBuildings) {
+function getLifeformSpecies(lifeformBuildings = {}) {
+  const speciesCodes = {
+    1: 'HUMANS',
+    2: 'ROCKTAL',
+    3: 'MECHAS',
+    4: 'KAELESH'
+  };
+  const speciesClass = Xpath.getStringValue(document, XtenseXpaths.lifeform.speciesClass);
+  const classMatch = speciesClass.match(/(?:^|\s)lifeform([1-4])(?:\s|$)/);
+  if (classMatch) {
+    return speciesCodes[classMatch[1]];
+  }
+
   const speciesByTechnologyGroup = {
-    11: 'HUMANS',
-    12: 'ROCKTAL',
-    13: 'MECHAS',
-    14: 'KAELESH'
+    11: speciesCodes[1],
+    12: speciesCodes[2],
+    13: speciesCodes[3],
+    14: speciesCodes[4]
   };
   const species = new Set(Object.keys(lifeformBuildings)
     .map(id => speciesByTechnologyGroup[Math.floor(Number(id) / 1000)])
