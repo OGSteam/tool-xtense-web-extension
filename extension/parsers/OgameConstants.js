@@ -269,7 +269,9 @@ function initParsers() {
       cristal: '//span[@id="resources_crystal"]/text()',
       deuterium: '//span[@id="resources_deuterium"]/text()',
       antimatiere: '//span[@id="resources_darkmatter"]/text()',
-      energie: '//span[@id="resources_energy"]/text()'
+      energie: '//span[@id="resources_energy"]/text()',
+      population: '//span[@id="resources_population"]/text()',
+      food: '//span[@id="resources_food"]/text()'
     },
 
     rc: {

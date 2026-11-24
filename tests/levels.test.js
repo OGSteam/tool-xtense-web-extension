@@ -38,6 +38,48 @@ function setup(technologies, values = technologies.map((_, index) => String(inde
   return {window, data, planet, getSends: () => sends};
 }
 
+function setupResources(resources) {
+  const fixture = setup([]);
+  fixture.window.String.prototype.trimInt = function () {
+    const value = this.replace(/([^\-\d])/g, '');
+    return value ? parseInt(value) : 0;
+  };
+  fixture.window.document.body.innerHTML = Object.entries(resources)
+    .map(([name, value]) => `<span id="resources_${name}">${value}</span>`)
+    .join('');
+  fixture.window.log = {debug() {}};
+  return fixture;
+}
+
+test('parses population and food with the overview resources', () => {
+  const {window} = setupResources({
+    metal: '57.564', crystal: '21.979', deuterium: '20.918',
+    darkmatter: '8.500', energy: '210', population: '1.524', food: '120'
+  });
+
+  assert.deepEqual(JSON.parse(JSON.stringify(window.getResources())), {
+    metal: 57564,
+    cristal: 21979,
+    deut: 20918,
+    antimater: 8500,
+    energy: 210,
+    population: 1524,
+    food: 120
+  });
+  window.close();
+});
+
+test('omits population and food when OGame does not expose them', () => {
+  const {window} = setupResources({
+    metal: '1', crystal: '2', deuterium: '3', darkmatter: '4', energy: '5'
+  });
+
+  assert.deepEqual(JSON.parse(JSON.stringify(window.getResources())), {
+    metal: 1, cristal: 2, deut: 3, antimater: 4, energy: 5
+  });
+  window.close();
+});
+
 test('parses research levels in display order without including target levels', () => {
   const technologies = [113, 120, 121, 114, 122, 115, 117, 118, 106, 108, 124, 123, 199, 109, 110, 111];
   const {window, data, planet, getSends} = setup(technologies);

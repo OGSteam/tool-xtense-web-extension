@@ -850,13 +850,26 @@ function getResources() {
   let deut = Xpath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
   let antimater = Xpath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
   let energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
+  let population = Xpath.getStringValue(document, XtenseXpaths.ressources.population);
+  let food = Xpath.getStringValue(document, XtenseXpaths.ressources.food);
 
-  log.debug('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
-  return {
+  let resources = {
     "metal": metal,
     "cristal": cristal,
     "deut": deut,
     "antimater": antimater,
     "energy": energy
   };
+
+  // Population and food are only present on planets where lifeforms are available.
+  // Keep them absent from the payload when OGame does not expose the counters.
+  if (population !== '') {
+    resources.population = population.trimInt();
+  }
+  if (food !== '') {
+    resources.food = food.trimInt();
+  }
+
+  log.debug('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy + ', population=' + population + ', food=' + food);
+  return resources;
 }
