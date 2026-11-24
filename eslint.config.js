@@ -63,8 +63,6 @@ export default [
         
         // Xtense specific
         XtenseDatabase: "readonly",
-        initOGSpyCommunication: "readonly",
-        handleResponse: "readonly",
         debugXPathResults: "readonly",
         debugStartShortMessages: "readonly",
         debugEndShortMessages: "readonly",
@@ -87,21 +85,15 @@ export default [
         glang: "readonly",
         Xajax: "readonly",
         XtenseParseDate: "readonly",
-        XLOG_COMMENT: "readonly",
-        XLOG_SEND: "readonly",
-        xlang: "readonly",
-        glang: "readonly",
         storageGetValue: "readonly",
         storageSetValue: "readonly",
         storageDeleteValue: "readonly",
         validateServerUrl: "readonly",
         _xajaxPending: "readonly",
         XtenseRegexps: "readonly",
-        XtenseParseDate: "readonly",
         XtenseRequest: "readonly",
         XtenseLocales: "readonly",
         XtenseMetas: "readonly",
-        XtenseDatabase: "readonly",
 
         // Fonctions globales de votre extension
         initParsers: "readonly",
@@ -131,12 +123,10 @@ export default [
         save_my_planets_coords: "readonly",
         get_ally_content: "readonly",
         setlogLevel: "readonly",
-        Xajax: "readonly",
 
         // Variables globales utilisées
         delaytodisplay_overview: "writable",
         numUnivers: "writable",
-        url: "readonly",
 
         // AMD/CommonJS (pour les bibliothèques)
         define: "readonly",
