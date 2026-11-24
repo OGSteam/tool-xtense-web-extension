@@ -391,13 +391,14 @@ function parse_overview() {
       let temperature_max = temperatures.match(/\d+[^\d-]*(-?\d+)[^\d]/)[1];
       let temperature_min = temperatures.match(/(-?\d+)/)[1];
       let resources = getResources();
+      let species = getLifeformSpecies();
       let playerdetails = getPlayerDetails();
       let unidetails = getUniverseDetails();
       // retreive boosters and extensions
       let planetBoostersAndExtensions = getPlanetBoostersAndExtensions();
 
       XtenseRequest.set('type', 'overview');
-      XtenseRequest.set('gamedata', {
+      let gamedata = {
         planet: planetData,
         fields: cases,
         temperature_min: temperature_min,
@@ -406,7 +407,11 @@ function parse_overview() {
         playerdetails: playerdetails,
         unidetails: unidetails,
         boosters: planetBoostersAndExtensions
-      });
+      };
+      if (species) {
+        gamedata.species = species;
+      }
+      XtenseRequest.set('gamedata', gamedata);
       XtenseRequest.send();
       storageSetValue('lastAction', 'planet_name:' + planetData.name);
     }
@@ -757,6 +762,32 @@ function getLifeformLevels() {
   return items;
 }
 
+function getLifeformSpecies(lifeformBuildings = {}) {
+  const speciesCodes = {
+    1: 'HUMANS',
+    2: 'ROCKTAL',
+    3: 'MECHAS',
+    4: 'KAELESH'
+  };
+  const speciesClass = Xpath.getStringValue(document, XtenseXpaths.lifeform.speciesClass);
+  const classMatch = speciesClass.match(/(?:^|\s)lifeform([1-4])(?:\s|$)/);
+  if (classMatch) {
+    return speciesCodes[classMatch[1]];
+  }
+
+  const speciesByTechnologyGroup = {
+    11: speciesCodes[1],
+    12: speciesCodes[2],
+    13: speciesCodes[3],
+    14: speciesCodes[4]
+  };
+  const species = new Set(Object.keys(lifeformBuildings)
+    .map(id => speciesByTechnologyGroup[Math.floor(Number(id) / 1000)])
+    .filter(Boolean));
+
+  return species.size === 1 ? [...species][0] : null;
+}
+
 function parse_lfBuildings() {
   setStatus(XLOG_NORMAL, xlang('lfBuildings_detected'));
   let lfBuildings = getLifeformLevels();
@@ -767,11 +798,16 @@ function parse_lfBuildings() {
   }
 
   let planetData = getPlanetData();
+  let species = getLifeformSpecies(lfBuildings);
   XtenseRequest.set('type', 'lf_buildings');
-  XtenseRequest.set('gamedata', {
+  let gamedata = {
     planet: planetData,
     lfBuildings: lfBuildings
-  });
+  };
+  if (species) {
+    gamedata.species = species;
+  }
+  XtenseRequest.set('gamedata', gamedata);
   XtenseRequest.send();
 }
 
@@ -850,13 +886,26 @@ function getResources() {
   let deut = Xpath.getStringValue(document, XtenseXpaths.ressources.deuterium).trimInt();
   let antimater = Xpath.getStringValue(document, XtenseXpaths.ressources.antimatiere).trimInt();
   let energy = Xpath.getStringValue(document, XtenseXpaths.ressources.energie).trimInt();
+  let population = Xpath.getStringValue(document, XtenseXpaths.ressources.population);
+  let food = Xpath.getStringValue(document, XtenseXpaths.ressources.food);
 
-  log.debug('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy);
-  return {
+  let resources = {
     "metal": metal,
     "cristal": cristal,
     "deut": deut,
     "antimater": antimater,
     "energy": energy
   };
+
+  // Population and food are only present on planets where lifeforms are available.
+  // Keep them absent from the payload when OGame does not expose the counters.
+  if (population !== '') {
+    resources.population = population.trimInt();
+  }
+  if (food !== '') {
+    resources.food = food.trimInt();
+  }
+
+  log.debug('metal=' + metal + ', crystal=' + cristal + ', deuterium=' + deut + ', antimatiere=' + antimater + ', energie=' + energy + ', population=' + population + ', food=' + food);
+  return resources;
 }

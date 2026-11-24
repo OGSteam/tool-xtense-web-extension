@@ -167,7 +167,8 @@ function initParsers() {
     },
     lifeform: {
       technologies: '//*[@id="technologies"]//li[contains(concat(" ", normalize-space(@class), " "), " technology ")]',
-      level: './/span[contains(concat(" ", normalize-space(@class), " "), " level ")]/@data-value'
+      level: './/span[contains(concat(" ", normalize-space(@class), " "), " level ")]/@data-value',
+      speciesClass: '//*[@id="lifeform"]//*[contains(concat(" ", normalize-space(@class), " "), " lifeform-item-icon ")]/@class'
     },
 
     messages: {
@@ -269,7 +270,9 @@ function initParsers() {
       cristal: '//span[@id="resources_crystal"]/text()',
       deuterium: '//span[@id="resources_deuterium"]/text()',
       antimatiere: '//span[@id="resources_darkmatter"]/text()',
-      energie: '//span[@id="resources_energy"]/text()'
+      energie: '//span[@id="resources_energy"]/text()',
+      population: '//span[@id="resources_population"]/text()',
+      food: '//span[@id="resources_food"]/text()'
     },
 
     rc: {
