@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "3.4.1",
+  "version": "3.4.2",
   "name": "Xtense WE",
   "description": "__MSG_appDesc__",
   "default_locale": "fr",
@@ -63,13 +63,10 @@
   "permissions": [
     "storage"
   ],
-  "host_permissions": [
-    "http://localhost/*",
-    "http://127.0.0.1/*"
-  ],
   "optional_host_permissions": [
     "https://*/*",
-    "http://*/*"
+    "http://localhost/*",
+    "http://127.0.0.1/*"
   ],
   "short_name": "Xtense",
   "action": {

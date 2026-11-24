@@ -99,3 +99,16 @@ test('rolls back failed writes so the setting can be retried', async () => {
   assert.equal(window.storageGetValue('server.pwd', 'missing'), 'secret');
   window.close();
 });
+
+test('accepts HTTPS and loopback HTTP but rejects remote plaintext servers', () => {
+  const dom = new JSDOM('', {runScripts: 'outside-only'});
+  const {window} = dom;
+  window.chrome = {runtime: {onMessage: {addListener() {}}}};
+  runScript(dom);
+
+  assert.equal(window.validateServerUrl('https://ogspy.example/base').valid, true);
+  assert.equal(window.validateServerUrl('http://localhost:8080/ogspy').valid, true);
+  assert.equal(window.validateServerUrl('http://127.0.0.1:8080/ogspy').valid, true);
+  assert.equal(window.validateServerUrl('http://ogspy.example/base').error, 'server_url_protocol');
+  window.close();
+});

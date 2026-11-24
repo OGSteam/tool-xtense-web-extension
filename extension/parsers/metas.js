@@ -4,7 +4,7 @@
  * @author      OGSteam
  * @copyright   2026 OGSteam
  * @license     GNU GPL v2
- * @version     3.4.1
+ * @version     3.4.2
  */
 /*global log, XtenseMetas, Xpath, XtenseXpaths*/
 

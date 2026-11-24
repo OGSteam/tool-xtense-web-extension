@@ -6,7 +6,10 @@ import {JSDOM} from 'jsdom';
 const scripts = [
   '../extension/parsers/OgameConstants.js',
   '../extension/parsers/pages.js'
-].map(path => readFileSync(new URL(path, import.meta.url), 'utf8'));
+].map(path => {
+  const url = new URL(path, import.meta.url);
+  return `${readFileSync(url, 'utf8')}\n//# sourceURL=${url.href}`;
+});
 
 function setup(technologies, values = technologies.map((_, index) => String(index))) {
   const dom = new JSDOM(`
@@ -38,6 +41,90 @@ function setup(technologies, values = technologies.map((_, index) => String(inde
   return {window, data, planet, getSends: () => sends};
 }
 
+function setupResources(resources) {
+  const fixture = setup([]);
+  fixture.window.String.prototype.trimInt = function () {
+    const value = this.replace(/([^\-\d])/g, '');
+    return value ? parseInt(value) : 0;
+  };
+  fixture.window.document.body.innerHTML = Object.entries(resources)
+    .map(([name, value]) => `<span id="resources_${name}">${value}</span>`)
+    .join('');
+  fixture.window.log = {debug() {}};
+  return fixture;
+}
+
+function addOverview(fixture, speciesClass = '') {
+  fixture.window.document.body.insertAdjacentHTML('beforeend', `
+    <div id="diameterContentField"><span></span><span>188 / 200</span></div>
+    <div id="temperatureContentField">-20 °C à 10 °C</div>
+    ${speciesClass ? `<div id="lifeform"><div class="lifeform-item-icon ${speciesClass}"></div></div>` : ''}
+  `);
+  fixture.window.storageGetValue = () => '';
+  fixture.window.storageSetValue = () => {};
+  fixture.window.getPlayerDetails = () => ({});
+  fixture.window.getUniverseDetails = () => ({});
+  fixture.window.getPlanetBoostersAndExtensions = () => [];
+  fixture.window.log.trace = () => {};
+  return fixture;
+}
+
+test('parses population and food with the overview resources', () => {
+  const {window} = setupResources({
+    metal: '57.564', crystal: '21.979', deuterium: '20.918',
+    darkmatter: '8.500', energy: '210', population: '1.524', food: '120'
+  });
+
+  assert.deepEqual(JSON.parse(JSON.stringify(window.getResources())), {
+    metal: 57564,
+    cristal: 21979,
+    deut: 20918,
+    antimater: 8500,
+    energy: 210,
+    population: 1524,
+    food: 120
+  });
+  window.close();
+});
+
+test('omits population and food when OGame does not expose them', () => {
+  const {window} = setupResources({
+    metal: '1', crystal: '2', deuterium: '3', darkmatter: '4', energy: '5'
+  });
+
+  assert.deepEqual(JSON.parse(JSON.stringify(window.getResources())), {
+    metal: 1, cristal: 2, deut: 3, antimater: 4, energy: 5
+  });
+  window.close();
+});
+
+test('sends the active lifeform species with the overview', () => {
+  for (const [speciesClass, species] of [
+    ['lifeform1', 'HUMANS'], ['lifeform2', 'ROCKTAL'],
+    ['lifeform3', 'MECHAS'], ['lifeform4', 'KAELESH']
+  ]) {
+    const fixture = addOverview(setupResources({
+      metal: '1', crystal: '2', deuterium: '3', darkmatter: '4', energy: '5'
+    }), speciesClass);
+
+    fixture.window.parse_overview();
+    assert.equal(fixture.getSends(), 1);
+    assert.equal(fixture.data.gamedata.species, species);
+    fixture.window.close();
+  }
+});
+
+test('omits the species from the overview when OGame does not expose it', () => {
+  const fixture = addOverview(setupResources({
+    metal: '1', crystal: '2', deuterium: '3', darkmatter: '4', energy: '5'
+  }));
+
+  fixture.window.parse_overview();
+  assert.equal(fixture.getSends(), 1);
+  assert.equal(Object.hasOwn(fixture.data.gamedata, 'species'), false);
+  fixture.window.close();
+});
+
 test('parses research levels in display order without including target levels', () => {
   const technologies = [113, 120, 121, 114, 122, 115, 117, 118, 106, 108, 124, 123, 199, 109, 110, 111];
   const {window, data, planet, getSends} = setup(technologies);
@@ -57,8 +144,25 @@ test('parses research levels in display order without including target levels', 
   window.close();
 });
 
-test('parses planet facilities in display order', () => {
+test('parses planet facilities in display order when the scanner is present', () => {
   const technologies = [14, 21, 31, 34, 44, 15, 33, 36, 45];
+  const {window, data, planet, getSends} = setup(technologies);
+  window.parse_station();
+
+  assert.equal(getSends(), 1);
+  assert.equal(data.type, 'buildings');
+  assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
+    planet,
+    buildings: {
+      UdR: '0', CSp: '1', Lab: '2', DdR: '3',
+      Silo: '4', UdN: '5', Ter: '6', Dock: '7', Scanner: '8'
+    }
+  });
+  window.close();
+});
+
+test('parses planet facilities when the scanner is absent', () => {
+  const technologies = [14, 21, 31, 34, 44, 15, 33, 36];
   const {window, data, planet, getSends} = setup(technologies);
   window.parse_station();
 
@@ -70,6 +174,22 @@ test('parses planet facilities in display order', () => {
       UdR: '0', CSp: '1', Lab: '2', DdR: '3',
       Silo: '4', UdN: '5', Ter: '6', Dock: '7'
     }
+  });
+  window.close();
+});
+
+test('parses moon facilities without changing their mapping', () => {
+  const technologies = [14, 21, 41, 42, 43];
+  const {window, data, planet, getSends} = setup(technologies);
+  planet.type = '1';
+  window.XtenseMetas.getPlanetType = () => 'moon';
+  window.parse_station();
+
+  assert.equal(getSends(), 1);
+  assert.equal(data.type, 'buildings');
+  assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
+    planet,
+    buildings: {UdR: '0', CSp: '1', BaLu: '2', Pha: '3', PoSa: '4'}
   });
   window.close();
 });
@@ -131,8 +251,10 @@ function setupLifeforms(slots) {
   return {...fixture, warnings};
 }
 
-test('parses actual building IDs for all lifeform species regardless of order', () => {
-  for (const prefix of [111, 121, 131, 141]) {
+test('parses actual building IDs and species regardless of order', () => {
+  for (const [prefix, species] of [
+    [111, 'HUMANS'], [121, 'ROCKTAL'], [131, 'MECHAS'], [141, 'KAELESH']
+  ]) {
     const slots = Array.from({length: 12}, (_, i) => ({
       id: `${prefix}${String(12 - i).padStart(2, '0')}`,
       level: i === 0 ? '1.234' : String(i)
@@ -143,10 +265,23 @@ test('parses actual building IDs for all lifeform species regardless of order', 
     assert.equal(data.type, 'lf_buildings');
     assert.deepEqual(JSON.parse(JSON.stringify(data.gamedata)), {
       planet,
-      lfBuildings: Object.fromEntries(slots.map(({id, level}) => [id, level.replaceAll('.', '')]))
+      lfBuildings: Object.fromEntries(slots.map(({id, level}) => [id, level.replaceAll('.', '')])),
+      species
     });
     window.close();
   }
+});
+
+test('omits the species when lifeform building IDs are inconsistent', () => {
+  const {window, data, getSends} = setupLifeforms([
+    {id: '11101', level: '2'},
+    {id: '12101', level: '3'}
+  ]);
+
+  window.parse_lfBuildings();
+  assert.equal(getSends(), 1);
+  assert.equal(Object.hasOwn(data.gamedata, 'species'), false);
+  window.close();
 });
 
 test('parses all selected mixed-species research IDs, including the last three slots', () => {
