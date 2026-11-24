@@ -71,4 +71,11 @@ initializeSettingsStorage(
   error => log.error("Impossible d'initialiser le stockage Xtense : " + error.message)
 );
 //exit !!
-/***************************** Fin Main *********************************/
+/**
+ * Xtense - Extension pour navigateur permettant la synchronisation avec OGSpy
+ *
+ * @author      OGSteam
+ * @copyright   2026 OGSteam
+ * @license     GNU GPL v2
+ * @version     3.4.2
+ */
