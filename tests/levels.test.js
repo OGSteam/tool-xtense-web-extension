@@ -155,7 +155,7 @@ test('parses planet facilities in display order when the scanner is present', ()
     planet,
     buildings: {
       UdR: '0', CSp: '1', Lab: '2', DdR: '3',
-      Silo: '4', UdN: '5', Ter: '6', Dock: '7'
+      Silo: '4', UdN: '5', Ter: '6', Dock: '7', Scanner: '8'
     }
   });
   window.close();

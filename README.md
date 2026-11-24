@@ -37,17 +37,15 @@ Premier lancement : Lancer la commande ``npm install``
 
 ## Scanner d’anomalies
 
-Le niveau du scanner n’est pas encore transmis à OGSpy. Le DOM fictif des tests
-place la technologie `45` après le dock spatial, mais ce sélecteur et sa position
-doivent être confirmés sur une page OGame réelle avant leur utilisation.
+L’extension transmet le niveau de la technologie OGame `45` dans le champ
+optionnel `Scanner` lorsqu’elle apparaît après le dock spatial sur la page des
+installations. Le champ est omis lorsqu’il n’est pas présent et le mapping des
+installations lunaires reste inchangé.
 
 Le [contrat des bâtiments du mod Xtense](https://github.com/OGSteam/mod-xtense/blob/8deecba1786526167c9d6a2458a54f98f39e7ec3/includes/config.php)
-ne définit pas de champ pour le scanner ; le [traitement serveur](https://github.com/OGSteam/mod-xtense/blob/8deecba1786526167c9d6a2458a54f98f39e7ec3/xtense.php)
-n’enregistre que les champs de cette liste. Il faut d’abord convenir d’un nom de
-champ, l’ajouter au contrat du mod et prévoir son stockage et sa migration dans
-OGSpy, ainsi que des tests serveur. Ensuite, l’extension pourra extraire le niveau
-par son identifiant et l’envoyer seulement lorsqu’il est présent, sans décaler
-les autres installations ni modifier les lunes.
+ne définit pas encore ce champ ; le serveur l’ignore donc jusqu’à sa prise en
+charge. Le mod doit ajouter `Scanner` à son contrat, et OGSpy doit prévoir son
+stockage et sa migration avant d’exploiter la valeur transmise.
 
 ## Branches de travail
 
