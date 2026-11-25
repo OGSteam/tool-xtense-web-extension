@@ -6,7 +6,7 @@
  * @license     GNU GPL v2
  * @version     3.4.2
  */
-/*global log, XtenseXpaths, XtenseDatabase, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, XLOG_WARNING, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
+/*global log, XtenseXpaths, XtenseMetas, XtenseRegexps, XtenseRequest, Xpath, xlang, setStatus, storageGetValue, storageSetValue, XLOG_NORMAL, XLOG_WARNING, get_ally_content, getPlanetData, getPlayerDetails, getUniverseDetails */
 /*global parse_galaxy_system_inserted */
 
 
@@ -42,8 +42,32 @@ function parse_galaxy_system_inserted() {
     if (rows.snapshotLength > 0) {
       log.debug(rows.snapshotLength + ' rows found in galaxy');
       let rowsData = [];
+      for (let position = 1; position <= 16; position++) {
+        rowsData[position] = {
+          planet_name: '', planet_id: '', moon: 0, player_name: '', status: '',
+          ally_tag: '', debris: {metal: 0, cristal: 0}, activity: '', activityMoon: ''
+        };
+      }
       for (let i = 0; i < rows.snapshotLength; i++) {
         let row = rows.snapshotItem(i);
+        let position = Xpath.getNumberValue(document, paths.position, row);
+        if (isNaN(position) || position < 1 || position > 15) {
+          log.debug('position ' + position + ' is not valid');
+          continue;
+        }
+
+        let debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
+        let observedDebris = rowsData[position].debris;
+        if (debrisCells.snapshotLength > 0) {
+          observedDebris.metal = debrisCells.snapshotItem(0).textContent.trimInt();
+        }
+        if (debrisCells.snapshotLength > 1) {
+          observedDebris.cristal = debrisCells.snapshotItem(1).textContent.trimInt();
+        }
+        if (debrisCells.snapshotLength > 2) {
+          observedDebris.deuterium = debrisCells.snapshotItem(2).textContent.trimInt();
+        }
+
         let name = Xpath.getStringValue(document, paths.planetname, row).trim().replace(/\($/, '');
         let name_l = Xpath.getStringValue(document, paths.planetname_l, row).trim().replace(/\($/, '');
         let name_tooltip = Xpath.getStringValue(document, paths.planetname_tooltip, row).trim().replace(/\($/, '');
@@ -73,12 +97,6 @@ function parse_galaxy_system_inserted() {
           name = name_tooltip;
         }
 
-        let position = Xpath.getNumberValue(document, paths.position, row);
-        if (isNaN(position)) {
-          log.debug('position ' + position + ' is not a number');
-          continue;
-        }
-
         let moon = Xpath.getUnorderedSnapshotNodes(document, paths.moon, row);
         moon = moon.snapshotLength > 0 ? 1 : 0;
         let statusNodes = Xpath.getUnorderedSnapshotNodes(document, paths.status, row);
@@ -101,14 +119,6 @@ function parse_galaxy_system_inserted() {
           //If contains 'minutes15' in class
         }
         let allytag = Xpath.getStringValue(document, paths.allytag, row).trim();
-        let debris = [];
-        for (let j = 0; j < 3; j++) {
-          debris[XtenseDatabase.debris[701 + j]] = 0;
-        }
-        let debrisCells = Xpath.getUnorderedSnapshotNodes(document, paths.debris, row);
-        for (let j = 0; j < debrisCells.snapshotLength; j++) {
-          debris[XtenseDatabase.debris[701 + j]] = debrisCells.snapshotItem(j).innerHTML.trimInt();
-        }
         let player_id = Xpath.getStringValue(document, paths.player_id, row);
         if (player_id !== '') {
           player_id = player_id.trimInt();
@@ -134,21 +144,24 @@ function parse_galaxy_system_inserted() {
           status: status,
           ally_id: allyid,
           ally_tag: allytag,
-          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]], deuterium: debris[XtenseDatabase.debris[703]]},
+          debris: observedDebris,
           activity: activity,
           activityMoon: activityMoon
         };
-        log.debug('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + debris[XtenseDatabase.resources[601]] + '/' + debris[XtenseDatabase.resources[602]] + '/' + debris[XtenseDatabase.resources[603]]+ '),activity:' + activity + ',activity_moon:' + activityMoon);
+        log.debug('row ' + position + ' > player_id:' + player_id + ',planet_name:' + name + ',planet_id:' + planet_id + ',moon_id:' + moon_id + ',moon:' + moon + ',player_name:' + player + ',status:' + status + ',ally_id:' + allyid + ',ally_tag:' + allytag + ',debris:(' + observedDebris.metal + '/' + observedDebris.cristal + '/' + (observedDebris.deuterium ?? '') + '),activity:' + activity + ',activity_moon:' + activityMoon);
       }
 
       /* Traitement Spécifique Profondeur de l'espace */
 
-      let debris = [];
-      debris[XtenseDatabase.debris[701]] = Xpath.getStringValue(document, paths.debris16_m).trimInt();
-      debris[XtenseDatabase.debris[702]] = Xpath.getStringValue(document, paths.debris16_c).trimInt();
-      debris[XtenseDatabase.debris[703]] = Xpath.getStringValue(document, paths.debris16_d).trimInt();
+      let deepSpaceDebris = rowsData[16].debris;
+      let deepSpaceMetal = Xpath.getSingleNode(document, paths.debris16_m);
+      let deepSpaceCrystal = Xpath.getSingleNode(document, paths.debris16_c);
+      let deepSpaceDeuterium = Xpath.getSingleNode(document, paths.debris16_d);
+      if (deepSpaceMetal) deepSpaceDebris.metal = deepSpaceMetal.textContent.trimInt();
+      if (deepSpaceCrystal) deepSpaceDebris.cristal = deepSpaceCrystal.textContent.trimInt();
+      if (deepSpaceDeuterium) deepSpaceDebris.deuterium = deepSpaceDeuterium.textContent.trimInt();
 
-      if (debris[XtenseDatabase.debris[701]] || debris[XtenseDatabase.debris[702]] || debris[XtenseDatabase.debris[703]]) {
+      if (Object.values(deepSpaceDebris).some(value => value > 0)) {
 
         let position = 16;
         rowsData[position] = {
@@ -161,11 +174,11 @@ function parse_galaxy_system_inserted() {
           status: '',
           ally_id: '',
           ally_tag: '',
-          debris: {metal: debris[XtenseDatabase.debris[701]], cristal: debris[XtenseDatabase.debris[702]], deuterium: debris[XtenseDatabase.debris[703]]},
+          debris: deepSpaceDebris,
           activity: '',
           activityMoon: ''
         };
-        log.debug('row ' + position + ' debris:(' + debris[XtenseDatabase.debris[701]] + '/' + debris[XtenseDatabase.debris[702]] + ')');
+        log.debug('row ' + position + ' debris:(' + deepSpaceDebris.metal + '/' + deepSpaceDebris.cristal + '/' + (deepSpaceDebris.deuterium ?? '') + ')');
 
       }
 

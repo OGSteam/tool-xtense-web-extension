@@ -27,6 +27,10 @@ function setup(loading = false) {
       <div class="cellPlanetName"><a>Beta</a></div>
       <div class="cellPlayerName"><span rel="player302">Player Two</span></div>
     </div>
+    <div class="galaxyRow">
+      <div class="cellPosition">3</div>
+      <ul><li class="debris-content">400</li><li class="debris-content">50</li></ul>
+    </div>
   `, {runScripts: 'outside-only'});
   const {window} = dom;
   const data = {};
@@ -71,6 +75,31 @@ test('parses occupied galaxy positions and skips a repeated system', async () =>
   });
   assert.equal(sent[0].gamedata.rows[2].planet_name, 'Beta');
   assert.equal(sent[0].gamedata.rows[2].player_id, 302);
+  assert.deepEqual(sent[0].gamedata.rows[2].debris, {metal: 0, cristal: 0});
+  window.close();
+});
+
+test('parses debris independently from planets and covers the complete system', async () => {
+  const {window, sent} = setup();
+  window.parse_galaxy_system_inserted();
+  await Promise.resolve();
+
+  assert.deepEqual(sent[0].gamedata.rows[3].debris, {metal: 400, cristal: 50});
+  assert.deepEqual(sent[0].gamedata.rows[15].debris, {metal: 0, cristal: 0});
+  assert.deepEqual(sent[0].gamedata.rows[16].debris, {metal: 0, cristal: 0});
+  window.close();
+});
+
+test('reports every position when the system has no debris', async () => {
+  const {window, sent} = setup();
+  for (const cell of window.document.querySelectorAll('.debris-content')) cell.remove();
+
+  window.parse_galaxy_system_inserted();
+  await Promise.resolve();
+
+  for (let position = 1; position <= 16; position++) {
+    assert.deepEqual(sent[0].gamedata.rows[position].debris, {metal: 0, cristal: 0});
+  }
   window.close();
 });
 
@@ -91,5 +120,18 @@ test('parses deuterium debris in deep space', async () => {
   await Promise.resolve();
 
   assert.deepEqual(sent[0].gamedata.rows[16].debris, {metal: 0, cristal: 0, deuterium: 30});
+  window.close();
+});
+
+test('omits unavailable deuterium from debris observations', async () => {
+  const {window, sent} = setup();
+  window.document.body.insertAdjacentHTML('beforeend', `
+    <div id="galaxyRow16"><div><div>10</div><div>20</div></div></div>
+  `);
+
+  window.parse_galaxy_system_inserted();
+  await Promise.resolve();
+
+  assert.deepEqual(sent[0].gamedata.rows[16].debris, {metal: 10, cristal: 20});
   window.close();
 });
